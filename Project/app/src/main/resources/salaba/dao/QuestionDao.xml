@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="salaba.dao.QuestionDao">
+
+  <resultMap id="QuestionMap" type="Question">
+    <id column="question_no" property="questionNo"/>
+    <result column="member_no" property="memberNo"/>
+    <result column="title" property="title"/>
+    <result column="content" property="content"/>
+    <result column="state" property="state"/>
+    <result column="register_date" property="registerDate"/>
+
+    <association property="qna" javaType="Qna">
+      <result column="answer" property="answer"/>
+      <result column="answer_date" property="answerDate"/>
+    </association>
+
+    <collection property="questionFileList" ofType="QuestionFile">
+      <id column="question_file_no" property="questionFileNo"/>
+      <result column="question_no" property="questionNo"/>
+      <result column="ori_file_name" property="oriFileName"/>
+      <result column="uuid_file_name" property="uuidFileName"/>
+    </collection>
+
+  </resultMap>
+
+
+
+  <select id="getQuestionNo" resultType="int">
+    SELECT
+      MAX(question_no)+1
+    FROM
+      question
+  </select>
+
+  <insert id="questionAdd" parameterType="Question">
+    insert into
+      question
+      (
+        question_no,
+        member_no,
+        title,
+        content
+      )
+    values
+      (
+        #{questionNo},
+        #{memberNo},
+        #{title},
+        #{content}
+      )
+  </insert>
+
+  <select id="selectQuestionList" resultMap="QuestionMap">
+    select
+      t1.question_no,
+      t1.title,
+      t1.content,
+      t1.register_date,
+      case
+        when t1.state = '0' then '미완료'
+        when t1.state = '1' then '답변완료'
+      end as state,
+      t2.answer,
+      t2.answer_date
+    from
+      question t1
+      left outer join qna t2 on t2.question_no = t1.question_no
+    where
+      member_no=#{memberNo}
+    order by
+      register_date desc
+  </select>
+</mapper>

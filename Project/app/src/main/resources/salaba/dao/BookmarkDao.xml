@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="salaba.dao.BookmarkDao">
+
+  <resultMap id="BookmarkMap" type="salaba.vo.rental_home.RentalHome">
+    <id column="rental_home_no" property="rentalHomeNo"/>
+    <result column="name" property="name"/>
+    <result column="address" property="address"/>
+    <result column="price" property="price"/>
+    <result column="like_count" property="rentalHomeLikeCount"/>
+    <result column="state" property="state"/>
+
+    <collection property="rentalHomePhotos" ofType="salaba.vo.rental_home.RentalHomePhoto">
+      <id column="photo_no" property="photoNo"/>
+      <result column="photo_order" property="photoOrder"/>
+      <result column="uuid_photo_name" property="uuidPhotoName"/>
+    </collection>
+  </resultMap>
+
+  <select id="selectUserBookMark" resultMap="BookmarkMap">
+    SELECT
+      t2.rental_home_no,
+      t2.name,
+      t2.address,
+      t2.price,
+      t3.photo_no,
+      t3.uuid_photo_name,
+      t3.photo_order,
+      (
+        select
+          count(*)
+        from
+          rental_home_like
+        where
+          t1.rental_home_no = rental_home_no
+      ) as like_count
+    FROM
+      bookmark t1
+      inner join rental_home t2 ON t2.rental_home_no = t1.rental_home_no
+      inner join rental_home_photo t3 on t3.rental_home_no = t1.rental_home_no
+    WHERE
+      t1.member_no=#{memberNo} and
+      t2.state = '1';
+  </select>
+
+  <delete id="deleteBookMark">
+    delete
+    from
+      bookmark
+    where
+      member_no = #{memberNo} and
+      rental_home_no = #{rentalHomeNo}
+  </delete>
+
+  <select id="selectOneBookMark">
+    select
+      count(*)
+    from
+      bookmark
+    where
+      member_no = #{memberNo} and
+      rental_home_no = #{rentalHomeNo}
+  </select>
+
+  <insert id="addBookMark">
+    insert into
+      bookmark
+      (
+        member_no,
+        rental_home_no
+      )
+    values
+      (
+        #{memberNo},
+        #{rentalHomeNo}
+      )
+  </insert>
+
+</mapper>

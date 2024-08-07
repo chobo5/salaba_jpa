@@ -1,0 +1,78 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '2.7.18'
+    id 'io.spring.dependency-management' version '1.1.4'
+}
+
+group = 'salaba'
+version = '0.0.1-SNAPSHOT'
+
+
+repositories {
+    mavenCentral()
+    maven { url 'https://jitpack.io' }
+}
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+dependencies {
+
+    implementation 'org.springframework.boot:spring-boot-starter-jdbc'
+    implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.2'
+    compileOnly 'org.projectlombok:lombok'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'com.mysql:mysql-connector-j'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+    annotationProcessor 'org.projectlombok:lombok'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.3'
+
+    //JPA
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    //queryDsl
+    implementation 'com.querydsl:querydsl-jpa'
+    implementation 'com.querydsl:querydsl-core'
+    annotationProcessor "com.querydsl:querydsl-apt:${dependencyManagement.importedProperties['querydsl.version']}:jpa"
+    annotationProcessor "javax.persistence:javax.persistence-api"
+    annotationProcessor "javax.annotation:javax.annotation-api"
+
+    // swagger
+    implementation group: 'io.springfox', name: 'springfox-swagger-ui', version: '2.9.2'
+    implementation group: 'io.springfox', name: 'springfox-swagger2', version: '2.9.2'
+
+    // AWS S3 API
+    implementation 'com.amazonaws:aws-java-sdk-s3:1.12.688'
+    //iamport 결제대행 API
+    implementation 'com.github.iamport:iamport-rest-client-java:0.1.6'
+}
+
+
+tasks.named('bootBuildImage') {
+    builder = 'paketobuildpacks/builder-jammy-base:latest'
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(21)
+    }
+}
+
+// 자바 소스를 컴파일 할 때 적용할 옵션(Gradle 로 컴파일 할 때)
+tasks.withType(JavaCompile).configureEach {
+    // 프로젝트의 소스 파일 인코딩을 gradle에게 알려준다.
+    // $javac -encoding UTF-8 ..
+    options.encoding = 'UTF-8'
+}
+
+tasks.register("prepareKotlinBuildScriptModel"){}

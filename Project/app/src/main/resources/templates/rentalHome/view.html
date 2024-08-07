@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:data-th="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Title</title>
+  <script th:inline="javascript">
+    const rentalHomeModel = /*[[${rentalHome}]]*/ null;
+    const rentalHomeNoModel = /*[[${rentalHome.rentalHomeNo}]]*/ null;
+    const rentalHomeReviewModel = /*[[${rentalHomeReview}]]*/ null;
+    const rentalHomePhoto = /*[[${rentalHomePhoto}]]*/ null;
+    const sessionInfo = /*[[${session}]]*/ null;
+    const result = /*[[${bookMark}]]*/ null;
+    const sessionUser = /*[[${session.loginUser}]]*/ null;
+
+    console.log(rentalHomeModel);
+    console.log(rentalHomePhoto);
+    console.log(sessionInfo);
+  </script>
+  <link rel="stylesheet" type="text/css" href="/css/rental_home/view.css">
+  <link rel="stylesheet" type="text/css" href="/css/common.css">
+  <link rel="stylesheet" type="text/css" href="/css/searchContainer.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@100..900&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.css" />
+</head>
+<body>
+<div data-th-replace="header :: header">header</div>
+<div class="container-fluid row mb-5">
+  <div class="col-sm-4 container text-center">
+    <div data-th-replace="rentalHomeHeader :: rentalHomeHeader">header</div>
+  </div>
+</div>
+<main class="container-sm">
+  <!-- 숙소 사진 -->
+  <section class="photo-gallery container">
+    <div class="photo-container">
+      <div class="photo-container-item" data-th-each="photo : ${rentalHomePhoto}" data-th-object="${rentalHomePhoto}">
+        <img data-th-src=" @{'https://kr.object.ncloudstorage.com/tp3-salaba/rentalHome/' + ${photo.uuidPhotoName}}" alt="숙소 이미지">
+      </div>
+    </div>
+  </section>
+  <!-- 숙소 상세 내용 -->
+  <section class="rentalHome-content-section">
+    <div id="rentalHome-content-left">
+      <div class="rentalHome-name">
+        <span data-th-text="${rentalHome.name}">숙소 이름</span>
+      </div>
+      <div id="bookMark">
+        <svg id="bookMarkAdd" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000" data-th-if="${bookMark == null}">
+          <path d="m479-74-81-73q-105-94-173.5-163t-108-124Q77-489 61-536t-16-98q0-108.95 72.74-181.98Q190.47-889 299-889q50.93 0 96.97 18Q442-853 479-818q37-35 83.03-53 46.04-18 96.97-18 109.38 0 182.69 73.02Q915-742.95 915-634q0 50-15.5 97T844-435.5q-40 54.5-109 124T560-147l-81 73Zm0-169q94-86 154.5-145t95-103q34.5-44 47.5-77.15 13-33.15 13-65.83 0-56.02-37.01-92.52-37-36.5-92.51-36.5Q616-763 578-736.5 540-710 525-669h-91q-14.53-41-53.26-67.5Q342-763 299.27-763q-54.54 0-90.91 36.5Q172-690 172-634q0 33.76 13.44 67.99 13.44 34.24 48 78.13Q268-444 327.5-385.5 387-327 479-243Zm2-260Z"/>
+        </svg>
+        <svg id="bookMarkDel" xmlns="http://www.w3.org/2000/svg" height="24px" viewBox="0 -960 960 960" width="24px" fill="#000000" data-th-if="${bookMark != null}">
+          <path d="m479-74-81-73q-105-94-173.5-163t-108-124Q77-489 61-536t-16-98q0-109 72.5-182T299-889q51 0 97 18t83 53q37-35 83-53t97-18q109 0 182.5 73T915-634q0 50-15.5 97T844-435.5q-40 54.5-109 124T560-147l-81 73Z"/>
+        </svg>
+      </div>
+      <div>
+        <div class="rentalHome-address">
+          <span data-th-text="${rentalHome.address}">숙소 주소</span>
+        </div>
+        <div class="rentalHome-explanation">
+          <span class="rentalHome-explanation-h" data-th-text="${rentalHome.explanation}">숙소 소개</span>
+        </div>
+        <div class="showMoreExplanation-btn">
+          <a class="showMoreExplanation">
+            더보기
+          </a>
+        </div>
+        <div class="explanationModal">
+          <div class="explanation-modal-content">
+            <span class="explanation-modal-close">&times;</span>
+            <div class="explanation-content">
+              <span data-th-text="${rentalHome.explanation}"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="facility-container">
+        <div class="facility-container-title">
+          <span>숙소 편의시설</span>
+        </div>
+        <div class="facility-container-content">
+          <div data-th-each="facility, iterStat : ${rentalHomeFacility}" data-th-object="${rentalHomeFacility}">
+            <div data-th-if="${iterStat.index < 10}" id="facility-container-img">
+              <img data-th-src="@{'https://5ns6sjke2756.edge.naverncp.com/nBMc0TCJiv/facility/'+${facility.facilityName}+.png(type=f,w=24,h=24,faceopt=false,ttype=png)}">
+              <span data-th-text="${facility.facilityName}">시설 이름</span>
+            </div>
+          </div>
+        </div>
+        <div class="facility-modal-button-div" data-th-if="${rentalHomeFacility.size > 10}">
+          <button class="facility-modal-button">
+            <span data-th-text="${rentalHomeFacility.size +'개의 편의시설 모두 보기'}"></span>
+          </button>
+        </div>
+      </div>
+      <div class="facility-modal">
+        <div class="facility-modal-container">
+          <div class="facility-modal-close">
+            <span>&times;</span>
+          </div>
+          <div class="facility-modal-content">
+            <div class="facility-modal-content-title">
+              <span>숙소 편의시설</span>
+            </div>
+            <div class="facility-modal-content-div" data-th-each="facility : ${rentalHomeFacility}" data-th-object="${rentalHomeFacility}">
+              <span data-th-text="${facility.facilityName}"></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="rentalHome-content-right">
+
+      <div class="report-modal">
+        <div class="report-modal-container">
+          <div class="report-modal-close">
+            <span>&times;</span>
+          </div>
+          <div class="report-modal-content">
+            <div class="report-modal-content-title">
+              <span>숙소 신고</span>
+            </div>
+            <form id="reportForm">
+              <div>
+                <select id="category" class="form-select">
+                  <option value="1">부정확하거나 틀린 정보가 있어요</option>
+                  <option value="2">실제 숙소가 아닙니다</option>
+                  <option value="3">사기입니다</option>
+                  <option value="4">불쾌합니다</option>
+                  <option value="5">기타</option>
+                </select>
+              </div>
+              <div>
+                <textarea type="text" id="rentalHome-report-content" placeholder="신고 사유를 입력하세요" class="form-control"></textarea>
+              </div>
+              <div class="report-modal-button">
+                <button type="submit">신고하기</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div class="reservation-container">
+        <div class="reservation-container-title">
+          <span>숙소 예약</span>
+        </div>
+        <div class="reservation-container-content">
+          <div class="calendar-container">
+            <input type="text" id="checkInDateInput" name="checkInDate" readonly placeholder="체크인">
+             <span>~</span>
+            <input type="text" id="checkOutDateInput" name="checkOutDate" readonly placeholder="체크아웃">
+          </div>
+          <div>
+            <input type="number" min="1" id="reservationGuests" name="guests" placeholder="인원수">
+          </div>
+        </div>
+        <div class="reservation-price-info">
+          <div>
+            <span class="reservation-duration"></span>
+          </div>
+          <div>
+            <span class="reservation-price"></span>
+          </div>
+          <div>
+            <span class="reservateion-cleanFee"></span>
+          </div>
+          <div>
+            <span class="reservation-price-total"></span>
+          </div>
+        </div>
+        <div>
+          <button class="reservation-button">예약하기</button>
+        </div>
+      </div>
+      <div class="rentalHome-report">
+        <button id="reportButton">신고하기</button>
+      </div>
+    </div>
+
+  </section>
+  <section class="map-section">
+    <div id="map-title">
+      <span>숙소 위치</span>
+    </div>
+    <div id="map">
+
+    </div>
+  </section>
+  <section class="review-section">
+    <div id="reviewsContainer">
+      <div id="review-title">
+        <span>숙소 리뷰</span>
+        <span> - </span>
+        <span data-th-text="${rentalHomeReviewAverage + '(' + rentalHomeReview.size + '개' + ')'}"></span>  
+      </div>
+    </div>
+    <div>
+      <button id="showMoreReview">더 보기</button>
+    </div>
+  </section>
+  <section class="rentalHomeRule-section">
+    <div class="rule-container">
+      <div class="rule-container-title">
+        <span>숙소 규칙</span>
+      </div>
+      <div class="rule-container-content">
+        <span data-th-text="${rentalHome.rentalHomeRule}">숙소 규칙</span>
+      </div>
+    </div>
+  </section>
+</main>
+  <div data-th-replace="footer :: footer" class="footer-div">footer</div>
+</body>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/daterangepicker/daterangepicker.min.js"></script>
+<script data-th-src="@{/js/header.js}"></script>
+<script data-th-src="@{/js/rental_home/view.js}"></script>
+<script data-th-src="@{/common/alarm.js}" src="common/alarm.js" type="module"></script>
+</html>

@@ -1,0 +1,217 @@
+/* <uniquifier>: Use a unique and descriptive class name */
+/* <weight>: Use a value from 100 to 900 */
+
+  html{
+    font-family: "Noto Sans KR", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    font-style: normal;
+  }
+
+  /* header{
+    position: fixed;
+    top:0;
+    width: 100%;
+    height: 30%;
+    z-index: 800;
+  } */
+  /* main{
+    position: absolute;
+    top: 332px;
+    bottom: 100px;
+    width: 100%;
+    height: calc(100vh - 240px - 100px);
+    overflow-y: auto;
+  } */
+
+  .map-section{
+    align-items: center;
+    justify-content: center;
+  }
+  #map{
+    height: 1028px;
+    width: 100%;
+  }
+  #map div{
+    align-items: center;
+    justify-content: center;
+  }
+
+  
+  /* 테마 */
+  .theme-section{
+    top: 240px;
+    width: 100%;
+    border-top: 0.5px solid #cccccc;
+    padding-top: 14px;
+    display: flex;
+    z-index: 900;
+  }
+
+  .theme-container{
+    display: flex;
+    overflow-x: hidden;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+    white-space: normal;
+    width: 83%;
+  }
+
+  .theme-icon-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 12px;
+    margin-bottom: 10px;
+    margin-left: 20px;
+    margin-right: 20px;
+    padding-top: 4px;
+    padding-bottom: 4px;
+    width: 56px;
+    height: 48px;
+    flex-shrink: 0;
+  }
+
+  .theme-icon-container:hover{
+    font-weight:bold;
+  }
+
+  .theme-icon-container img{
+    margin-bottom: 4px;
+  }
+
+  .theme-icon-container a{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .theme-name{
+    display: flex;
+    margin-top: 2px;
+    font-size: small;
+    white-space: nowrap;
+  }
+
+  .scroll-right-button{
+    transform: translateY(-10%);
+    border-radius: 20px;
+    border: 1px solid #cccccc;
+    background-color: #FFFFFF;
+    z-index: 1;
+    width: 28px;
+    height: 28px;
+    padding: 0px;
+  }
+
+  .scroll-left-button{
+    left: 65px;
+    transform: translateY(-10%);
+    border-radius: 20px;
+    border: 1px solid #cccccc;
+    background-color: #FFFFFF;
+    z-index: 1;
+    width: 28px;
+    height: 28px;
+    padding: 0px;
+  }
+
+  .scroll-left-button span,
+  .scroll-right-button span{
+    display: flex;
+    justify-content: center;
+  }
+  
+
+  /* 필터버튼 스타일 */
+  .filter-button{
+    width: 82px;
+    height: 48px;
+    background-color: #FFFFFF;
+    border: 1px solid #cccccc;
+    border-radius: 10px;
+    font-weight: bold;
+    font-size: 15px;
+    padding-top: 12px;
+    padding-bottom: 12px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  .filter-button-span{
+    display: flex;
+    align-items: center;
+    text-align: center;
+    padding-left: 12px;
+    padding-right: 10px;
+  }
+  
+  .filter-button-span span{
+    margin-left: 5px;
+  }
+
+  /* 지도보기 / 목록보기 버튼 */
+  #mapButton{
+    position: fixed;
+    width: 150px;
+    height: 50px;
+    bottom: 200px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    background-color: #000000;
+    color: #FFFFFF;
+    font-weight: 600;
+    font-size: 18px;
+    border-radius: 20px;
+  }
+
+  .mapButton-span{
+    display: inline-flex;
+    align-items: center;
+    text-align: center;
+  }
+
+  .mapButton-icon{
+    margin-left: 8px;
+  }
+
+  .mapButton-icon svg{
+    --linaria-theme_palette-white: #ffffff;
+  }
+
+  /* 구글맵 마커 css */
+  .property {
+    width: 300px; /* 너비 조정 */
+  }
+  
+  .property .details .card {
+    width: 100%; /* 카드 너비를 부모 요소에 맞춤 */
+  }
+  
+  .property .carousel .carousel-inner img {
+    width: 100%; /* 이미지 너비를 부모 요소에 맞춤 */
+    height: auto; /* 이미지 높이 자동 조정 */
+  }
+  
+  /* footer 경계선 스타일 */
+  footer{
+    border-top: 1px solid #cccccc;
+  }
+
+  /* Chrome, Safari, Edge, Opera */
+  input::-webkit-outer-spin-button,
+  input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  /* Firefox  */
+  input[type='number'] {
+    -moz-appearance: textfield;
+  }
