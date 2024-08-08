@@ -8,8 +8,8 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.entity.Member;
-import salaba.entity.Role;
+import salaba.entity.member.Member;
+import salaba.entity.member.Role;
 
 import java.time.LocalDate;
 import java.util.Optional;

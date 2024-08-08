@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import salaba.entity.*;
+import salaba.entity.board.Board;
 
 import java.util.List;
 import java.util.stream.Collectors;

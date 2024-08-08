@@ -3,7 +3,7 @@ package salaba.repository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import salaba.entity.Role;
+import salaba.entity.member.Role;
 
 import java.util.List;
 

@@ -8,7 +8,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.entity.Board;
+import salaba.entity.board.Board;
 
 import java.util.Arrays;
 import java.util.List;

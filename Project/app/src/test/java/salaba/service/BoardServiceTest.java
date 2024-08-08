@@ -7,7 +7,6 @@ import salaba.dto.PageRequestDto;
 import salaba.dto.PageResultDto;
 import salaba.dto.board.BoardDetailDto;
 import salaba.dto.board.BoardDto;
-import salaba.entity.Board;
 
 @SpringBootTest
 public class BoardServiceTest {

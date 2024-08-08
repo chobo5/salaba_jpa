@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
-import salaba.entity.Board;
+import salaba.entity.board.Board;
 import salaba.repository.search.SearchBoardRepository;
 
 import java.util.List;

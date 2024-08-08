@@ -1,24 +1,25 @@
-package salaba.entity;
+package salaba.entity.board;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import salaba.entity.BaseEntity;
+import salaba.entity.member.Member;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "board")
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
 @Getter
-@ToString(exclude = {"writer", "boardHead", "boardCategory", "boardScope"})
-public class Board {
+@ToString(exclude = {"writer", "boardCategory"})
+public class Board extends BaseEntity {
 
     @Id
-    @Column(name = "board_no")
+    @Column(name = "board_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long boardNo;
+    private Long id;
 
     @Column(length = 30)
     private String title;
@@ -33,22 +34,17 @@ public class Board {
     @Column(name = "view_count")
     private int viewCount;
 
-    private Character state;
+    @Enumerated(EnumType.STRING)
+    private WritingStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "head_no", nullable = false)
-    private BoardHead boardHead;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "category_no", nullable = false)
+    @Enumerated(EnumType.STRING)
     private BoardCategory boardCategory;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "scope_no")
-    private BoardScope boardScope;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_no", nullable = false)
     private Member writer;
+
+    @OneToMany(mappedBy = "board")
+    private List<Comment> commentList = new ArrayList<>();
 
 }

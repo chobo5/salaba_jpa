@@ -1,37 +1,36 @@
-package salaba.entity;
+package salaba.entity.board;
 
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import salaba.entity.BaseEntity;
+import salaba.entity.board.Comment;
+import salaba.entity.member.Member;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "comment")
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
+@Table(name = "reply")
 @Getter
-@ToString(exclude = {"board", "writer"})
-public class Comment {
+public class Reply extends BaseEntity {
     @Id
+    @Column(name = "reply_no")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "comment_no")
-    private Long commentNo;
+    private Long replyNo;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "board_no", nullable = false)
-    private Board board;
+    @JoinColumn(name = "comment_no", nullable = false)
+    private Comment comment;
 
     @Lob
-    @Column(nullable = false)
     private String content;
 
-    @CreationTimestamp
     @Column(name = "created_date")
+    @CreationTimestamp
     private LocalDateTime createdDate;
 
-    private Character state;
+    @Enumerated(EnumType.STRING)
+    private WritingStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_no", nullable = false)

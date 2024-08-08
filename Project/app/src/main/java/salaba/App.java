@@ -5,35 +5,28 @@ package salaba;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.data.domain.AuditorAware;
+import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import java.util.Optional;
+import java.util.UUID;
+
 @SpringBootApplication
-@EnableTransactionManagement
-@Controller
+@EnableJpaAuditing
 public class App {
 
     public static void main(String[] args) throws Exception {
-        System.out.println("Salaba 시스템 서버 실행!");
         SpringApplication.run(App.class, args);
     }
 
-    @GetMapping("/home")
-    public void home() {
+    @Bean
+    public AuditorAware<String> auditorProvider() {
+        return () -> Optional.of(UUID.randomUUID().toString());
     }
 
-    @GetMapping("/about")
-    public void about() {
-    }
-
-    @GetMapping("/chat")
-    public void chat(){
-
-    }
-    @GetMapping("/tete")
-    public void tete(){
-
-    }
 }

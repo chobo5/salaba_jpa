@@ -4,9 +4,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.entity.Board;
-import salaba.entity.Comment;
-import salaba.entity.Member;
+import salaba.entity.board.Board;
+import salaba.entity.board.Comment;
+import salaba.entity.member.Member;
 
 import java.util.ArrayList;
 import java.util.List;

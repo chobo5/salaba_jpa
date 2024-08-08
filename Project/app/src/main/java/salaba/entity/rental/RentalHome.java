@@ -1,28 +1,33 @@
-package salaba.entity;
+package salaba.entity.rental;
 
 import lombok.Getter;
+import salaba.entity.Address;
+import salaba.entity.BaseEntity;
+import salaba.entity.member.Member;
 import salaba.vo.Region;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "rental_home")
 @Getter
-public class RentalHome {
+public class RentalHome extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "rental_home_no", nullable = false)
+    @Column(name = "rental_home_id", nullable = false)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_no")
+    @JoinColumn(name = "member_id")
     @Column(nullable = false)
     private Member host;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "region_no")
+    @JoinColumn(name = "region_id")
     @Column(nullable = false)
     private Region region;
 
@@ -57,13 +62,22 @@ public class RentalHome {
     private LocalDateTime hostingEndDate;
 
     @Column(nullable = false)
-    private LocalDateTime regDate;
-
-    @Column(nullable = false)
     private String rule;
 
     @Column(nullable = false)
     private int cleanFee;
+
+    @OneToMany(mappedBy = "rentalHome")
+    private List<RentalHomePhoto> rentalHomePhotoList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "rentalHome")
+    private List<RentalHomeTheme> rentalHomeThemeList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "rentalHome")
+    private List<RentalHomeFacility> rentalHomeFacilityList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "rentalHome")
+    private List<RentalHomeReport> rentalHomeReportList = new ArrayList<>();
 
 
 }
