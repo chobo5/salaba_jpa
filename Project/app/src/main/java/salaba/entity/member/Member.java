@@ -7,8 +7,10 @@ import salaba.entity.board.Comment;
 import salaba.entity.board.Reply;
 import salaba.entity.board.WritingReport;
 import salaba.entity.rental.Reservation;
+import salaba.util.PasswordValidator;
 
 import javax.persistence.*;
+import javax.xml.bind.ValidationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -19,7 +21,7 @@ import java.util.Set;
 @Entity
 @Table(name = "member")
 @Getter
-
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -95,6 +97,30 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private Set<MemberRole> roleSet = new HashSet<>();
 
+    public void changePassword(String password) throws ValidationException {
+        if (PasswordValidator.isValidPassword(password)) {
+            this.password = password;
+        } else {
+            throw new ValidationException("비밀번호는 최소 8자 이상, 하나 이상의 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.");
+        }
+    }
 
+    public Member Join(String email, String password, String name, String nickname) throws ValidationException {
+        if (!PasswordValidator.isValidPassword(password)) {
+            throw new ValidationException("비밀번호는 최소 8자 이상, 하나 이상의 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.");
+        }
 
+        Member newMember = new Member();
+        newMember.email = email;
+        newMember.password = password;
+        newMember.name = name;
+        newMember.nickname = nickname;
+        newMember.status = MemberStatus.NORMAL;
+        newMember.lastLoginDate = LocalDateTime.now();
+        newMember.warningCount = 0;
+        newMember.grade = Grade.BRONZE;
+        return newMember;
+    }
+    
+    public Member updateProfile()
 }
