@@ -6,7 +6,6 @@ import salaba.entity.member.Member;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "board_like")
 @Getter
 public class BoardLike {
 

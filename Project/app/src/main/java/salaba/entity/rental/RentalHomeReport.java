@@ -20,11 +20,11 @@ public class RentalHomeReport extends BaseEntity {
     private String content;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rental_home_id")
+    @JoinColumn(name = "rental_home_id", nullable = false)
     private RentalHome rentalHome;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
 }

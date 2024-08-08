@@ -16,8 +16,10 @@ public class WritingReport extends BaseEntity {
     private Long id;
 
     @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
     private WritingTargetCategory writingTargetCategory;
 
+    @Column(nullable = false)
     private Long writingTargetId;
 
     @Enumerated(EnumType.STRING)
@@ -27,7 +29,7 @@ public class WritingReport extends BaseEntity {
     private ProcessStatus processStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
+    @JoinColumn(name = "member_id", nullable = false)
     private Member reporter;
 
 }

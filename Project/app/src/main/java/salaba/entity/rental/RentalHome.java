@@ -3,8 +3,8 @@ package salaba.entity.rental;
 import lombok.Getter;
 import salaba.entity.Address;
 import salaba.entity.BaseEntity;
+import salaba.entity.Region;
 import salaba.entity.member.Member;
-import salaba.vo.Region;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -22,13 +22,11 @@ public class RentalHome extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_id")
-    @Column(nullable = false)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member host;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "region_id")
-    @Column(nullable = false)
+    @JoinColumn(name = "region_id", nullable = false)
     private Region region;
 
     @Column(nullable = false)
@@ -78,6 +76,9 @@ public class RentalHome extends BaseEntity {
 
     @OneToMany(mappedBy = "rentalHome")
     private List<RentalHomeReport> rentalHomeReportList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "rentalHome")
+    private List<Reservation> reservationList = new ArrayList<>();
 
 
 }

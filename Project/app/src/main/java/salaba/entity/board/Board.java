@@ -11,9 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "board")
 @Getter
-@ToString(exclude = {"writer", "boardCategory"})
 public class Board extends BaseEntity {
 
     @Id
@@ -27,24 +25,23 @@ public class Board extends BaseEntity {
     @Lob
     private String content;
 
-    @CreationTimestamp
-    @Column(name = "created_date")
-    private LocalDateTime createdDate;
-
     @Column(name = "view_count")
     private int viewCount;
 
     @Enumerated(EnumType.STRING)
-    private WritingStatus status;
+    private WritingStatus writingStatus;
 
     @Enumerated(EnumType.STRING)
     private BoardCategory boardCategory;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_no", nullable = false)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member writer;
 
     @OneToMany(mappedBy = "board")
     private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "board")
+    private List<BoardLike> boardLikeList = new ArrayList<>();
 
 }

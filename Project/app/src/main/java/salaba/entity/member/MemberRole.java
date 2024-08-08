@@ -1,24 +1,22 @@
 package salaba.entity.member;
 
 import lombok.Getter;
-import salaba.entity.member.Member;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-public class Notify {
+public class MemberRole {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "notify_id")
+    @Column(name = "member_role_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @Column(nullable = false)
-    private String content;
-
-
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "role_id", nullable = false)
+    private Role role;
 }

@@ -1,23 +1,22 @@
 package salaba.entity.member;
 
 import lombok.Getter;
-import salaba.entity.rental.RentalHome;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-public class BookMark {
+public class Alarm {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "bookmark_id")
+    @Column(name = "alarm_id")
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rental_home_id", nullable = false)
-    private RentalHome rentalHome;
+    @Column(nullable = false)
+    private String content;
+
 }

@@ -6,7 +6,6 @@ import salaba.entity.BaseEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "board_file")
 @Getter
 public class BoardFile extends BaseEntity {
     @Id

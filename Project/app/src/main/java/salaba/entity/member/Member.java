@@ -41,7 +41,6 @@ public class Member extends BaseEntity {
     @Column(nullable = false)
     private LocalDate birthday;
 
-    @Column(name = "tel_no")
     private String telNo;
 
     @Enumerated(value = EnumType.STRING)
@@ -50,13 +49,10 @@ public class Member extends BaseEntity {
     @Enumerated(value = EnumType.STRING)
     private Gender gender;
 
-    @Column(name = "last_login_date")
     private LocalDateTime lastLoginDate;
 
-    @Column(name = "exit_date")
     private LocalDateTime exitDate;
 
-    @Column(name = "warning_count")
     private Integer warningCount;
 
     @Embedded
@@ -66,7 +62,7 @@ public class Member extends BaseEntity {
     private Grade grade;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "nation_no")
+    @JoinColumn(name = "nation_id")
     private Nation nation;
 
     @OneToMany(mappedBy = "writer")
@@ -82,7 +78,7 @@ public class Member extends BaseEntity {
     private List<Reservation> reservationList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Notify> notifyList = new ArrayList<>();
+    private List<Alarm> alarmList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Point> pointHistory = new ArrayList<>();
@@ -96,11 +92,8 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "reporter")
     private List<WritingReport> writingReportList = new ArrayList<>();
 
-    @ManyToMany
-    @JoinTable(name = "member_role",
-            joinColumns = @JoinColumn(name = "member_no"),
-            inverseJoinColumns = @JoinColumn(name = "role_no"))
-    private Set<Role> roleSet = new HashSet<>();
+    @OneToMany(mappedBy = "member")
+    private Set<MemberRole> roleSet = new HashSet<>();
 
 
 

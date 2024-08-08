@@ -1,13 +1,14 @@
 package salaba.entity.rental;
 
 import lombok.Getter;
+import salaba.entity.BaseEntity;
 import salaba.entity.board.WritingStatus;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-public class RentalHomeReview {
+public class RentalHomeReview extends BaseEntity {
     @Id
     @Column(name = "rental_home_review_id")
     private Long id;

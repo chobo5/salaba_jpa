@@ -16,7 +16,7 @@ public class RentalHomePhoto extends FileBaseEntity {
     private String photoExplanation;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "rental_home_id")
+    @JoinColumn(name = "rental_home_id", nullable = false)
     private RentalHome rentalHome;
 
     private int photoOrder;

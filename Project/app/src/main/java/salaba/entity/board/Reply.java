@@ -10,30 +10,24 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "reply")
 @Getter
 public class Reply extends BaseEntity {
     @Id
-    @Column(name = "reply_no")
+    @Column(name = "reply_id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long replyNo;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comment_no", nullable = false)
+    @JoinColumn(name = "comment_id", nullable = false)
     private Comment comment;
 
-    @Lob
     private String content;
 
-    @Column(name = "created_date")
-    @CreationTimestamp
-    private LocalDateTime createdDate;
-
     @Enumerated(EnumType.STRING)
-    private WritingStatus status;
+    private WritingStatus writingStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_no", nullable = false)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member writer;
 
 

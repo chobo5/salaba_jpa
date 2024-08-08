@@ -9,9 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "comment")
 @Getter
-@ToString(exclude = {"board", "writer"})
 public class Comment extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -25,15 +23,14 @@ public class Comment extends BaseEntity {
     @OneToMany(mappedBy = "comment")
     private List<Reply> replyList = new ArrayList<>();
 
-    @Lob
     @Column(nullable = false)
     private String content;
 
     @Enumerated(EnumType.STRING)
-    private WritingStatus status;
+    private WritingStatus writingStatus;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "member_no", nullable = false)
+    @JoinColumn(name = "member_id", nullable = false)
     private Member writer;
 
 

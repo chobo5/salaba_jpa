@@ -8,14 +8,13 @@ import salaba.entity.BaseEntity;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "role")
 @Getter
-public class Role extends BaseEntity {
+public class Role {
     @Id
     @Column(name = "role_id")
     private Integer id;
 
-    @Column(length = 30)
+    @Column(length = 30, nullable = false, unique = true)
     private String roleName;
 
 }

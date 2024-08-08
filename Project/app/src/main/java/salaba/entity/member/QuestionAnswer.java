@@ -17,6 +17,6 @@ public class QuestionAnswer extends BaseEntity {
     private String answer;
 
     @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "question_no")
+    @JoinColumn(name = "question_id", nullable = false)
     private Question question;
 }
