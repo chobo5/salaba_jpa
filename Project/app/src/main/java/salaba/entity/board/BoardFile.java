@@ -2,12 +2,14 @@ package salaba.entity.board;
 
 import lombok.*;
 import salaba.entity.BaseEntity;
+import salaba.entity.FileBaseEntity;
 
 import javax.persistence.*;
+import java.util.UUID;
 
 @Entity
 @Getter
-public class BoardFile extends BaseEntity {
+public class BoardFile extends FileBaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "board_file_id")
@@ -17,9 +19,10 @@ public class BoardFile extends BaseEntity {
     @JoinColumn(name = "board_id", nullable = false)
     private Board board;
 
-    @Column(name = "ori_file_name", nullable = false)
-    private String originalFileName;
-
-    @Column(name = "uuid_file_name", unique = true, nullable = false)
-    private String uuidFileName;
+    public static BoardFile createBoardFile(Board board, String filename) {
+        BoardFile boardFile = new BoardFile();
+        boardFile.board = board;
+        boardFile.setFiles(filename);
+        return boardFile;
+    }
 }

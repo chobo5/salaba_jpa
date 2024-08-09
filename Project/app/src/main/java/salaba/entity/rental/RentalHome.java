@@ -80,5 +80,22 @@ public class RentalHome extends BaseEntity {
     @OneToMany(mappedBy = "rentalHome")
     private List<Reservation> reservationList = new ArrayList<>();
 
-
+    public static RentalHome createRentalHome(Member host, Region region, String name, String explanation, Address address, int price, int capacity, double lat, double lon, LocalDateTime hostingStartDate, LocalDateTime hostingEndDate, String rule, int cleanFee) {
+        RentalHome rentalHome = new RentalHome();
+        rentalHome.host = host;
+        rentalHome.region = region;
+        rentalHome.name = name;
+        rentalHome.explanation = explanation;
+        rentalHome.address = address;
+        rentalHome.price = price;
+        rentalHome.capacity = capacity;
+        rentalHome.lat = lat;
+        rentalHome.lon = lon;
+        rentalHome.status = RentalHomeStatus.AWAIT;
+        rentalHome.hostingStartDate = hostingStartDate;
+        rentalHome.hostingEndDate = hostingEndDate;
+        rentalHome.rule = rule;
+        rentalHome.cleanFee = cleanFee;
+        return rentalHome;
+    }
 }

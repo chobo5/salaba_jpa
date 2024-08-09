@@ -32,4 +32,16 @@ public class WritingReport extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member reporter;
 
+    public static WritingReport createWritingReport(WritingTargetCategory targetCategory, Long targetId,
+                                             WritingReportCategory reportCategory, Member reporter) {
+        WritingReport report = new WritingReport();
+        report.writingTargetCategory = targetCategory;
+        report.writingTargetId = targetId;
+        report.writingReportCategory = reportCategory;
+        report.processStatus = ProcessStatus.AWAIT;
+        report.reporter = reporter;
+        reporter.getWritingReportList().add(report);
+        return report;
+    }
+
 }

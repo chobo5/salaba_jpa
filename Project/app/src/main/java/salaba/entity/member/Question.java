@@ -31,4 +31,14 @@ public class Question extends BaseEntity {
 
     @OneToMany(mappedBy = "question")
     private List<QuestionFile> questionFileList = new ArrayList<>();
+
+    public Question createQuestion(String title, String content, Member member) {
+        Question question = new Question();
+        question.title = title;
+        question.content = content;
+        question.status = ProcessStatus.AWAIT;
+        question.member = member;
+        member.getQuestionList().add(question);
+        return question;
+    }
 }

@@ -19,4 +19,12 @@ public class MemberRole {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
+
+    public MemberRole createMemberRole(Member member, Role role) {
+        MemberRole memberRole = new MemberRole();
+        memberRole.member = member;
+        memberRole.role = role;
+        member.getRoleSet().add(memberRole);
+        return memberRole;
+    }
 }

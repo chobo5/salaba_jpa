@@ -23,5 +23,12 @@ public class RentalHomeReview extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private WritingStatus status;
 
-
+    public static RentalHomeReview createRentalHomeReview(Reservation reservation, int score, String content) {
+        RentalHomeReview rentalHomeReview = new RentalHomeReview();
+        rentalHomeReview.reservation = reservation;
+        rentalHomeReview.score = score;
+        rentalHomeReview.content = content;
+        rentalHomeReview.status = WritingStatus.NORMAL;
+        return rentalHomeReview;
+    }
 }

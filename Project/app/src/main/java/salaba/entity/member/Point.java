@@ -23,4 +23,13 @@ public class Point extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    public Point createPoint(String content, int amount, Member member) {
+        Point point = new Point();
+        point.content = content;
+        point.amount = amount;
+        point.member = member;
+        member.getPointHistory().add(point);
+        return point;
+    }
+
 }

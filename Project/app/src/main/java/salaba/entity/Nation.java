@@ -9,10 +9,11 @@ import java.util.List;
 @Entity
 @Table(name = "nation")
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Nation extends BaseEntity {
     @Id
-    @Column(name = "nation_no")
-    private Integer nationNo;
+    @Column(name = "nation_id")
+    private Integer id;
 
     @Column(name = "nation_name", unique = true, nullable = false)
     private String name;
@@ -20,5 +21,8 @@ public class Nation extends BaseEntity {
     @OneToMany(mappedBy = "nation")
     private List<Region> regionList;
 
-
+    public Nation(Integer id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 }

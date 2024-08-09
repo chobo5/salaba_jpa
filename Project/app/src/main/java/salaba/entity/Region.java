@@ -18,4 +18,10 @@ public class Region {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "nation_id", nullable = false)
     private Nation nation;
+
+    public Region(String name, Nation nation) {
+        this.name = name;
+        this.nation = nation;
+        nation.getRegionList().add(this);
+    }
 }

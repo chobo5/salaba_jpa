@@ -21,4 +21,13 @@ public class RentalHomePhoto extends FileBaseEntity {
 
     private int photoOrder;
 
+    public static RentalHomePhoto createRentalHomePhoto(String explanation, RentalHome rentalHome, int order) {
+        RentalHomePhoto rentalHomePhoto = new RentalHomePhoto();
+        rentalHomePhoto.photoExplanation = explanation;
+        rentalHomePhoto.rentalHome = rentalHome;
+        rentalHomePhoto.photoOrder = order;
+        rentalHome.getRentalHomePhotoList().add(rentalHomePhoto);
+        return rentalHomePhoto;
+    }
+
 }

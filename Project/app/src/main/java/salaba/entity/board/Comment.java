@@ -33,6 +33,14 @@ public class Comment extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member writer;
 
-
+    public static Comment createComment(Board board, String content, Member writer) {
+        Comment comment = new Comment();
+        comment.board = board;
+        comment.content = content;
+        comment.writingStatus = WritingStatus.NORMAL;
+        comment.writer = writer;
+        writer.getCommentList().add(comment);
+        return comment;
+    }
 
 }

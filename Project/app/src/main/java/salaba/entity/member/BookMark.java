@@ -20,4 +20,12 @@ public class BookMark {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "rental_home_id", nullable = false)
     private RentalHome rentalHome;
+
+    public BookMark createBookMark(Member member, RentalHome rentalHome) {
+        BookMark bookMark = new BookMark();
+        bookMark.member = member;
+        bookMark.rentalHome = rentalHome;
+        member.getBookMarkList().add(bookMark);
+        return bookMark;
+    }
 }

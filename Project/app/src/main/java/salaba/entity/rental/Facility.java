@@ -17,4 +17,8 @@ public class Facility {
 
     @Column(name = "facility_name", nullable = false, unique = true)
     private String name;
+
+    public Facility (String name) {
+        this.name = name;
+    }
 }

@@ -20,4 +20,12 @@ public class RentalHomeFacility extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "facility_id", nullable = false)
     private Facility facility;
+
+    public static RentalHomeFacility createRentalHomeFacility(RentalHome rentalHome, Facility facility) {
+        RentalHomeFacility rentalHomeFacility = new RentalHomeFacility();
+        rentalHomeFacility.rentalHome = rentalHome;
+        rentalHomeFacility.facility = facility;
+        rentalHome.getRentalHomeFacilityList().add(rentalHomeFacility);
+        return rentalHomeFacility;
+    }
 }

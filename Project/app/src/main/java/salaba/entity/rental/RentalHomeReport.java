@@ -27,4 +27,13 @@ public class RentalHomeReport extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    public static RentalHomeReport createRentalHomeReport (RentalReportCategory rentalReportCategory, String content, RentalHome rentalHome, Member member) {
+        RentalHomeReport rentalHomeReport = new RentalHomeReport();
+        rentalHomeReport.rentalReportCategory = rentalReportCategory;
+        rentalHomeReport.content = content;
+        rentalHomeReport.rentalHome = rentalHome;
+        rentalHomeReport.member = member;
+        rentalHome.getRentalHomeReportList().add(rentalHomeReport);
+        return rentalHomeReport;
+    }
 }

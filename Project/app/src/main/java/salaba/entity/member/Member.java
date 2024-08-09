@@ -97,30 +97,40 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private Set<MemberRole> roleSet = new HashSet<>();
 
-    public void changePassword(String password) throws ValidationException {
-        if (PasswordValidator.isValidPassword(password)) {
-            this.password = password;
-        } else {
-            throw new ValidationException("비밀번호는 최소 8자 이상, 하나 이상의 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.");
-        }
+    public void changePassword(String password) {
+        this.password = password;
     }
 
-    public Member Join(String email, String password, String name, String nickname) throws ValidationException {
-        if (!PasswordValidator.isValidPassword(password)) {
-            throw new ValidationException("비밀번호는 최소 8자 이상, 하나 이상의 대문자, 소문자, 숫자, 특수문자를 포함해야 합니다.");
-        }
+    public void changeEmail(String email) {
+        this.email = email;
+    }
 
+    public void changeTelNo(String telNo) {
+        this.telNo = telNo;
+    }
+
+    public void changeNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public Member join(String email, String password, String name, String nickname, LocalDate birthday) {
         Member newMember = new Member();
         newMember.email = email;
         newMember.password = password;
         newMember.name = name;
         newMember.nickname = nickname;
+        newMember.birthday = birthday;
         newMember.status = MemberStatus.NORMAL;
         newMember.lastLoginDate = LocalDateTime.now();
         newMember.warningCount = 0;
         newMember.grade = Grade.BRONZE;
         return newMember;
     }
-    
-    public Member updateProfile()
+
+    public void changeProfile(Gender gender, Nation nation, Address address) {
+        this.gender = gender;
+        this.nation = nation;
+        this.address = address;
+    }
+
 }

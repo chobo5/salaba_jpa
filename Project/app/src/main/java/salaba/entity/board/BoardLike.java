@@ -22,5 +22,12 @@ public class BoardLike {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
+    public static BoardLike createBoardLike(Member member, Board board) {
+        BoardLike boardLike = new BoardLike();
+        boardLike.member = member;
+        boardLike.board = board;
+        board.getBoardLikeList().add(boardLike);
+        return boardLike;
+    }
 
 }

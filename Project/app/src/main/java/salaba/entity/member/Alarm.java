@@ -19,4 +19,16 @@ public class Alarm {
     @Column(nullable = false)
     private String content;
 
+    @Column(nullable = false)
+    private Boolean isRead;
+
+    public Alarm createAlarm(Member member, String content) {
+        Alarm alarm = new Alarm();
+        alarm.member = member;
+        alarm.content = content;
+        alarm.isRead = false;
+        member.getAlarmList().add(alarm);
+        return alarm;
+    }
+
 }

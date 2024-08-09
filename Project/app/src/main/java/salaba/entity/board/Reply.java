@@ -30,5 +30,13 @@ public class Reply extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member writer;
 
-
+    public static Reply createReply(Comment comment, String content, Member writer) {
+        Reply reply = new Reply();
+        reply.comment = comment;
+        reply.content = content;
+        reply.writingStatus = WritingStatus.NORMAL;
+        reply.writer = writer;
+        writer.getReplyList().add(reply);
+        return reply;
+    }
 }

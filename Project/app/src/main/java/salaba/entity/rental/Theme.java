@@ -1,6 +1,8 @@
 package salaba.entity.rental;
 
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.util.ArrayList;
@@ -8,6 +10,7 @@ import java.util.List;
 
 @Entity
 @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Theme {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -17,4 +20,7 @@ public class Theme {
     @Column(nullable = false, unique = true)
     private String name;
 
+    public Theme(String name) {
+        this.name = name;
+    }
 }
