@@ -5,11 +5,14 @@ import salaba.entity.Address;
 import salaba.entity.BaseEntity;
 import salaba.entity.Region;
 import salaba.entity.member.Member;
+import salaba.exception.CannotChangeStatusException;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+
+import static salaba.entity.rental.QRentalHome.rentalHome;
 
 @Entity
 @Table(name = "rental_home")
@@ -97,5 +100,30 @@ public class RentalHome extends BaseEntity {
         rentalHome.rule = rule;
         rentalHome.cleanFee = cleanFee;
         return rentalHome;
+    }
+
+    public void modifyRentalHome(Region region, String name, String explanation, Address address, int price, int capacity, double lat, double lon, LocalDateTime hostingStartDate, LocalDateTime hostingEndDate, String rule, int cleanFee) {
+        this.region = region;
+        this.name = name;
+        this.explanation = explanation;
+        this.address = address;
+        this.price = price;
+        this.capacity = capacity;
+        this.lat = lat;
+        this.lon = lon;
+        this.status = RentalHomeStatus.AWAIT;
+        this.hostingStartDate = hostingStartDate;
+        this.hostingEndDate = hostingEndDate;
+        this.rule = rule;
+        this.cleanFee = cleanFee;
+    }
+
+    public void closeRentalHome() {
+        reservationList.forEach(reservation -> {
+            if (reservation.getEndDate().isAfter(LocalDateTime.now())) {
+                throw new CannotChangeStatusException("이용중이거나 예약된 게스트가 있어 삭제가 불가능합니다.");
+            }
+        });
+        this.status = RentalHomeStatus.DELETED;
     }
 }

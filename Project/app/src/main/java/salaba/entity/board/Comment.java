@@ -43,4 +43,13 @@ public class Comment extends BaseEntity {
         return comment;
     }
 
+    public void deleteComment() {
+        writingStatus = WritingStatus.DELETED;
+//        writer.getCommentList().remove(this); //삭제된 댓글입니다로 표시
+    }
+
+    public void modifyComment(String content) {
+        this.content = content;
+    }
+
 }

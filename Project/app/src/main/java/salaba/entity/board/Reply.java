@@ -39,4 +39,13 @@ public class Reply extends BaseEntity {
         writer.getReplyList().add(reply);
         return reply;
     }
+
+    public void deleteReply() {
+        comment.getReplyList().remove(this);
+        writingStatus = WritingStatus.DELETED;
+    }
+
+    public void modifyReply(String content) {
+        this.content = content;
+    }
 }

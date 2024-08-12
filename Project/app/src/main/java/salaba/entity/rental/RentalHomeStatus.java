@@ -1,5 +1,5 @@
 package salaba.entity.rental;
 
 public enum RentalHomeStatus {
-    AWAIT, RUN, PAUSED, DEL, REFUSED, BLOCKED
+    AWAIT, RUN, PAUSED, DELETED, REFUSED, BLOCKED
 }

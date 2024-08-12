@@ -23,6 +23,11 @@ public class BoardFile extends FileBaseEntity {
         BoardFile boardFile = new BoardFile();
         boardFile.board = board;
         boardFile.setFiles(filename);
+        board.getBoardFileList().add(boardFile);
         return boardFile;
+    }
+
+    public void deleteBoardFile() {
+        board.getBoardFileList().remove(this);
     }
 }

@@ -30,4 +30,8 @@ public class RentalHomePhoto extends FileBaseEntity {
         return rentalHomePhoto;
     }
 
+    public void deleteRentalHomePhoto() {
+        rentalHome.getRentalHomePhotoList().remove(this);
+    }
+
 }

@@ -31,4 +31,8 @@ public class Alarm {
         return alarm;
     }
 
+    public void readAlarm() {
+        this.isRead = true;
+    }
+
 }

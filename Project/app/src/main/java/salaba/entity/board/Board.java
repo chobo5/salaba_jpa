@@ -29,6 +29,9 @@ public class Board extends BaseEntity {
     private int viewCount;
 
     @Enumerated(EnumType.STRING)
+    private BoardScope boardScope;
+
+    @Enumerated(EnumType.STRING)
     private WritingStatus writingStatus;
 
     @Enumerated(EnumType.STRING)
@@ -44,16 +47,34 @@ public class Board extends BaseEntity {
     @OneToMany(mappedBy = "board")
     private List<BoardLike> boardLikeList = new ArrayList<>();
 
-    public static Board createBoard(String title, String content, BoardCategory boardCategory, Member writer) {
+    @OneToMany(mappedBy = "board")
+    private List<BoardFile> boardFileList = new ArrayList<>();
+
+    public static Board createBoard(String title, String content, BoardCategory boardCategory, BoardScope boardScope, Member writer) {
         Board newBoard = new Board();
         newBoard.title = title;
         newBoard.content = content;
         newBoard.viewCount = 0;
         newBoard.writingStatus = WritingStatus.NORMAL;
         newBoard.boardCategory = boardCategory;
+        newBoard.boardScope = boardScope;
         newBoard.writer = writer;
         writer.getBoardList().add(newBoard);
         return newBoard;
+    }
+
+    public void deleteBoard() {
+        writingStatus = WritingStatus.DELETED;
+    }
+
+    public void viewBoard() {
+        viewCount++;
+    }
+
+    public void modifyBoard(String title, String content, BoardScope boardScope) {
+        this.title = title;
+        this.content = content;
+        this.boardScope = boardScope;
     }
 
 

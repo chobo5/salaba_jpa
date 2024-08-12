@@ -2,6 +2,7 @@ package salaba.entity.rental;
 
 import lombok.Getter;
 import salaba.entity.ProcessStatus;
+import salaba.exception.CannotChangeStatusException;
 
 import javax.persistence.*;
 
@@ -28,6 +29,18 @@ public class Payment {
         payment.amount = amount;
         payment.status = ProcessStatus.AWAIT;
         return payment;
+    }
+
+    public void completePayment() {
+        status = ProcessStatus.COMPLETE;
+    }
+
+    public void cancelPayment() throws CannotChangeStatusException {
+        if (status != ProcessStatus.AWAIT) {
+            throw new CannotChangeStatusException();
+        }
+        status = ProcessStatus.CANCEL;
+        reservation.cancelReservation();
     }
 
 

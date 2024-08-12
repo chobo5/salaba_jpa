@@ -24,12 +24,27 @@ public class Point extends BaseEntity {
     private Member member;
 
     public Point createPoint(String content, int amount, Member member) {
-        Point point = new Point();
-        point.content = content;
-        point.amount = amount;
-        point.member = member;
-        member.getPointHistory().add(point);
-        return point;
+        if (amount > 0) {
+            Point point = new Point();
+            point.content = content;
+            point.amount = amount;
+            point.member = member;
+            member.getPointHistory().add(point);
+            return point;
+        }
+        return null;
+    }
+
+    public Point usePoint(String content, int usedPoint, Member member) {
+        if (usedPoint < 0) {
+            Point point = new Point();
+            point.content = content;
+            point.amount = usedPoint;
+            point.member = member;
+            member.getPointHistory().add(point);
+            return point;
+        }
+        return null;
     }
 
 }

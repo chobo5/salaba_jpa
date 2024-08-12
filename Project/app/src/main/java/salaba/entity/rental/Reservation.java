@@ -4,6 +4,7 @@ import lombok.Getter;
 import salaba.entity.BaseEntity;
 import salaba.entity.ProcessStatus;
 import salaba.entity.member.Member;
+import salaba.exception.CannotChangeStatusException;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -42,5 +43,12 @@ public class Reservation extends BaseEntity {
         reservation.member = member;
         rentalHome.getReservationList().add(reservation);
         return reservation;
+    }
+
+    public void cancelReservation() throws CannotChangeStatusException{
+        if (status != ProcessStatus.AWAIT) {
+            throw new CannotChangeStatusException();
+        }
+        status = ProcessStatus.CANCEL;
     }
 }
