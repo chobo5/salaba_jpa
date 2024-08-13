@@ -58,6 +58,7 @@ public class Member extends BaseEntity {
     private Integer warningCount;
 
     @Embedded
+    @Column(nullable = true)
     private Address address;
 
     @Enumerated(EnumType.STRING)
@@ -113,7 +114,7 @@ public class Member extends BaseEntity {
         this.nickname = nickname;
     }
 
-    public Member join(String email, String password, String name, String nickname, LocalDate birthday) {
+    public static Member createMember(String email, String password, String name, String nickname, LocalDate birthday) {
         Member newMember = new Member();
         newMember.email = email;
         newMember.password = password;

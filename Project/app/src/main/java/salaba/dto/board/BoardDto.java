@@ -1,24 +1,15 @@
 package salaba.dto.board;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
+import com.querydsl.core.annotations.QueryProjection;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class BoardDto {
-
-    private Long boardNo;
-
-    private String headName;
-
-    private int categoryNo;
+    private Long boardId;
 
     private String title;
 
@@ -28,10 +19,21 @@ public class BoardDto {
 
     private int viewCount;
 
+    private LocalDateTime createdDate;
+
     private Long likeCount;
 
     private Long commentCount;
 
-    private LocalDateTime createdDate;
-
+    @QueryProjection
+    public BoardDto(Long boardId, String title, String content, String writerNickname, int viewCount, LocalDateTime createdDate, Long likeCount, Long commentCount) {
+        this.boardId = boardId;
+        this.title = title;
+        this.content = content;
+        this.writerNickname = writerNickname;
+        this.viewCount = viewCount;
+        this.createdDate = createdDate;
+        this.likeCount = likeCount;
+        this.commentCount = commentCount;
+    }
 }
