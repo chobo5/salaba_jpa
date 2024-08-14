@@ -7,10 +7,8 @@ import salaba.entity.board.Comment;
 import salaba.entity.board.Reply;
 import salaba.entity.board.WritingReport;
 import salaba.entity.rental.Reservation;
-import salaba.util.PasswordValidator;
 
 import javax.persistence.*;
-import javax.xml.bind.ValidationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -128,7 +126,8 @@ public class Member extends BaseEntity {
         return newMember;
     }
 
-    public void changeProfile(Gender gender, Nation nation, Address address) {
+    public void changeProfile(String name, Gender gender, Nation nation, Address address) {
+        this.name = name;
         this.gender = gender;
         this.nation = nation;
         this.address = address;

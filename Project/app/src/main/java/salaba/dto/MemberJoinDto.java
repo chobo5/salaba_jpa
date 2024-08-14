@@ -1,14 +1,14 @@
 package salaba.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Column;
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
-public class MemberJoinDto {
+@NoArgsConstructor
+public class MemberJoinDto{
 
     private String nickname;
 
@@ -19,4 +19,5 @@ public class MemberJoinDto {
     private String password;
 
     private LocalDate birthday;
+
 }
