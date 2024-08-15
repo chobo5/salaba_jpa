@@ -42,7 +42,7 @@ public class Board extends BaseEntity {
     private Member writer;
 
     @OneToMany(mappedBy = "board")
-    private List<Comment> commentList = new ArrayList<>();
+    private List<Reply> replyList = new ArrayList<>();
 
     @OneToMany(mappedBy = "board")
     private List<BoardLike> boardLikeList = new ArrayList<>();

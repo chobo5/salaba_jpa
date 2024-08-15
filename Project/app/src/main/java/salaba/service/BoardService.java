@@ -5,7 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.dto.BoardLikeDto;
+import salaba.dto.board.BoardLikeDto;
 import salaba.dto.board.BoardCreateDto;
 import salaba.dto.board.BoardDto;
 import salaba.dto.board.BoardModifyDto;

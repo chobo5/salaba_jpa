@@ -6,18 +6,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import salaba.dto.board.CommentCreateDto;
+import salaba.dto.board.ReplyCreateDto;
 import salaba.response.IdResponse;
-import salaba.service.CommentService;
+import salaba.service.ReplyService;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/comment/")
-public class CommentController {
-    private final CommentService commentService;
+@RequestMapping("/api/v1/reply/")
+public class ReplyController {
+    private final ReplyService replyService;
 
     @PostMapping("new")
-    public ResponseEntity<?> createComment(@RequestBody CommentCreateDto commentCreateDto) {
-        return ResponseEntity.ok(new IdResponse(commentService.createComment(commentCreateDto)));
+    public ResponseEntity<?> createReply(@RequestBody ReplyCreateDto replyCreateDto) {
+        return ResponseEntity.ok(new IdResponse(replyService.createReply(replyCreateDto)));
     }
 }

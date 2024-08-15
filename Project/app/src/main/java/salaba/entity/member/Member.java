@@ -3,7 +3,6 @@ package salaba.entity.member;
 import lombok.*;
 import salaba.entity.*;
 import salaba.entity.board.Board;
-import salaba.entity.board.Comment;
 import salaba.entity.board.Reply;
 import salaba.entity.board.WritingReport;
 import salaba.entity.rental.Reservation;
@@ -68,9 +67,6 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "writer")
     private List<Board> boardList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "writer")
-    private List<Comment> commentList = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer")
     private List<Reply> replyList = new ArrayList<>();

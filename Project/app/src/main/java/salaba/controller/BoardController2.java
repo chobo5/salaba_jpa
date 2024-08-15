@@ -26,7 +26,7 @@
 //import org.springframework.web.multipart.MultipartFile;
 //import salaba.service.AlarmService;
 //import salaba.service.BoardService;
-//import salaba.service.CommentService;
+//import salaba.service.ReplyService;
 //import salaba.service.ReplyService;
 //import salaba.service.StorageService;
 //import salaba.util.Translator;
@@ -48,7 +48,7 @@
 //  private static final Log log = LogFactory.getLog(BoardController.class);
 //  private final BoardService boardService; // 게시판 서비스
 //  private final StorageService storageService; // 스토리지 서비스
-//  private final CommentService commentService; // 댓글 서비스
+//  private final ReplyService commentService; // 댓글 서비스
 //  private final ReplyService replyService; // 답글 서비스
 //  private final AlarmService alarmService; // 알람 서비스
 //

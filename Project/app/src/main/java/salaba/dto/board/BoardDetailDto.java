@@ -1,30 +1,25 @@
 package salaba.dto.board;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import salaba.entity.board.BoardCategory;
+import salaba.entity.board.BoardScope;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
-@Builder
 @NoArgsConstructor
-@AllArgsConstructor
 public class BoardDetailDto {
 
-    private Long boardNo;
+    private Long boardId;
 
-    private int headNo;
+    private BoardScope scope;
 
-    private String headName;
-
-    private int scopeNo;
-
-    private int categoryNo;
-
-    private String categoryName;
+    private BoardCategory category;
 
     private String title;
 
@@ -38,8 +33,9 @@ public class BoardDetailDto {
 
     private int likeCount;
 
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createdDate;
 
-    private List<CommentCreateDto> commentDtoList;
+    private List<ReplyDto> replyList;
 
 }

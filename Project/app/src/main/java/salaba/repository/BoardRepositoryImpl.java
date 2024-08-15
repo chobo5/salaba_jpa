@@ -1,5 +1,6 @@
 package salaba.repository;
 
+import com.querydsl.core.Tuple;
 import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
@@ -9,17 +10,17 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import salaba.dto.board.BoardDetailDto;
 import salaba.dto.board.BoardDto;
 import salaba.dto.board.QBoardDto;
-import salaba.entity.board.BoardCategory;
-import salaba.entity.board.QBoard;
-import salaba.entity.board.QComment;
+import salaba.entity.board.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static salaba.entity.board.QBoard.*;
 import static salaba.entity.board.QBoardLike.*;
-import static salaba.entity.board.QComment.*;
+import static salaba.entity.board.QReply.*;
 import static salaba.entity.member.QMember.*;
 
 @RequiredArgsConstructor
@@ -37,12 +38,12 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.viewCount,
                         board.createdDate,
                         boardLike.id.count().as("likeCount"),
-                        comment.id.count().as("commentCount"))
+                        reply.id.count().as("commentCount"))
                 )
                 .from(board)
                 .join(board.writer, member)
                 .join(boardLike).on(boardLike.board.eq(board))
-                .leftJoin(comment).on(comment.board.eq(board))
+                .leftJoin(reply).on(reply.board.eq(board))
                 .where(board.boardCategory.eq(category))
                 .groupBy(board.id)
                 .orderBy(board.createdDate.desc())
@@ -57,4 +58,16 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return PageableExecutionUtils.getPage(listResult, pageable, totalCount::fetchOne);
 
     }
+
+//    @Override
+//    public BoardDetailDto getOne(Long boardId) {
+//        queryFactory.select(board, board.writer, comment, reply)
+//                .from(board)
+//                .join(board.writer, member)
+//                .leftJoin(comment).on(comment.board.eq(board))
+//                .leftJoin(reply).on(reply.comment.eq(comment))
+//                .where(board.id.eq(boardId))
+//                .fetch();
+//
+//    }
 }

@@ -1,13 +1,11 @@
 package salaba.entity.board;
 
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 import salaba.entity.BaseEntity;
-import salaba.entity.board.Comment;
 import salaba.entity.member.Member;
-
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,8 +16,8 @@ public class Reply extends BaseEntity {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "comment_id", nullable = false)
-    private Comment comment;
+    @JoinColumn(name = "board_id")
+    private Board board;
 
     private String content;
 
@@ -30,18 +28,42 @@ public class Reply extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member writer;
 
-    public static Reply createReply(Comment comment, String content, Member writer) {
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private Reply parent;
+
+    @OneToMany(mappedBy = "parent")
+    private List<Reply> replyToReplyList = new ArrayList<>();
+
+    public static Reply createReply(Board board, String content, Member writer) {
         Reply reply = new Reply();
-        reply.comment = comment;
+        reply.board = board;
         reply.content = content;
         reply.writingStatus = WritingStatus.NORMAL;
         reply.writer = writer;
+        board.getReplyList().add(reply);
+        writer.getReplyList().add(reply);
+        return reply;
+    }
+
+    public static Reply createReplyToReply(Reply parent, String content, Member writer) {
+        Reply reply = new Reply();
+        reply.parent = parent;
+        reply.content = content;
+        reply.writingStatus = WritingStatus.NORMAL;
+        reply.writer = writer;
+        parent.getReplyToReplyList().add(reply);
         writer.getReplyList().add(reply);
         return reply;
     }
 
     public void deleteReply() {
-        comment.getReplyList().remove(this);
+        board.getReplyList().remove(this);
+        writingStatus = WritingStatus.DELETED;
+    }
+
+    public void deleteReplyToReply() {
+        parent.getReplyToReplyList().remove(this);
         writingStatus = WritingStatus.DELETED;
     }
 

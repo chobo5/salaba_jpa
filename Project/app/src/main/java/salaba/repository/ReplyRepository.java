@@ -2,9 +2,9 @@ package salaba.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import salaba.entity.board.Comment;
+import salaba.entity.board.Reply;
 
 @Repository
-public interface CommentRepository extends JpaRepository<Comment, Long> {
+public interface ReplyRepository extends JpaRepository<Reply, Long> {
 
 }

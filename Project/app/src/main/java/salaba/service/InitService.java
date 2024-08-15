@@ -41,22 +41,26 @@ public class InitService {
 //        em.persist(manager);
 //        em.persist(admin);
 
-        for (int i = 4; i <= 9; i++) {
-            Member member = Member.createMember("test" + i + "@test.com", "Tt12241509!@", "test" + i, "test" + i, LocalDate.of(1999, 1, 1));
-            em.persist(member);
-            for (int j = 0; j < 4; j++) {
-                Board board = Board.createBoard("board" + member.getId() + i, "board" + member.getId() + i, BoardCategory.FREE, BoardScope.ALL, member);
-                em.persist(board);
-
-                BoardLike boardLike = BoardLike.createBoardLike(board, member);
-                em.persist(boardLike);
-
-                for (int k = 0; k < 4; k++) {
-                    Comment comment = Comment.createComment(board, "comment" + board.getId() + member.getId(), member);
-                    em.persist(comment);
-                }
-            }
-        }
+//        for (int i = 4; i <= 9; i++) {
+//            Member newMember = Member.createMember("test" + i + "@test.com", "Tt12241509!@", "test" + i, "test" + i, LocalDate.of(1999, 1, 1));
+//            em.persist(newMember);
+//            for (int j = 0; j < 4; j++) {
+//                Board board = Board.createBoard("board" + newMember.getId() + i, "board" + newMember.getId() + i, BoardCategory.FREE, BoardScope.ALL, newMember);
+//                em.persist(board);
+//
+//                BoardLike boardLike = BoardLike.createBoardLike(board, newMember);
+//                em.persist(boardLike);
+//
+//                for (int k = 0; k < 4; k++) {
+//                    Reply reply = Reply.createReply(board, "reply" + board.getId() + newMember.getId(), newMember);
+//                    em.persist(reply);
+//                    for (int l = 0; l < 3; l++) {
+//                        Reply reReply = Reply.createReplyToReply(reply, "reReply" + board.getId() + newMember.getId(), newMember);
+//                        em.persist(reReply);
+//                    }
+//                }
+//            }
+//        }
     }
 
 }

@@ -32,10 +32,10 @@ public class App {
         SpringApplication.run(App.class, args);
     }
 
-//    @PostConstruct
-//    public void init() {
-//        initService.init();
-//    }
+    @PostConstruct
+    public void init() {
+        initService.init();
+    }
 
 //    @Bean
 //    public AuditorAware<String> auditorProvider() {

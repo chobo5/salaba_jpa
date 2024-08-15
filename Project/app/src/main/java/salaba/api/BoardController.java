@@ -5,8 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import retrofit2.http.DELETE;
-import salaba.dto.BoardLikeDto;
+import salaba.dto.board.BoardLikeDto;
 import salaba.dto.board.BoardCreateDto;
 import salaba.dto.board.BoardDto;
 import salaba.entity.board.BoardCategory;
@@ -30,6 +29,11 @@ public class BoardController {
         Page<BoardDto> dtoList = boardService.list(category, pageable);
         return ResponseEntity.ok(dtoList);
     }
+
+//    @GetMapping("{id}")
+//    public ResponseEntity<?> getBoard(@PathVariable Long id) {
+//        boardService.
+//    }
 
 
     @PostMapping("like")
