@@ -40,6 +40,6 @@ public class BoardDetailDto {
 
     private LocalDateTime createdDate;
 
-    private List<CommentDto> commentDtoList;
+    private List<CommentCreateDto> commentDtoList;
 
 }

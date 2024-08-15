@@ -9,7 +9,7 @@ import salaba.dto.MemberModifyDto;
 import salaba.dto.Message;
 import salaba.exception.AlreadyExistsException;
 import salaba.exception.PasswordValidationException;
-import salaba.response.CreateResponse;
+import salaba.response.IdResponse;
 import salaba.service.MemberService;
 
 import java.util.NoSuchElementException;
@@ -41,7 +41,7 @@ public class MemberController {
     public ResponseEntity<?> join(@RequestBody MemberJoinDto memberJoinDto) {
         try {
             return ResponseEntity
-                    .ok(new CreateResponse(memberService.join(memberJoinDto)));
+                    .ok(new IdResponse(memberService.join(memberJoinDto)));
         } catch (PasswordValidationException | AlreadyExistsException exception) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
@@ -53,7 +53,7 @@ public class MemberController {
     public ResponseEntity<?> changeProfile(@RequestBody MemberModifyDto memberModifyDto) {
 
         try {
-            return ResponseEntity.ok(new CreateResponse(memberService.modifyProfile(memberModifyDto)));
+            return ResponseEntity.ok(new IdResponse(memberService.modifyProfile(memberModifyDto)));
         } catch (NoSuchElementException exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Message(HttpStatus.NOT_FOUND.value(), "존재하지 않는 회원입니다."));
         }

@@ -1,12 +1,16 @@
 package salaba.api;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import salaba.dto.Message;
+import retrofit2.http.DELETE;
+import salaba.dto.BoardLikeDto;
 import salaba.dto.board.BoardCreateDto;
-import salaba.response.CreateResponse;
+import salaba.dto.board.BoardDto;
+import salaba.entity.board.BoardCategory;
+import salaba.response.IdResponse;
 import salaba.service.BoardService;
 
 @RestController
@@ -18,21 +22,24 @@ public class BoardController {
 
     @PostMapping("new")
     public ResponseEntity<?> createBoard(@RequestBody BoardCreateDto boardCreateDto) {
-        return ResponseEntity.ok(new CreateResponse(boardService.createBoard(boardCreateDto)));
+        return ResponseEntity.ok(new IdResponse(boardService.createBoard(boardCreateDto)));
     }
 
-//    @GetMapping("list/{categoryNo}/{page}") //게시판 목록 가져오기
-//    public ResponseEntity<?> getFreeBoardList(@PathVariable int categoryNo, @PathVariable int page) {
-//        switch (categoryNo) {
-//            case 1:
-//        }
-//    }
+    @GetMapping("list")
+    public ResponseEntity<?> getBoardList(BoardCategory category, Pageable pageable) {
+        Page<BoardDto> dtoList = boardService.list(category, pageable);
+        return ResponseEntity.ok(dtoList);
+    }
 
 
-//    @PostMapping("add")
-//    public ResponseEntity<?> registBoard(@RequestBody BoardDetailDto boardDetailDto) {
-//        long boardNo = boardService.register(boardDetailDto);
-//        return ResponseEntity.ok(boardNo);
-//    }
+    @PostMapping("like")
+    public ResponseEntity<?> likeBoard(@RequestBody BoardLikeDto boardLikeDto) {
+        return ResponseEntity.ok(new IdResponse(boardService.likeBoard(boardLikeDto)));
+    }
+
+    @DeleteMapping("cancelLike")
+    public ResponseEntity<?> cancelLikeBoard(@RequestBody BoardLikeDto boardLikeDto) {
+        return ResponseEntity.ok(new IdResponse(boardService.cancelLikeBoard(boardLikeDto)));
+    }
 
 }
