@@ -117,8 +117,9 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .orderBy(reply.createdDate.asc())
                 .fetch();
 
+        //부모 댓글 번호별로 그룹화
         Map<Long, List<ReplyToReplyDto>> groupedReReplyMap = reReplyList.stream()
-                .collect(Collectors.groupingBy(ReplyToReplyDto::getReplyId));//부모 댓글 번호별로 그룹화
+                .collect(Collectors.groupingBy(ReplyToReplyDto::getParentId));
 
         replyDtoList.forEach(replyDto -> replyDto.setReplyToReplyList(groupedReReplyMap.get(replyDto.getId())));
 

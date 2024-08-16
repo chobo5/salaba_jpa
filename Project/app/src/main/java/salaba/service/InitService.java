@@ -3,6 +3,7 @@ package salaba.service;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import salaba.entity.Nation;
+import salaba.entity.Region;
 import salaba.entity.board.*;
 import salaba.entity.member.Member;
 import salaba.entity.member.Role;
@@ -33,6 +34,16 @@ public class InitService {
 //        em.persist(germany);
 //        em.persist(uk);
 //        em.persist(russia);
+//        Nation korea = em.find(Nation.class, 82);
+//        Region seoul = new Region("seoul", korea);
+//        Region suwon = new Region("suwon", korea);
+//        Region hwaseong = new Region("hwaseong", korea);
+//        Region yongin = new Region("yongin", korea);
+//        em.persist(seoul);
+//        em.persist(suwon);
+//        em.persist(hwaseong);
+//        em.persist(yongin);
+
 //
 //        Role member = new Role(RoleName.MEMBER.getId(), RoleName.MEMBER);
 //        Role manager = new Role(RoleName.MANAGER.getId(), RoleName.MANAGER);
