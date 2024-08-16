@@ -25,10 +25,10 @@ public class BoardDto {
 
     private Long likeCount;
 
-    private Long commentCount;
+    private Long replyCount;
 
     @QueryProjection
-    public BoardDto(Long boardId, String title, String content, String writerNickname, int viewCount, LocalDateTime createdDate, Long likeCount, Long commentCount) {
+    public BoardDto(Long boardId, String title, String content, String writerNickname, int viewCount, LocalDateTime createdDate, Long likeCount, Long replyCount) {
         this.boardId = boardId;
         this.title = title;
         this.content = content;
@@ -36,6 +36,6 @@ public class BoardDto {
         this.viewCount = viewCount;
         this.createdDate = createdDate;
         this.likeCount = likeCount;
-        this.commentCount = commentCount;
+        this.replyCount = replyCount;
     }
 }

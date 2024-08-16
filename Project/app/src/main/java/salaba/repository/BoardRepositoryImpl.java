@@ -1,7 +1,9 @@
 package salaba.repository;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -10,14 +12,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
-import salaba.dto.board.BoardDetailDto;
-import salaba.dto.board.BoardDto;
-import salaba.dto.board.QBoardDto;
+import salaba.dto.board.*;
 import salaba.entity.board.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
+import static java.util.Collections.list;
 import static salaba.entity.board.QBoard.*;
 import static salaba.entity.board.QBoardLike.*;
 import static salaba.entity.board.QReply.*;
@@ -37,8 +40,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         member.nickname,
                         board.viewCount,
                         board.createdDate,
-                        boardLike.id.count().as("likeCount"),
-                        reply.id.count().as("commentCount"))
+                        boardLike.board.id.countDistinct().as("likeCount"),
+                        reply.id.countDistinct().as("replyCount"))
                 )
                 .from(board)
                 .join(board.writer, member)
@@ -59,15 +62,69 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
     }
 
-//    @Override
-//    public BoardDetailDto getOne(Long boardId) {
-//        queryFactory.select(board, board.writer, comment, reply)
-//                .from(board)
-//                .join(board.writer, member)
-//                .leftJoin(comment).on(comment.board.eq(board))
-//                .leftJoin(reply).on(reply.comment.eq(comment))
-//                .where(board.id.eq(boardId))
-//                .fetch();
-//
-//    }
+    @Override
+    public BoardDetailDto get(Long boardId) {
+        // likeCount 서브쿼리
+        Expression<Long> likeCount = ExpressionUtils.as(JPAExpressions.select(boardLike.countDistinct())
+                        .from(boardLike)
+                        .where(boardLike.board.id.eq(boardId)),"likeCount");
+
+        //board
+        BoardDetailDto boardResult = queryFactory.select(Projections.constructor(BoardDetailDto.class,
+                        board.id,
+                        board.boardScope,
+                        board.boardCategory,
+                        board.title,
+                        board.content,
+                        member.id,
+                        member.nickname,
+                        board.viewCount,
+                        likeCount,
+                        board.createdDate))
+                .from(board)
+                .join(board.writer, member)
+                .where(board.id.eq(boardId))
+                .fetchOne();
+
+        //댓글 리스트
+        List<ReplyDto> replyDtoList = queryFactory.select(Projections.constructor(ReplyDto.class,
+                        reply.id,
+                        reply.board.id,
+                        reply.writer.id,
+                        reply.writer.nickname,
+                        reply.content,
+                        reply.createdDate))
+                .from(reply)
+                .where(reply.board.id.eq(boardId))
+                .orderBy(reply.createdDate.desc())
+                .fetch();
+
+        //모든 대댓글 리스트
+        QReply parentReply = new QReply("parent");
+        List<ReplyToReplyDto> reReplyList = queryFactory.select(Projections.constructor(ReplyToReplyDto.class,
+                        reply.id,
+                        reply.parent.id,
+                        reply.writer.id,
+                        reply.writer.nickname,
+                        reply.content,
+                        reply.createdDate))
+                .from(reply)
+                .where(reply.parent.id.in(
+                        JPAExpressions
+                                .select(parentReply.id)
+                                .from(parentReply)
+                                .where(parentReply.board.id.eq(boardId))))
+                .orderBy(reply.createdDate.asc())
+                .fetch();
+
+        Map<Long, List<ReplyToReplyDto>> groupedReReplyMap = reReplyList.stream()
+                .collect(Collectors.groupingBy(ReplyToReplyDto::getReplyId));//부모 댓글 번호별로 그룹화
+
+        replyDtoList.forEach(replyDto -> replyDto.setReplyToReplyList(groupedReReplyMap.get(replyDto.getId())));
+
+        boardResult.setReplyList(replyDtoList);
+        return boardResult;
+    }
+
+
 }

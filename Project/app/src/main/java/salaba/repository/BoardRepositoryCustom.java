@@ -10,5 +10,5 @@ import salaba.entity.board.BoardCategory;
 public interface BoardRepositoryCustom {
     Page<BoardDto> getList(BoardCategory category, Pageable pageable);
 
-//    BoardDetailDto getOne(Long boardId);
+    BoardDetailDto get(Long boardId);
 }

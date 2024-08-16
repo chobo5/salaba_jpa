@@ -30,10 +30,11 @@ public class BoardController {
         return ResponseEntity.ok(dtoList);
     }
 
-//    @GetMapping("{id}")
-//    public ResponseEntity<?> getBoard(@PathVariable Long id) {
-//        boardService.
-//    }
+    @GetMapping("{id}")
+    public ResponseEntity<?> getBoard(@PathVariable Long id) {
+        return ResponseEntity.ok(boardService.get(id));
+    }
+
 
 
     @PostMapping("like")

@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import salaba.dto.board.ReplyCreateDto;
+import salaba.dto.board.ReplyToReplyCreateDto;
 import salaba.entity.board.Board;
 import salaba.entity.board.Reply;
 import salaba.entity.member.Member;
@@ -28,6 +29,15 @@ public class ReplyService {
 
         replyRepository.save(reply);
 
+        return reply.getId();
+    }
+
+    public Long createReplyToReply(ReplyToReplyCreateDto replyToReplyCreateDto) {
+        Reply parent = replyRepository.findById(replyToReplyCreateDto.getReplyId()).orElseThrow(NoSuchElementException::new);
+        Member writer = memberRepository.findById(replyToReplyCreateDto.getMemberId()).orElseThrow(NoSuchElementException::new);
+
+        Reply reply = Reply.createReplyToReply(parent, replyToReplyCreateDto.getContent(), writer);
+        replyRepository.save(reply);
         return reply.getId();
     }
 }

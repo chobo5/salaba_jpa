@@ -5,10 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.dto.board.BoardLikeDto;
-import salaba.dto.board.BoardCreateDto;
-import salaba.dto.board.BoardDto;
-import salaba.dto.board.BoardModifyDto;
+import salaba.dto.board.*;
 import salaba.entity.board.Board;
 import salaba.entity.board.BoardCategory;
 import salaba.entity.board.BoardLike;
@@ -37,6 +34,10 @@ public class BoardService {
 
     public Page<BoardDto> list(BoardCategory category, Pageable pageable) {
         return boardRepository.getList(category, pageable);
+    }
+
+    public BoardDetailDto get(Long boardId) {
+        return boardRepository.get(boardId);
     }
 
     public Long modifyBoard(BoardModifyDto boardDto) {
