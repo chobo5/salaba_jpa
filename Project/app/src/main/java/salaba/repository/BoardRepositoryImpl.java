@@ -3,7 +3,10 @@ package salaba.repository;
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
+import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -12,6 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import salaba.dto.BoardSearchDto;
 import salaba.dto.board.*;
 import salaba.entity.board.*;
 
@@ -47,7 +51,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .join(board.writer, member)
                 .join(boardLike).on(boardLike.board.eq(board))
                 .leftJoin(reply).on(reply.board.eq(board))
-                .where(board.boardCategory.eq(category))
+                .where(board.boardCategory.eq(category)
+                        .and(board.writingStatus.eq(WritingStatus.NORMAL)))
                 .groupBy(board.id)
                 .orderBy(board.createdDate.desc())
                 .offset(pageable.getOffset())
@@ -56,7 +61,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
         JPAQuery<Long> totalCount = queryFactory.select(board.id.count())
                 .from(board)
-                .where(board.boardCategory.eq(category));
+                .where(board.boardCategory.eq(category)
+                        .and(board.writingStatus.eq(WritingStatus.NORMAL)));
 
         return PageableExecutionUtils.getPage(listResult, pageable, totalCount::fetchOne);
 
@@ -83,7 +89,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.createdDate))
                 .from(board)
                 .join(board.writer, member)
-                .where(board.id.eq(boardId))
+                .where(board.id.eq(boardId)
+                        .and(board.writingStatus.eq(WritingStatus.NORMAL)))
                 .fetchOne();
 
         //댓글 리스트
@@ -92,7 +99,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         reply.board.id,
                         reply.writer.id,
                         reply.writer.nickname,
-                        reply.content,
+                        Expressions.cases().when(reply.writingStatus.eq(WritingStatus.DELETED)).then("삭제된 댓글입니다.").otherwise(reply.content),
                         reply.createdDate))
                 .from(reply)
                 .where(reply.board.id.eq(boardId))
@@ -113,7 +120,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         JPAExpressions
                                 .select(parentReply.id)
                                 .from(parentReply)
-                                .where(parentReply.board.id.eq(boardId))))
+                                .where(parentReply.board.id.eq(boardId)))
+                        .and(reply.writingStatus.eq(WritingStatus.NORMAL)))
                 .orderBy(reply.createdDate.asc())
                 .fetch();
 
@@ -125,6 +133,48 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
         boardResult.setReplyList(replyDtoList);
         return boardResult;
+    }
+
+    public Page<BoardDto> search(BoardCategory boardCategory, BoardSearchDto boardSearchDto, Pageable pageable) {
+        List<BoardDto> listResult = queryFactory.select(new QBoardDto(
+                        board.id,
+                        board.title,
+                        board.content,
+                        member.nickname,
+                        board.viewCount,
+                        board.createdDate,
+                        boardLike.board.id.countDistinct().as("likeCount"),
+                        reply.id.countDistinct().as("replyCount"))
+                )
+                .from(board)
+                .join(board.writer, member)
+                .join(boardLike).on(boardLike.board.eq(board))
+                .leftJoin(reply).on(reply.board.eq(board))
+                .where(board.boardCategory.eq(boardCategory)
+                        .and(board.writingStatus.eq(WritingStatus.NORMAL)),
+                        boardTitleLike(boardSearchDto.getTitle()),
+                        boardWriterLike(boardSearchDto.getWriter()))
+                .groupBy(board.id)
+                .orderBy(board.createdDate.desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> totalCount = queryFactory.select(board.id.count())
+                .from(board)
+                .where(board.boardCategory.eq(boardCategory).and(board.writingStatus.eq(WritingStatus.NORMAL)),
+                        boardTitleLike(boardSearchDto.getTitle()),
+                        boardWriterLike(boardSearchDto.getWriter()));
+
+        return PageableExecutionUtils.getPage(listResult, pageable, totalCount::fetchOne);
+    }
+
+    private BooleanExpression boardTitleLike(String title) {
+        return title != null ? board.title.contains(title) : null;
+    }
+
+    private BooleanExpression boardWriterLike(String writer) {
+        return writer != null ? board.writer.nickname.contains(writer) : null;
     }
 
 
