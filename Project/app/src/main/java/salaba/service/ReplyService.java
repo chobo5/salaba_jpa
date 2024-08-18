@@ -1,11 +1,11 @@
 package salaba.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.dto.board.ReplyCreateDto;
-import salaba.dto.board.ReplyModifyDto;
-import salaba.dto.board.ReplyToReplyCreateDto;
+import salaba.dto.board.*;
 import salaba.entity.board.Board;
 import salaba.entity.board.Reply;
 import salaba.entity.member.Member;
@@ -62,5 +62,11 @@ public class ReplyService {
         Reply reply = replyRepository.findById(id).orElseThrow(NoSuchElementException::new);
         reply.deleteReplyToReply();
         return reply.getId();
+    }
+
+    public Page<ReplyByMemberDto> repliesByMember(Long memberId, Pageable pageable) {
+        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
+        Page<Reply> replyList = replyRepository.findByWriter(member, pageable);
+        return replyList.map(reply -> new ReplyByMemberDto(reply.getId(), reply.getContent(), reply.getCreatedDate()));
     }
 }

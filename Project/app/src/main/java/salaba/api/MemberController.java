@@ -1,6 +1,7 @@
 package salaba.api;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -10,7 +11,9 @@ import salaba.dto.Message;
 import salaba.exception.AlreadyExistsException;
 import salaba.exception.PasswordValidationException;
 import salaba.response.IdResponse;
+import salaba.service.BoardService;
 import salaba.service.MemberService;
+import salaba.service.ReplyService;
 
 import java.util.NoSuchElementException;
 
@@ -20,6 +23,10 @@ import java.util.NoSuchElementException;
 public class MemberController {
 
     private final MemberService memberService;
+
+    private final BoardService boardService;
+
+    private final ReplyService replyService;
 
     @GetMapping("validateNickname")
     public ResponseEntity<Message> validateNickname(@RequestParam String nickname) {
@@ -57,6 +64,16 @@ public class MemberController {
         } catch (NoSuchElementException exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Message(HttpStatus.NOT_FOUND.value(), "존재하지 않는 회원입니다."));
         }
+    }
+
+    @GetMapping("wrote/boards")
+    public ResponseEntity<?> boardListByMember(@RequestParam Long id, Pageable pageable) {
+        return ResponseEntity.ok(boardService.boardsByMember(id, pageable));
+    }
+
+    @GetMapping("wrote/replies")
+    public ResponseEntity<?> replyListByMember(@RequestParam Long id, Pageable pageable) {
+        return ResponseEntity.ok(replyService.repliesByMember(id, pageable));
     }
 
 }

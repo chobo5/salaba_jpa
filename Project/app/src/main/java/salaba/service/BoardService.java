@@ -80,4 +80,10 @@ public class BoardService {
         boardLikeRepository.delete(boardLike);
         return boardLike.getId();
     }
+
+    public Page<BoardByMemberDto> boardsByMember(Long memberId, Pageable pageable) {
+        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
+        Page<Board> boardList = boardRepository.findByWriter(member, pageable);
+        return boardList.map(board -> new BoardByMemberDto(board.getId(), board.getTitle(), board.getCreatedDate()));
+    }
 }
