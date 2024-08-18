@@ -10,7 +10,9 @@ import salaba.exception.CannotChangeStatusException;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import static salaba.entity.rental.QRentalHome.rentalHome;
 
@@ -72,10 +74,10 @@ public class RentalHome extends BaseEntity {
     private List<RentalHomePhoto> rentalHomePhotoList = new ArrayList<>();
 
     @OneToMany(mappedBy = "rentalHome")
-    private List<RentalHomeTheme> rentalHomeThemeList = new ArrayList<>();
+    private Set<RentalHomeTheme> rentalHomeThemeSet = new HashSet<>();
 
     @OneToMany(mappedBy = "rentalHome")
-    private List<RentalHomeFacility> rentalHomeFacilityList = new ArrayList<>();
+    private Set<RentalHomeFacility> rentalHomeFacilitySet = new HashSet<>();
 
     @OneToMany(mappedBy = "rentalHome")
     private List<RentalHomeReport> rentalHomeReportList = new ArrayList<>();
@@ -116,6 +118,17 @@ public class RentalHome extends BaseEntity {
         this.hostingEndDate = hostingEndDate;
         this.rule = rule;
         this.cleanFee = cleanFee;
+    }
+
+    public void setFacilities(List<RentalHomeFacility> facilities) {
+        rentalHomeFacilitySet.clear();
+        rentalHomeFacilitySet.addAll(facilities);
+    }
+
+
+    public void setThemes(List<RentalHomeTheme> themes) {
+        rentalHomeThemeSet.clear();
+        rentalHomeThemeSet.addAll(themes);
     }
 
     public void closeRentalHome() {

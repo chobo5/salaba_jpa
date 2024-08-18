@@ -3,8 +3,11 @@ package salaba.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import salaba.entity.Address;
+import salaba.entity.rental.Facility;
+import salaba.entity.rental.Theme;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,4 +25,7 @@ public class RentalHomeCreateDto {
     private Integer price;
     private String rule;
     private Long regionId;
+
+    private List<Long> themes;
+    private List<Long> facilities;
 }

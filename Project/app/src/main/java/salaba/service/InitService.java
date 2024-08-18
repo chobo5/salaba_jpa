@@ -8,6 +8,8 @@ import salaba.entity.board.*;
 import salaba.entity.member.Member;
 import salaba.entity.member.Role;
 import salaba.entity.member.RoleName;
+import salaba.entity.rental.Facility;
+import salaba.entity.rental.Theme;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -43,6 +45,55 @@ public class InitService {
 //        em.persist(suwon);
 //        em.persist(hwaseong);
 //        em.persist(yongin);
+
+        Facility facility1 = new Facility("Air Conditioner");
+        Facility facility2 = new Facility("wi-fi");
+        Facility facility3 = new Facility("Washing Machine");
+        Facility facility4 = new Facility("Dryer");
+        Facility facility5 = new Facility("TV");
+        Facility facility6 = new Facility("Heating");
+        Facility facility7 = new Facility("Barbeque");
+        Facility facility8 = new Facility("Spa");
+        Facility facility10 = new Facility("Breakfast");
+        Facility facility11 = new Facility("Bag Storage Possible");
+        Facility facility12 = new Facility("Camp Fire");
+        Facility facility13 = new Facility("Garden");
+        Facility facility14 = new Facility("Swimming Pool");
+
+        em.persist(facility1);
+        em.persist(facility2);
+        em.persist(facility3);
+        em.persist(facility4);
+        em.persist(facility5);
+        em.persist(facility6);
+        em.persist(facility7);
+        em.persist(facility8);
+        em.persist(facility10);
+        em.persist(facility11);
+        em.persist(facility12);
+        em.persist(facility13);
+        em.persist(facility14);
+
+        Theme theme1 = new Theme("Country");
+        Theme theme2 = new Theme("Beach");
+        Theme theme3 = new Theme("Mountain");
+        Theme theme4 = new Theme("City");
+        Theme theme5 = new Theme("Park");
+        Theme theme6 = new Theme("Camping");
+        Theme theme8 = new Theme("Hotel");
+        Theme theme9 = new Theme("Outbuilding");
+        Theme theme10 = new Theme("Pension");
+        Theme theme11 = new Theme("Motel");
+        em.persist(theme1);
+        em.persist(theme2);
+        em.persist(theme3);
+        em.persist(theme4);
+        em.persist(theme5);
+        em.persist(theme6);
+        em.persist(theme8);
+        em.persist(theme9);
+        em.persist(theme10);
+        em.persist(theme11);
 
 //
 //        Role member = new Role(RoleName.MEMBER.getId(), RoleName.MEMBER);
