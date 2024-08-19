@@ -3,16 +3,14 @@ package salaba.dto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import salaba.entity.Address;
-import salaba.entity.rental.Facility;
-import salaba.entity.rental.Theme;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class RentalHomeCreateDto {
-    private Long memberId;
+public class RentalHomeModifyDto {
+    private Long rentalHomeId;
     private String name;
     private String street;
     private Integer zipcode;

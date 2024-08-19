@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import salaba.dto.MemberJoinDto;
 import salaba.dto.MemberModifyDto;
+import salaba.entity.Address;
 import salaba.entity.Nation;
 import salaba.entity.member.Member;
 import salaba.exception.AlreadyExistsException;
@@ -51,7 +52,7 @@ public class MemberService {
         Member member = memberRepository.findById(memberModifyDto.getId()).orElseThrow(NoSuchElementException::new);
         Nation nation = nationRepository.findById(memberModifyDto.getNationId()).orElseThrow(NoSuchElementException::new);
         //entity를 변경하면 자동으로 반영
-        member.changeProfile(memberModifyDto.getName(), memberModifyDto.getGender(), nation, memberModifyDto.getAddress());
+        member.changeProfile(memberModifyDto.getName(), memberModifyDto.getGender(), nation, new Address(memberModifyDto.getStreet(), memberModifyDto.getZipcode()));
         return member.getId();
     }
 

@@ -5,5 +5,5 @@ import org.springframework.stereotype.Repository;
 import salaba.entity.Region;
 
 @Repository
-public interface RegionRepsitory extends JpaRepository<Region, Long> {
+public interface RegionRepository extends JpaRepository<Region, Long> {
 }

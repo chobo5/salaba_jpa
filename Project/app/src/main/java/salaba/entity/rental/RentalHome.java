@@ -113,7 +113,6 @@ public class RentalHome extends BaseEntity {
         this.capacity = capacity;
         this.lat = lat;
         this.lon = lon;
-        this.status = RentalHomeStatus.AWAIT;
         this.hostingStartDate = hostingStartDate;
         this.hostingEndDate = hostingEndDate;
         this.rule = rule;

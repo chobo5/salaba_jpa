@@ -16,6 +16,7 @@ public class MemberModifyDto {
     private String name;
     private Integer nationId;
     private Gender gender;
-    private Address address;
+    private String street;
+    private Integer zipcode;
 
 }
