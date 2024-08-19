@@ -4,7 +4,6 @@ import lombok.*;
 import salaba.entity.*;
 import salaba.entity.board.Board;
 import salaba.entity.board.Reply;
-import salaba.entity.board.WritingReport;
 import salaba.entity.rental.Reservation;
 
 import javax.persistence.*;
@@ -81,13 +80,7 @@ public class Member extends BaseEntity {
     private List<Point> pointHistory = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Question> questionList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
     private List<BookMark> bookMarkList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "reporter")
-    private List<WritingReport> writingReportList = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private Set<MemberRole> roleSet = new HashSet<>();

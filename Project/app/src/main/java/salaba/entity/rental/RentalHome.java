@@ -59,12 +59,6 @@ public class RentalHome extends BaseEntity {
     private RentalHomeStatus status;
 
     @Column(nullable = false)
-    private LocalDateTime hostingStartDate;
-
-    @Column(nullable = false)
-    private LocalDateTime hostingEndDate;
-
-    @Column(nullable = false)
     private String rule;
 
     @Column(nullable = false)
@@ -80,12 +74,9 @@ public class RentalHome extends BaseEntity {
     private Set<RentalHomeFacility> rentalHomeFacilitySet = new HashSet<>();
 
     @OneToMany(mappedBy = "rentalHome")
-    private List<RentalHomeReport> rentalHomeReportList = new ArrayList<>();
-
-    @OneToMany(mappedBy = "rentalHome")
     private List<Reservation> reservationList = new ArrayList<>();
 
-    public static RentalHome createRentalHome(Member host, Region region, String name, String explanation, Address address, int price, int capacity, double lat, double lon, LocalDateTime hostingStartDate, LocalDateTime hostingEndDate, String rule, int cleanFee) {
+    public static RentalHome createRentalHome(Member host, Region region, String name, String explanation, Address address, int price, int capacity, double lat, double lon, String rule, int cleanFee) {
         RentalHome rentalHome = new RentalHome();
         rentalHome.host = host;
         rentalHome.region = region;
@@ -97,14 +88,12 @@ public class RentalHome extends BaseEntity {
         rentalHome.lat = lat;
         rentalHome.lon = lon;
         rentalHome.status = RentalHomeStatus.AWAIT;
-        rentalHome.hostingStartDate = hostingStartDate;
-        rentalHome.hostingEndDate = hostingEndDate;
         rentalHome.rule = rule;
         rentalHome.cleanFee = cleanFee;
         return rentalHome;
     }
 
-    public void modifyRentalHome(Region region, String name, String explanation, Address address, int price, int capacity, double lat, double lon, LocalDateTime hostingStartDate, LocalDateTime hostingEndDate, String rule, int cleanFee) {
+    public void modifyRentalHome(Region region, String name, String explanation, Address address, int price, int capacity, double lat, double lon, String rule, int cleanFee) {
         this.region = region;
         this.name = name;
         this.explanation = explanation;
@@ -113,8 +102,6 @@ public class RentalHome extends BaseEntity {
         this.capacity = capacity;
         this.lat = lat;
         this.lon = lon;
-        this.hostingStartDate = hostingStartDate;
-        this.hostingEndDate = hostingEndDate;
         this.rule = rule;
         this.cleanFee = cleanFee;
     }
