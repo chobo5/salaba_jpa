@@ -5,13 +5,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import salaba.dto.BoardSearchDto;
-import salaba.dto.board.BoardLikeDto;
-import salaba.dto.board.BoardCreateDto;
-import salaba.dto.board.BoardDto;
-import salaba.dto.board.BoardModifyDto;
+import salaba.dto.request.BoardSearchReqDto;
+import salaba.dto.request.board.BoardLikeDto;
+import salaba.dto.request.board.BoardCreateDto;
+import salaba.dto.request.board.BoardDto;
+import salaba.dto.request.board.BoardModifyDto;
 import salaba.entity.board.BoardCategory;
-import salaba.response.IdResponse;
+import salaba.dto.response.IdResDto;
 import salaba.service.BoardService;
 
 @RestController
@@ -23,7 +23,7 @@ public class BoardController {
 
     @PostMapping("new")
     public ResponseEntity<?> createBoard(@RequestBody BoardCreateDto boardCreateDto) {
-        return ResponseEntity.ok(new IdResponse(boardService.createBoard(boardCreateDto)));
+        return ResponseEntity.ok(new IdResDto(boardService.createBoard(boardCreateDto)));
     }
 
     @GetMapping("list")
@@ -45,22 +45,22 @@ public class BoardController {
 
     @DeleteMapping("delete/{id}")
     public ResponseEntity<?> deleteBoard(@PathVariable Long id) {
-        return ResponseEntity.ok(new IdResponse(boardService.delete(id)));
+        return ResponseEntity.ok(new IdResDto(boardService.delete(id)));
     }
 
     @GetMapping("search")
-    public ResponseEntity<?> searchBoard(BoardCategory category, BoardSearchDto boardSearchDto, Pageable pageable) {
-        return ResponseEntity.ok(boardService.search(category, boardSearchDto, pageable));
+    public ResponseEntity<?> searchBoard(BoardCategory category, BoardSearchReqDto boardSearchReqDto, Pageable pageable) {
+        return ResponseEntity.ok(boardService.search(category, boardSearchReqDto, pageable));
     }
 
     @PostMapping("like")
     public ResponseEntity<?> likeBoard(@RequestBody BoardLikeDto boardLikeDto) {
-        return ResponseEntity.ok(new IdResponse(boardService.likeBoard(boardLikeDto)));
+        return ResponseEntity.ok(new IdResDto(boardService.likeBoard(boardLikeDto)));
     }
 
     @DeleteMapping("cancelLike")
     public ResponseEntity<?> cancelLikeBoard(@RequestBody BoardLikeDto boardLikeDto) {
-        return ResponseEntity.ok(new IdResponse(boardService.cancelLikeBoard(boardLikeDto)));
+        return ResponseEntity.ok(new IdResDto(boardService.cancelLikeBoard(boardLikeDto)));
     }
 
 }

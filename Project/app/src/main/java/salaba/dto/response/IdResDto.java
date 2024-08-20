@@ -5,10 +5,10 @@ import lombok.Setter;
 
 @Getter
 @Setter
-public class IdResponse {
+public class IdResDto {
     Long id;
 
-    public IdResponse(Long id) {
+    public IdResDto(Long id) {
         this.id = id;
     }
 }

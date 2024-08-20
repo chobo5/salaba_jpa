@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ReplyModifiedResponse {
+public class ReplyModiResDto {
     private Long id;
 
     private String content;

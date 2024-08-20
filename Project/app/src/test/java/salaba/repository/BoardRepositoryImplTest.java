@@ -1,8 +1,5 @@
 package salaba.repository;
 
-import com.querydsl.core.QueryFactory;
-import com.querydsl.core.Tuple;
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Projections;
 import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -13,20 +10,19 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.dto.board.BoardDto;
-import salaba.dto.board.ReplyDto;
-import salaba.dto.board.ReplyToReplyDto;
+import salaba.dto.request.board.BoardDto;
+import salaba.dto.request.board.ReplyDto;
+import salaba.dto.request.board.ReplyToReplyDto;
 import salaba.entity.board.BoardCategory;
 import salaba.entity.board.QReply;
+import salaba.repository.board.BoardRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import java.util.List;
 
-import static salaba.entity.board.QBoard.board;
 import static salaba.entity.board.QReply.reply;
-import static salaba.entity.member.QMember.member;
 
 @SpringBootTest
 @Transactional

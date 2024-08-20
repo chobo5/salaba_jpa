@@ -1,12 +1,8 @@
-package salaba.dto.board;
+package salaba.dto.request.board;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.querydsl.core.annotations.QueryProjection;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import salaba.entity.board.Board;
 import salaba.entity.board.BoardCategory;
 import salaba.entity.board.BoardScope;
 

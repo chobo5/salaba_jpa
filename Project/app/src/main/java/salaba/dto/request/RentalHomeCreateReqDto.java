@@ -2,16 +2,12 @@ package salaba.dto.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import salaba.entity.Address;
-import salaba.entity.rental.Facility;
-import salaba.entity.rental.Theme;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class RentalHomeCreateDto {
+public class RentalHomeCreateReqDto {
     private Long memberId;
     private String name;
     private String street;

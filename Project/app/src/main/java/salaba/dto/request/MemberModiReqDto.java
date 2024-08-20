@@ -3,14 +3,12 @@ package salaba.dto.request;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import salaba.entity.Address;
 import salaba.entity.Gender;
-import salaba.entity.Nation;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberModifyDto {
+public class MemberModiReqDto {
 
     private Long id;
     private String name;

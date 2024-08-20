@@ -5,16 +5,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.dto.BoardSearchDto;
-import salaba.dto.board.*;
+import salaba.dto.request.BoardSearchReqDto;
+import salaba.dto.request.board.*;
 import salaba.entity.board.Board;
 import salaba.entity.board.BoardCategory;
 import salaba.entity.board.BoardLike;
 import salaba.entity.member.Member;
-import salaba.repository.BoardLikeRepository;
-import salaba.repository.BoardRepository;
+import salaba.repository.board.BoardLikeRepository;
+import salaba.repository.board.BoardRepository;
 import salaba.repository.MemberRepository;
-import salaba.response.BoardModifiedResponse;
+import salaba.dto.response.BoardModiResDto;
 
 
 import javax.persistence.EntityManager;
@@ -44,12 +44,12 @@ public class BoardService {
         return boardRepository.get(boardId);
     }
 
-    public BoardModifiedResponse modify(BoardModifyDto boardDto) {
+    public BoardModiResDto modify(BoardModifyDto boardDto) {
         Board board = boardRepository.findById(boardDto.getBoardId()).orElseThrow(NoSuchElementException::new);
 
         board.modifyBoard(boardDto.getTitle(), boardDto.getContent(), boardDto.getBoardScope());
         em.flush(); //변경된 updatedDate를 응답값에 포함하기 위해 강제로 flush(요청을 날려도 entity가 변경되지 않으면 업데이트 되지 않음)
-        return new BoardModifiedResponse(board.getId(), board.getTitle(), board.getContent(), board.getBoardScope(), board.getCreatedDate(), board.getUpdatedDate());
+        return new BoardModiResDto(board.getId(), board.getTitle(), board.getContent(), board.getBoardScope(), board.getCreatedDate(), board.getUpdatedDate());
     }
 
     public Long delete(Long boardId) {
@@ -58,8 +58,8 @@ public class BoardService {
         return board.getId();
     }
 
-    public Page<BoardDto> search(BoardCategory category, BoardSearchDto boardSearchDto, Pageable pageable) {
-        return boardRepository.search(category, boardSearchDto, pageable);
+    public Page<BoardDto> search(BoardCategory category, BoardSearchReqDto boardSearchReqDto, Pageable pageable) {
+        return boardRepository.search(category, boardSearchReqDto, pageable);
     }
 
     public Long likeBoard(BoardLikeDto boardLikeDto) {

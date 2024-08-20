@@ -1,9 +1,7 @@
-package salaba.repository;
+package salaba.repository.board;
 
-import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.ExpressionUtils;
-import com.querydsl.core.types.Predicate;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.core.types.dsl.Expressions;
@@ -15,16 +13,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
-import salaba.dto.BoardSearchDto;
-import salaba.dto.board.*;
+import salaba.dto.request.BoardSearchReqDto;
+import salaba.dto.request.board.*;
 import salaba.entity.board.*;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-import static java.util.Collections.list;
 import static salaba.entity.board.QBoard.*;
 import static salaba.entity.board.QBoardLike.*;
 import static salaba.entity.board.QReply.*;
@@ -135,7 +131,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return boardResult;
     }
 
-    public Page<BoardDto> search(BoardCategory boardCategory, BoardSearchDto boardSearchDto, Pageable pageable) {
+    public Page<BoardDto> search(BoardCategory boardCategory, BoardSearchReqDto boardSearchReqDto, Pageable pageable) {
         List<BoardDto> listResult = queryFactory.select(new QBoardDto(
                         board.id,
                         board.title,
@@ -152,8 +148,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .leftJoin(reply).on(reply.board.eq(board))
                 .where(board.boardCategory.eq(boardCategory)
                         .and(board.writingStatus.eq(WritingStatus.NORMAL)),
-                        boardTitleLike(boardSearchDto.getTitle()),
-                        boardWriterLike(boardSearchDto.getWriter()))
+                        boardTitleLike(boardSearchReqDto.getTitle()),
+                        boardWriterLike(boardSearchReqDto.getWriter()))
                 .groupBy(board.id)
                 .orderBy(board.createdDate.desc())
                 .offset(pageable.getOffset())
@@ -163,8 +159,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         JPAQuery<Long> totalCount = queryFactory.select(board.id.count())
                 .from(board)
                 .where(board.boardCategory.eq(boardCategory).and(board.writingStatus.eq(WritingStatus.NORMAL)),
-                        boardTitleLike(boardSearchDto.getTitle()),
-                        boardWriterLike(boardSearchDto.getWriter()));
+                        boardTitleLike(boardSearchReqDto.getTitle()),
+                        boardWriterLike(boardSearchReqDto.getWriter()));
 
         return PageableExecutionUtils.getPage(listResult, pageable, totalCount::fetchOne);
     }

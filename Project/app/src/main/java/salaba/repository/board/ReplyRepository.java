@@ -1,4 +1,4 @@
-package salaba.repository;
+package salaba.repository.board;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

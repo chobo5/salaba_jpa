@@ -1,4 +1,4 @@
-package salaba.dto.board;
+package salaba.dto.request.board;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

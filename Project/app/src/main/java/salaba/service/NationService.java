@@ -3,7 +3,7 @@ package salaba.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.dto.NationDto;
+import salaba.dto.request.NationDto;
 import salaba.entity.Nation;
 import salaba.repository.NationRepository;
 

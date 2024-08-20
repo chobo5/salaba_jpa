@@ -3,8 +3,8 @@ package salaba.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.dto.MemberJoinDto;
-import salaba.dto.MemberModifyDto;
+import salaba.dto.request.MemberJoinReqDto;
+import salaba.dto.request.MemberModiReqDto;
 import salaba.entity.Address;
 import salaba.entity.Nation;
 import salaba.entity.member.Member;
@@ -32,7 +32,7 @@ public class MemberService {
         return memberRepository.findByEmail(email).isEmpty();
     }
 
-    public Long join(MemberJoinDto memberDto) {
+    public Long join(MemberJoinReqDto memberDto) {
         if (!Validator.isValidPassword(memberDto.getPassword())) {
             throw new PasswordValidationException("비밀번호는 대문자, 소문자, 숫자, 특수문자를 포함한 8자 이상이여야 합니다.");
         }
@@ -47,12 +47,12 @@ public class MemberService {
         return newMember.getId();
     }
 
-    public Long modifyProfile(MemberModifyDto memberModifyDto) {
+    public Long modifyProfile(MemberModiReqDto memberModiReqDto) {
         //회원이 없으면 예외 발생
-        Member member = memberRepository.findById(memberModifyDto.getId()).orElseThrow(NoSuchElementException::new);
-        Nation nation = nationRepository.findById(memberModifyDto.getNationId()).orElseThrow(NoSuchElementException::new);
+        Member member = memberRepository.findById(memberModiReqDto.getId()).orElseThrow(NoSuchElementException::new);
+        Nation nation = nationRepository.findById(memberModiReqDto.getNationId()).orElseThrow(NoSuchElementException::new);
         //entity를 변경하면 자동으로 반영
-        member.changeProfile(memberModifyDto.getName(), memberModifyDto.getGender(), nation, new Address(memberModifyDto.getStreet(), memberModifyDto.getZipcode()));
+        member.changeProfile(memberModiReqDto.getName(), memberModiReqDto.getGender(), nation, new Address(memberModiReqDto.getStreet(), memberModiReqDto.getZipcode()));
         return member.getId();
     }
 

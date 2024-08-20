@@ -1,9 +1,9 @@
-package salaba.repository;
+package salaba.repository.rentalHome;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import salaba.entity.rental.RentalHome;
 
 @Repository
-public interface RentalHomeRepository extends JpaRepository<RentalHome, Long> {
+public interface RentalHomeRepository extends JpaRepository<RentalHome, Long>, RentalHomeRepositoryCustom {
 }

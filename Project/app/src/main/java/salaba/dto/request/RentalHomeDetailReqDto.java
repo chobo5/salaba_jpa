@@ -4,12 +4,11 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import salaba.entity.Address;
 
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
 @NoArgsConstructor
-public class RentalHomeDetailDto {
+public class RentalHomeDetailReqDto {
     private Long rentalHomeId;
     private String name;
     private Address address;

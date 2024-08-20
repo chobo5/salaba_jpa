@@ -5,12 +5,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import salaba.dto.MemberJoinDto;
-import salaba.dto.MemberModifyDto;
-import salaba.dto.Message;
+import salaba.dto.request.MemberJoinReqDto;
+import salaba.dto.request.MemberModiReqDto;
+import salaba.dto.request.Message;
 import salaba.exception.AlreadyExistsException;
 import salaba.exception.PasswordValidationException;
-import salaba.response.IdResponse;
+import salaba.dto.response.IdResDto;
 import salaba.service.BoardService;
 import salaba.service.MemberService;
 import salaba.service.ReplyService;
@@ -45,10 +45,10 @@ public class MemberController {
     }
 
     @PostMapping("join")
-    public ResponseEntity<?> join(@RequestBody MemberJoinDto memberJoinDto) {
+    public ResponseEntity<?> join(@RequestBody MemberJoinReqDto memberJoinReqDto) {
         try {
             return ResponseEntity
-                    .ok(new IdResponse(memberService.join(memberJoinDto)));
+                    .ok(new IdResDto(memberService.join(memberJoinReqDto)));
         } catch (PasswordValidationException | AlreadyExistsException exception) {
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
@@ -57,10 +57,10 @@ public class MemberController {
     }
 
     @PutMapping("modify")
-    public ResponseEntity<?> changeProfile(@RequestBody MemberModifyDto memberModifyDto) {
+    public ResponseEntity<?> changeProfile(@RequestBody MemberModiReqDto memberModiReqDto) {
 
         try {
-            return ResponseEntity.ok(new IdResponse(memberService.modifyProfile(memberModifyDto)));
+            return ResponseEntity.ok(new IdResDto(memberService.modifyProfile(memberModiReqDto)));
         } catch (NoSuchElementException exception) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Message(HttpStatus.NOT_FOUND.value(), "존재하지 않는 회원입니다."));
         }

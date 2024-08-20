@@ -11,7 +11,7 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class BoardModifiedResponse {
+public class BoardModiResDto {
     private Long boardId;
     private String title;
     private String content;

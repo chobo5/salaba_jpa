@@ -2,13 +2,12 @@ package salaba.dto.request;
 
 import lombok.*;
 
-import javax.persistence.Column;
 import java.time.LocalDate;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MemberJoinDto{
+public class MemberJoinReqDto {
 
     private String nickname;
 
