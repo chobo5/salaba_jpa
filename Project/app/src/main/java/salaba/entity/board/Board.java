@@ -1,12 +1,10 @@
 package salaba.entity.board;
 
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 import salaba.entity.BaseEntity;
 import salaba.entity.member.Member;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,13 +40,13 @@ public class Board extends BaseEntity {
     private Member writer;
 
     @OneToMany(mappedBy = "board")
-    private List<Reply> replyList = new ArrayList<>();
+    private List<Reply> replies = new ArrayList<>();
 
     @OneToMany(mappedBy = "board")
-    private List<BoardLike> boardLikeList = new ArrayList<>();
+    private List<BoardLike> boardLikes = new ArrayList<>();
 
     @OneToMany(mappedBy = "board")
-    private List<BoardFile> boardFileList = new ArrayList<>();
+    private List<BoardFile> boardFiles = new ArrayList<>();
 
     public static Board createBoard(String title, String content, BoardCategory boardCategory, BoardScope boardScope, Member writer) {
         Board newBoard = new Board();
@@ -59,7 +57,7 @@ public class Board extends BaseEntity {
         newBoard.boardCategory = boardCategory;
         newBoard.boardScope = boardScope;
         newBoard.writer = writer;
-        writer.getBoardList().add(newBoard);
+        writer.getBoards().add(newBoard);
         return newBoard;
     }
 

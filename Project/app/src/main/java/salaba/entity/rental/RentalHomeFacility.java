@@ -25,7 +25,7 @@ public class RentalHomeFacility extends BaseEntity {
         RentalHomeFacility rentalHomeFacility = new RentalHomeFacility();
         rentalHomeFacility.rentalHome = rentalHome;
         rentalHomeFacility.facility = facility;
-        rentalHome.getRentalHomeFacilitySet().add(rentalHomeFacility);
+        rentalHome.getRentalHomeFacilities().add(rentalHomeFacility);
         return rentalHomeFacility;
     }
 }

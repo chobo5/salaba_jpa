@@ -25,7 +25,7 @@ public class RentalHomeTheme extends BaseEntity {
         RentalHomeTheme rentalHomeTheme = new RentalHomeTheme();
         rentalHomeTheme.rentalHome = rentalHome;
         rentalHomeTheme.theme = theme;
-        rentalHome.getRentalHomeThemeSet().add(rentalHomeTheme);
+        rentalHome.getRentalHomeThemes().add(rentalHomeTheme);
         return rentalHomeTheme;
     }
 }

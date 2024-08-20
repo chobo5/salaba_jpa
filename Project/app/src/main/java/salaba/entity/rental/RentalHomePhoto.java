@@ -26,12 +26,12 @@ public class RentalHomePhoto extends FileBaseEntity {
         rentalHomePhoto.photoExplanation = explanation;
         rentalHomePhoto.rentalHome = rentalHome;
         rentalHomePhoto.photoOrder = order;
-        rentalHome.getRentalHomePhotoList().add(rentalHomePhoto);
+        rentalHome.getRentalHomePhotos().add(rentalHomePhoto);
         return rentalHomePhoto;
     }
 
     public void deleteRentalHomePhoto() {
-        rentalHome.getRentalHomePhotoList().remove(this);
+        rentalHome.getRentalHomePhotos().remove(this);
     }
 
 }

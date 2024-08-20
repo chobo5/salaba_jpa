@@ -1,4 +1,4 @@
-package salaba.dto;
+package salaba.dto.request;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,8 +19,6 @@ public class RentalHomeCreateDto {
     private Integer capacity;
     private Integer cleanFee;
     private String explanation;
-    private LocalDateTime hostingStartDate;
-    private LocalDateTime hostingEndDate;
     private Double lat;
     private Double lon;
     private Integer price;

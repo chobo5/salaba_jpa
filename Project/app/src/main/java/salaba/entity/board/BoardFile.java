@@ -1,11 +1,9 @@
 package salaba.entity.board;
 
 import lombok.*;
-import salaba.entity.BaseEntity;
 import salaba.entity.FileBaseEntity;
 
 import javax.persistence.*;
-import java.util.UUID;
 
 @Entity
 @Getter
@@ -23,11 +21,11 @@ public class BoardFile extends FileBaseEntity {
         BoardFile boardFile = new BoardFile();
         boardFile.board = board;
         boardFile.setFiles(filename);
-        board.getBoardFileList().add(boardFile);
+        board.getBoardFiles().add(boardFile);
         return boardFile;
     }
 
     public void deleteBoardFile() {
-        board.getBoardFileList().remove(this);
+        board.getBoardFiles().remove(this);
     }
 }

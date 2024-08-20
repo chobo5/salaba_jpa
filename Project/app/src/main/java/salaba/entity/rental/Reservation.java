@@ -41,7 +41,7 @@ public class Reservation extends BaseEntity {
         reservation.status = ProcessStatus.AWAIT;
         reservation.rentalHome = rentalHome;
         reservation.member = member;
-        rentalHome.getReservationList().add(reservation);
+        rentalHome.getReservations().add(reservation);
         return reservation;
     }
 

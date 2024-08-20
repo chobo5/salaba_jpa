@@ -14,8 +14,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import static salaba.entity.rental.QRentalHome.rentalHome;
-
 @Entity
 @Table(name = "rental_home")
 @Getter
@@ -65,16 +63,16 @@ public class RentalHome extends BaseEntity {
     private int cleanFee;
 
     @OneToMany(mappedBy = "rentalHome")
-    private List<RentalHomePhoto> rentalHomePhotoList = new ArrayList<>();
+    private List<RentalHomePhoto> rentalHomePhotos = new ArrayList<>();
+
+    @OneToMany(mappedBy = "rentalHome", cascade = CascadeType.ALL)
+    private Set<RentalHomeTheme> rentalHomeThemes = new HashSet<>();
+
+    @OneToMany(mappedBy = "rentalHome", cascade = CascadeType.ALL)
+    private Set<RentalHomeFacility> rentalHomeFacilities = new HashSet<>();
 
     @OneToMany(mappedBy = "rentalHome")
-    private Set<RentalHomeTheme> rentalHomeThemeSet = new HashSet<>();
-
-    @OneToMany(mappedBy = "rentalHome")
-    private Set<RentalHomeFacility> rentalHomeFacilitySet = new HashSet<>();
-
-    @OneToMany(mappedBy = "rentalHome")
-    private List<Reservation> reservationList = new ArrayList<>();
+    private List<Reservation> reservations = new ArrayList<>();
 
     public static RentalHome createRentalHome(Member host, Region region, String name, String explanation, Address address, int price, int capacity, double lat, double lon, String rule, int cleanFee) {
         RentalHome rentalHome = new RentalHome();
@@ -107,18 +105,18 @@ public class RentalHome extends BaseEntity {
     }
 
     public void setFacilities(List<RentalHomeFacility> facilities) {
-        rentalHomeFacilitySet.clear();
-        rentalHomeFacilitySet.addAll(facilities);
+        rentalHomeFacilities.clear();
+        rentalHomeFacilities.addAll(facilities);
     }
 
 
     public void setThemes(List<RentalHomeTheme> themes) {
-        rentalHomeThemeSet.clear();
-        rentalHomeThemeSet.addAll(themes);
+        rentalHomeThemes.clear();
+        rentalHomeThemes.addAll(themes);
     }
 
     public void closeRentalHome() {
-        reservationList.forEach(reservation -> {
+        reservations.forEach(reservation -> {
             if (reservation.getEndDate().isAfter(LocalDateTime.now())) {
                 throw new CannotChangeStatusException("이용중이거나 예약된 게스트가 있어 삭제가 불가능합니다.");
             }

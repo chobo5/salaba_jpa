@@ -1,4 +1,4 @@
-package salaba.response;
+package salaba.dto.response;
 
 import lombok.Getter;
 import lombok.Setter;

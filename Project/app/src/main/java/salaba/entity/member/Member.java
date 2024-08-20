@@ -65,25 +65,25 @@ public class Member extends BaseEntity {
     private Nation nation;
 
     @OneToMany(mappedBy = "writer")
-    private List<Board> boardList = new ArrayList<>();
+    private List<Board> boards = new ArrayList<>();
 
     @OneToMany(mappedBy = "writer")
-    private List<Reply> replyList = new ArrayList<>();
+    private List<Reply> replies = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Reservation> reservationList = new ArrayList<>();
+    private List<Reservation> reservations = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Alarm> alarmList = new ArrayList<>();
+    private List<Alarm> alarms = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<Point> pointHistory = new ArrayList<>();
+    private List<Point> pointHistories = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private List<BookMark> bookMarkList = new ArrayList<>();
+    private List<BookMark> bookMarks = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
-    private Set<MemberRole> roleSet = new HashSet<>();
+    private Set<MemberRole> roles = new HashSet<>();
 
     public void changePassword(String password) {
         this.password = password;

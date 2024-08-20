@@ -33,7 +33,7 @@ public class Reply extends BaseEntity {
     private Reply parent;
 
     @OneToMany(mappedBy = "parent")
-    private List<Reply> replyToReplyList = new ArrayList<>();
+    private List<Reply> repliesToReply = new ArrayList<>();
 
     public static Reply createReply(Board board, String content, Member writer) {
         Reply reply = new Reply();
@@ -41,8 +41,8 @@ public class Reply extends BaseEntity {
         reply.content = content;
         reply.writingStatus = WritingStatus.NORMAL;
         reply.writer = writer;
-        board.getReplyList().add(reply);
-        writer.getReplyList().add(reply);
+        board.getReplies().add(reply);
+        writer.getReplies().add(reply);
         return reply;
     }
 
@@ -52,18 +52,18 @@ public class Reply extends BaseEntity {
         reply.content = content;
         reply.writingStatus = WritingStatus.NORMAL;
         reply.writer = writer;
-        parent.getReplyToReplyList().add(reply);
-        writer.getReplyList().add(reply);
+        parent.getRepliesToReply().add(reply);
+        writer.getReplies().add(reply);
         return reply;
     }
 
     public void deleteReply() {
-        board.getReplyList().remove(this);
+        board.getReplies().remove(this);
         writingStatus = WritingStatus.DELETED;
     }
 
     public void deleteReplyToReply() {
-        parent.getReplyToReplyList().remove(this);
+        parent.getRepliesToReply().remove(this);
         writingStatus = WritingStatus.DELETED;
     }
 

@@ -1,4 +1,4 @@
-package salaba.response;
+package salaba.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -25,12 +25,6 @@ public class RentalHomeModifiedResponse {
 
     private String explanation;
 
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime hostingStartDate;
-
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
-    private LocalDateTime hostingEndDate;
-
     private Double lat;
 
     private Double lon;
@@ -39,7 +33,7 @@ public class RentalHomeModifiedResponse {
 
     private String rule;
 
-    private Long regionId;
+    private String regionName;
 
     private List<String> themes;
 
@@ -52,13 +46,11 @@ public class RentalHomeModifiedResponse {
         capacity = rentalHome.getCapacity();
         cleanFee = rentalHome.getCleanFee();
         explanation = rentalHome.getExplanation();
-        hostingStartDate = rentalHome.getHostingStartDate();
-        hostingEndDate = rentalHome.getHostingEndDate();
         lat = rentalHome.getLat();
         lon = rentalHome.getLon();
         price = rentalHome.getPrice();
         rule = rentalHome.getRule();
-        regionId = rentalHome.getRegion().getId();
+        regionName = rentalHome.getRegion().getName();
 
         themes = rentalHome.getRentalHomeThemeSet().stream()
                 .map(theme -> theme.getTheme().getName())

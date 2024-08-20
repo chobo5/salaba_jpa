@@ -8,7 +8,8 @@ import javax.persistence.*;
 
 @Entity
 @Getter
-public class RentalHomeReview extends BaseEntity {
+@Table(name = "rental_home_review")
+public class Review extends BaseEntity {
     @Id
     @Column(name = "rental_home_review_id")
     private Long id;
@@ -23,12 +24,12 @@ public class RentalHomeReview extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private WritingStatus status;
 
-    public static RentalHomeReview createRentalHomeReview(Reservation reservation, int score, String content) {
-        RentalHomeReview rentalHomeReview = new RentalHomeReview();
-        rentalHomeReview.reservation = reservation;
-        rentalHomeReview.score = score;
-        rentalHomeReview.content = content;
-        rentalHomeReview.status = WritingStatus.NORMAL;
-        return rentalHomeReview;
+    public static Review createRentalHomeReview(Reservation reservation, int score, String content) {
+        Review review = new Review();
+        review.reservation = reservation;
+        review.score = score;
+        review.content = content;
+        review.status = WritingStatus.NORMAL;
+        return review;
     }
 }

@@ -29,7 +29,7 @@ public class Point extends BaseEntity {
             point.content = content;
             point.amount = amount;
             point.member = member;
-            member.getPointHistory().add(point);
+            member.getPointHistories().add(point);
             return point;
         }
         return null;
@@ -41,7 +41,7 @@ public class Point extends BaseEntity {
             point.content = content;
             point.amount = usedPoint;
             point.member = member;
-            member.getPointHistory().add(point);
+            member.getPointHistories().add(point);
             return point;
         }
         return null;

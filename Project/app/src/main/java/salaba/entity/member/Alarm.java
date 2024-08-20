@@ -27,7 +27,7 @@ public class Alarm {
         alarm.member = member;
         alarm.content = content;
         alarm.isRead = false;
-        member.getAlarmList().add(alarm);
+        member.getAlarms().add(alarm);
         return alarm;
     }
 

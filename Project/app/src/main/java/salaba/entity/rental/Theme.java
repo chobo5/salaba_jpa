@@ -20,6 +20,9 @@ public class Theme {
     @Column(nullable = false, unique = true)
     private String name;
 
+    @OneToMany(mappedBy = "theme", cascade = CascadeType.ALL)
+    private List<RentalHomeTheme> rentalHomeThemes = new ArrayList<>();
+
     public Theme(String name) {
         this.name = name;
     }

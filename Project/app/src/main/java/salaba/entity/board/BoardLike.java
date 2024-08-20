@@ -26,12 +26,12 @@ public class BoardLike {
         BoardLike boardLike = new BoardLike();
         boardLike.member = member;
         boardLike.board = board;
-        board.getBoardLikeList().add(boardLike);
+        board.getBoardLikes().add(boardLike);
         return boardLike;
     }
 
     public void cancelBoardLike() {
-        board.getBoardLikeList().remove(this);
+        board.getBoardLikes().remove(this);
     }
 
 }
