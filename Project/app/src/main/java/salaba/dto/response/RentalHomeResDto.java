@@ -46,8 +46,6 @@ public class RentalHomeResDto {
     public RentalHomeResDto(RentalHome rentalHome) {
         rentalHomeId = rentalHome.getId();
         name = rentalHome.getName();
-        hostName = rentalHome.getHost().getName();
-        hostTel = rentalHome.getHost().getTelNo();
         address = rentalHome.getAddress();
         capacity = rentalHome.getCapacity();
         cleanFee = rentalHome.getCleanFee();
