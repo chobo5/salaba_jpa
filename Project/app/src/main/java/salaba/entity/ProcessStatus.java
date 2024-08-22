@@ -1,5 +1,5 @@
 package salaba.entity;
 
 public enum ProcessStatus {
-    AWAIT, COMPLETE, CANCEL
+    AWAIT, COMPLETE, CANCEL, OVER
 }
