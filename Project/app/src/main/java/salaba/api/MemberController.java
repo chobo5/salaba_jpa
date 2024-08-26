@@ -14,6 +14,7 @@ import salaba.dto.response.IdResDto;
 import salaba.service.BoardService;
 import salaba.service.MemberService;
 import salaba.service.ReplyService;
+import salaba.service.ReservationService;
 
 import java.util.NoSuchElementException;
 
@@ -27,6 +28,8 @@ public class MemberController {
     private final BoardService boardService;
 
     private final ReplyService replyService;
+
+    private final ReservationService reservationService;
 
     @GetMapping("validateNickname")
     public ResponseEntity<Message> validateNickname(@RequestParam String nickname) {
@@ -66,14 +69,19 @@ public class MemberController {
         }
     }
 
-    @GetMapping("wrote/boards")
-    public ResponseEntity<?> boardListByMember(@RequestParam Long id, Pageable pageable) {
-        return ResponseEntity.ok(boardService.boardsByMember(id, pageable));
+    @GetMapping("wrote/boards/{memberId}")
+    public ResponseEntity<?> boardListByMember(@PathVariable Long memberId, Pageable pageable) {
+        return ResponseEntity.ok(boardService.boardsByMember(memberId, pageable));
     }
 
-    @GetMapping("wrote/replies")
-    public ResponseEntity<?> replyListByMember(@RequestParam Long id, Pageable pageable) {
-        return ResponseEntity.ok(replyService.repliesByMember(id, pageable));
+    @GetMapping("wrote/replies/{memberId}")
+    public ResponseEntity<?> replyListByMember(@PathVariable Long memberId, Pageable pageable) {
+        return ResponseEntity.ok(replyService.repliesByMember(memberId, pageable));
+    }
+
+    @GetMapping("reservation/list/{memberId}")
+    public ResponseEntity reservationList(@PathVariable Long memberId, Pageable pageable) {
+        return ResponseEntity.ok(reservationService.getWithRentalHomeAndHost(memberId, pageable));
     }
 
 }
