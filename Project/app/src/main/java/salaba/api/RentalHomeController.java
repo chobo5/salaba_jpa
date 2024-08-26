@@ -22,11 +22,6 @@ public class RentalHomeController {
         return ResponseEntity.ok(new IdResDto(rentalHomeService.createRentalHome(rentalHomeCreateReqDto)));
     }
 
-    @PutMapping("modify")
-    public ResponseEntity<?> modifyRentalHome(@RequestBody RentalHomeModiReqDto rentalHomeModiReqDto) {
-        return ResponseEntity.ok(rentalHomeService.modifyRentalHome(rentalHomeModiReqDto));
-    }
-
     @GetMapping("{rentalHomeId}")
     public ResponseEntity<?> getRentalHome(@PathVariable Long rentalHomeId) {
         return ResponseEntity.ok(rentalHomeService.get(rentalHomeId));

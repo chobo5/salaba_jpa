@@ -2,12 +2,11 @@ package salaba.repository.rentalHome;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
-import salaba.dto.response.RentalHomeResDto;
-import salaba.entity.member.QMember;
+import salaba.dto.response.RentalHomeDetailResDto;
 import salaba.entity.rental.*;
 
 import java.util.List;
-import java.util.Optional;
+
 import static salaba.entity.QRegion.*;
 import static salaba.entity.member.QMember.*;
 import static salaba.entity.rental.QFacility.*;
@@ -21,7 +20,7 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom{
 
     private final JPAQueryFactory queryFactory;
     @Override
-    public RentalHomeResDto get(Long rentalHomeId) {
+    public RentalHomeDetailResDto get(Long rentalHomeId) {
         RentalHome findRentalHome = queryFactory.select(rentalHome)
                 .from(rentalHome)
                 .join(rentalHome.host, member).fetchJoin()
@@ -43,7 +42,15 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom{
                 .fetch();
 
 
-        return new RentalHomeResDto(findRentalHome, findThemes, findFacilities);
+        return new RentalHomeDetailResDto(findRentalHome, findThemes, findFacilities);
 
+    }
+
+    @Override
+    public List<RentalHome> findByHost(Long hostId) {
+        return queryFactory.selectFrom(rentalHome)
+                .leftJoin(rentalHome.region, region).fetchJoin()
+                .where(rentalHome.host.id.eq(hostId))
+                .fetch();
     }
 }

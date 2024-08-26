@@ -1,12 +1,14 @@
 package salaba.repository.rentalHome;
 
-import org.springframework.stereotype.Repository;
-import salaba.dto.response.RentalHomeResDto;
+import salaba.dto.response.RentalHomeDetailResDto;
+import salaba.entity.member.Member;
 import salaba.entity.rental.RentalHome;
 
-import java.util.Optional;
+import java.util.List;
 
 
 public interface RentalHomeRepositoryCustom {
-    RentalHomeResDto get(Long rentalHomeId);
+    RentalHomeDetailResDto get(Long rentalHomeId);
+
+    List<RentalHome> findByHost(Long memberId);
 }

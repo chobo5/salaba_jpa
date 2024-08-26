@@ -4,13 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import salaba.dto.request.RentalHomeCreateReqDto;
 import salaba.dto.request.RentalHomeModiReqDto;
+import salaba.dto.response.RentalHomeResDto;
 import salaba.entity.Address;
 import salaba.entity.Region;
 import salaba.entity.member.Member;
 import salaba.entity.rental.*;
 import salaba.repository.*;
 import salaba.repository.rentalHome.*;
-import salaba.dto.response.RentalHomeResDto;
+import salaba.dto.response.RentalHomeDetailResDto;
 
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -57,7 +58,7 @@ public class RentalHomeService {
         return rentalHome.getId();
     }
 
-    public RentalHomeResDto modifyRentalHome(RentalHomeModiReqDto dto) {
+    public RentalHomeDetailResDto modifyRentalHome(RentalHomeModiReqDto dto) {
         RentalHome rentalHome = rentalHomeRepository.findById(dto.getRentalHomeId()).orElseThrow(NoSuchElementException::new);
         Region region = regionRepository.findById(dto.getRegionId()).orElseThrow(NoSuchElementException::new);
         rentalHome.modifyRentalHome(region, dto.getName(), dto.getExplanation(),
@@ -81,10 +82,17 @@ public class RentalHomeService {
         rentalHomeFacilityRepository.saveAll(rentalHomeFacilities);
         rentalHome.setFacilities(rentalHomeFacilities);
 
-        return new RentalHomeResDto(rentalHome);
+        return new RentalHomeDetailResDto(rentalHome);
     }
 
-    public RentalHomeResDto get(Long rentalHomeId) {
+    public RentalHomeDetailResDto get(Long rentalHomeId) {
         return rentalHomeRepository.get(rentalHomeId);
+    }
+
+    public List<RentalHomeResDto> getByHost(Long hostId) {
+        List<RentalHome> rentalHomes = rentalHomeRepository.findByHost(hostId);
+
+        return rentalHomes.stream().map(RentalHomeResDto::new).collect(Collectors.toList());
+
     }
 }

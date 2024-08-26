@@ -5,6 +5,7 @@ import lombok.NoArgsConstructor;
 import salaba.entity.Address;
 import salaba.entity.rental.Facility;
 import salaba.entity.rental.RentalHome;
+import salaba.entity.rental.RentalHomeStatus;
 import salaba.entity.rental.Theme;
 
 import java.util.List;
@@ -17,31 +18,18 @@ public class RentalHomeResDto {
 
     private String name;
 
-    private String hostName;
-
-    private String hostTel;
-
     private Address address;
 
     private Integer capacity;
 
     private Integer cleanFee;
 
-    private String explanation;
-
-    private Double lat;
-
-    private Double lon;
-
     private Integer price;
-
-    private String rule;
 
     private String regionName;
 
-    private List<String> themes;
+    private RentalHomeStatus status;
 
-    private List<String> facilities;
 
     public RentalHomeResDto(RentalHome rentalHome) {
         rentalHomeId = rentalHome.getId();
@@ -49,43 +37,9 @@ public class RentalHomeResDto {
         address = rentalHome.getAddress();
         capacity = rentalHome.getCapacity();
         cleanFee = rentalHome.getCleanFee();
-        explanation = rentalHome.getExplanation();
-        lat = rentalHome.getLat();
-        lon = rentalHome.getLon();
         price = rentalHome.getPrice();
-        rule = rentalHome.getRule();
         regionName = rentalHome.getRegion().getName();
-
-        themes = rentalHome.getRentalHomeThemes().stream()
-                .map(theme -> theme.getTheme().getName())
-                .collect(Collectors.toList());
-
-        facilities = rentalHome.getRentalHomeFacilities().stream()
-                .map(facility -> facility.getFacility().getName())
-                .collect(Collectors.toList());
+        status = rentalHome.getStatus();
     }
 
-    public RentalHomeResDto(RentalHome rentalHome, List<Theme> themes, List<Facility> facilities) {
-        rentalHomeId = rentalHome.getId();
-        name = rentalHome.getName();
-        hostName = rentalHome.getHost().getName();
-        hostTel = rentalHome.getHost().getTelNo();
-        address = rentalHome.getAddress();
-        capacity = rentalHome.getCapacity();
-        cleanFee = rentalHome.getCleanFee();
-        explanation = rentalHome.getExplanation();
-        lat = rentalHome.getLat();
-        lon = rentalHome.getLon();
-        price = rentalHome.getPrice();
-        rule = rentalHome.getRule();
-        regionName = rentalHome.getRegion().getName();
-
-        this.themes = themes.stream()
-                .map(Theme::getName)
-                .collect(Collectors.toList());
-
-        this.facilities = facilities.stream()
-                .map(Facility::getName)
-                .collect(Collectors.toList());
-    }
 }
