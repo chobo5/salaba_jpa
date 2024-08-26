@@ -27,4 +27,9 @@ public class HostController {
     public ResponseEntity<?> modifyRentalHome(@RequestBody RentalHomeModiReqDto rentalHomeModiReqDto) {
         return ResponseEntity.ok(rentalHomeService.modifyRentalHome(rentalHomeModiReqDto));
     }
+
+    @DeleteMapping("rentalHome/delete/{rentalHomeId}")
+    public ResponseEntity<?> deleteRentalHome(@PathVariable Long rentalHomeId) {
+        return ResponseEntity.ok(rentalHomeService.deleteRentalHome(rentalHomeId));
+    }
 }

@@ -6,6 +6,7 @@ import salaba.dto.response.RentalHomeDetailResDto;
 import salaba.entity.rental.*;
 
 import java.util.List;
+import java.util.Optional;
 
 import static salaba.entity.QRegion.*;
 import static salaba.entity.member.QMember.*;
@@ -13,6 +14,7 @@ import static salaba.entity.rental.QFacility.*;
 import static salaba.entity.rental.QRentalHome.*;
 import static salaba.entity.rental.QRentalHomeFacility.*;
 import static salaba.entity.rental.QRentalHomeTheme.*;
+import static salaba.entity.rental.QReservation.*;
 import static salaba.entity.rental.QTheme.*;
 
 @RequiredArgsConstructor
@@ -52,5 +54,14 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom{
                 .leftJoin(rentalHome.region, region).fetchJoin()
                 .where(rentalHome.host.id.eq(hostId))
                 .fetch();
+    }
+
+    @Override
+    public Optional<RentalHome> findWithReservations(Long rentalHomeId) {
+        RentalHome findRentalHome = queryFactory.selectFrom(rentalHome)
+                .leftJoin(rentalHome.reservations, reservation).fetchJoin()
+                .where(rentalHome.id.eq(rentalHomeId))
+                .fetchOne();
+        return Optional.ofNullable(findRentalHome);
     }
 }

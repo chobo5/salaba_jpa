@@ -95,4 +95,10 @@ public class RentalHomeService {
         return rentalHomes.stream().map(RentalHomeResDto::new).collect(Collectors.toList());
 
     }
+
+    public Long deleteRentalHome(Long rentalHomeId) {
+        RentalHome rentalHome = rentalHomeRepository.findWithReservations(rentalHomeId).orElseThrow(NoSuchElementException::new);
+        rentalHome.closeRentalHome();
+        return rentalHome.getId();
+    }
 }
