@@ -11,6 +11,8 @@ import salaba.entity.board.Board;
 import salaba.entity.board.BoardCategory;
 import salaba.entity.board.BoardLike;
 import salaba.entity.member.Member;
+import salaba.entity.member.Point;
+import salaba.repository.PointRepository;
 import salaba.repository.board.BoardLikeRepository;
 import salaba.repository.board.BoardRepository;
 import salaba.repository.MemberRepository;
@@ -27,12 +29,16 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
     private final BoardLikeRepository boardLikeRepository;
+    private final PointRepository pointRepository;
     private final EntityManager em;
 
     public Long createBoard(BoardCreateDto boardDto) {
         Member writer = memberRepository.findById(boardDto.getMemberId()).orElseThrow(NoSuchElementException::new);
         Board board = Board.createBoard(boardDto.getTitle(), boardDto.getContent(), boardDto.getCategory(), boardDto.getScope(), writer);
+
         boardRepository.save(board);
+        pointRepository.save(Point.createBoardPoint(writer));
+
         return board.getId();
     }
 

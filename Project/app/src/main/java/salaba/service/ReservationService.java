@@ -10,12 +10,15 @@ import salaba.dto.response.ReservationResToGuestDto;
 import salaba.dto.response.ReservationResToHostDto;
 import salaba.entity.ProcessStatus;
 import salaba.entity.member.Member;
+import salaba.entity.rental.Payment;
 import salaba.entity.rental.RentalHome;
 import salaba.entity.rental.Reservation;
 import salaba.repository.MemberRepository;
+import salaba.repository.rentalHome.PaymentRepository;
 import salaba.repository.rentalHome.ReservationRepository;
 import salaba.repository.rentalHome.RentalHomeRepository;
 
+import java.time.Period;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -26,11 +29,23 @@ public class ReservationService {
     private final ReservationRepository reservationRepository;
     private final MemberRepository memberRepository;
     private final RentalHomeRepository rentalHomeRepository;
+    private final PaymentRepository paymentRepository;
     public Long makeReservation(ReservationReqDto reqDto) {
         Member member = memberRepository.findById(reqDto.getMemberId()).orElseThrow(NoSuchElementException::new);
         RentalHome rentalHome = rentalHomeRepository.findById(reqDto.getRentalHomeId()).orElseThrow(NoSuchElementException::new);
+        // 예약 생성
         Reservation reservation = Reservation.createReservation(reqDto.getStartDate(), reqDto.getEndDate(), rentalHome, member);
+        // 예약 저장
         reservationRepository.save(reservation);
+
+        //예약 일수(체크인, 체크아웃 날짜 차이)
+        int daysBetween = Period.between(reqDto.getEndDate().toLocalDate(), reqDto.getStartDate().toLocalDate()).getDays();
+        //이용 가격 계산
+        int originalPrice = rentalHome.getPrice() * daysBetween;
+
+        //결제 생성 및 저장(결제 미완료 상태)
+        Payment payment = Payment.createPayment(reservation, originalPrice);
+        paymentRepository.save(payment);
         return reservation.getId();
     }
 

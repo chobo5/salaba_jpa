@@ -41,10 +41,10 @@ public class Point extends BaseEntity {
         return point;
     }
 
-    public static Point createRentalHomePoint(Member member, int rentalHomePrice) {
+    public static Point createRentalHomePoint(Member member, int price) {
         Point point = new Point();
         point.content = "숙소 이용";
-        point.amount = (int) Math.ceil(rentalHomePrice * 0.05);
+        point.amount = (int) Math.ceil(price * 0.05);
         point.member = member;
         member.getPointHistories().add(point);
         return point;

@@ -12,6 +12,8 @@ import salaba.dto.request.board.ReplyToReplyCreateDto;
 import salaba.entity.board.Board;
 import salaba.entity.board.Reply;
 import salaba.entity.member.Member;
+import salaba.entity.member.Point;
+import salaba.repository.PointRepository;
 import salaba.repository.board.BoardRepository;
 import salaba.repository.board.ReplyRepository;
 import salaba.repository.MemberRepository;
@@ -27,6 +29,7 @@ public class ReplyService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
     private final ReplyRepository replyRepository;
+    private final PointRepository pointRepository;
     private final EntityManager em;
 
     public Long createReply(ReplyCreateDto replyCreateDto) {
@@ -35,6 +38,8 @@ public class ReplyService {
         Reply reply = Reply.createReply(board, replyCreateDto.getContent(), member);
 
         replyRepository.save(reply);
+
+        pointRepository.save(Point.createReplyPoint(member));
 
         return reply.getId();
     }

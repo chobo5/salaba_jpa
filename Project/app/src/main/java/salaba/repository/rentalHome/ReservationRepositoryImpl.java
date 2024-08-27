@@ -13,6 +13,7 @@ import salaba.entity.rental.QReservation;
 import salaba.entity.rental.Reservation;
 
 import java.util.List;
+import java.util.Optional;
 
 import static salaba.entity.member.QMember.member;
 import static salaba.entity.rental.QRentalHome.rentalHome;
@@ -54,5 +55,14 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
                 .where(reservation.member.id.eq(memberId));
 
         return PageableExecutionUtils.getPage(reservations, pageable, totalCount::fetchOne);
+    }
+
+    @Override
+    public Optional<Reservation> findByIdWithMember(Long reservationId) {
+        Reservation findReservation = queryFactory.selectFrom(reservation)
+                .join(reservation.member, member).fetchJoin()
+                .where(reservation.id.eq(reservationId))
+                .fetchOne();
+        return Optional.ofNullable(findReservation);
     }
 }
