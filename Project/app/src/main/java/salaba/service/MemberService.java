@@ -8,15 +8,18 @@ import org.springframework.transaction.annotation.Transactional;
 import salaba.dto.request.MemberJoinReqDto;
 import salaba.dto.request.MemberModiReqDto;
 import salaba.dto.request.ReviewReqDto;
+import salaba.dto.response.AlarmResDto;
 import salaba.dto.response.PointResDto;
 import salaba.entity.Address;
 import salaba.entity.Nation;
+import salaba.entity.member.Alarm;
 import salaba.entity.member.Member;
 import salaba.entity.member.Point;
 import salaba.entity.rental.Reservation;
 import salaba.entity.rental.Review;
 import salaba.exception.AlreadyExistsException;
 import salaba.exception.PasswordValidationException;
+import salaba.repository.AlarmRepository;
 import salaba.repository.MemberRepository;
 import salaba.repository.NationRepository;
 import salaba.repository.PointRepository;
@@ -36,6 +39,7 @@ public class MemberService {
     private final PointRepository pointRepository;
     private final ReservationRepository reservationRepository;
     private final ReviewRepository reviewRepository;
+    private final AlarmRepository alarmRepository;
 
     public boolean validateNickname(String nickname) {
         return memberRepository.findByNickname(nickname).isEmpty();
@@ -89,6 +93,12 @@ public class MemberService {
         pointRepository.save(point);
 
         return review.getId();
+    }
+
+    public Page<AlarmResDto> getAlarms(Long memberId, Pageable pageable) {
+        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
+        Page<Alarm> alarms = alarmRepository.findByTargetMember(member, pageable);
+        return alarms.map(AlarmResDto::new);
     }
 
 }

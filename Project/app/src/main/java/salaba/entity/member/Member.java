@@ -73,7 +73,7 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<Reservation> reservations = new ArrayList<>();
 
-    @OneToMany(mappedBy = "member")
+    @OneToMany(mappedBy = "targetMember")
     private List<Alarm> alarms = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")

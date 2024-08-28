@@ -11,8 +11,10 @@ import salaba.dto.request.board.ReplyModifyDto;
 import salaba.dto.request.board.ReplyToReplyCreateDto;
 import salaba.entity.board.Board;
 import salaba.entity.board.Reply;
+import salaba.entity.member.Alarm;
 import salaba.entity.member.Member;
 import salaba.entity.member.Point;
+import salaba.repository.AlarmRepository;
 import salaba.repository.PointRepository;
 import salaba.repository.board.BoardRepository;
 import salaba.repository.board.ReplyRepository;
@@ -31,13 +33,16 @@ public class ReplyService {
     private final ReplyRepository replyRepository;
     private final PointRepository pointRepository;
     private final EntityManager em;
+    private final AlarmRepository alarmRepository;
 
     public Long createReply(ReplyCreateDto replyCreateDto) {
-        Board board = boardRepository.findById(replyCreateDto.getBoardId()).orElseThrow(NoSuchElementException::new);
+        Board board = boardRepository.findByIdWithWriter(replyCreateDto.getBoardId()).orElseThrow(NoSuchElementException::new);
         Member member = memberRepository.findById(replyCreateDto.getMemberId()).orElseThrow(NoSuchElementException::new);
         Reply reply = Reply.createReply(board, replyCreateDto.getContent(), member);
-
         replyRepository.save(reply);
+
+        Alarm alarm = Alarm.createReplyAlarm(board.getWriter(), member.getNickname(), reply.getContent());
+        alarmRepository.save(alarm);
 
         pointRepository.save(Point.createReplyPoint(member));
 
@@ -58,11 +63,14 @@ public class ReplyService {
     }
 
     public Long createReplyToReply(ReplyToReplyCreateDto replyToReplyCreateDto) {
-        Reply parent = replyRepository.findById(replyToReplyCreateDto.getReplyId()).orElseThrow(NoSuchElementException::new);
+        Reply parent = replyRepository.findByIdWithWriter(replyToReplyCreateDto.getReplyId()).orElseThrow(NoSuchElementException::new);
         Member writer = memberRepository.findById(replyToReplyCreateDto.getMemberId()).orElseThrow(NoSuchElementException::new);
 
         Reply reply = Reply.createReplyToReply(parent, replyToReplyCreateDto.getContent(), writer);
         replyRepository.save(reply);
+
+        Alarm alarm = Alarm.createReplyAlarm(parent.getWriter(), writer.getNickname(), reply.getContent());
+        alarmRepository.save(alarm);
         return reply.getId();
     }
 

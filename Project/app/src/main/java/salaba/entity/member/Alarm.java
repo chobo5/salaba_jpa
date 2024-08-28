@@ -1,12 +1,13 @@
 package salaba.entity.member;
 
 import lombok.Getter;
+import salaba.entity.BaseEntity;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
-public class Alarm {
+public class Alarm extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "alarm_id")
@@ -14,7 +15,7 @@ public class Alarm {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
-    private Member member;
+    private Member targetMember;
 
     @Column(nullable = false)
     private String content;
@@ -22,12 +23,12 @@ public class Alarm {
     @Column(nullable = false)
     private Boolean isRead;
 
-    public Alarm createAlarm(Member member, String content) {
+    public static Alarm createReplyAlarm(Member targetMember, String writer, String content) { //댓글, 대댓글,
         Alarm alarm = new Alarm();
-        alarm.member = member;
-        alarm.content = content;
+        alarm.targetMember = targetMember;
+        alarm.content = writer + "님이 댓글을 작성하였습니다. " + content;
         alarm.isRead = false;
-        member.getAlarms().add(alarm);
+        targetMember.getAlarms().add(alarm);
         return alarm;
     }
 

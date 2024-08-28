@@ -19,6 +19,7 @@ import salaba.entity.board.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import static salaba.entity.board.QBoard.*;
@@ -173,5 +174,13 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return writer != null ? board.writer.nickname.contains(writer) : null;
     }
 
-
+    @Override
+    public Optional<Board> findByIdWithWriter(Long boardId) {
+        Board findBoard = queryFactory.select(board)
+                .from(board)
+                .join(board.writer, member).fetchJoin()
+                .where(board.id.eq(boardId))
+                .fetchOne();
+        return Optional.ofNullable(findBoard);
+    }
 }

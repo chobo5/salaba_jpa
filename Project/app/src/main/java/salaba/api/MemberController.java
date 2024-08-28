@@ -101,4 +101,9 @@ public class MemberController {
         return ResponseEntity.ok(memberService.createReview(reviewReqDto));
     }
 
+    @GetMapping("alarms/{memberId}")
+    public ResponseEntity<?> getAlarms(@PathVariable Long memberId, Pageable pageable) {
+        return ResponseEntity.ok(memberService.getAlarms(memberId, pageable));
+    }
+
 }
