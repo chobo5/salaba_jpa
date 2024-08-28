@@ -20,7 +20,7 @@ import java.util.NoSuchElementException;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/member")
+@RequestMapping("/api/v1/member/")
 public class MemberController {
 
     private final MemberService memberService;
@@ -30,6 +30,7 @@ public class MemberController {
     private final ReplyService replyService;
 
     private final ReservationService reservationService;
+
 
     @GetMapping("validateNickname")
     public ResponseEntity<Message> validateNickname(@RequestParam String nickname) {
@@ -80,8 +81,18 @@ public class MemberController {
     }
 
     @GetMapping("reservation/list/{memberId}")
-    public ResponseEntity reservationList(@PathVariable Long memberId, Pageable pageable) {
+    public ResponseEntity<?> reservationList(@PathVariable Long memberId, Pageable pageable) {
         return ResponseEntity.ok(reservationService.getWithRentalHomeAndHost(memberId, pageable));
+    }
+
+    @GetMapping("pointHistory/{memberId}")
+    public ResponseEntity<?> getPointHistory(@PathVariable Long memberId, Pageable pageable) {
+        return ResponseEntity.ok(memberService.getPointHistory(memberId, pageable));
+    }
+
+    @GetMapping("totalPoint/{memberId}")
+    public ResponseEntity<?> getTotalPoint(@PathVariable Long memberId) {
+        return ResponseEntity.ok(memberService.getTotalPoint(memberId));
     }
 
 }

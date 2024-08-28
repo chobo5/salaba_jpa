@@ -33,6 +33,15 @@ public class PaymentService {
         //할인을 만든다.
         List<Discount> discounts = paymentReqDto.getDiscounts().stream().map(reqDto ->
            Discount.createDiscount(payment, reqDto.getAmount(), reqDto.getContent())).toList();
+
+        // 포인트를 사용했다면 포인트를 차감시킨다.
+        discounts.forEach(discount -> {
+            if (discount.getContent().contains("포인트")) {
+                Point usedPoint = Point.createUsedPoint(discount.getContent(),
+                        -1 * discount.getAmount(), reservation.getMember());
+                pointRepository.save(usedPoint);
+            }
+        });
         //할인을 저장한다.
         discountRepository.saveAll(discounts);
 

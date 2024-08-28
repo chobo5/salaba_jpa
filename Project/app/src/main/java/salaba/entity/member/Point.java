@@ -50,12 +50,7 @@ public class Point extends BaseEntity {
         return point;
     }
 
-    public void deletePointHistory(Point point) {
-        member.getPointHistories().remove(point);
-    }
-
-
-    public Point usePoint(String content, int usedPoint, Member member) {
+    public static Point createUsedPoint(String content, int usedPoint, Member member) {
         if (usedPoint < 0) {
             Point point = new Point();
             point.content = content;
@@ -66,5 +61,10 @@ public class Point extends BaseEntity {
         }
         return null;
     }
+
+    public void deletePointHistory(Point point) {
+        member.getPointHistories().remove(point);
+    }
+
 
 }

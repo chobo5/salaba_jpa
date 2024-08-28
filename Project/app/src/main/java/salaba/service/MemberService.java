@@ -1,17 +1,22 @@
 package salaba.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import salaba.dto.request.MemberJoinReqDto;
 import salaba.dto.request.MemberModiReqDto;
+import salaba.dto.response.PointResDto;
 import salaba.entity.Address;
 import salaba.entity.Nation;
 import salaba.entity.member.Member;
+import salaba.entity.member.Point;
 import salaba.exception.AlreadyExistsException;
 import salaba.exception.PasswordValidationException;
 import salaba.repository.MemberRepository;
 import salaba.repository.NationRepository;
+import salaba.repository.PointRepository;
 import salaba.util.Validator;
 
 import java.util.NoSuchElementException;
@@ -23,6 +28,7 @@ public class MemberService {
 
     private final MemberRepository memberRepository;
     private final NationRepository nationRepository;
+    private final PointRepository pointRepository;
 
     public boolean validateNickname(String nickname) {
         return memberRepository.findByNickname(nickname).isEmpty();
@@ -54,6 +60,17 @@ public class MemberService {
         //entity를 변경하면 자동으로 반영
         member.changeProfile(memberModiReqDto.getName(), memberModiReqDto.getGender(), nation, new Address(memberModiReqDto.getStreet(), memberModiReqDto.getZipcode()));
         return member.getId();
+    }
+
+    public Page<PointResDto> getPointHistory(Long memberId, Pageable pageable) {
+        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
+        Page<Point> pointHistory = pointRepository.findByMember(member, pageable);
+
+        return pointHistory.map(PointResDto::new);
+    }
+
+    public int getTotalPoint(Long memberId) {
+        return pointRepository.getTotalPoint(memberId);
     }
 
 }
