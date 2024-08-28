@@ -62,9 +62,6 @@ public class RentalHome extends BaseEntity {
     @Column(nullable = false)
     private int cleanFee;
 
-    @OneToMany(mappedBy = "rentalHome")
-    private List<RentalHomePhoto> rentalHomePhotos = new ArrayList<>();
-
     @OneToMany(mappedBy = "rentalHome", cascade = CascadeType.ALL)
     private Set<RentalHomeTheme> rentalHomeThemes = new HashSet<>();
 

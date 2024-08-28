@@ -10,4 +10,6 @@ public interface ReviewRepositoryCustom {
     Page<Review> findByMember(Member member, Pageable pageable);
 
     Page<Review> findByRentalHome(RentalHome rentalHome, Pageable pageable);
+
+    Double getReviewAvg(RentalHome rentalHome);
 }

@@ -1,10 +1,14 @@
 package salaba.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import salaba.dto.request.RentalHomeCreateReqDto;
 import salaba.dto.request.RentalHomeModiReqDto;
+import salaba.dto.request.ReviewReqDto;
 import salaba.dto.response.RentalHomeResDto;
+import salaba.dto.response.ReviewResDto;
 import salaba.entity.Address;
 import salaba.entity.Region;
 import salaba.entity.member.Member;
@@ -27,6 +31,7 @@ public class RentalHomeService {
     private final ThemeRepository themeRepository;
     private final RentalHomeFacilityRepository rentalHomeFacilityRepository;
     private final RentalHomeThemeRepository rentalHomeThemeRepository;
+    private final ReviewRepository reviewRepository;
 
     public Long createRentalHome(RentalHomeCreateReqDto dto) {
         Member member = memberRepository.findById(dto.getMemberId()).orElseThrow(NoSuchElementException::new);
@@ -100,5 +105,16 @@ public class RentalHomeService {
         RentalHome rentalHome = rentalHomeRepository.findWithReservations(rentalHomeId).orElseThrow(NoSuchElementException::new);
         rentalHome.closeRentalHome();
         return rentalHome.getId();
+    }
+
+    public Page<ReviewResDto> getRentalHomeReviews(Long rentalHomeId, Pageable pageable) {
+        RentalHome rentalHome = rentalHomeRepository.findById(rentalHomeId).orElseThrow(NoSuchElementException::new);
+        Page<Review> reviews = reviewRepository.findByRentalHome(rentalHome, pageable);
+        return reviews.map(ReviewResDto::new);
+    }
+
+    public Double getRentalHomeReviewAvg(Long rentalHomeId) {
+        RentalHome rentalHome = rentalHomeRepository.findById(rentalHomeId).orElseThrow(NoSuchElementException::new);
+        return reviewRepository.getReviewAvg(rentalHome);
     }
 }

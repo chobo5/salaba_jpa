@@ -13,6 +13,6 @@ import salaba.entity.member.Point;
 public interface PointRepository extends JpaRepository<Point, Long> {
     Page<Point> findByMember(Member member, Pageable pageable);
 
-    @Query("select sum(amount) from point where point.member_id = :memberId")
+    @Query("select sum(p.amount) from Point p join p.member m where m.id = :memberId")
     int getTotalPoint(@Param(value = "memberId") Long memberId);
 }

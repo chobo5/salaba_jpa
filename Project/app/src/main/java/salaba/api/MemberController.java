@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.*;
 import salaba.dto.request.MemberJoinReqDto;
 import salaba.dto.request.MemberModiReqDto;
 import salaba.dto.request.Message;
+import salaba.dto.request.ReviewReqDto;
 import salaba.exception.AlreadyExistsException;
 import salaba.exception.PasswordValidationException;
 import salaba.dto.response.IdResDto;
@@ -93,6 +94,11 @@ public class MemberController {
     @GetMapping("totalPoint/{memberId}")
     public ResponseEntity<?> getTotalPoint(@PathVariable Long memberId) {
         return ResponseEntity.ok(memberService.getTotalPoint(memberId));
+    }
+
+    @PostMapping("reservation/review")
+    public ResponseEntity<?> createReview(@RequestBody ReviewReqDto reviewReqDto) {
+        return ResponseEntity.ok(memberService.createReview(reviewReqDto));
     }
 
 }

@@ -45,9 +45,6 @@ public class Board extends BaseEntity {
     @OneToMany(mappedBy = "board")
     private List<BoardLike> boardLikes = new ArrayList<>();
 
-    @OneToMany(mappedBy = "board")
-    private List<BoardFile> boardFiles = new ArrayList<>();
-
     public static Board createBoard(String title, String content, BoardCategory boardCategory, BoardScope boardScope, Member writer) {
         Board newBoard = new Board();
         newBoard.title = title;

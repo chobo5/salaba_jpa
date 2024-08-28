@@ -7,16 +7,21 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import salaba.dto.request.MemberJoinReqDto;
 import salaba.dto.request.MemberModiReqDto;
+import salaba.dto.request.ReviewReqDto;
 import salaba.dto.response.PointResDto;
 import salaba.entity.Address;
 import salaba.entity.Nation;
 import salaba.entity.member.Member;
 import salaba.entity.member.Point;
+import salaba.entity.rental.Reservation;
+import salaba.entity.rental.Review;
 import salaba.exception.AlreadyExistsException;
 import salaba.exception.PasswordValidationException;
 import salaba.repository.MemberRepository;
 import salaba.repository.NationRepository;
 import salaba.repository.PointRepository;
+import salaba.repository.rentalHome.ReservationRepository;
+import salaba.repository.rentalHome.ReviewRepository;
 import salaba.util.Validator;
 
 import java.util.NoSuchElementException;
@@ -29,6 +34,8 @@ public class MemberService {
     private final MemberRepository memberRepository;
     private final NationRepository nationRepository;
     private final PointRepository pointRepository;
+    private final ReservationRepository reservationRepository;
+    private final ReviewRepository reviewRepository;
 
     public boolean validateNickname(String nickname) {
         return memberRepository.findByNickname(nickname).isEmpty();
@@ -71,6 +78,17 @@ public class MemberService {
 
     public int getTotalPoint(Long memberId) {
         return pointRepository.getTotalPoint(memberId);
+    }
+
+    public Long createReview(ReviewReqDto reviewReqDto) {
+        Reservation reservation = reservationRepository.findByIdWithMember(reviewReqDto.getReservationId()).orElseThrow(NoSuchElementException::new);
+        Review review = Review.createReview(reservation, reviewReqDto.getScore(), reviewReqDto.getContent());
+        reviewRepository.save(review);
+
+        Point point = Point.createReviewPoint(reservation.getMember());
+        pointRepository.save(point);
+
+        return review.getId();
     }
 
 }

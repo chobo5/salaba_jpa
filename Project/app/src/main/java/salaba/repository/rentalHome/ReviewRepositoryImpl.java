@@ -1,5 +1,7 @@
 package salaba.repository.rentalHome;
 
+import com.querydsl.core.types.dsl.Expressions;
+import com.querydsl.core.types.dsl.SimpleTemplate;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
@@ -54,5 +56,15 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
                 .where(review.reservation.rentalHome.eq(rentalHome));
 
         return PageableExecutionUtils.getPage(reviews, pageable, reviewCount::fetchOne);
+    }
+
+    @Override
+    public Double getReviewAvg(RentalHome rentalHome) {
+        SimpleTemplate<Double> avg = Expressions.template(Double.class, "ROUND({0}, 2)", review.score.avg().coalesce(0.0));
+        return queryFactory.select(avg)
+                .from(review)
+                .join(review.reservation, reservation)
+                .where(review.reservation.rentalHome.eq(rentalHome))
+                .fetchOne();
     }
 }

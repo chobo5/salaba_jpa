@@ -1,6 +1,7 @@
 package salaba.api;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -42,5 +43,15 @@ public class RentalHomeController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
         }
 
+    }
+
+    @GetMapping("reviews/{rentalHomeId}")
+    public ResponseEntity<?> getRentalHomeReviews(@PathVariable Long rentalHomeId, Pageable pageable) {
+        return ResponseEntity.ok(rentalHomeService.getRentalHomeReviews(rentalHomeId, pageable));
+    }
+
+    @GetMapping("reviews/avg/{rentalHomeId}")
+    public ResponseEntity<?> getRentalHomeReviewAvg(@PathVariable Long rentalHomeId) {
+        return ResponseEntity.ok(rentalHomeService.getRentalHomeReviewAvg(rentalHomeId));
     }
 }

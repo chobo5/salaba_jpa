@@ -50,6 +50,15 @@ public class Point extends BaseEntity {
         return point;
     }
 
+    public static Point createReviewPoint(Member member) {
+        Point point = new Point();
+        point.content = "숙소 리뷰 작성";
+        point.amount = 100;
+        point.member = member;
+        member.getPointHistories().add(point);
+        return point;
+    }
+
     public static Point createUsedPoint(String content, int usedPoint, Member member) {
         if (usedPoint < 0) {
             Point point = new Point();

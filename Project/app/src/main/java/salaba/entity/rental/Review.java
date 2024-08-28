@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Table(name = "rental_home_review")
 public class Review extends BaseEntity {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "rental_home_review_id")
     private Long id;
 
@@ -24,7 +25,7 @@ public class Review extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private WritingStatus status;
 
-    public static Review createRentalHomeReview(Reservation reservation, int score, String content) {
+    public static Review createReview(Reservation reservation, int score, String content) {
         Review review = new Review();
         review.reservation = reservation;
         review.score = score;
