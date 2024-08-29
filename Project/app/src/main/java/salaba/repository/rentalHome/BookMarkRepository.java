@@ -10,7 +10,7 @@ import java.util.Optional;
 
 @Repository
 public interface BookMarkRepository extends JpaRepository<BookMark, Long> {
-    BookMark findByMemberAndRentalHome (Member member, RentalHome rentalHome);
+    Optional<BookMark> findByMemberAndRentalHome (Member member, RentalHome rentalHome);
     Long deleteByMemberAndRentalHome (Member member, RentalHome rentalHome);
 
 }

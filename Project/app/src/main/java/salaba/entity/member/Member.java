@@ -5,6 +5,7 @@ import salaba.entity.*;
 import salaba.entity.board.Board;
 import salaba.entity.board.Reply;
 import salaba.entity.rental.Reservation;
+import salaba.util.Validator;
 
 import javax.persistence.*;
 import java.time.LocalDate;
@@ -86,10 +87,12 @@ public class Member extends BaseEntity {
     private Set<MemberRole> roles = new HashSet<>();
 
     public void changePassword(String password) {
+        Validator.isValidPassword(password);
         this.password = password;
     }
 
     public void changeEmail(String email) {
+        Validator.isValidEmail(email);
         this.email = email;
     }
 
@@ -98,14 +101,18 @@ public class Member extends BaseEntity {
     }
 
     public void changeNickname(String nickname) {
+        Validator.isValidNickname(nickname);
         this.nickname = nickname;
     }
 
     public static Member createMember(String email, String password, String name, String nickname, LocalDate birthday) {
         Member newMember = new Member();
+        Validator.isValidEmail(email);
         newMember.email = email;
+        Validator.isValidPassword(password);
         newMember.password = password;
         newMember.name = name;
+        Validator.isValidNickname(nickname);
         newMember.nickname = nickname;
         newMember.birthday = birthday;
         newMember.status = MemberStatus.NORMAL;

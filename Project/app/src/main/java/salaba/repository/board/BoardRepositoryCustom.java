@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface BoardRepositoryCustom {
     Page<BoardDto> getList(BoardCategory category, Pageable pageable);
 
-    BoardDetailDto get(Long boardId);
+    Optional<BoardDetailDto> get(Long boardId);
 
     Page<BoardDto> search(BoardCategory boardCategory, BoardSearchReqDto boardSearchReqDto, Pageable pageable);
 

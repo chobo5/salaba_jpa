@@ -19,6 +19,7 @@ import salaba.entity.board.*;
 
 import java.util.List;
 import java.util.Map;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -66,7 +67,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     }
 
     @Override
-    public BoardDetailDto get(Long boardId) {
+    public Optional<BoardDetailDto> get(Long boardId) {
         // likeCount 서브쿼리
         Expression<Long> likeCount = ExpressionUtils.as(JPAExpressions.select(boardLike.countDistinct())
                         .from(boardLike)
@@ -89,6 +90,10 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .where(board.id.eq(boardId)
                         .and(board.writingStatus.eq(WritingStatus.NORMAL)))
                 .fetchOne();
+        
+        if (boardResult == null) {
+            throw new NoSuchElementException();
+        }
 
         //댓글 리스트
         List<ReplyDto> replyDtoList = queryFactory.select(Projections.constructor(ReplyDto.class,
@@ -129,7 +134,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         replyDtoList.forEach(replyDto -> replyDto.setReplyToReplyList(groupedReReplyMap.get(replyDto.getId())));
 
         boardResult.setReplyList(replyDtoList);
-        return boardResult;
+        return Optional.ofNullable(boardResult);
     }
 
     public Page<BoardDto> search(BoardCategory boardCategory, BoardSearchReqDto boardSearchReqDto, Pageable pageable) {

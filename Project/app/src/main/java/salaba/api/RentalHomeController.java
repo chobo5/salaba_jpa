@@ -16,6 +16,7 @@ import salaba.util.RestResult;
 public class RentalHomeController {
     private final RentalHomeService rentalHomeService;
     private final BookMarkService bookMarkService;
+
     @PostMapping("new")
     public RestResult<?> createRentalHome(@RequestBody RentalHomeCreateReqDto rentalHomeCreateReqDto) {
         return RestResult.success(new IdResDto(rentalHomeService.createRentalHome(rentalHomeCreateReqDto)));
@@ -34,13 +35,8 @@ public class RentalHomeController {
 
     @DeleteMapping("mark/delete/{memberId}/{rentalHomeId}")
     public RestResult<?> deleteMarkOnRentalHome(@PathVariable Long memberId, @PathVariable Long rentalHomeId) {
-        try {
-            Long result = bookMarkService.deleteMark(memberId, rentalHomeId);
-            return RestResult.success(result);
-        } catch (Exception e) {
-            return RestResult.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-
+        bookMarkService.deleteMark(memberId, rentalHomeId);
+        return RestResult.success();
     }
 
     @GetMapping("reviews/{rentalHomeId}")

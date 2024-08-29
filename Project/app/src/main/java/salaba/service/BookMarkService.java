@@ -33,9 +33,10 @@ public class BookMarkService {
         return bookMark.getId();
     }
 
-    public Long deleteMark(Long memberId, Long rentalHomeId) {
+    public void deleteMark(Long memberId, Long rentalHomeId) {
         Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
         RentalHome rentalHome = rentalHomeRepository.findById(rentalHomeId).orElseThrow(NoSuchElementException::new);
-        return bookMarkRepository.deleteByMemberAndRentalHome(member, rentalHome);
+        BookMark bookMark = bookMarkRepository.findByMemberAndRentalHome(member, rentalHome).orElseThrow(NoSuchElementException::new);
+        bookMarkRepository.delete(bookMark);
     }
 }

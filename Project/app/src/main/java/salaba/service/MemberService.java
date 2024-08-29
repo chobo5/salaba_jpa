@@ -18,7 +18,6 @@ import salaba.entity.member.Point;
 import salaba.entity.rental.Reservation;
 import salaba.entity.rental.Review;
 import salaba.exception.AlreadyExistsException;
-import salaba.exception.PasswordValidationException;
 import salaba.repository.AlarmRepository;
 import salaba.repository.MemberRepository;
 import salaba.repository.NationRepository;
@@ -41,20 +40,18 @@ public class MemberService {
     private final ReviewRepository reviewRepository;
     private final AlarmRepository alarmRepository;
 
-    public boolean validateNickname(String nickname) {
+    public boolean isExistingNickname(String nickname) {
         return memberRepository.findByNickname(nickname).isEmpty();
     }
 
-    public boolean validateEmail(String email) {
+
+    public boolean isExistingEmail(String email) {
         return memberRepository.findByEmail(email).isEmpty();
     }
 
-    public Long join(MemberJoinReqDto memberDto) {
-        if (!Validator.isValidPassword(memberDto.getPassword())) {
-            throw new PasswordValidationException("비밀번호는 대문자, 소문자, 숫자, 특수문자를 포함한 8자 이상이여야 합니다.");
-        }
 
-        if (!validateNickname(memberDto.getNickname()) || !validateEmail(memberDto.getEmail())) {
+    public Long join(MemberJoinReqDto memberDto) {
+        if (!isExistingNickname(memberDto.getNickname()) || !isExistingEmail(memberDto.getEmail())) {
             throw new AlreadyExistsException("이미 사용중인 이메일 또는 닉네임 입니다.");
         }
 
@@ -100,5 +97,7 @@ public class MemberService {
         Page<Alarm> alarms = alarmRepository.findByTargetMember(member, pageable);
         return alarms.map(AlarmResDto::new);
     }
+
+
 
 }

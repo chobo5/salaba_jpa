@@ -47,7 +47,7 @@ public class BoardService {
     }
 
     public BoardDetailDto get(Long boardId) {
-        return boardRepository.get(boardId);
+        return boardRepository.get(boardId).orElseThrow(NoSuchElementException::new);
     }
 
     public BoardModiResDto modify(BoardModifyDto boardDto) {

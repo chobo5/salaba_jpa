@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import salaba.dto.request.MemberJoinReqDto;
-import salaba.exception.PasswordValidationException;
+import salaba.exception.ValidationException;
 
 import java.time.LocalDate;
 
@@ -31,7 +31,7 @@ class MemberServiceTest {
         MemberJoinReqDto member = new MemberJoinReqDto("흥판봉", "원준연", "wnsdus1008@gmail.com",
                 "1234", LocalDate.of(1996, 10, 8));
 
-        Assertions.assertThrows(PasswordValidationException.class, () -> memberService.join(member));
+        Assertions.assertThrows(ValidationException.class, () -> memberService.join(member));
 
 
     }

@@ -9,7 +9,7 @@ import salaba.dto.request.MemberModiReqDto;
 import salaba.dto.request.Message;
 import salaba.dto.request.ReviewReqDto;
 import salaba.exception.AlreadyExistsException;
-import salaba.exception.PasswordValidationException;
+import salaba.exception.ValidationException;
 import salaba.dto.response.IdResDto;
 import salaba.service.BoardService;
 import salaba.service.MemberService;
@@ -34,41 +34,29 @@ public class MemberController {
 
 
     @GetMapping("validateNickname")
-    public RestResult<Message> validateNickname(@RequestParam String nickname) {
-        if (memberService.validateNickname(nickname)) {
-            return RestResult.success(new Message(HttpStatus.OK.value(), "사용 가능한 닉네임 입니다."));
+    public RestResult<?> validateNickname(@RequestParam String nickname) {
+        if (memberService.isExistingNickname(nickname)) {
+            return RestResult.success();
         }
-        return RestResult.status(HttpStatus.CONFLICT).body(new Message(HttpStatus.CONFLICT.value(), "이미 존재하는 닉네임 입니다."));
+        throw new AlreadyExistsException("이미 사용중인 닉네임 입니다.");
     }
 
     @GetMapping("validateEmail")
-    public RestResult<Message> validateEmail(@RequestParam String email) {
-        if (memberService.validateEmail(email)) {
-            return RestResult.success(new Message(HttpStatus.OK.value(), "사용 가능한 이메일 입니다."));
+    public RestResult<?> validateEmail(@RequestParam String email) {
+        if (memberService.isExistingEmail(email)) {
+            return RestResult.success();
         }
-        return RestResult.status(HttpStatus.CONFLICT).body(new Message(HttpStatus.CONFLICT.value(), "이미 사용중인 이메일 입니다."));
+        throw new AlreadyExistsException("이미 사용중인 이메일 입니다.");
     }
 
     @PostMapping("join")
     public RestResult<?> join(@RequestBody MemberJoinReqDto memberJoinReqDto) {
-        try {
-            return RestResult
-                    .ok(new IdResDto(memberService.join(memberJoinReqDto)));
-        } catch (PasswordValidationException | AlreadyExistsException exception) {
-            return RestResult
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(new Message(HttpStatus.BAD_REQUEST.value(), exception.getMessage()));
-        }
+        return RestResult.success(new IdResDto(memberService.join(memberJoinReqDto)));
     }
 
     @PutMapping("modify")
     public RestResult<?> changeProfile(@RequestBody MemberModiReqDto memberModiReqDto) {
-
-        try {
-            return RestResult.success(new IdResDto(memberService.modifyProfile(memberModiReqDto)));
-        } catch (NoSuchElementException exception) {
-            return RestResult.status(HttpStatus.NOT_FOUND).body(new Message(HttpStatus.NOT_FOUND.value(), "존재하지 않는 회원입니다."));
-        }
+        return RestResult.success(new IdResDto(memberService.modifyProfile(memberModiReqDto)));
     }
 
     @GetMapping("wrote/boards/{memberId}")
