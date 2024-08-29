@@ -1,5 +1,6 @@
 package salaba.api;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -15,6 +16,7 @@ import salaba.dto.response.IdResDto;
 import salaba.service.BoardService;
 import salaba.util.RestResult;
 
+@Api(tags = "게시판 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/board/")

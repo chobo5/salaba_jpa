@@ -1,5 +1,6 @@
 package salaba.api;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import salaba.dto.request.ReservationReqDto;
@@ -8,6 +9,7 @@ import salaba.entity.ProcessStatus;
 import salaba.service.ReservationService;
 import salaba.util.RestResult;
 
+@Api(tags = "숙소예약 API")
 @RestController
 @RequiredArgsConstructor
 public class ReservationController {

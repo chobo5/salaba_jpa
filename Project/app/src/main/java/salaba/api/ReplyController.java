@@ -1,5 +1,6 @@
 package salaba.api;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import salaba.dto.request.board.ReplyCreateDto;
@@ -9,6 +10,7 @@ import salaba.dto.response.IdResDto;
 import salaba.service.ReplyService;
 import salaba.util.RestResult;
 
+@Api(tags = "댓글 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/reply/")

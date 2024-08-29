@@ -1,15 +1,13 @@
 package salaba.api;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import salaba.dto.request.MemberJoinReqDto;
-import salaba.dto.request.MemberModiReqDto;
-import salaba.dto.request.Message;
-import salaba.dto.request.ReviewReqDto;
+import salaba.dto.request.*;
 import salaba.exception.AlreadyExistsException;
-import salaba.exception.ValidationException;
 import salaba.dto.response.IdResDto;
 import salaba.service.BoardService;
 import salaba.service.MemberService;
@@ -17,8 +15,7 @@ import salaba.service.ReplyService;
 import salaba.service.ReservationService;
 import salaba.util.RestResult;
 
-import java.util.NoSuchElementException;
-
+@Api(tags = "회원 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/member/")
@@ -33,22 +30,25 @@ public class MemberController {
     private final ReservationService reservationService;
 
 
+    @ApiOperation(value = "회원 닉네임 사용가능 여부 확인")
     @GetMapping("validateNickname")
-    public RestResult<?> validateNickname(@RequestParam String nickname) {
+    public RestResult<?> validateNickname(@ApiParam(value = "nickname", required = true) @RequestParam String nickname) {
         if (memberService.isExistingNickname(nickname)) {
             return RestResult.success();
         }
         throw new AlreadyExistsException("이미 사용중인 닉네임 입니다.");
     }
 
+    @ApiOperation(value = "회원 이메일 사용가능 여부 확인")
     @GetMapping("validateEmail")
-    public RestResult<?> validateEmail(@RequestParam String email) {
+    public RestResult<?> validateEmail(@ApiParam(value = "email", required = true) @RequestParam String email) {
         if (memberService.isExistingEmail(email)) {
             return RestResult.success();
         }
         throw new AlreadyExistsException("이미 사용중인 이메일 입니다.");
     }
 
+    @ApiOperation(value = "회원 가입")
     @PostMapping("join")
     public RestResult<?> join(@RequestBody MemberJoinReqDto memberJoinReqDto) {
         return RestResult.success(new IdResDto(memberService.join(memberJoinReqDto)));
@@ -57,6 +57,30 @@ public class MemberController {
     @PutMapping("modify")
     public RestResult<?> changeProfile(@RequestBody MemberModiReqDto memberModiReqDto) {
         return RestResult.success(new IdResDto(memberService.modifyProfile(memberModiReqDto)));
+    }
+
+    @PutMapping("changePassword")
+    public RestResult<?> changePassword(@RequestBody ChangePasswordReqDto reqDto) {
+        memberService.changePassword(reqDto.getId(), reqDto.getPassword());
+        return RestResult.success();
+    }
+
+    @PutMapping("changeNickname")
+    public RestResult<?> changeNickname(@RequestBody ChangeNicknameReqDto reqDto) {
+        memberService.changeNickname(reqDto.getId(), reqDto.getNickname());
+        return RestResult.success();
+    }
+
+    @PutMapping("changeTelNo")
+    public RestResult<?> changeTelNo(@RequestBody ChangeTelNoReqDto reqDto) {
+        memberService.changeTelNo(reqDto.getId(), reqDto.getTelNo());
+        return RestResult.success();
+    }
+
+    @DeleteMapping("quit")
+    public RestResult<?> quit(@RequestBody MemberQuitReqDto reqDto) {
+        memberService.quit(reqDto.getEmail(), reqDto.getPassword());
+        return RestResult.success();
     }
 
     @GetMapping("wrote/boards/{memberId}")

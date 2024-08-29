@@ -28,7 +28,7 @@ public class SwaggerConfig implements WebMvcConfigurer {
 
     private static final String SERVICE_NAME = "Salaba";
     private static final String API_VERSION = "V1";
-    private static final String API_DESCRIPTION = "Salaba API TEST";
+    private static final String API_DESCRIPTION = "Salaba Restful API";
     private static final String API_URL = "http://localhost:8888";
 
     @Bean
@@ -46,7 +46,6 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .version(API_VERSION)                   // API 버전
                 .description(API_DESCRIPTION)           // API 설명
                 .termsOfServiceUrl(API_URL)             // 서비스 url
-                .licenseUrl("라이센스 표시할 url")
                 .build();
 
     }// API INFO

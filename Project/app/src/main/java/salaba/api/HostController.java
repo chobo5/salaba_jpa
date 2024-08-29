@@ -1,5 +1,6 @@
 package salaba.api;
 
+import io.swagger.annotations.Api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
@@ -7,7 +8,7 @@ import salaba.dto.request.RentalHomeModiReqDto;
 import salaba.service.RentalHomeService;
 import salaba.service.ReservationService;
 import salaba.util.RestResult;
-
+@Api(tags = "호스트 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/host/")

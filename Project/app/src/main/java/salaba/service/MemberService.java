@@ -24,7 +24,6 @@ import salaba.repository.NationRepository;
 import salaba.repository.PointRepository;
 import salaba.repository.rentalHome.ReservationRepository;
 import salaba.repository.rentalHome.ReviewRepository;
-import salaba.util.Validator;
 
 import java.util.NoSuchElementException;
 
@@ -99,5 +98,22 @@ public class MemberService {
     }
 
 
+    public void changePassword(Long memberId, String password) {
+        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
+        member.changePassword(password);
+    }
 
+    public void changeNickname(Long memberId, String nickname) {
+        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
+        member.changeNickname(nickname);
+    }
+
+    public void changeTelNo(Long memberId, String telNo) {
+        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
+        member.changePassword(telNo);
+    }
+
+    public void quit(String email, String password) {
+        Member member = memberRepository.findByEmailAndPassword(email, password).orElseThrow(NoSuchElementException::new);
+    }
 }
