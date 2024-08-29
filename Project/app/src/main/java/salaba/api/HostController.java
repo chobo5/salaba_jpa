@@ -2,11 +2,11 @@ package salaba.api;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import salaba.dto.request.RentalHomeModiReqDto;
 import salaba.service.RentalHomeService;
 import salaba.service.ReservationService;
+import salaba.util.RestResult;
 
 @RestController
 @RequiredArgsConstructor
@@ -18,28 +18,28 @@ public class HostController {
     private final ReservationService reservationService;
 
     @GetMapping("rentalHome/list/{hostId}")
-    public ResponseEntity<?> getRentalHomeList(@PathVariable Long hostId) {
-        return ResponseEntity.ok(rentalHomeService.getByHost(hostId));
+    public RestResult<?> getRentalHomeList(@PathVariable Long hostId) {
+        return RestResult.success(rentalHomeService.getByHost(hostId));
     }
 
     @GetMapping("rentalHome/detail/{rentalHomeId}")
-    public ResponseEntity<?> getRentalHomeDetail(@PathVariable Long rentalHomeId) {
-        return ResponseEntity.ok(rentalHomeService.get(rentalHomeId));
+    public RestResult<?> getRentalHomeDetail(@PathVariable Long rentalHomeId) {
+        return RestResult.success(rentalHomeService.get(rentalHomeId));
     }
 
     @PutMapping("rentalHome/modify")
-    public ResponseEntity<?> modifyRentalHome(@RequestBody RentalHomeModiReqDto rentalHomeModiReqDto) {
-        return ResponseEntity.ok(rentalHomeService.modifyRentalHome(rentalHomeModiReqDto));
+    public RestResult<?> modifyRentalHome(@RequestBody RentalHomeModiReqDto rentalHomeModiReqDto) {
+        return RestResult.success(rentalHomeService.modifyRentalHome(rentalHomeModiReqDto));
     }
 
     @DeleteMapping("rentalHome/delete/{rentalHomeId}")
-    public ResponseEntity<?> deleteRentalHome(@PathVariable Long rentalHomeId) {
-        return ResponseEntity.ok(rentalHomeService.deleteRentalHome(rentalHomeId));
+    public RestResult<?> deleteRentalHome(@PathVariable Long rentalHomeId) {
+        return RestResult.success(rentalHomeService.deleteRentalHome(rentalHomeId));
     }
 
     @GetMapping("rentalHome/reservation/list/{rentalHomeId}")
-    public ResponseEntity<?> reservationList(@PathVariable Long rentalHomeId, Pageable pageable) {
-        return ResponseEntity.ok(reservationService.getWithGuest(rentalHomeId, pageable));
+    public RestResult<?> reservationList(@PathVariable Long rentalHomeId, Pageable pageable) {
+        return RestResult.success(reservationService.getWithGuest(rentalHomeId, pageable));
     }
 
 

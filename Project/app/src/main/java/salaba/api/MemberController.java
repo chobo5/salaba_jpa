@@ -3,7 +3,6 @@ package salaba.api;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import salaba.dto.request.MemberJoinReqDto;
 import salaba.dto.request.MemberModiReqDto;
@@ -16,6 +15,7 @@ import salaba.service.BoardService;
 import salaba.service.MemberService;
 import salaba.service.ReplyService;
 import salaba.service.ReservationService;
+import salaba.util.RestResult;
 
 import java.util.NoSuchElementException;
 
@@ -34,76 +34,76 @@ public class MemberController {
 
 
     @GetMapping("validateNickname")
-    public ResponseEntity<Message> validateNickname(@RequestParam String nickname) {
+    public RestResult<Message> validateNickname(@RequestParam String nickname) {
         if (memberService.validateNickname(nickname)) {
-            return ResponseEntity.ok(new Message(HttpStatus.OK.value(), "사용 가능한 닉네임 입니다."));
+            return RestResult.success(new Message(HttpStatus.OK.value(), "사용 가능한 닉네임 입니다."));
         }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(new Message(HttpStatus.CONFLICT.value(), "이미 존재하는 닉네임 입니다."));
+        return RestResult.status(HttpStatus.CONFLICT).body(new Message(HttpStatus.CONFLICT.value(), "이미 존재하는 닉네임 입니다."));
     }
 
     @GetMapping("validateEmail")
-    public ResponseEntity<Message> validateEmail(@RequestParam String email) {
+    public RestResult<Message> validateEmail(@RequestParam String email) {
         if (memberService.validateEmail(email)) {
-            return ResponseEntity.ok(new Message(HttpStatus.OK.value(), "사용 가능한 이메일 입니다."));
+            return RestResult.success(new Message(HttpStatus.OK.value(), "사용 가능한 이메일 입니다."));
         }
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(new Message(HttpStatus.CONFLICT.value(), "이미 사용중인 이메일 입니다."));
+        return RestResult.status(HttpStatus.CONFLICT).body(new Message(HttpStatus.CONFLICT.value(), "이미 사용중인 이메일 입니다."));
     }
 
     @PostMapping("join")
-    public ResponseEntity<?> join(@RequestBody MemberJoinReqDto memberJoinReqDto) {
+    public RestResult<?> join(@RequestBody MemberJoinReqDto memberJoinReqDto) {
         try {
-            return ResponseEntity
+            return RestResult
                     .ok(new IdResDto(memberService.join(memberJoinReqDto)));
         } catch (PasswordValidationException | AlreadyExistsException exception) {
-            return ResponseEntity
+            return RestResult
                     .status(HttpStatus.BAD_REQUEST)
                     .body(new Message(HttpStatus.BAD_REQUEST.value(), exception.getMessage()));
         }
     }
 
     @PutMapping("modify")
-    public ResponseEntity<?> changeProfile(@RequestBody MemberModiReqDto memberModiReqDto) {
+    public RestResult<?> changeProfile(@RequestBody MemberModiReqDto memberModiReqDto) {
 
         try {
-            return ResponseEntity.ok(new IdResDto(memberService.modifyProfile(memberModiReqDto)));
+            return RestResult.success(new IdResDto(memberService.modifyProfile(memberModiReqDto)));
         } catch (NoSuchElementException exception) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new Message(HttpStatus.NOT_FOUND.value(), "존재하지 않는 회원입니다."));
+            return RestResult.status(HttpStatus.NOT_FOUND).body(new Message(HttpStatus.NOT_FOUND.value(), "존재하지 않는 회원입니다."));
         }
     }
 
     @GetMapping("wrote/boards/{memberId}")
-    public ResponseEntity<?> boardListByMember(@PathVariable Long memberId, Pageable pageable) {
-        return ResponseEntity.ok(boardService.boardsByMember(memberId, pageable));
+    public RestResult<?> boardListByMember(@PathVariable Long memberId, Pageable pageable) {
+        return RestResult.success(boardService.boardsByMember(memberId, pageable));
     }
 
     @GetMapping("wrote/replies/{memberId}")
-    public ResponseEntity<?> replyListByMember(@PathVariable Long memberId, Pageable pageable) {
-        return ResponseEntity.ok(replyService.repliesByMember(memberId, pageable));
+    public RestResult<?> replyListByMember(@PathVariable Long memberId, Pageable pageable) {
+        return RestResult.success(replyService.repliesByMember(memberId, pageable));
     }
 
     @GetMapping("reservation/list/{memberId}")
-    public ResponseEntity<?> reservationList(@PathVariable Long memberId, Pageable pageable) {
-        return ResponseEntity.ok(reservationService.getWithRentalHomeAndHost(memberId, pageable));
+    public RestResult<?> reservationList(@PathVariable Long memberId, Pageable pageable) {
+        return RestResult.success(reservationService.getWithRentalHomeAndHost(memberId, pageable));
     }
 
     @GetMapping("pointHistory/{memberId}")
-    public ResponseEntity<?> getPointHistory(@PathVariable Long memberId, Pageable pageable) {
-        return ResponseEntity.ok(memberService.getPointHistory(memberId, pageable));
+    public RestResult<?> getPointHistory(@PathVariable Long memberId, Pageable pageable) {
+        return RestResult.success(memberService.getPointHistory(memberId, pageable));
     }
 
     @GetMapping("totalPoint/{memberId}")
-    public ResponseEntity<?> getTotalPoint(@PathVariable Long memberId) {
-        return ResponseEntity.ok(memberService.getTotalPoint(memberId));
+    public RestResult<?> getTotalPoint(@PathVariable Long memberId) {
+        return RestResult.success(memberService.getTotalPoint(memberId));
     }
 
     @PostMapping("reservation/review")
-    public ResponseEntity<?> createReview(@RequestBody ReviewReqDto reviewReqDto) {
-        return ResponseEntity.ok(memberService.createReview(reviewReqDto));
+    public RestResult<?> createReview(@RequestBody ReviewReqDto reviewReqDto) {
+        return RestResult.success(memberService.createReview(reviewReqDto));
     }
 
     @GetMapping("alarms/{memberId}")
-    public ResponseEntity<?> getAlarms(@PathVariable Long memberId, Pageable pageable) {
-        return ResponseEntity.ok(memberService.getAlarms(memberId, pageable));
+    public RestResult<?> getAlarms(@PathVariable Long memberId, Pageable pageable) {
+        return RestResult.success(memberService.getAlarms(memberId, pageable));
     }
 
 }

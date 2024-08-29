@@ -13,6 +13,7 @@ import salaba.dto.request.board.BoardModifyDto;
 import salaba.entity.board.BoardCategory;
 import salaba.dto.response.IdResDto;
 import salaba.service.BoardService;
+import salaba.util.RestResult;
 
 @RestController
 @RequiredArgsConstructor
@@ -22,45 +23,46 @@ public class BoardController {
     private final BoardService boardService;
 
     @PostMapping("new")
-    public ResponseEntity<?> createBoard(@RequestBody BoardCreateDto boardCreateDto) {
-        return ResponseEntity.ok(new IdResDto(boardService.createBoard(boardCreateDto)));
+    public RestResult<?> createBoard(@RequestBody BoardCreateDto boardCreateDto) {
+        return RestResult.success(new IdResDto(boardService.createBoard(boardCreateDto)));
+        
     }
 
     @GetMapping("list")
-    public ResponseEntity<?> getBoardList(BoardCategory category, Pageable pageable) {
+    public RestResult<?> getBoardList(BoardCategory category, Pageable pageable) {
         Page<BoardDto> dtoList = boardService.list(category, pageable);
-        return ResponseEntity.ok(dtoList);
+        return RestResult.success(dtoList);
     }
 
     @GetMapping("{id}")
-    public ResponseEntity<?> getBoard(@PathVariable Long id) {
-        return ResponseEntity.ok(boardService.get(id));
+    public RestResult<?> getBoard(@PathVariable Long id) {
+        return RestResult.success(boardService.get(id));
     }
 
 
     @PutMapping("modify")
-    public ResponseEntity<?> modifyBoard(@RequestBody BoardModifyDto boardModifyDto) {
-        return ResponseEntity.ok(boardService.modify(boardModifyDto));
+    public RestResult<?> modifyBoard(@RequestBody BoardModifyDto boardModifyDto) {
+        return RestResult.success(boardService.modify(boardModifyDto));
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<?> deleteBoard(@PathVariable Long id) {
-        return ResponseEntity.ok(new IdResDto(boardService.delete(id)));
+    public RestResult<?> deleteBoard(@PathVariable Long id) {
+        return RestResult.success(new IdResDto(boardService.delete(id)));
     }
 
     @GetMapping("search")
-    public ResponseEntity<?> searchBoard(BoardCategory category, BoardSearchReqDto boardSearchReqDto, Pageable pageable) {
-        return ResponseEntity.ok(boardService.search(category, boardSearchReqDto, pageable));
+    public RestResult<?> searchBoard(BoardCategory category, BoardSearchReqDto boardSearchReqDto, Pageable pageable) {
+        return RestResult.success(boardService.search(category, boardSearchReqDto, pageable));
     }
 
     @PostMapping("like")
-    public ResponseEntity<?> likeBoard(@RequestBody BoardLikeDto boardLikeDto) {
-        return ResponseEntity.ok(new IdResDto(boardService.likeBoard(boardLikeDto)));
+    public RestResult<?> likeBoard(@RequestBody BoardLikeDto boardLikeDto) {
+        return RestResult.success(new IdResDto(boardService.likeBoard(boardLikeDto)));
     }
 
     @DeleteMapping("cancelLike")
-    public ResponseEntity<?> cancelLikeBoard(@RequestBody BoardLikeDto boardLikeDto) {
-        return ResponseEntity.ok(new IdResDto(boardService.cancelLikeBoard(boardLikeDto)));
+    public RestResult<?> cancelLikeBoard(@RequestBody BoardLikeDto boardLikeDto) {
+        return RestResult.success(new IdResDto(boardService.cancelLikeBoard(boardLikeDto)));
     }
 
 }

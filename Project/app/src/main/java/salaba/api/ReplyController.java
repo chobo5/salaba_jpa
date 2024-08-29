@@ -1,13 +1,13 @@
 package salaba.api;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import salaba.dto.request.board.ReplyCreateDto;
 import salaba.dto.request.board.ReplyModifyDto;
 import salaba.dto.request.board.ReplyToReplyCreateDto;
 import salaba.dto.response.IdResDto;
 import salaba.service.ReplyService;
+import salaba.util.RestResult;
 
 @RestController
 @RequiredArgsConstructor
@@ -16,28 +16,28 @@ public class ReplyController {
     private final ReplyService replyService;
 
     @PostMapping("new")
-    public ResponseEntity<?> createReply(@RequestBody ReplyCreateDto replyCreateDto) {
-        return ResponseEntity.ok(new IdResDto(replyService.createReply(replyCreateDto)));
+    public RestResult<?> createReply(@RequestBody ReplyCreateDto replyCreateDto) {
+        return RestResult.success(new IdResDto(replyService.createReply(replyCreateDto)));
     }
 
     @PutMapping("modify")
-    public ResponseEntity<?> modifyReply(@RequestBody ReplyModifyDto replyModifyDto) {
-        return ResponseEntity.ok(replyService.modify(replyModifyDto));
+    public RestResult<?> modifyReply(@RequestBody ReplyModifyDto replyModifyDto) {
+        return RestResult.success(replyService.modify(replyModifyDto));
     }
 
     @DeleteMapping("delete/{id}")
-    public ResponseEntity<?> deleteReply(@PathVariable Long id) {
-        return ResponseEntity.ok(new IdResDto(replyService.delete(id)));
+    public RestResult<?> deleteReply(@PathVariable Long id) {
+        return RestResult.success(new IdResDto(replyService.delete(id)));
     }
 
     @PostMapping("toReply/new")
-    public ResponseEntity<?> createReplyToReply(@RequestBody ReplyToReplyCreateDto replyCreateDto) {
-        return ResponseEntity.ok(new IdResDto(replyService.createReplyToReply(replyCreateDto)));
+    public RestResult<?> createReplyToReply(@RequestBody ReplyToReplyCreateDto replyCreateDto) {
+        return RestResult.success(new IdResDto(replyService.createReplyToReply(replyCreateDto)));
     }
 
     @DeleteMapping("toReply/delete/{id}")
-    public ResponseEntity<?> deleteReReply(@PathVariable Long id) {
-        return ResponseEntity.ok(new IdResDto(replyService.deleteReplyToReply(id)));
+    public RestResult<?> deleteReReply(@PathVariable Long id) {
+        return RestResult.success(new IdResDto(replyService.deleteReplyToReply(id)));
     }
 
 }
