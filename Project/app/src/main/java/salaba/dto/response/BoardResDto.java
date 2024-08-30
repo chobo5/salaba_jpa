@@ -1,4 +1,4 @@
-package salaba.dto.request.board;
+package salaba.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.querydsl.core.annotations.QueryProjection;
@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 
 @Data
 @NoArgsConstructor
-public class BoardDto {
+public class BoardResDto {
     private Long boardId;
 
     private String title;
@@ -28,7 +28,7 @@ public class BoardDto {
     private Long replyCount;
 
     @QueryProjection
-    public BoardDto(Long boardId, String title, String content, String writerNickname, int viewCount, LocalDateTime createdDate, Long likeCount, Long replyCount) {
+    public BoardResDto(Long boardId, String title, String content, String writerNickname, int viewCount, LocalDateTime createdDate, Long likeCount, Long replyCount) {
         this.boardId = boardId;
         this.title = title;
         this.content = content;

@@ -1,6 +1,7 @@
 package salaba.api;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import salaba.util.RestResult;
 public class PaymentController {
     private final PaymentService paymentService;
 
+    @ApiOperation("결제 완료")
     @PostMapping("complete")
     public RestResult<?> recordPayment(@RequestBody PaymentReqDto reqDto) {
         return RestResult.success(paymentService.completePayment(reqDto));

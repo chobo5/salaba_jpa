@@ -13,8 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
-import salaba.dto.request.BoardSearchReqDto;
+import salaba.dto.request.board.BoardSearchReqDto;
 import salaba.dto.request.board.*;
+import salaba.dto.response.*;
 import salaba.entity.board.*;
 
 import java.util.List;
@@ -34,8 +35,8 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<BoardDto> getList(BoardCategory category, Pageable pageable) {
-        List<BoardDto> listResult = queryFactory.select(new QBoardDto(
+    public Page<BoardResDto> getList(Pageable pageable) {
+        List<BoardResDto> listResult = queryFactory.select(new QBoardResDto(
                         board.id,
                         board.title,
                         board.content,
@@ -49,8 +50,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .join(board.writer, member)
                 .join(boardLike).on(boardLike.board.eq(board))
                 .leftJoin(reply).on(reply.board.eq(board))
-                .where(board.boardCategory.eq(category)
-                        .and(board.writingStatus.eq(WritingStatus.NORMAL)))
+                .where(board.writingStatus.eq(WritingStatus.NORMAL))
                 .groupBy(board.id)
                 .orderBy(board.createdDate.desc())
                 .offset(pageable.getOffset())
@@ -59,25 +59,23 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
         JPAQuery<Long> totalCount = queryFactory.select(board.id.count())
                 .from(board)
-                .where(board.boardCategory.eq(category)
-                        .and(board.writingStatus.eq(WritingStatus.NORMAL)));
+                .where(board.writingStatus.eq(WritingStatus.NORMAL));
 
         return PageableExecutionUtils.getPage(listResult, pageable, totalCount::fetchOne);
 
     }
 
     @Override
-    public Optional<BoardDetailDto> get(Long boardId) {
+    public Optional<BoardDetailResDto> get(Long boardId) {
         // likeCount 서브쿼리
         Expression<Long> likeCount = ExpressionUtils.as(JPAExpressions.select(boardLike.countDistinct())
                         .from(boardLike)
                         .where(boardLike.board.id.eq(boardId)),"likeCount");
 
         //board
-        BoardDetailDto boardResult = queryFactory.select(Projections.constructor(BoardDetailDto.class,
+        BoardDetailResDto boardResult = queryFactory.select(Projections.constructor(BoardDetailResDto.class,
                         board.id,
                         board.boardScope,
-                        board.boardCategory,
                         board.title,
                         board.content,
                         member.id,
@@ -90,13 +88,13 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .where(board.id.eq(boardId)
                         .and(board.writingStatus.eq(WritingStatus.NORMAL)))
                 .fetchOne();
-        
+
         if (boardResult == null) {
             throw new NoSuchElementException();
         }
 
         //댓글 리스트
-        List<ReplyDto> replyDtoList = queryFactory.select(Projections.constructor(ReplyDto.class,
+        List<ReplyResDto> replyResDtoList = queryFactory.select(Projections.constructor(ReplyResDto.class,
                         reply.id,
                         reply.board.id,
                         reply.writer.id,
@@ -110,7 +108,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
         //모든 대댓글 리스트
         QReply parentReply = new QReply("parent");
-        List<ReplyToReplyDto> reReplyList = queryFactory.select(Projections.constructor(ReplyToReplyDto.class,
+        List<ReplyToReplyResDto> reReplyList = queryFactory.select(Projections.constructor(ReplyToReplyResDto.class,
                         reply.id,
                         reply.parent.id,
                         reply.writer.id,
@@ -128,17 +126,17 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .fetch();
 
         //부모 댓글 번호별로 그룹화
-        Map<Long, List<ReplyToReplyDto>> groupedReReplyMap = reReplyList.stream()
-                .collect(Collectors.groupingBy(ReplyToReplyDto::getParentId));
+        Map<Long, List<ReplyToReplyResDto>> groupedReReplyMap = reReplyList.stream()
+                .collect(Collectors.groupingBy(ReplyToReplyResDto::getParentId));
 
-        replyDtoList.forEach(replyDto -> replyDto.setReplyToReplyList(groupedReReplyMap.get(replyDto.getId())));
+        replyResDtoList.forEach(replyResDto -> replyResDto.setReplyToReplyList(groupedReReplyMap.get(replyResDto.getId())));
 
-        boardResult.setReplyList(replyDtoList);
+        boardResult.setReplyList(replyResDtoList);
         return Optional.ofNullable(boardResult);
     }
 
-    public Page<BoardDto> search(BoardCategory boardCategory, BoardSearchReqDto boardSearchReqDto, Pageable pageable) {
-        List<BoardDto> listResult = queryFactory.select(new QBoardDto(
+    public Page<BoardResDto> search(BoardSearchReqDto boardSearchReqDto, Pageable pageable) {
+        List<BoardResDto> listResult = queryFactory.select(new QBoardResDto(
                         board.id,
                         board.title,
                         board.content,
@@ -152,8 +150,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .join(board.writer, member)
                 .join(boardLike).on(boardLike.board.eq(board))
                 .leftJoin(reply).on(reply.board.eq(board))
-                .where(board.boardCategory.eq(boardCategory)
-                        .and(board.writingStatus.eq(WritingStatus.NORMAL)),
+                .where(board.writingStatus.eq(WritingStatus.NORMAL),
                         boardTitleLike(boardSearchReqDto.getTitle()),
                         boardWriterLike(boardSearchReqDto.getWriter()))
                 .groupBy(board.id)
@@ -164,7 +161,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
         JPAQuery<Long> totalCount = queryFactory.select(board.id.count())
                 .from(board)
-                .where(board.boardCategory.eq(boardCategory).and(board.writingStatus.eq(WritingStatus.NORMAL)),
+                .where(board.writingStatus.eq(WritingStatus.NORMAL),
                         boardTitleLike(boardSearchReqDto.getTitle()),
                         boardWriterLike(boardSearchReqDto.getWriter()));
 

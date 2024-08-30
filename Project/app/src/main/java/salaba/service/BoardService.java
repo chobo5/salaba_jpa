@@ -5,10 +5,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.dto.request.BoardSearchReqDto;
+import salaba.dto.request.board.BoardSearchReqDto;
 import salaba.dto.request.board.*;
+import salaba.dto.response.BoardByMemberResDto;
+import salaba.dto.response.BoardDetailResDto;
+import salaba.dto.response.BoardResDto;
 import salaba.entity.board.Board;
-import salaba.entity.board.BoardCategory;
 import salaba.entity.board.BoardLike;
 import salaba.entity.member.Member;
 import salaba.entity.member.Point;
@@ -32,9 +34,9 @@ public class BoardService {
     private final PointRepository pointRepository;
     private final EntityManager em;
 
-    public Long createBoard(BoardCreateDto boardDto) {
+    public Long createBoard(BoardCreateReqDto boardDto) {
         Member writer = memberRepository.findById(boardDto.getMemberId()).orElseThrow(NoSuchElementException::new);
-        Board board = Board.createBoard(boardDto.getTitle(), boardDto.getContent(), boardDto.getCategory(), boardDto.getScope(), writer);
+        Board board = Board.createBoard(boardDto.getTitle(), boardDto.getContent(), boardDto.getScope(), writer);
 
         boardRepository.save(board);
         pointRepository.save(Point.createBoardPoint(writer));
@@ -42,15 +44,15 @@ public class BoardService {
         return board.getId();
     }
 
-    public Page<BoardDto> list(BoardCategory category, Pageable pageable) {
-        return boardRepository.getList(category, pageable);
+    public Page<BoardResDto> list(Pageable pageable) {
+        return boardRepository.getList(pageable);
     }
 
-    public BoardDetailDto get(Long boardId) {
+    public BoardDetailResDto get(Long boardId) {
         return boardRepository.get(boardId).orElseThrow(NoSuchElementException::new);
     }
 
-    public BoardModiResDto modify(BoardModifyDto boardDto) {
+    public BoardModiResDto modify(BoardModifyReqDto boardDto) {
         Board board = boardRepository.findById(boardDto.getBoardId()).orElseThrow(NoSuchElementException::new);
 
         board.modifyBoard(boardDto.getTitle(), boardDto.getContent(), boardDto.getBoardScope());
@@ -64,13 +66,13 @@ public class BoardService {
         return board.getId();
     }
 
-    public Page<BoardDto> search(BoardCategory category, BoardSearchReqDto boardSearchReqDto, Pageable pageable) {
-        return boardRepository.search(category, boardSearchReqDto, pageable);
+    public Page<BoardResDto> search(BoardSearchReqDto boardSearchReqDto, Pageable pageable) {
+        return boardRepository.search(boardSearchReqDto, pageable);
     }
 
-    public Long likeBoard(BoardLikeDto boardLikeDto) {
-        Board board = boardRepository.findById(boardLikeDto.getBoardId()).orElseThrow(NoSuchElementException::new);
-        Member member = memberRepository.findById(boardLikeDto.getMemberId()).orElseThrow(NoSuchElementException::new);
+    public Long likeBoard(BoardLikeReqDto boardLikeReqDto) {
+        Board board = boardRepository.findById(boardLikeReqDto.getBoardId()).orElseThrow(NoSuchElementException::new);
+        Member member = memberRepository.findById(boardLikeReqDto.getMemberId()).orElseThrow(NoSuchElementException::new);
 
         BoardLike boardLike = BoardLike.createBoardLike(board, member);
         boardLikeRepository.save(boardLike);
@@ -78,8 +80,8 @@ public class BoardService {
         return boardLike.getId();
     }
 
-    public Long cancelLikeBoard(BoardLikeDto boardLikeDto) {
-        BoardLike boardLike = boardLikeRepository.findByBoardIdAndMemberId(boardLikeDto.getBoardId(), boardLikeDto.getMemberId())
+    public Long cancelLikeBoard(BoardLikeReqDto boardLikeReqDto) {
+        BoardLike boardLike = boardLikeRepository.findByBoardIdAndMemberId(boardLikeReqDto.getBoardId(), boardLikeReqDto.getMemberId())
                 .orElseThrow(NoSuchElementException::new);
 
         boardLike.cancelBoardLike();
@@ -87,9 +89,9 @@ public class BoardService {
         return boardLike.getId();
     }
 
-    public Page<BoardByMemberDto> boardsByMember(Long memberId, Pageable pageable) {
+    public Page<BoardByMemberResDto> boardsByMember(Long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
         Page<Board> boardList = boardRepository.findByWriter(member, pageable);
-        return boardList.map(board -> new BoardByMemberDto(board.getId(), board.getTitle(), board.getCreatedDate()));
+        return boardList.map(board -> new BoardByMemberResDto(board.getId(), board.getTitle(), board.getCreatedDate()));
     }
 }

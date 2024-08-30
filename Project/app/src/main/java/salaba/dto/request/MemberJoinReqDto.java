@@ -9,21 +9,21 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel(description = "회원 가입 요청 DTO")
+@ApiModel("회원 가입 요청 DTO")
 public class MemberJoinReqDto {
-    @ApiModelProperty(value = "닉네임", required = true)
+    @ApiModelProperty("닉네임")
     private String nickname;
 
-    @ApiModelProperty(value = "이름", required = true)
+    @ApiModelProperty("이름")
     private String name;
 
-    @ApiModelProperty(value = "이메일", required = true)
+    @ApiModelProperty("이메일")
     private String email;
 
-    @ApiModelProperty(value = "비밀번호", required = true)
+    @ApiModelProperty("비밀번호")
     private String password;
 
-    @ApiModelProperty(value = "생일", required = true)
+    @ApiModelProperty("생일")
     private LocalDate birthday;
 
 }

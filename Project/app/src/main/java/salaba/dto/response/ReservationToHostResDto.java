@@ -8,7 +8,7 @@ import salaba.entity.rental.Reservation;
 import java.time.LocalDateTime;
 
 @Data
-public class ReservationResToHostDto {
+public class ReservationToHostResDto {
     private Long reservationId;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
@@ -21,7 +21,7 @@ public class ReservationResToHostDto {
 
     private String guestName;
 
-    public ReservationResToHostDto(Reservation reservation) {
+    public ReservationToHostResDto(Reservation reservation) {
         reservationId = reservation.getId();
         startDate = reservation.getStartDate();
         endDate = reservation.getEndDate();

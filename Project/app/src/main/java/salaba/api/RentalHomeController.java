@@ -1,6 +1,7 @@
 package salaba.api;
 
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -19,33 +20,20 @@ public class RentalHomeController {
     private final RentalHomeService rentalHomeService;
     private final BookMarkService bookMarkService;
 
-    @PostMapping("new")
-    public RestResult<?> createRentalHome(@RequestBody RentalHomeCreateReqDto rentalHomeCreateReqDto) {
-        return RestResult.success(new IdResDto(rentalHomeService.createRentalHome(rentalHomeCreateReqDto)));
-    }
-
+    @ApiOperation("숙소 상세보기")
     @GetMapping("{rentalHomeId}")
     public RestResult<?> getRentalHome(@PathVariable Long rentalHomeId) {
         return RestResult.success(rentalHomeService.get(rentalHomeId));
 
     }
 
-    @PostMapping("mark/{memberId}/{rentalHomeId}")
-    public RestResult<?> markOnRentalHome(@PathVariable Long memberId, @PathVariable Long rentalHomeId) {
-        return RestResult.success(bookMarkService.mark(memberId, rentalHomeId));
-    }
-
-    @DeleteMapping("mark/delete/{memberId}/{rentalHomeId}")
-    public RestResult<?> deleteMarkOnRentalHome(@PathVariable Long memberId, @PathVariable Long rentalHomeId) {
-        bookMarkService.deleteMark(memberId, rentalHomeId);
-        return RestResult.success();
-    }
-
+    @ApiOperation("숙소 리뷰 목록")
     @GetMapping("reviews/{rentalHomeId}")
     public RestResult<?> getRentalHomeReviews(@PathVariable Long rentalHomeId, Pageable pageable) {
         return RestResult.success(rentalHomeService.getRentalHomeReviews(rentalHomeId, pageable));
     }
 
+    @ApiOperation("숙소 리뷰 평균 점수")
     @GetMapping("reviews/avg/{rentalHomeId}")
     public RestResult<?> getRentalHomeReviewAvg(@PathVariable Long rentalHomeId) {
         return RestResult.success(rentalHomeService.getRentalHomeReviewAvg(rentalHomeId));

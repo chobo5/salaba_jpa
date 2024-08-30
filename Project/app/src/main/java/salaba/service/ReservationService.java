@@ -6,8 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import salaba.dto.ReservedDateDto;
 import salaba.dto.request.ReservationReqDto;
-import salaba.dto.response.ReservationResToGuestDto;
-import salaba.dto.response.ReservationResToHostDto;
+import salaba.dto.response.ReservationToGuestResDto;
+import salaba.dto.response.ReservationToHostResDto;
 import salaba.entity.ProcessStatus;
 import salaba.entity.member.Member;
 import salaba.entity.rental.Payment;
@@ -59,15 +59,15 @@ public class ReservationService {
 
     }
 
-    public Page<ReservationResToHostDto> getWithGuest(Long rentalHomeId, Pageable pageable) {
+    public Page<ReservationToHostResDto> getWithGuest(Long rentalHomeId, Pageable pageable) {
         Page<Reservation> reservations = reservationRepository.findWithGuest(rentalHomeId, pageable);
 
-        return reservations.map(ReservationResToHostDto::new);
+        return reservations.map(ReservationToHostResDto::new);
     }
 
-    public Page<ReservationResToGuestDto> getWithRentalHomeAndHost(Long memberId, Pageable pageable) {
+    public Page<ReservationToGuestResDto> getWithRentalHomeAndHost(Long memberId, Pageable pageable) {
         Page<Reservation> reservations = reservationRepository.findWithRentalHomeAndHost(memberId, pageable);
 
-        return reservations.map(ReservationResToGuestDto::new);
+        return reservations.map(ReservationToGuestResDto::new);
     }
 }

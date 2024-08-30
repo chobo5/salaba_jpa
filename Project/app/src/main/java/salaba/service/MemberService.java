@@ -62,7 +62,7 @@ public class MemberService {
 
     public Long modifyProfile(MemberModiReqDto memberModiReqDto) {
         //회원이 없으면 예외 발생
-        Member member = memberRepository.findById(memberModiReqDto.getId()).orElseThrow(NoSuchElementException::new);
+        Member member = memberRepository.findById(memberModiReqDto.getMemberId()).orElseThrow(NoSuchElementException::new);
         Nation nation = nationRepository.findById(memberModiReqDto.getNationId()).orElseThrow(NoSuchElementException::new);
         //entity를 변경하면 자동으로 반영
         member.changeProfile(memberModiReqDto.getName(), memberModiReqDto.getGender(), nation, new Address(memberModiReqDto.getStreet(), memberModiReqDto.getZipcode()));
@@ -113,7 +113,8 @@ public class MemberService {
         member.changePassword(telNo);
     }
 
-    public void quit(String email, String password) {
+    public void resign(String email, String password) {
         Member member = memberRepository.findByEmailAndPassword(email, password).orElseThrow(NoSuchElementException::new);
+        member.resign();
     }
 }

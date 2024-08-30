@@ -32,9 +32,6 @@ public class Board extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private WritingStatus writingStatus;
 
-    @Enumerated(EnumType.STRING)
-    private BoardCategory boardCategory;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member writer;
@@ -45,13 +42,12 @@ public class Board extends BaseEntity {
     @OneToMany(mappedBy = "board")
     private List<BoardLike> boardLikes = new ArrayList<>();
 
-    public static Board createBoard(String title, String content, BoardCategory boardCategory, BoardScope boardScope, Member writer) {
+    public static Board createBoard(String title, String content, BoardScope boardScope, Member writer) {
         Board newBoard = new Board();
         newBoard.title = title;
         newBoard.content = content;
         newBoard.viewCount = 0;
         newBoard.writingStatus = WritingStatus.NORMAL;
-        newBoard.boardCategory = boardCategory;
         newBoard.boardScope = boardScope;
         newBoard.writer = writer;
         writer.getBoards().add(newBoard);

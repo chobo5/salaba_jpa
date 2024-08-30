@@ -5,10 +5,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.dto.request.board.ReplyByMemberDto;
-import salaba.dto.request.board.ReplyCreateDto;
-import salaba.dto.request.board.ReplyModifyDto;
-import salaba.dto.request.board.ReplyToReplyCreateDto;
+import salaba.dto.response.ReplyByMemberResDto;
+import salaba.dto.request.board.ReplyCreateReqDto;
+import salaba.dto.request.board.ReplyModifyReqDto;
+import salaba.dto.request.board.ReplyToReplyCreateReqDto;
 import salaba.entity.board.Board;
 import salaba.entity.board.Reply;
 import salaba.entity.member.Alarm;
@@ -35,10 +35,10 @@ public class ReplyService {
     private final EntityManager em;
     private final AlarmRepository alarmRepository;
 
-    public Long createReply(ReplyCreateDto replyCreateDto) {
-        Board board = boardRepository.findByIdWithWriter(replyCreateDto.getBoardId()).orElseThrow(NoSuchElementException::new);
-        Member member = memberRepository.findById(replyCreateDto.getMemberId()).orElseThrow(NoSuchElementException::new);
-        Reply reply = Reply.createReply(board, replyCreateDto.getContent(), member);
+    public Long createReply(ReplyCreateReqDto replyCreateReqDto) {
+        Board board = boardRepository.findByIdWithWriter(replyCreateReqDto.getBoardId()).orElseThrow(NoSuchElementException::new);
+        Member member = memberRepository.findById(replyCreateReqDto.getMemberId()).orElseThrow(NoSuchElementException::new);
+        Reply reply = Reply.createReply(board, replyCreateReqDto.getContent(), member);
         replyRepository.save(reply);
 
         Alarm alarm = Alarm.createReplyAlarm(board.getWriter(), member.getNickname(), reply.getContent());
@@ -49,9 +49,9 @@ public class ReplyService {
         return reply.getId();
     }
 
-    public ReplyModiResDto modify(ReplyModifyDto replyModifyDto) {
-        Reply reply = replyRepository.findById(replyModifyDto.getId()).orElseThrow(NoSuchElementException::new);
-        reply.modifyReply(replyModifyDto.getContent());
+    public ReplyModiResDto modify(ReplyModifyReqDto replyModifyReqDto) {
+        Reply reply = replyRepository.findById(replyModifyReqDto.getReplyId()).orElseThrow(NoSuchElementException::new);
+        reply.modifyReply(replyModifyReqDto.getContent());
         em.flush();
         return new ReplyModiResDto(reply.getId(), reply.getContent(), reply.getCreatedDate(), reply.getUpdatedDate());
     }
@@ -62,11 +62,11 @@ public class ReplyService {
         return reply.getId();
     }
 
-    public Long createReplyToReply(ReplyToReplyCreateDto replyToReplyCreateDto) {
-        Reply parent = replyRepository.findByIdWithWriter(replyToReplyCreateDto.getReplyId()).orElseThrow(NoSuchElementException::new);
-        Member writer = memberRepository.findById(replyToReplyCreateDto.getMemberId()).orElseThrow(NoSuchElementException::new);
+    public Long createReplyToReply(ReplyToReplyCreateReqDto replyToReplyCreateReqDto) {
+        Reply parent = replyRepository.findByIdWithWriter(replyToReplyCreateReqDto.getReplyId()).orElseThrow(NoSuchElementException::new);
+        Member writer = memberRepository.findById(replyToReplyCreateReqDto.getMemberId()).orElseThrow(NoSuchElementException::new);
 
-        Reply reply = Reply.createReplyToReply(parent, replyToReplyCreateDto.getContent(), writer);
+        Reply reply = Reply.createReplyToReply(parent, replyToReplyCreateReqDto.getContent(), writer);
         replyRepository.save(reply);
 
         Alarm alarm = Alarm.createReplyAlarm(parent.getWriter(), writer.getNickname(), reply.getContent());
@@ -80,9 +80,9 @@ public class ReplyService {
         return reply.getId();
     }
 
-    public Page<ReplyByMemberDto> repliesByMember(Long memberId, Pageable pageable) {
+    public Page<ReplyByMemberResDto> repliesByMember(Long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
         Page<Reply> replyList = replyRepository.findByWriter(member, pageable);
-        return replyList.map(reply -> new ReplyByMemberDto(reply.getId(), reply.getContent(), reply.getCreatedDate()));
+        return replyList.map(reply -> new ReplyByMemberResDto(reply.getId(), reply.getContent(), reply.getCreatedDate()));
     }
 }

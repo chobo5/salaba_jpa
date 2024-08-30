@@ -2,20 +2,19 @@ package salaba.repository.board;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import salaba.dto.request.BoardSearchReqDto;
-import salaba.dto.request.board.BoardDetailDto;
-import salaba.dto.request.board.BoardDto;
+import salaba.dto.request.board.BoardSearchReqDto;
+import salaba.dto.response.BoardDetailResDto;
+import salaba.dto.response.BoardResDto;
 import salaba.entity.board.Board;
-import salaba.entity.board.BoardCategory;
 
 import java.util.Optional;
 
 public interface BoardRepositoryCustom {
-    Page<BoardDto> getList(BoardCategory category, Pageable pageable);
+    Page<BoardResDto> getList(Pageable pageable);
 
-    Optional<BoardDetailDto> get(Long boardId);
+    Optional<BoardDetailResDto> get(Long boardId);
 
-    Page<BoardDto> search(BoardCategory boardCategory, BoardSearchReqDto boardSearchReqDto, Pageable pageable);
+    Page<BoardResDto> search(BoardSearchReqDto boardSearchReqDto, Pageable pageable);
 
     Optional<Board> findByIdWithWriter(Long boardId);
 }

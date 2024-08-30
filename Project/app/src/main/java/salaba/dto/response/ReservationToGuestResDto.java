@@ -8,7 +8,7 @@ import salaba.entity.rental.Reservation;
 import java.time.LocalDateTime;
 
 @Data
-public class ReservationResToGuestDto {
+public class ReservationToGuestResDto {
     private Long reservationId;
 
     private String rentalHomeName;
@@ -24,7 +24,7 @@ public class ReservationResToGuestDto {
     private ProcessStatus status;
 
 
-    public ReservationResToGuestDto(Reservation reservation) {
+    public ReservationToGuestResDto(Reservation reservation) {
         reservationId = reservation.getId();
         rentalHomeName = reservation.getRentalHome().getName();
         hostName = reservation.getRentalHome().getHost().getName();

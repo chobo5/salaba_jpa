@@ -10,9 +10,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.dto.request.board.BoardDto;
-import salaba.dto.request.board.ReplyDto;
-import salaba.dto.request.board.ReplyToReplyDto;
+import salaba.dto.response.BoardResDto;
+import salaba.dto.response.ReplyResDto;
+import salaba.dto.response.ReplyToReplyResDto;
 import salaba.entity.board.BoardCategory;
 import salaba.entity.board.QReply;
 import salaba.repository.board.BoardRepository;
@@ -41,7 +41,7 @@ class BoardRepositoryImplTest {
     @Test
     public void boardListTest() {
         PageRequest pageRequest = PageRequest.of(0, 10);
-        Page<BoardDto> list = boardRepository.getList(BoardCategory.FREE, pageRequest);
+        Page<BoardResDto> list = boardRepository.getList(BoardCategory.FREE, pageRequest);
         list.forEach(System.out::println);
 
     }
@@ -61,7 +61,7 @@ class BoardRepositoryImplTest {
 
     @Test
     public void replyListTest() {
-        List<ReplyDto> replyDtoList = queryFactory.select(Projections.constructor(ReplyDto.class,
+        List<ReplyResDto> replyResDtoList = queryFactory.select(Projections.constructor(ReplyResDto.class,
                         reply.id,
                         reply.board.id,
                         reply.writer.id,
@@ -73,13 +73,13 @@ class BoardRepositoryImplTest {
                 .orderBy(reply.createdDate.desc())
                 .fetch();
 
-        replyDtoList.forEach(System.out::println);
+        replyResDtoList.forEach(System.out::println);
     }
 
     @Test
     public void replyToReplyListTest() {
         QReply parentReply = new QReply("parent");
-        List<ReplyToReplyDto> reReplyList = queryFactory.select(Projections.constructor(ReplyToReplyDto.class,
+        List<ReplyToReplyResDto> reReplyList = queryFactory.select(Projections.constructor(ReplyToReplyResDto.class,
                         reply.id,
                         reply.parent.id,
                         reply.writer.id,

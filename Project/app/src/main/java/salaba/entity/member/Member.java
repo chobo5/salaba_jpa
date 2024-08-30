@@ -129,4 +129,8 @@ public class Member extends BaseEntity {
         this.address = address;
     }
 
+    public void resign() {
+        this.status = MemberStatus.RESIGN;
+    }
+
 }
