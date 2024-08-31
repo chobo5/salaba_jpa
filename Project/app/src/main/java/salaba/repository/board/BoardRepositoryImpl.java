@@ -43,7 +43,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         member.nickname,
                         board.viewCount,
                         board.createdDate,
-                        boardLike.board.id.countDistinct().as("likeCount"),
+                        boardLike.member.id.countDistinct().as("likeCount"),
                         reply.id.countDistinct().as("replyCount"))
                 )
                 .from(board)
@@ -67,6 +67,12 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
     @Override
     public Optional<BoardDetailResDto> get(Long boardId) {
+        // 조회수 증가
+        queryFactory.update(board)
+                .set(board.viewCount, board.viewCount.add(1))
+                .where(board.id.eq(boardId))
+                .execute();
+
         // likeCount 서브쿼리
         Expression<Long> likeCount = ExpressionUtils.as(JPAExpressions.select(boardLike.countDistinct())
                         .from(boardLike)
@@ -144,8 +150,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         board.viewCount,
                         board.createdDate,
                         boardLike.board.id.countDistinct().as("likeCount"),
-                        reply.id.countDistinct().as("replyCount"))
-                )
+                        reply.id.countDistinct().as("replyCount")))
                 .from(board)
                 .join(board.writer, member)
                 .join(boardLike).on(boardLike.board.eq(board))

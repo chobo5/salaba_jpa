@@ -49,6 +49,7 @@ public class BoardService {
     }
 
     public BoardDetailResDto get(Long boardId) {
+
         return boardRepository.get(boardId).orElseThrow(NoSuchElementException::new);
     }
 

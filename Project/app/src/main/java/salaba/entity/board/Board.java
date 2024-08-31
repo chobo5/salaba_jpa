@@ -42,6 +42,7 @@ public class Board extends BaseEntity {
     @OneToMany(mappedBy = "board")
     private List<BoardLike> boardLikes = new ArrayList<>();
 
+
     public static Board createBoard(String title, String content, BoardScope boardScope, Member writer) {
         Board newBoard = new Board();
         newBoard.title = title;
@@ -56,10 +57,6 @@ public class Board extends BaseEntity {
 
     public void deleteBoard() {
         writingStatus = WritingStatus.DELETED;
-    }
-
-    public void viewBoard() {
-        viewCount++;
     }
 
     public void modifyBoard(String title, String content, BoardScope boardScope) {
