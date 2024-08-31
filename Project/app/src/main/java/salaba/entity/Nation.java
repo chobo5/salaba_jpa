@@ -1,10 +1,11 @@
 package salaba.entity;
 
 import lombok.*;
-import salaba.entity.board.Reply;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "nation")
@@ -19,7 +20,7 @@ public class Nation extends BaseEntity {
     private String name;
 
     @OneToMany(mappedBy = "nation")
-    private List<Region> regionList;
+    private Set<Region> regions = new HashSet<>();
 
     public Nation(Integer id, String name) {
         this.id = id;

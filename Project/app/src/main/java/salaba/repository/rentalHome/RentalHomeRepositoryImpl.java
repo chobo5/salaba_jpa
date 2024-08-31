@@ -53,6 +53,7 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom{
         return queryFactory.selectFrom(rentalHome)
                 .leftJoin(rentalHome.region, region).fetchJoin()
                 .where(rentalHome.host.id.eq(hostId))
+                .orderBy(rentalHome.createdDate.desc())
                 .fetch();
     }
 
