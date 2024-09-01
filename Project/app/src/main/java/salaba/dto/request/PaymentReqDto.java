@@ -3,13 +3,9 @@ package salaba.dto.request;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.Getter;
-import salaba.entity.ProcessStatus;
+import salaba.util.ProcessStatus;
 import salaba.entity.rental.PayMethod;
-import salaba.entity.rental.Reservation;
-import salaba.exception.CannotChangeStatusException;
 
-import javax.persistence.*;
 import java.util.List;
 
 @Data

@@ -1,6 +1,7 @@
 package salaba.api;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import salaba.exception.AlreadyExistsException;
@@ -19,8 +20,8 @@ public class GlobalExceptionHandler {
         return RestResult.error("Cannot Find Entity");
     }
 
-    @ExceptionHandler(ValidationException.class)
-    public RestResult<?> handleValidationException(ValidationException e) {
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public RestResult<?> handleMethodArgumentNotValidException(MethodArgumentNotValidException e) {
         return RestResult.error(e.getMessage());
     }
 

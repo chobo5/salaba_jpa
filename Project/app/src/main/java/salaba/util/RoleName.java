@@ -1,10 +1,10 @@
-package salaba.entity.member;
+package salaba.util;
 
 import lombok.Getter;
 
 @Getter
 public enum RoleName {
-    MEMBER(1), MANAGER(2), ADMIN(3);
+    ADMIN(1), MANAGER(2), MEMBER(3);
 
     private final int id;
 

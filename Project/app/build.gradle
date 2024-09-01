@@ -48,6 +48,16 @@ dependencies {
     implementation 'com.amazonaws:aws-java-sdk-s3:1.12.688'
     //iamport 결제대행 API
     implementation 'com.github.iamport:iamport-rest-client-java:0.1.6'
+
+    //jwt token
+    implementation group: 'io.jsonwebtoken', name: 'jjwt-api', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-impl', version: '0.11.5'
+    runtimeOnly group: 'io.jsonwebtoken', name: 'jjwt-jackson', version: '0.11.5'
+
+    //spring security
+    implementation 'org.springframework.boot:spring-boot-starter-security'
+    //spring validation
+    implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 

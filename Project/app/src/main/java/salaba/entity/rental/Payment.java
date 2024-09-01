@@ -1,11 +1,10 @@
 package salaba.entity.rental;
 
 import lombok.Getter;
-import salaba.entity.ProcessStatus;
+import salaba.util.ProcessStatus;
 import salaba.exception.CannotChangeStatusException;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 @Entity

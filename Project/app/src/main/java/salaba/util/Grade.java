@@ -1,4 +1,4 @@
-package salaba.entity.member;
+package salaba.util;
 
 import lombok.*;
 import salaba.entity.BaseEntity;

@@ -4,16 +4,13 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import salaba.entity.Nation;
 import salaba.entity.Region;
-import salaba.entity.board.*;
-import salaba.entity.member.Member;
 import salaba.entity.member.Role;
-import salaba.entity.member.RoleName;
+import salaba.util.RoleName;
 import salaba.entity.rental.Facility;
 import salaba.entity.rental.Theme;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.time.LocalDate;
 
 @Component
 public class InitService {
@@ -36,16 +33,24 @@ public class InitService {
 //        em.persist(germany);
 //        em.persist(uk);
 //        em.persist(russia);
-//        Nation korea = em.find(Nation.class, 82);
-//        Region seoul = new Region("seoul", korea);
-//        Region suwon = new Region("suwon", korea);
-//        Region hwaseong = new Region("hwaseong", korea);
-//        Region yongin = new Region("yongin", korea);
+//        Nation findKorea = em.find(Nation.class, 82);
+//        Region seoul = new Region("seoul", findKorea);
+//        Region suwon = new Region("suwon", findKorea);
+//        Region hwaseong = new Region("hwaseong", findKorea);
+//        Region yongin = new Region("yongin", findKorea);
 //        em.persist(seoul);
 //        em.persist(suwon);
 //        em.persist(hwaseong);
 //        em.persist(yongin);
-
+//
+//        Role roleAdmin = new Role(RoleName.ADMIN.getId(), RoleName.ADMIN);
+//        Role roleManager = new Role(RoleName.MANAGER.getId(), RoleName.MANAGER);
+//        Role roleMember = new Role(RoleName.MEMBER.getId(), RoleName.MEMBER);
+//        em.persist(roleAdmin);
+//        em.persist(roleManager);
+//        em.persist(roleMember);
+//
+//
 //        Facility facility1 = new Facility("Air Conditioner");
 //        Facility facility2 = new Facility("wi-fi");
 //        Facility facility3 = new Facility("Washing Machine");
@@ -95,13 +100,6 @@ public class InitService {
 //        em.persist(theme10);
 //        em.persist(theme11);
 
-//
-//        Role member = new Role(RoleName.MEMBER.getId(), RoleName.MEMBER);
-//        Role manager = new Role(RoleName.MANAGER.getId(), RoleName.MANAGER);
-//        Role admin = new Role(RoleName.ADMIN.getId(), RoleName.ADMIN);
-//        em.persist(member);
-//        em.persist(manager);
-//        em.persist(admin);
 
 //        for (int i = 4; i <= 9; i++) {
 //            Member newMember = Member.createMember("test" + i + "@test.com", "Tt12241509!@", "test" + i, "test" + i, LocalDate.of(1999, 1, 1));

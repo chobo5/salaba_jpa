@@ -20,7 +20,7 @@ public class MemberRole {
     @JoinColumn(name = "role_id", nullable = false)
     private Role role;
 
-    public MemberRole createMemberRole(Member member, Role role) {
+    public static MemberRole createMemberRole(Member member, Role role) {
         MemberRole memberRole = new MemberRole();
         memberRole.member = member;
         memberRole.role = role;

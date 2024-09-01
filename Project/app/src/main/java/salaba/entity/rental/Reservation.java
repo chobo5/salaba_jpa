@@ -2,7 +2,7 @@ package salaba.entity.rental;
 
 import lombok.Getter;
 import salaba.entity.BaseEntity;
-import salaba.entity.ProcessStatus;
+import salaba.util.ProcessStatus;
 import salaba.entity.member.Member;
 import salaba.exception.CannotChangeStatusException;
 

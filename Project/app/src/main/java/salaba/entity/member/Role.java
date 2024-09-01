@@ -4,9 +4,11 @@ import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import salaba.entity.BaseEntity;
+import salaba.util.RoleName;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -20,4 +22,5 @@ public class Role {
     @Column(length = 30, nullable = false, unique = true)
     @Enumerated(EnumType.STRING)
     private RoleName roleName;
+
 }

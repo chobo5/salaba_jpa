@@ -8,7 +8,7 @@ import salaba.dto.ReservedDateDto;
 import salaba.dto.request.ReservationReqDto;
 import salaba.dto.response.ReservationToGuestResDto;
 import salaba.dto.response.ReservationToHostResDto;
-import salaba.entity.ProcessStatus;
+import salaba.util.ProcessStatus;
 import salaba.entity.member.Member;
 import salaba.entity.rental.Payment;
 import salaba.entity.rental.RentalHome;

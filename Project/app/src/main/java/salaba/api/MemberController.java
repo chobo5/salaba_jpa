@@ -29,41 +29,11 @@ public class MemberController {
     private final BookMarkService bookMarkService;
 
 
-    @ApiOperation(value = "회원 닉네임 사용가능 여부 확인")
-    @GetMapping("validateNickname")
-    public RestResult<?> validateNickname(@ApiParam(value = "nickname", required = true) @RequestParam String nickname) {
-        if (memberService.isExistingNickname(nickname)) {
-            return RestResult.success();
-        }
-        throw new AlreadyExistsException("이미 사용중인 닉네임 입니다.");
-    }
-
-    @ApiOperation(value = "회원 이메일 사용가능 여부 확인")
-    @GetMapping("validateEmail")
-    public RestResult<?> validateEmail(@ApiParam(value = "email", required = true) @RequestParam String email) {
-        if (memberService.isExistingEmail(email)) {
-            return RestResult.success();
-        }
-        throw new AlreadyExistsException("이미 사용중인 이메일 입니다.");
-    }
-
-    @ApiOperation(value = "회원 가입")
-    @PostMapping("join")
-    public RestResult<?> join(@RequestBody MemberJoinReqDto memberJoinReqDto) {
-        return RestResult.success(new IdResDto(memberService.join(memberJoinReqDto)));
-    }
 
     @ApiOperation(value = "회원 프로필 수정")
     @PutMapping("modify")
     public RestResult<?> changeProfile(@RequestBody MemberModiReqDto memberModiReqDto) {
         return RestResult.success(new IdResDto(memberService.modifyProfile(memberModiReqDto)));
-    }
-
-    @ApiOperation(value = "회원 비밀번호 변경")
-    @PutMapping("changePassword")
-    public RestResult<?> changePassword(@RequestBody ChangePasswordReqDto reqDto) {
-        memberService.changePassword(reqDto.getMemberId(), reqDto.getPassword());
-        return RestResult.success();
     }
 
     @ApiOperation(value = "회원 닉네임 변경")

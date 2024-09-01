@@ -1,4 +1,4 @@
-package salaba.entity;
+package salaba.util;
 
 public enum Gender {
     MALE, FEMALE

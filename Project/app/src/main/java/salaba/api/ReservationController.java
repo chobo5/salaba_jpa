@@ -6,7 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import salaba.dto.request.ReservationReqDto;
 import salaba.dto.response.IdResDto;
-import salaba.entity.ProcessStatus;
+import salaba.util.ProcessStatus;
 import salaba.service.ReservationService;
 import salaba.util.RestResult;
 

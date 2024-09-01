@@ -3,7 +3,7 @@ package salaba.repository.rentalHome;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import salaba.entity.ProcessStatus;
+import salaba.util.ProcessStatus;
 import salaba.entity.rental.RentalHome;
 import salaba.entity.rental.Reservation;
 
