@@ -8,6 +8,7 @@ import salaba.util.RoleName;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import java.time.LocalDate;
 
@@ -26,6 +27,7 @@ public class MemberJoinReqDto {
     private String name;
 
     @ApiModelProperty("이메일")
+    @NotEmpty
     @Email(message = Regex.EMAIL_ERROR)
     private String email;
 
@@ -35,7 +37,7 @@ public class MemberJoinReqDto {
     private String password;
 
     @ApiModelProperty("생일")
-    @NotEmpty
+    @NotNull
     private LocalDate birthday;
 
 }

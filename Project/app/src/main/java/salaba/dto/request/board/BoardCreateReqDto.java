@@ -7,20 +7,27 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import salaba.entity.board.BoardScope;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel("게시물 생성 요청 DTO")
 public class BoardCreateReqDto {
     @ApiModelProperty("작성자(회원) id")
+    @NotNull
     private Long memberId;
     
     @ApiModelProperty("게시물 제목")
+    @NotEmpty
     private String title;
 
     @ApiModelProperty("게시물 내용")
+    @NotEmpty
     private String content;
 
     @ApiModelProperty("게시물 공개 범위")
+    @NotNull
     private BoardScope scope;
 }

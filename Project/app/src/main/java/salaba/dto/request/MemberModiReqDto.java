@@ -7,12 +7,16 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import salaba.util.Gender;
 
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @ApiModel("회원 기본 프로필 변경 요청 DTO")
 public class MemberModiReqDto {
     @ApiModelProperty("변경할 회원 id")
+    @NotNull
     private Long memberId;
 
     @ApiModelProperty("이름")
