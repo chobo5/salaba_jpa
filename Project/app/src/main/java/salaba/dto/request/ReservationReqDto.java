@@ -1,8 +1,7 @@
 package salaba.dto.request;
 
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,21 +13,21 @@ import java.time.LocalDateTime;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("숙소 예약 요청 DTO")
+@Schema(description = "숙소 예약 요청 DTO")
 public class ReservationReqDto {
-    @ApiModelProperty("회원 id")
+    @Schema(description = "회원 id")
     @NotNull
     private Long memberId;
 
-    @ApiModelProperty("숙소 id")
+    @Schema(description = "숙소 id")
     @NotNull
     private Long rentalHomeId;
 
-    @ApiModelProperty("예약 시작일")
+    @Schema(description = "예약 시작일")
     @NotNull
     private LocalDateTime startDate;
 
-    @ApiModelProperty("예약 종료일")
+    @Schema(description = "예약 종료일")
     @NotNull
     private LocalDateTime endDate;
 }

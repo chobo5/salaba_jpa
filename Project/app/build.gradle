@@ -41,8 +41,7 @@ dependencies {
     annotationProcessor "javax.annotation:javax.annotation-api"
 
     // swagger
-    implementation 'io.springfox:springfox-boot-starter:3.0.0'
-    implementation 'io.springfox:springfox-swagger-ui:3.0.0'
+    implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
 
     // AWS S3 API
     implementation 'com.amazonaws:aws-java-sdk-s3:1.12.688'

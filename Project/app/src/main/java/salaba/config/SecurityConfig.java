@@ -52,25 +52,25 @@ public class SecurityConfig {
                 //auth
                 .mvcMatchers(POST, BASE_URL +"auth/join", BASE_URL +"auth/login").permitAll()
                 .mvcMatchers(GET,  BASE_URL +"auth/validateEmail", BASE_URL + "auth/validateNickname").permitAll()
-                .mvcMatchers(PUT, BASE_URL +"auth/changeNickname", BASE_URL +"auth/changePassword", BASE_URL +"auth/changeTelNo").hasAnyRole(MEMBER, MANAGER, ADMIN)
-                .mvcMatchers(DELETE, BASE_URL +"auth/resign").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                .mvcMatchers(PUT, BASE_URL +"auth/changeNickname", BASE_URL +"auth/changePassword", BASE_URL +"auth/changeTelNo").hasAnyAuthority(MEMBER, MANAGER, ADMIN)
+                .mvcMatchers(DELETE, BASE_URL +"auth/resign").hasAnyAuthority(MEMBER, MANAGER, ADMIN)
                 //member
-                .mvcMatchers(BASE_URL+"member/**").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                .mvcMatchers(BASE_URL+"member/**").hasAnyAuthority(MEMBER, MANAGER, ADMIN)
                 //board
                 .mvcMatchers(GET, BASE_URL+"board/**", BASE_URL+"board/list").permitAll()
-                .mvcMatchers(POST, BASE_URL+"board/like", BASE_URL+"board/new").hasAnyRole(MEMBER, MANAGER, ADMIN)
-                .mvcMatchers(PUT, BASE_URL+"board/modify").hasAnyRole(MEMBER, MANAGER, ADMIN)
-                .mvcMatchers(DELETE, BASE_URL+"board/delete", BASE_URL+"board/cancelLike").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                .mvcMatchers(POST, BASE_URL+"board/like", BASE_URL+"board/new").hasAnyAuthority(MEMBER, MANAGER, ADMIN)
+                .mvcMatchers(PUT, BASE_URL+"board/modify").hasAnyAuthority(MEMBER, MANAGER, ADMIN)
+                .mvcMatchers(DELETE, BASE_URL+"board/delete", BASE_URL+"board/cancelLike").hasAnyAuthority(MEMBER, MANAGER, ADMIN)
                 //reply
-                .mvcMatchers(BASE_URL+"reply/**").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                .mvcMatchers(BASE_URL+"reply/**").hasAnyAuthority(MEMBER, MANAGER, ADMIN)
                 //payment
-                .mvcMatchers(BASE_URL+"payment/**").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                .mvcMatchers(BASE_URL+"payment/**").hasAnyAuthority(MEMBER, MANAGER, ADMIN)
                 //nation
-                .mvcMatchers(BASE_URL+"nation/**").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                .mvcMatchers(BASE_URL+"nation/**").hasAnyAuthority(MEMBER, MANAGER, ADMIN)
                 //reservation
-                .mvcMatchers(BASE_URL+"reservation/**").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                .mvcMatchers(BASE_URL+"reservation/**").hasAnyAuthority(MEMBER, MANAGER, ADMIN)
                 //host
-                .mvcMatchers(BASE_URL+"host/**").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                .mvcMatchers(BASE_URL+"host/**").hasAnyAuthority(MEMBER, MANAGER, ADMIN)
                 //rentalHome
                 .mvcMatchers(BASE_URL+"rentalHome/**").permitAll()
                 .and()

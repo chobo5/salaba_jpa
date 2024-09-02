@@ -1,7 +1,6 @@
 package salaba.dto.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,13 +10,13 @@ import javax.validation.constraints.NotNull;
 
 @Data
 @AllArgsConstructor
-@ApiModel("국가 DTO")
+@Schema(description = "국가 DTO")
 public class NationDto {
-    @ApiModelProperty("국가 번호")
+    @Schema(description = "국가 번호")
     @NotNull
     private Integer id;
 
-    @ApiModelProperty("국가명")
+    @Schema(description = "국가명")
     @NotEmpty
     private String name;
 }

@@ -1,7 +1,6 @@
 package salaba.dto.request;
 
-import io.swagger.annotations.ApiModel;
-import io.swagger.annotations.ApiModelProperty;
+import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,25 +12,25 @@ import javax.validation.constraints.NotNull;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-@ApiModel("회원 기본 프로필 변경 요청 DTO")
+@Schema(description = "회원 기본 프로필 변경 요청 DTO")
 public class MemberModiReqDto {
-    @ApiModelProperty("변경할 회원 id")
+    @Schema(description = "변경할 회원 id")
     @NotNull
     private Long memberId;
 
-    @ApiModelProperty("이름")
+    @Schema(description = "이름")
     private String name;
 
-    @ApiModelProperty("국가 id")
+    @Schema(description = "국가 id")
     private Integer nationId;
 
-    @ApiModelProperty("성별(MALE, FEMALE)")
+    @Schema(description = "성별(MALE, FEMALE)")
     private Gender gender;
 
-    @ApiModelProperty("상세 주소")
+    @Schema(description = "상세 주소")
     private String street;
 
-    @ApiModelProperty("우편 번호")
+    @Schema(description = "우편 번호")
     private Integer zipcode;
 
 }
