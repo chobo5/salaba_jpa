@@ -36,27 +36,6 @@ public class MemberController {
         return RestResult.success(new IdResDto(memberService.modifyProfile(memberModiReqDto)));
     }
 
-    @ApiOperation(value = "회원 닉네임 변경")
-    @PutMapping("changeNickname")
-    public RestResult<?> changeNickname(@RequestBody ChangeNicknameReqDto reqDto) {
-        memberService.changeNickname(reqDto.getMemberId(), reqDto.getNickname());
-        return RestResult.success();
-    }
-
-    @ApiOperation(value = "회원 연락처 변경")
-    @PutMapping("changeTelNo")
-    public RestResult<?> changeTelNo(@RequestBody ChangeTelNoReqDto reqDto) {
-        memberService.changeTelNo(reqDto.getMemberId(), reqDto.getTelNo());
-        return RestResult.success();
-    }
-
-    @ApiOperation(value = "회원 탈퇴")
-    @DeleteMapping("resign")
-    public RestResult<?> quit(@RequestBody MemberResignReqDto reqDto) {
-        memberService.resign(reqDto.getEmail(), reqDto.getPassword());
-        return RestResult.success();
-    }
-
     @ApiOperation(value = "회원이 작성한 게시물 목록")
     @GetMapping("wrote/boards/{memberId}")
     public RestResult<?> boardListByMember(@PathVariable Long memberId, Pageable pageable) {

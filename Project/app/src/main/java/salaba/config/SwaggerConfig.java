@@ -1,5 +1,9 @@
 package salaba.config;
 
+import io.jsonwebtoken.security.Keys;
+import io.swagger.v3.oas.models.Components;
+import io.swagger.v3.oas.models.OpenAPI;
+import io.swagger.v3.oas.models.security.SecurityRequirement;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
@@ -9,27 +13,27 @@ import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.service.ApiInfo;
+import io.swagger.v3.oas.models.security.SecurityScheme;
+import springfox.documentation.service.ApiKey;
+import springfox.documentation.service.AuthorizationScope;
+import springfox.documentation.service.SecurityReference;
 import springfox.documentation.spi.DocumentationType;
+import springfox.documentation.spi.service.contexts.SecurityContext;
 import springfox.documentation.spring.web.plugins.Docket;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
+
+import java.util.List;
+
 
 @Configuration
 @EnableWebMvc
 @EnableSwagger2
 public class SwaggerConfig implements WebMvcConfigurer {
-
-    /*
-    Docket: Swagger 설정의 핵심이 되는 Bean
-    useDefaultResponseMessages: Swagger 에서 제공해주는 기본 응답 코드 (200, 401, 403, 404). false 로 설정하면 기본 응답 코드를 노출하지 않음
-    apis: api 스펙이 작성되어 있는 패키지 (Controller) 를 지정
-    paths: apis 에 있는 API 중 특정 path 를 선택
-    apiInfo:Swagger UI 로 노출할 정보
-    */
-
     private static final String SERVICE_NAME = "Salaba";
     private static final String API_VERSION = "V1";
     private static final String API_DESCRIPTION = "Salaba Restful API";
     private static final String API_URL = "http://localhost:8888";
+    private static final String AUTHORIZATION_HEADER = "Authorization";
 
     @Bean
     public Docket api() {
@@ -38,7 +42,9 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .select()
                 .apis(RequestHandlerSelectors.any()) // RequestMapping의 모든 URL LIST
                 .paths(PathSelectors.ant("/api/**")) // .any() -> ant(/api/**") /api/**인 URL만 표시
-                .build();
+                .build()
+                .securityContexts(List.of(securityContext()))
+                .securitySchemes(List.of(securityScheme()));
     }
 
     private ApiInfo apiInfo() {
@@ -47,8 +53,24 @@ public class SwaggerConfig implements WebMvcConfigurer {
                 .description(API_DESCRIPTION)           // API 설명
                 .termsOfServiceUrl(API_URL)             // 서비스 url
                 .build();
+    }
 
-    }// API INFO
+    private SecurityContext securityContext() {
+        return SecurityContext.builder()
+                .securityReferences(securityReferences())
+                .operationSelector(operationContext -> true)
+                .build();
+    }
+
+    private List<SecurityReference> securityReferences() {
+        AuthorizationScope[] authorizationScopes = new AuthorizationScope[1];
+        authorizationScopes[0] = new AuthorizationScope("global", "accessEverything");
+        return List.of(new SecurityReference(AUTHORIZATION_HEADER, authorizationScopes));
+    }
+
+    private ApiKey securityScheme() {
+        return new ApiKey(AUTHORIZATION_HEADER, AUTHORIZATION_HEADER, "header");
+    }
 
     // 아래 부분은 WebMvcConfigure 를 상속받아서 설정하는 Mehtod
     @Override

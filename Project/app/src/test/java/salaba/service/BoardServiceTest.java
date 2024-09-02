@@ -20,14 +20,14 @@ class BoardServiceTest {
     BoardService boardService;
 
     @Autowired
-    MemberService memberService;
+    AuthService authService;
 
     @Autowired
     MemberRepository memberRepository;
     @Test
     public void boardCreateTest() {
         MemberJoinReqDto dto = new MemberJoinReqDto("test11", "test11", "test11@test.com", "Tt12241509!@", LocalDate.of(2021, 10, 11));
-        Long memberId = memberService.join(dto);
+        Long memberId = authService.join(dto);
         Member member = memberRepository.findById(memberId).get();
         Board board = Board.createBoard("test", "test", BoardScope.ALL, member);
     }

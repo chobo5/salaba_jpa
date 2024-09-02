@@ -13,6 +13,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import salaba.security.jwt.exception.CustomAuthenticationEntryPoint;
+import salaba.util.RoleName;
 
 import java.util.List;
 
@@ -25,6 +26,11 @@ public class SecurityConfig {
 
     private final AuthenticationManagerConfig authenticationManagerConfig;
     private final CustomAuthenticationEntryPoint customAuthenticationEntryPoint;
+    private static final String BASE_URL = "/api/v1/";
+    private static final String ADMIN = RoleName.ADMIN.name();
+    private static final String MANAGER = RoleName.MANAGER.name();
+    private static final String MEMBER = RoleName.MEMBER.name();
+
 
     // 가전제품 사용하는 것처럼 Spring Security라는 제품을 사용하는 것.
     // JWT토큰을 인증을 한다. 그래서 인증에서 HttpSession을 사용하지 않는다.
@@ -36,20 +42,37 @@ public class SecurityConfig {
                 .and()
                 .formLogin().disable() // 직접 id, password를 입력받아서 JWT토큰을 리턴하는 API를 직접 만든다.
                 .csrf().disable() // CSRF는 Cross Site Request Forgery의 약자. CSRF공격을 막기 위한 방법.
-                .cors() //.configurationSource(corsConfigurationSource())
-                .and()
+                .cors().disable() //.configurationSource(corsConfigurationSource())
                 .apply(authenticationManagerConfig)
                 .and()
                 .httpBasic().disable()
                 .authorizeRequests()
                 .requestMatchers(CorsUtils::isPreFlightRequest).permitAll() // Preflight 요청은 허용한다.
-                .mvcMatchers( "/auth/**", "/", "/css/**").permitAll()
-                .mvcMatchers(POST, "/auth/join", "/auth/login", "/", "/css/**").permitAll()
-                .mvcMatchers(GET,"/**").hasAnyRole( "MANAGER", "ADMIN")
-                .mvcMatchers(POST,"/**").hasAnyRole( "ADMIN")
-                .mvcMatchers(PUT,"/**").hasAnyRole( "ADMIN")
-                .mvcMatchers(DELETE,"/**").hasAnyRole( "ADMIN")
-                .anyRequest().hasAnyRole("MANAGER", "ADMIN")
+                .mvcMatchers(GET, "/swagger-ui/**").permitAll()
+                //auth
+                .mvcMatchers(POST, BASE_URL +"auth/join", BASE_URL +"auth/login").permitAll()
+                .mvcMatchers(GET,  BASE_URL +"auth/validateEmail", BASE_URL + "auth/validateNickname").permitAll()
+                .mvcMatchers(PUT, BASE_URL +"auth/changeNickname", BASE_URL +"auth/changePassword", BASE_URL +"auth/changeTelNo").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                .mvcMatchers(DELETE, BASE_URL +"auth/resign").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                //member
+                .mvcMatchers(BASE_URL+"member/**").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                //board
+                .mvcMatchers(GET, BASE_URL+"board/**", BASE_URL+"board/list").permitAll()
+                .mvcMatchers(POST, BASE_URL+"board/like", BASE_URL+"board/new").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                .mvcMatchers(PUT, BASE_URL+"board/modify").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                .mvcMatchers(DELETE, BASE_URL+"board/delete", BASE_URL+"board/cancelLike").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                //reply
+                .mvcMatchers(BASE_URL+"reply/**").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                //payment
+                .mvcMatchers(BASE_URL+"payment/**").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                //nation
+                .mvcMatchers(BASE_URL+"nation/**").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                //reservation
+                .mvcMatchers(BASE_URL+"reservation/**").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                //host
+                .mvcMatchers(BASE_URL+"host/**").hasAnyRole(MEMBER, MANAGER, ADMIN)
+                //rentalHome
+                .mvcMatchers(BASE_URL+"rentalHome/**").permitAll()
                 .and()
                 .exceptionHandling()
                 .authenticationEntryPoint(customAuthenticationEntryPoint)

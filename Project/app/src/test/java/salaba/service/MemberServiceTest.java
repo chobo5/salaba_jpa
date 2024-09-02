@@ -16,11 +16,11 @@ import java.time.LocalDate;
 class MemberServiceTest {
 
     @Autowired
-    MemberService memberService;
+    AuthService authService;
 
     @Test
     public void joinSuccessTest() {
-        memberService.join(
+        authService.join(
                 new MemberJoinReqDto("흥판봉", "원준연", "wnsdus1008@gmail.com",
                         "Tt12241509!@", LocalDate.of(1996, 10, 8)));
 
@@ -31,7 +31,7 @@ class MemberServiceTest {
         MemberJoinReqDto member = new MemberJoinReqDto("흥판봉", "원준연", "wnsdus1008@gmail.com",
                 "1234", LocalDate.of(1996, 10, 8));
 
-        Assertions.assertThrows(ValidationException.class, () -> memberService.join(member));
+        Assertions.assertThrows(ValidationException.class, () -> authService.join(member));
 
 
     }

@@ -119,10 +119,10 @@ public class Member extends BaseEntity {
     }
 
     public void changeProfile(String name, Gender gender, Nation nation, Address address) {
-        this.name = name;
-        this.gender = gender;
-        this.nation = nation;
-        this.address = address;
+        this.name = name != null ? name : this.name;
+        this.gender = gender != null ? gender : this.gender;
+        this.nation = nation != null ? nation : this.nation;
+        this.address = address != null ? address : this.address;
     }
 
     public void resign() {

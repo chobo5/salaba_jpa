@@ -12,6 +12,7 @@ import javax.validation.constraints.Pattern;
 @Data
 @ApiModel("닉네임 변경 요청 DTO")
 public class ChangeNicknameReqDto {
+
     @ApiModelProperty("변경할 회원 id")
     @NotNull
     private Long memberId;
