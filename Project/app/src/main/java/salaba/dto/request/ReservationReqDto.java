@@ -15,9 +15,6 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @Schema(description = "숙소 예약 요청 DTO")
 public class ReservationReqDto {
-    @Schema(description = "회원 id")
-    @NotNull
-    private Long memberId;
 
     @Schema(description = "숙소 id")
     @NotNull

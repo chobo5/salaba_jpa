@@ -9,6 +9,7 @@ import salaba.dto.request.board.ReplyModifyReqDto;
 import salaba.dto.request.board.ReplyToReplyCreateReqDto;
 import salaba.dto.response.IdResDto;
 import salaba.service.ReplyService;
+import salaba.util.MemberContextHolder;
 import salaba.util.RestResult;
 
 @Tag(name = "댓글 API")
@@ -21,7 +22,7 @@ public class ReplyController {
     @Operation(summary = "댓글 작성")
     @PostMapping("new")
     public RestResult<?> createReply(@RequestBody ReplyCreateReqDto replyCreateReqDto) {
-        return RestResult.success(new IdResDto(replyService.createReply(replyCreateReqDto)));
+        return RestResult.success(new IdResDto(replyService.createReply(MemberContextHolder.getMemberId(), replyCreateReqDto)));
     }
 
     @Operation(summary = "댓글 또는 대댓글 수정")
@@ -39,7 +40,7 @@ public class ReplyController {
     @Operation(summary = "대댓글 작성")
     @PostMapping("toReply/new")
     public RestResult<?> createReplyToReply(@RequestBody ReplyToReplyCreateReqDto replyCreateDto) {
-        return RestResult.success(new IdResDto(replyService.createReplyToReply(replyCreateDto)));
+        return RestResult.success(new IdResDto(replyService.createReplyToReply(MemberContextHolder.getMemberId(), replyCreateDto)));
     }
 
     @Operation(summary = "대댓글 삭제")

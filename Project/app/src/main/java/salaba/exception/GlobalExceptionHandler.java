@@ -1,4 +1,4 @@
-package salaba.api;
+package salaba.exception;
 
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.binding.BindingException;
@@ -8,9 +8,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
-import salaba.exception.AlreadyExistsException;
-import salaba.exception.CannotChangeStatusException;
-import salaba.exception.ValidationException;
+import salaba.exception.*;
 import salaba.util.RestResult;
 
 import java.util.NoSuchElementException;
@@ -41,6 +39,21 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(CannotChangeStatusException.class)
     public RestResult<?> handleCannotChangeStatusException(CannotChangeStatusException e) {
+        return RestResult.error(e.getMessage());
+    }
+
+    @ExceptionHandler(CannotFindMemberException.class)
+    public RestResult<?> handleCannotFindMemberException(CannotFindMemberException e) {
+        return RestResult.error(e.getMessage());
+    }
+
+    @ExceptionHandler(PasswordNotCorrectException.class)
+    public RestResult<?> handlePasswordNotCorrectException(PasswordNotCorrectException e) {
+        return RestResult.error(e.getMessage());
+    }
+
+    @ExceptionHandler(NoAuthorityException.class)
+    public RestResult<?> handleNoAuthorityException(NoAuthorityException e) {
         return RestResult.error(e.getMessage());
     }
 

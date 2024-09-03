@@ -10,6 +10,7 @@ import salaba.dto.request.*;
 import salaba.exception.AlreadyExistsException;
 import salaba.dto.response.IdResDto;
 import salaba.service.*;
+import salaba.util.MemberContextHolder;
 import salaba.util.RestResult;
 
 @Tag(name = "회원 API")
@@ -33,7 +34,7 @@ public class MemberController {
     @Operation(summary = "회원 프로필 수정")
     @PutMapping("modify")
     public RestResult<?> changeProfile(@RequestBody MemberModiReqDto memberModiReqDto) {
-        return RestResult.success(new IdResDto(memberService.modifyProfile(memberModiReqDto)));
+        return RestResult.success(new IdResDto(memberService.modifyProfile(MemberContextHolder.getMemberId(), memberModiReqDto)));
     }
 
     @Operation(summary = "회원이 작성한 게시물 목록")

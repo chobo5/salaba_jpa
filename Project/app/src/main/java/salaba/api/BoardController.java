@@ -13,6 +13,7 @@ import salaba.dto.response.BoardResDto;
 import salaba.dto.request.board.BoardModifyReqDto;
 import salaba.dto.response.IdResDto;
 import salaba.service.BoardService;
+import salaba.util.MemberContextHolder;
 import salaba.util.RestResult;
 
 @Tag(name = "게시판 API")
@@ -26,7 +27,7 @@ public class BoardController {
     @Operation(summary = "게시물 작성")
     @PostMapping("new")
     public RestResult<?> createBoard(@RequestBody BoardCreateReqDto boardCreateReqDto) {
-        return RestResult.success(new IdResDto(boardService.createBoard(boardCreateReqDto)));
+        return RestResult.success(new IdResDto(boardService.createBoard(MemberContextHolder.getMemberId(), boardCreateReqDto)));
 
     }
 
@@ -65,13 +66,13 @@ public class BoardController {
     @Operation(summary = "게시물 좋아요")
     @PostMapping("like")
     public RestResult<?> likeBoard(@RequestBody BoardLikeReqDto boardLikeReqDto) {
-        return RestResult.success(new IdResDto(boardService.likeBoard(boardLikeReqDto)));
+        return RestResult.success(new IdResDto(boardService.likeBoard(MemberContextHolder.getMemberId(), boardLikeReqDto)));
     }
 
     @Operation(summary = "게시물 좋아요 취소")
     @DeleteMapping("cancelLike")
     public RestResult<?> cancelLikeBoard(@RequestBody BoardLikeReqDto boardLikeReqDto) {
-        return RestResult.success(new IdResDto(boardService.cancelLikeBoard(boardLikeReqDto)));
+        return RestResult.success(new IdResDto(boardService.cancelLikeBoard(MemberContextHolder.getMemberId(), boardLikeReqDto)));
     }
 
 }

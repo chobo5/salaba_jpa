@@ -35,9 +35,9 @@ public class ReplyService {
     private final EntityManager em;
     private final AlarmRepository alarmRepository;
 
-    public Long createReply(ReplyCreateReqDto replyCreateReqDto) {
+    public Long createReply(Long memberId, ReplyCreateReqDto replyCreateReqDto) {
         Board board = boardRepository.findByIdWithWriter(replyCreateReqDto.getBoardId()).orElseThrow(NoSuchElementException::new);
-        Member member = memberRepository.findById(replyCreateReqDto.getMemberId()).orElseThrow(NoSuchElementException::new);
+        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
         Reply reply = Reply.createReply(board, replyCreateReqDto.getContent(), member);
         replyRepository.save(reply);
 
@@ -62,9 +62,9 @@ public class ReplyService {
         return reply.getId();
     }
 
-    public Long createReplyToReply(ReplyToReplyCreateReqDto replyToReplyCreateReqDto) {
+    public Long createReplyToReply(Long memberId, ReplyToReplyCreateReqDto replyToReplyCreateReqDto) {
         Reply parent = replyRepository.findByIdWithWriter(replyToReplyCreateReqDto.getReplyId()).orElseThrow(NoSuchElementException::new);
-        Member writer = memberRepository.findById(replyToReplyCreateReqDto.getMemberId()).orElseThrow(NoSuchElementException::new);
+        Member writer = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
 
         Reply reply = Reply.createReplyToReply(parent, replyToReplyCreateReqDto.getContent(), writer);
         replyRepository.save(reply);

@@ -34,8 +34,8 @@ public class BoardService {
     private final PointRepository pointRepository;
     private final EntityManager em;
 
-    public Long createBoard(BoardCreateReqDto boardDto) {
-        Member writer = memberRepository.findById(boardDto.getMemberId()).orElseThrow(NoSuchElementException::new);
+    public Long createBoard(Long memberId, BoardCreateReqDto boardDto) {
+        Member writer = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
         Board board = Board.createBoard(boardDto.getTitle(), boardDto.getContent(), boardDto.getScope(), writer);
 
         boardRepository.save(board);
@@ -71,9 +71,9 @@ public class BoardService {
         return boardRepository.search(boardSearchReqDto, pageable);
     }
 
-    public Long likeBoard(BoardLikeReqDto boardLikeReqDto) {
+    public Long likeBoard(Long memberId, BoardLikeReqDto boardLikeReqDto) {
         Board board = boardRepository.findById(boardLikeReqDto.getBoardId()).orElseThrow(NoSuchElementException::new);
-        Member member = memberRepository.findById(boardLikeReqDto.getMemberId()).orElseThrow(NoSuchElementException::new);
+        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
 
         BoardLike boardLike = BoardLike.createBoardLike(board, member);
         boardLikeRepository.save(boardLike);
@@ -81,8 +81,8 @@ public class BoardService {
         return boardLike.getId();
     }
 
-    public Long cancelLikeBoard(BoardLikeReqDto boardLikeReqDto) {
-        BoardLike boardLike = boardLikeRepository.findByBoardIdAndMemberId(boardLikeReqDto.getBoardId(), boardLikeReqDto.getMemberId())
+    public Long cancelLikeBoard(Long memberId, BoardLikeReqDto boardLikeReqDto) {
+        BoardLike boardLike = boardLikeRepository.findByBoardIdAndMemberId(boardLikeReqDto.getBoardId(), memberId)
                 .orElseThrow(NoSuchElementException::new);
 
         boardLike.cancelBoardLike();

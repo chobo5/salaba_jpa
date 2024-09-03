@@ -13,10 +13,6 @@ import javax.validation.constraints.Pattern;
 @Schema(description = "닉네임 변경 요청 DTO")
 public class ChangeNicknameReqDto {
 
-    @Schema(description = "변경할 회원 id")
-    @NotNull
-    private Long memberId;
-
     @Schema(description = "닉네임")
     @NotEmpty
     @Pattern(regexp = Regex.NICKNAME, message = Regex.NICKNAME_ERROR)

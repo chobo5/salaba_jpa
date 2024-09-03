@@ -14,9 +14,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Schema(description = "게시물 생성 요청 DTO")
 public class BoardCreateReqDto {
-    @Schema(description = "작성자(회원) id")
-    @NotNull
-    private Long memberId;
     
     @Schema(description = "게시물 제목")
     @NotEmpty

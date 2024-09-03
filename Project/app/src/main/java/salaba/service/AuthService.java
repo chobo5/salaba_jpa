@@ -4,14 +4,13 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.dto.request.MemberJoinReqDto;
-import salaba.dto.request.MemberLoginReqDto;
-import salaba.dto.request.MemberResignReqDto;
+import salaba.dto.request.*;
 import salaba.dto.response.MemberLoginResDto;
 import salaba.entity.member.Member;
 import salaba.entity.member.MemberRole;
 import salaba.entity.member.Role;
 import salaba.exception.AlreadyExistsException;
+import salaba.exception.PasswordNotCorrectException;
 import salaba.repository.MemberRepository;
 import salaba.repository.MemberRoleRepository;
 import salaba.repository.RoleRepository;
@@ -71,24 +70,31 @@ public class AuthService {
         return new MemberLoginResDto(tokens.get("accessToken"), tokens.get("refreshToken"));
     }
 
-    public void changePassword(Long memberId, String password) {
+    public void changePassword(Long memberId, ChangePasswordReqDto reqDto) {
         Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
-        member.changePassword(passwordEncoder.encode(password));
+        if (!passwordEncoder.matches(reqDto.getPassword(), member.getPassword())) {
+            throw new PasswordNotCorrectException("비밀번호가 일치하지 않습니다.");
+        }
+        member.changePassword(passwordEncoder.encode(reqDto.getNewPassword()));
     }
 
-    public void changeNickname(Long memberId, String nickname) {
+    public void changeNickname(Long memberId, ChangeNicknameReqDto reqDto) {
         Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
-        member.changeNickname(nickname);
+        member.changeNickname(reqDto.getNickname());
     }
 
-    public void changeTelNo(Long memberId, String telNo) {
+    public void changeTelNo(Long memberId, ChangeTelNoReqDto reqDto) {
         Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
-        member.changePassword(telNo);
+        member.changeTelNo(reqDto.getTelNo());
     }
 
-    public void resign(MemberResignReqDto reqDto) {
-        Member member = memberRepository.findByEmailAndPassword(reqDto.getEmail(), reqDto.getPassword()).orElseThrow(NoSuchElementException::new);
+    public void resign(Long memberId, MemberResignReqDto reqDto) {
+        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
+        if (!passwordEncoder.matches(reqDto.getPassword(), member.getPassword())) {
+             throw new PasswordNotCorrectException("비밀번호가 일치하지 않습니다.");
+        }
         member.resign();
+
     }
 
 

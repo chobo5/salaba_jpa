@@ -12,9 +12,6 @@ import java.util.List;
 @NoArgsConstructor
 @Schema(description = "숙소 등록 요청 DTO")
 public class RentalHomeCreateReqDto {
-    @Schema(description = "호스트(회원) id")
-    @NotNull
-    private Long memberId;
 
     @Schema(description = "숙소명")
     @NotEmpty

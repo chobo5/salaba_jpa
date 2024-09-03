@@ -60,6 +60,7 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom{
     @Override
     public Optional<RentalHome> findWithReservations(Long rentalHomeId) {
         RentalHome findRentalHome = queryFactory.selectFrom(rentalHome)
+                .join(rentalHome.host, member).fetchJoin()
                 .leftJoin(rentalHome.reservations, reservation).fetchJoin()
                 .where(rentalHome.id.eq(rentalHomeId))
                 .fetchOne();

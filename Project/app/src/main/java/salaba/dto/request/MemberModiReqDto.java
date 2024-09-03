@@ -14,9 +14,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor
 @Schema(description = "회원 기본 프로필 변경 요청 DTO")
 public class MemberModiReqDto {
-    @Schema(description = "변경할 회원 id")
-    @NotNull
-    private Long memberId;
 
     @Schema(description = "이름")
     private String name;

@@ -8,8 +8,11 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import salaba.dto.request.*;
 import salaba.dto.response.IdResDto;
+import salaba.dto.response.MemberLoginResDto;
 import salaba.exception.AlreadyExistsException;
+import salaba.security.jwt.util.JwtTokenizer;
 import salaba.service.AuthService;
+import salaba.util.MemberContextHolder;
 import salaba.util.RestResult;
 
 import javax.validation.Valid;
@@ -46,41 +49,43 @@ public class AuthController {
     @Operation(summary = "회원 가입")
     @PostMapping("join")
     public RestResult<?> join(@RequestBody @Valid MemberJoinReqDto memberJoinReqDto) {
-        return RestResult.success(new IdResDto(authService.join(memberJoinReqDto)));
+        Long memberId = authService.join(memberJoinReqDto);
+        return RestResult.success(new IdResDto(memberId));
     }
 
 
     @Operation(summary = "회원 비밀번호 변경")
     @PutMapping("changePassword")
     public RestResult<?> changePassword(@RequestBody @Valid ChangePasswordReqDto reqDto) {
-        authService.changePassword(reqDto.getMemberId(), reqDto.getPassword());
+        authService.changePassword(MemberContextHolder.getMemberId(), reqDto);
         return RestResult.success();
     }
 
     @Operation(summary = "회원 로그인")
     @PostMapping("/login")
     public RestResult<?> login(@RequestBody @Valid MemberLoginReqDto reqDto) {
-        return RestResult.success(authService.login(reqDto));
+        MemberLoginResDto loginResDto = authService.login(reqDto);
+        return RestResult.success(loginResDto);
     }
 
     @Operation(summary = "회원 닉네임 변경")
     @PutMapping("changeNickname")
     public RestResult<?> changeNickname(@RequestBody ChangeNicknameReqDto reqDto) {
-        authService.changeNickname(reqDto.getMemberId(), reqDto.getNickname());
+        authService.changeNickname(MemberContextHolder.getMemberId(), reqDto);
         return RestResult.success();
     }
 
     @Operation(summary = "회원 연락처 변경")
     @PutMapping("changeTelNo")
     public RestResult<?> changeTelNo(@RequestBody ChangeTelNoReqDto reqDto) {
-        authService.changeTelNo(reqDto.getMemberId(), reqDto.getTelNo());
+        authService.changeTelNo(MemberContextHolder.getMemberId(), reqDto);
         return RestResult.success();
     }
 
     @Operation(summary = "회원 탈퇴")
     @DeleteMapping("resign")
     public RestResult<?> quit(@RequestBody MemberResignReqDto reqDto) {
-        authService.resign(reqDto);
+        authService.resign(MemberContextHolder.getMemberId(), reqDto);
         return RestResult.success();
     }
 
@@ -95,7 +100,7 @@ public class AuthController {
 //    public RestResult<?> requestRefresh(@RequestBody RefreshTokenDto refreshTokenDto) {
 //        RefreshToken refreshToken = refreshTokenService.findRefreshToken(refreshTokenDto.getRefreshToken());
 //        Claims claims = jwtTokenizer.parseRefreshToken(refreshToken.getValue());
-//        Long memberNo = Long.valueOf((Integer) claims.get("userId"));
+//        Long memberNo = Long.valueOf((Integer) claims.get("memberId"));
 //
 //        Member member = memberService.getMemberBy(memberNo);
 //

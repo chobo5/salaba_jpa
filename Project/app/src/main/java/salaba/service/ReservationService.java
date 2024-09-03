@@ -30,8 +30,8 @@ public class ReservationService {
     private final MemberRepository memberRepository;
     private final RentalHomeRepository rentalHomeRepository;
     private final PaymentRepository paymentRepository;
-    public Long makeReservation(ReservationReqDto reqDto) {
-        Member member = memberRepository.findById(reqDto.getMemberId()).orElseThrow(NoSuchElementException::new);
+    public Long makeReservation(Long memberId, ReservationReqDto reqDto) {
+        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
         RentalHome rentalHome = rentalHomeRepository.findById(reqDto.getRentalHomeId()).orElseThrow(NoSuchElementException::new);
         // 예약 생성
         Reservation reservation = Reservation.createReservation(reqDto.getStartDate(), reqDto.getEndDate(), rentalHome, member);

@@ -17,10 +17,6 @@ public class ReplyCreateReqDto {
     @NotNull
     private Long boardId;
 
-    @Schema(description = "작성자(회원) id")
-    @NotNull
-    private Long memberId;
-
     @Schema(description = "댓글 내용")
     @NotEmpty
     private String content;

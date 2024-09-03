@@ -17,7 +17,4 @@ public class BoardLikeReqDto {
     @NotNull
     private Long boardId;
 
-    @Schema(description = "회원 id")
-    @NotNull
-    private Long memberId;
 }
