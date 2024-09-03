@@ -1,6 +1,8 @@
 package salaba.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import salaba.dto.request.RentalHomeCreateReqDto;
 import salaba.dto.request.RentalHomeModiReqDto;
@@ -60,13 +62,17 @@ public class HostService {
         return rentalHome.getId();
     }
 
-    public RentalHomeDetailResDto modifyRentalHome(RentalHomeModiReqDto dto) {
-        RentalHome rentalHome = rentalHomeRepository.findById(dto.getRentalHomeId()).orElseThrow(NoSuchElementException::new);
+    public RentalHomeDetailResDto modifyRentalHome(Long memberId, RentalHomeModiReqDto dto) {
+        //숙소의 호스트를 찾는다.
+        Member host = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
+        //숙소의 id와 호스트를 통해 숙소를 찾는다.
+        RentalHome rentalHome = rentalHomeRepository.findByIdAndHost(dto.getRentalHomeId(), host)
+                .orElseThrow(NoSuchElementException::new);
+
         Region region = regionRepository.findById(dto.getRegionId()).orElseThrow(NoSuchElementException::new);
-        rentalHome.modifyRentalHome(region, dto.getName(), dto.getExplanation(),
-                new Address(dto.getStreet(), dto.getZipcode()), dto.getPrice(),
-                dto.getCapacity(), dto.getLat(),
-                dto.getLon(), dto.getRule(), dto.getCleanFee());
+        Address address = new Address(dto.getStreet(), dto.getZipcode());
+        rentalHome.modifyRentalHome(region, dto.getName(), dto.getExplanation(), address, dto.getPrice(),
+                dto.getCapacity(), dto.getLat(), dto.getLon(), dto.getRule(), dto.getCleanFee());
 
         // 숙소_테마 저장
         List<Theme> themes = themeRepository.findAllById(dto.getThemes());
@@ -88,19 +94,23 @@ public class HostService {
     }
 
     public Long deleteRentalHome(Long memberId, Long rentalHomeId) {
-        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
+        Member host = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
         RentalHome rentalHome = rentalHomeRepository.findWithReservations(rentalHomeId).orElseThrow(NoSuchElementException::new);
-        if (!rentalHome.getHost().equals(member)) {
+        if (!rentalHome.getHost().equals(host)) {
             throw new NoAuthorityException("숙소 삭제 권한이 없습니다.");
         }
         rentalHome.closeRentalHome();
         return rentalHome.getId();
     }
 
-    public List<RentalHomeResDto> getByHost(Long hostId) {
-        List<RentalHome> rentalHomes = rentalHomeRepository.findByHost(hostId);
+    public Page<RentalHomeResDto> getRentalHomesByHost(Long hostId, Pageable pageable) {
+        Page<RentalHome> rentalHomes = rentalHomeRepository.findByHost(hostId, pageable);
 
-        return rentalHomes.stream().map(RentalHomeResDto::new).collect(Collectors.toList());
+        return rentalHomes.map(RentalHomeResDto::new);
 
+    }
+
+    public RentalHomeDetailResDto getRentalHomeByHost(Long memberId, Long rentalHomeId) {
+        return rentalHomeRepository.findDetailByIdAndHost(rentalHomeId, memberId);
     }
 }

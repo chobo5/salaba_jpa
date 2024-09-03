@@ -57,5 +57,11 @@ public class GlobalExceptionHandler {
         return RestResult.error(e.getMessage());
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public RestResult<?> handleIllegalArgumentException(IllegalArgumentException e) {
+        return RestResult.error(e.getMessage());
+    }
+
+
 
 }

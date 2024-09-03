@@ -29,7 +29,7 @@ public class RentalHomeService {
     private final ReviewRepository reviewRepository;
 
     public RentalHomeDetailResDto get(Long rentalHomeId) {
-        return rentalHomeRepository.get(rentalHomeId);
+        return rentalHomeRepository.findDetailById(rentalHomeId);
     }
 
     public Page<ReviewResDto> getRentalHomeReviews(Long rentalHomeId, Pageable pageable) {

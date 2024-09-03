@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import salaba.dto.request.board.BoardSearchReqDto;
@@ -27,21 +28,24 @@ public class BoardController {
     @Operation(summary = "게시물 작성")
     @PostMapping("new")
     public RestResult<?> createBoard(@RequestBody BoardCreateReqDto boardCreateReqDto) {
-        return RestResult.success(new IdResDto(boardService.createBoard(MemberContextHolder.getMemberId(), boardCreateReqDto)));
+        Long boardId = boardService.createBoard(MemberContextHolder.getMemberId(), boardCreateReqDto);
+        return RestResult.success(new IdResDto(boardId));
 
     }
 
     @Operation(summary = "게시물 목록")
     @GetMapping("list")
-    public RestResult<?> getBoardList(Pageable pageable) {
+    public RestResult<?> getBoardList(@RequestParam(defaultValue = "0") int pageNumber,
+                                      @RequestParam(defaultValue = "10") int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<BoardResDto> dtoList = boardService.list(pageable);
         return RestResult.success(dtoList);
     }
 
     @Operation(summary = "게시물 상세보기")
-    @GetMapping("{id}")
-    public RestResult<?> getBoard(@PathVariable Long id) {
-        return RestResult.success(boardService.get(id));
+    @GetMapping()
+    public RestResult<?> getBoard(@RequestParam Long boardId) {
+        return RestResult.success(boardService.get(boardId));
     }
 
 
@@ -59,8 +63,18 @@ public class BoardController {
 
     @Operation(summary = "게시물 검색")
     @GetMapping("search")
-    public RestResult<?> searchBoard(BoardSearchReqDto boardSearchReqDto, Pageable pageable) {
-        return RestResult.success(boardService.search(boardSearchReqDto, pageable));
+    public RestResult<?> searchBoard(@RequestParam(required = false) String title,
+                                     @RequestParam(required = false) String writer,
+                                     @RequestParam(defaultValue = "0") int pageNumber,
+                                     @RequestParam(defaultValue = "10") int pageSize) {
+
+        if ((title == null && writer == null) || (title != null && writer != null)) {
+            throw new IllegalArgumentException("title과 writer 중 하나만 값이 있어야 합니다.");
+        }
+
+        BoardSearchReqDto reqDto = new BoardSearchReqDto(title, writer);
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        return RestResult.success(boardService.search(reqDto, pageable));
     }
 
     @Operation(summary = "게시물 좋아요")

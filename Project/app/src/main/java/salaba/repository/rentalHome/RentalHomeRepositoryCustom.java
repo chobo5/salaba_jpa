@@ -1,17 +1,18 @@
 package salaba.repository.rentalHome;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import salaba.dto.response.RentalHomeDetailResDto;
-import salaba.entity.member.Member;
 import salaba.entity.rental.RentalHome;
 
-import java.util.List;
 import java.util.Optional;
 
 
 public interface RentalHomeRepositoryCustom {
-    RentalHomeDetailResDto get(Long rentalHomeId);
+    RentalHomeDetailResDto findDetailById(Long rentalHomeId);
+    RentalHomeDetailResDto findDetailByIdAndHost(Long rentalHomeId, Long hostId);
 
-    List<RentalHome> findByHost(Long memberId);
+    Page<RentalHome> findByHost(Long hostId, Pageable pageable);
 
     Optional<RentalHome> findWithReservations(Long rentalHomeId);
 }
