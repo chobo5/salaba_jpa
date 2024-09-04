@@ -29,8 +29,8 @@ public class ReservationController {
 
     @Operation(summary = "숙소 이미 예약되어있는 날짜 목록")
     @GetMapping("/api/v1/reservedDate/{rentalHomeId}/{status}")
-    public RestResult<?> getReservedDate(@PathVariable Long rentalHomeId, @PathVariable ProcessStatus status) {
-        List<ReservedDateDto> reservedDates = reservationService.getReservedDate(rentalHomeId, status);
+    public RestResult<?> getReservedDate(@RequestParam Long rentalHomeId) {
+        List<ReservedDateDto> reservedDates = reservationService.getReservedDate(rentalHomeId);
         return RestResult.success(reservedDates);
     }
 }

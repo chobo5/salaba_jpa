@@ -3,10 +3,13 @@ package salaba.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import salaba.dto.request.PaymentReqDto;
+import salaba.entity.member.Member;
 import salaba.entity.member.Point;
 import salaba.entity.rental.Discount;
 import salaba.entity.rental.Payment;
 import salaba.entity.rental.Reservation;
+import salaba.exception.NoAuthorityException;
+import salaba.repository.MemberRepository;
 import salaba.repository.PointRepository;
 import salaba.repository.rentalHome.DiscountRepository;
 import salaba.repository.rentalHome.PaymentRepository;
@@ -19,6 +22,7 @@ import java.util.NoSuchElementException;
 @RequiredArgsConstructor
 public class PaymentService {
 
+    private final MemberRepository memberRepository;
     private final PaymentRepository paymentRepository;
 
     private final ReservationRepository reservationRepository;
@@ -26,8 +30,12 @@ public class PaymentService {
     private final PointRepository pointRepository;
     private final DiscountRepository discountRepository;
 
-    public String completePayment(PaymentReqDto paymentReqDto) {
+    public String completePayment(Long memberId, PaymentReqDto paymentReqDto) {
+        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
         Reservation reservation = reservationRepository.findByIdWithMember(paymentReqDto.getReservationId()).orElseThrow(NoSuchElementException::new);
+        if (!reservation.getMember().equals(member)) {
+            throw new NoAuthorityException("권한이 없습니다.");
+        }
         //예약 때 만들어두었던 Payment를 찾는다.
         Payment payment = paymentRepository.findById(reservation.getId()).orElseThrow(NoSuchElementException::new);
         //할인을 만든다.

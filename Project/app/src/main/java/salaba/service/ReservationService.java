@@ -49,9 +49,9 @@ public class ReservationService {
         return reservation.getId();
     }
 
-    public List<ReservedDateDto> getReservedDate(Long rentalHomeId, ProcessStatus status) {
+    public List<ReservedDateDto> getReservedDate(Long rentalHomeId) {
         RentalHome rentalHome = rentalHomeRepository.findById(rentalHomeId).orElseThrow(NoSuchElementException::new);
-        List<Reservation> reservations = reservationRepository.findByRentalHomeAndStatus(rentalHome, status);
+        List<Reservation> reservations = reservationRepository.findByRentalHomeAndStatus(rentalHome, ProcessStatus.COMPLETE);
         return reservations.stream()
                 .map(reservation -> new ReservedDateDto(reservation.getStartDate().toLocalDate(),
                         reservation.getEndDate().toLocalDate().minusDays(1)))

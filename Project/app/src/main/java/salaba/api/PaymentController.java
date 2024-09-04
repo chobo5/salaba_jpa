@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import salaba.dto.request.PaymentReqDto;
 import salaba.service.PaymentService;
+import salaba.util.MemberContextHolder;
 import salaba.util.RestResult;
 @Tag(name = "결제 API")
 @RestController
@@ -21,6 +22,7 @@ public class PaymentController {
     @Operation(summary = "결제 완료")
     @PostMapping("complete")
     public RestResult<?> recordPayment(@RequestBody PaymentReqDto reqDto) {
-        return RestResult.success(paymentService.completePayment(reqDto));
+        String paymentId = paymentService.completePayment(MemberContextHolder.getMemberId(), reqDto);
+        return RestResult.success(paymentId);
     }
 }

@@ -5,6 +5,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import salaba.dto.request.*;
@@ -40,37 +41,45 @@ public class MemberController {
     }
 
     @Operation(summary = "회원이 작성한 게시물 목록")
-    @GetMapping("wrote/boards/{memberId}")
-    public RestResult<?> boardListByMember(@PathVariable Long memberId, Pageable pageable) {
-        Page<BoardByMemberResDto> boards = boardService.boardsByMember(memberId, pageable);
+    @GetMapping("wrote/boards")
+    public RestResult<?> boardListByMember(@RequestParam(defaultValue = "0") int pageNumber,
+                                           @RequestParam(defaultValue = "10") int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<BoardByMemberResDto> boards = boardService.boardsByMember(MemberContextHolder.getMemberId(), pageable);
         return RestResult.success(boards);
     }
 
     @Operation(summary = "회원이 작성한 댓글 목록")
-    @GetMapping("wrote/replies/{memberId}")
-    public RestResult<?> replyListByMember(@PathVariable Long memberId, Pageable pageable) {
-        Page<ReplyByMemberResDto> replies = replyService.repliesByMember(memberId, pageable);
+    @GetMapping("wrote/replies")
+    public RestResult<?> replyListByMember(@RequestParam(defaultValue = "0") int pageNumber,
+                                           @RequestParam(defaultValue = "10") int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<ReplyByMemberResDto> replies = replyService.repliesByMember(MemberContextHolder.getMemberId(), pageable);
         return RestResult.success(replies);
     }
 
     @Operation(summary = "회원의 예약 목록")
-    @GetMapping("reservation/list/{memberId}")
-    public RestResult<?> reservationList(@PathVariable Long memberId, Pageable pageable) {
-        Page<ReservationToGuestResDto> reservations = reservationService.getWithRentalHomeAndHost(memberId, pageable);
+    @GetMapping("reservation/list")
+    public RestResult<?> reservationList(@RequestParam(defaultValue = "0") int pageNumber,
+                                         @RequestParam(defaultValue = "10") int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<ReservationToGuestResDto> reservations = reservationService.getWithRentalHomeAndHost(MemberContextHolder.getMemberId(), pageable);
         return RestResult.success(reservations);
     }
 
     @Operation(summary = "회원의 포인트 내역 목록")
-    @GetMapping("pointHistory/{memberId}")
-    public RestResult<?> getPointHistory(@PathVariable Long memberId, Pageable pageable) {
-        Page<PointResDto> pointHistory = memberService.getPointHistory(memberId, pageable);
+    @GetMapping("pointHistory")
+    public RestResult<?> getPointHistory(@RequestParam(defaultValue = "0") int pageNumber,
+                                         @RequestParam(defaultValue = "10") int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<PointResDto> pointHistory = memberService.getPointHistory(MemberContextHolder.getMemberId(), pageable);
         return RestResult.success(pointHistory);
     }
 
     @Operation(summary = "회원의 최종 적립포인트")
-    @GetMapping("totalPoint/{memberId}")
-    public RestResult<?> getTotalPoint(@PathVariable Long memberId) {
-        int totalPoint = memberService.getTotalPoint(memberId);
+    @GetMapping("totalPoint")
+    public RestResult<?> getTotalPoint() {
+        int totalPoint = memberService.getTotalPoint(MemberContextHolder.getMemberId());
         return RestResult.success(totalPoint);
     }
 
@@ -82,23 +91,25 @@ public class MemberController {
     }
 
     @Operation(summary = "회원의 알람 내역")
-    @GetMapping("alarms/{memberId}")
-    public RestResult<?> getAlarms(@PathVariable Long memberId, Pageable pageable) {
-        Page<AlarmResDto> alarms = memberService.getAlarms(memberId, pageable);
+    @GetMapping("alarms")
+    public RestResult<?> getAlarms(@RequestParam(defaultValue = "0") int pageNumber,
+                                   @RequestParam(defaultValue = "10") int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<AlarmResDto> alarms = memberService.getAlarms(MemberContextHolder.getMemberId(), pageable);
         return RestResult.success(alarms);
     }
 
     @Operation(summary = "숙소 찜하기")
-    @PostMapping("mark/{memberId}/{rentalHomeId}")
-    public RestResult<?> markOnRentalHome(@PathVariable Long memberId, @PathVariable Long rentalHomeId) {
-        Long bookmarkId = bookMarkService.mark(memberId, rentalHomeId);
+    @PostMapping("mark")
+    public RestResult<?> markOnRentalHome(RentalHomeMarkReqDto reqDto) {
+        Long bookmarkId = bookMarkService.mark(MemberContextHolder.getMemberId(), reqDto.getRentalHomeId());
         return RestResult.success(bookmarkId);
     }
 
     @Operation(summary = "숙소 찜하기 취소")
-    @DeleteMapping("mark/delete/{memberId}/{rentalHomeId}")
-    public RestResult<?> deleteMarkOnRentalHome(@PathVariable Long memberId, @PathVariable Long rentalHomeId) {
-        bookMarkService.deleteMark(memberId, rentalHomeId);
+    @DeleteMapping("mark/delete")
+    public RestResult<?> deleteMarkOnRentalHome(@RequestParam Long rentalHomeId) {
+        bookMarkService.deleteMark(MemberContextHolder.getMemberId(), rentalHomeId);
         return RestResult.success();
     }
 
