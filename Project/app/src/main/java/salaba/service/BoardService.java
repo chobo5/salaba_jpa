@@ -14,10 +14,10 @@ import salaba.entity.board.Board;
 import salaba.entity.board.BoardLike;
 import salaba.entity.member.Member;
 import salaba.entity.member.Point;
-import salaba.repository.PointRepository;
-import salaba.repository.board.BoardLikeRepository;
-import salaba.repository.board.BoardRepository;
-import salaba.repository.MemberRepository;
+import salaba.repository.jpa.PointRepository;
+import salaba.repository.jpa.board.BoardLikeRepository;
+import salaba.repository.jpa.board.BoardRepository;
+import salaba.repository.jpa.MemberRepository;
 import salaba.dto.response.BoardModiResDto;
 
 

@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import salaba.dto.request.NationDto;
 import salaba.entity.Nation;
-import salaba.repository.NationRepository;
+import salaba.repository.jpa.NationRepository;
 
 import java.util.List;
 import java.util.stream.Collectors;

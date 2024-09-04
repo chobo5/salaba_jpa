@@ -13,10 +13,10 @@ import salaba.entity.member.Member;
 import salaba.entity.rental.Payment;
 import salaba.entity.rental.RentalHome;
 import salaba.entity.rental.Reservation;
-import salaba.repository.MemberRepository;
-import salaba.repository.rentalHome.PaymentRepository;
-import salaba.repository.rentalHome.ReservationRepository;
-import salaba.repository.rentalHome.RentalHomeRepository;
+import salaba.repository.jpa.MemberRepository;
+import salaba.repository.jpa.rentalHome.PaymentRepository;
+import salaba.repository.jpa.rentalHome.ReservationRepository;
+import salaba.repository.jpa.rentalHome.RentalHomeRepository;
 
 import java.time.Period;
 import java.util.List;

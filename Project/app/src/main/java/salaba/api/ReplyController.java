@@ -10,7 +10,7 @@ import salaba.dto.request.board.ReplyToReplyCreateReqDto;
 import salaba.dto.response.IdResDto;
 import salaba.dto.response.ReplyModiResDto;
 import salaba.service.ReplyService;
-import salaba.util.MemberContextHolder;
+import salaba.interceptor.MemberContextHolder;
 import salaba.util.RestResult;
 
 @Tag(name = "댓글 API")

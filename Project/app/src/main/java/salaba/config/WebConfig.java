@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-import salaba.util.JwtInterceptor;
+import salaba.interceptor.JwtInterceptor;
 
 @Configuration
 @RequiredArgsConstructor

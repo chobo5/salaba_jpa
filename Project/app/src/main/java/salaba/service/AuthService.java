@@ -6,14 +6,16 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import salaba.dto.request.*;
 import salaba.dto.response.MemberLoginResDto;
+import salaba.dto.response.TokenResDto;
 import salaba.entity.member.Member;
 import salaba.entity.member.MemberRole;
 import salaba.entity.member.Role;
 import salaba.exception.AlreadyExistsException;
 import salaba.exception.PasswordNotCorrectException;
-import salaba.repository.MemberRepository;
-import salaba.repository.MemberRoleRepository;
-import salaba.repository.RoleRepository;
+import salaba.repository.jpa.MemberRepository;
+import salaba.repository.jpa.MemberRoleRepository;
+import salaba.repository.jpa.RoleRepository;
+import salaba.security.dto.RefreshTokenDto;
 import salaba.util.RoleName;
 
 import java.util.Map;
@@ -29,7 +31,7 @@ public class AuthService {
     private final RoleRepository roleRepository;
     private final MemberRoleRepository memberRoleRepository;
     private final PasswordEncoder passwordEncoder;
-    private final RefreshTokenService refreshTokenService;
+    private final TokenService tokenService;
 
     public boolean isExistingNickname(String nickname) {
         return memberRepository.findByNickname(nickname).isEmpty();
@@ -64,10 +66,9 @@ public class AuthService {
         if (findMember.isEmpty() || !passwordEncoder.matches(reqDto.getPassword(), findMember.get().getPassword())) {
             throw new NoSuchElementException("아이디 또는 비밀번호가 잘못 되었습니다");
         }
+        TokenResDto tokens = tokenService.createTokens(findMember.get());
 
-        Map<String, String> tokens = refreshTokenService.createTokens(findMember.get());
-
-        return new MemberLoginResDto(tokens.get("accessToken"), tokens.get("refreshToken"));
+        return new MemberLoginResDto(tokens.getAccessToken(), tokens.getRefreshToken());
     }
 
     public void changePassword(Long memberId, ChangePasswordReqDto reqDto) {
@@ -98,5 +99,7 @@ public class AuthService {
     }
 
 
-
+    public void logout(RefreshTokenDto refreshTokenDto) {
+        tokenService.deleteRefreshToken(refreshTokenDto.getRefreshToken());
+    }
 }

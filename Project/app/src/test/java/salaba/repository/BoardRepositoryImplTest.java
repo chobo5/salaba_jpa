@@ -18,9 +18,10 @@ import salaba.dto.response.ReplyResDto;
 import salaba.dto.response.ReplyToReplyResDto;
 import salaba.entity.board.*;
 import salaba.entity.member.Member;
-import salaba.repository.board.BoardLikeRepository;
-import salaba.repository.board.BoardRepository;
-import salaba.repository.board.ReplyRepository;
+import salaba.repository.jpa.MemberRepository;
+import salaba.repository.jpa.board.BoardLikeRepository;
+import salaba.repository.jpa.board.BoardRepository;
+import salaba.repository.jpa.board.ReplyRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -28,7 +29,6 @@ import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static salaba.entity.board.QReply.reply;

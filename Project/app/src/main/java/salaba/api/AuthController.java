@@ -10,9 +10,9 @@ import salaba.dto.request.*;
 import salaba.dto.response.IdResDto;
 import salaba.dto.response.MemberLoginResDto;
 import salaba.exception.AlreadyExistsException;
-import salaba.security.jwt.util.JwtTokenizer;
+import salaba.security.dto.RefreshTokenDto;
 import salaba.service.AuthService;
-import salaba.util.MemberContextHolder;
+import salaba.interceptor.MemberContextHolder;
 import salaba.util.RestResult;
 
 import javax.validation.Valid;
@@ -89,12 +89,12 @@ public class AuthController {
         return RestResult.success();
     }
 
-//    @DeleteMapping("/logout")
-//    public RestResult<?> logout(@RequestBody RefreshTokenDto refreshTokenDto) {
-//        refreshTokenService.deleteRefreshToken(refreshTokenDto.getRefreshToken());
-//        // token repository에서 refresh Token에 해당하는 값을 삭제한다.
-//        return RestResult.success();
-//    }
+    @DeleteMapping("/logout")
+    public RestResult<?> logout(@RequestBody RefreshTokenDto refreshTokenDto) {
+        authService.logout(refreshTokenDto);
+        // token repository에서 refresh Token에 해당하는 값을 삭제한다.
+        return RestResult.success();
+    }
 
 //    @PostMapping("/refreshToken")
 //    public RestResult<?> requestRefresh(@RequestBody RefreshTokenDto refreshTokenDto) {

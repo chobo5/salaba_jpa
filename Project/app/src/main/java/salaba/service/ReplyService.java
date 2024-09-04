@@ -14,11 +14,11 @@ import salaba.entity.board.Reply;
 import salaba.entity.member.Alarm;
 import salaba.entity.member.Member;
 import salaba.entity.member.Point;
-import salaba.repository.AlarmRepository;
-import salaba.repository.PointRepository;
-import salaba.repository.board.BoardRepository;
-import salaba.repository.board.ReplyRepository;
-import salaba.repository.MemberRepository;
+import salaba.repository.jpa.AlarmRepository;
+import salaba.repository.jpa.PointRepository;
+import salaba.repository.jpa.board.BoardRepository;
+import salaba.repository.jpa.board.ReplyRepository;
+import salaba.repository.jpa.MemberRepository;
 import salaba.dto.response.ReplyModiResDto;
 
 import javax.persistence.EntityManager;

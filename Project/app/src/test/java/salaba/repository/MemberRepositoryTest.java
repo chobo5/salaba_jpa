@@ -7,6 +7,9 @@ import org.springframework.transaction.annotation.Transactional;
 import salaba.entity.member.Member;
 import salaba.entity.member.MemberRole;
 import salaba.entity.member.Role;
+import salaba.repository.jpa.MemberRepository;
+import salaba.repository.jpa.MemberRoleRepository;
+import salaba.repository.jpa.RoleRepository;
 import salaba.util.RoleName;
 
 import java.time.LocalDate;

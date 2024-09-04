@@ -14,7 +14,7 @@ import salaba.dto.response.BoardResDto;
 import salaba.dto.request.board.BoardModifyReqDto;
 import salaba.dto.response.IdResDto;
 import salaba.service.BoardService;
-import salaba.util.MemberContextHolder;
+import salaba.interceptor.MemberContextHolder;
 import salaba.util.RestResult;
 
 @Tag(name = "게시판 API")

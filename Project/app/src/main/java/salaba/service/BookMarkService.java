@@ -7,9 +7,9 @@ import salaba.entity.member.BookMark;
 import salaba.entity.member.Member;
 import salaba.entity.rental.RentalHome;
 import salaba.exception.AlreadyExistsException;
-import salaba.repository.MemberRepository;
-import salaba.repository.rentalHome.BookMarkRepository;
-import salaba.repository.rentalHome.RentalHomeRepository;
+import salaba.repository.jpa.MemberRepository;
+import salaba.repository.jpa.rentalHome.BookMarkRepository;
+import salaba.repository.jpa.rentalHome.RentalHomeRepository;
 
 import java.util.NoSuchElementException;
 

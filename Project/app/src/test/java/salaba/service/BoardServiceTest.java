@@ -8,7 +8,7 @@ import salaba.dto.request.MemberJoinReqDto;
 import salaba.entity.board.Board;
 import salaba.entity.board.BoardScope;
 import salaba.entity.member.Member;
-import salaba.repository.MemberRepository;
+import salaba.repository.jpa.MemberRepository;
 
 import java.time.LocalDate;
 

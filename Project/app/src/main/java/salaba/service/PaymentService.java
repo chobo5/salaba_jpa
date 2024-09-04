@@ -9,11 +9,11 @@ import salaba.entity.rental.Discount;
 import salaba.entity.rental.Payment;
 import salaba.entity.rental.Reservation;
 import salaba.exception.NoAuthorityException;
-import salaba.repository.MemberRepository;
-import salaba.repository.PointRepository;
-import salaba.repository.rentalHome.DiscountRepository;
-import salaba.repository.rentalHome.PaymentRepository;
-import salaba.repository.rentalHome.ReservationRepository;
+import salaba.repository.jpa.MemberRepository;
+import salaba.repository.jpa.PointRepository;
+import salaba.repository.jpa.rentalHome.DiscountRepository;
+import salaba.repository.jpa.rentalHome.PaymentRepository;
+import salaba.repository.jpa.rentalHome.ReservationRepository;
 
 import java.util.List;
 import java.util.NoSuchElementException;

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import salaba.dto.request.PaymentReqDto;
 import salaba.service.PaymentService;
-import salaba.util.MemberContextHolder;
+import salaba.interceptor.MemberContextHolder;
 import salaba.util.RestResult;
 @Tag(name = "결제 API")
 @RestController

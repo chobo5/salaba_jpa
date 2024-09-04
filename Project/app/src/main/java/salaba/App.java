@@ -4,23 +4,19 @@
 package salaba;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
-import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.web.bind.annotation.GetMapping;
+import salaba.exception.CannotFindMemberException;
 import salaba.service.InitService;
+import salaba.interceptor.MemberContextHolder;
 
 import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 import java.util.Optional;
-import java.util.UUID;
 
 @SpringBootApplication
 @EnableJpaAuditing
@@ -39,7 +35,12 @@ public class App {
 
 //    @Bean
 //    public AuditorAware<String> auditorProvider() {
-//        return () -> Optional.of(UUID.randomUUID().toString());
+//        try {
+//            return () -> Optional.of(MemberContextHolder.getMemberId().toString());
+//        } catch (CannotFindMemberException e) {
+//            return () -> Optional.of("new");
+//        }
+//
 //    }
 
     @Bean

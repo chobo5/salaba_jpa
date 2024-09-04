@@ -13,9 +13,9 @@ import salaba.entity.Region;
 import salaba.entity.member.Member;
 import salaba.entity.rental.*;
 import salaba.exception.NoAuthorityException;
-import salaba.repository.MemberRepository;
-import salaba.repository.RegionRepository;
-import salaba.repository.rentalHome.*;
+import salaba.repository.jpa.MemberRepository;
+import salaba.repository.jpa.RegionRepository;
+import salaba.repository.jpa.rentalHome.*;
 
 import java.util.List;
 import java.util.NoSuchElementException;

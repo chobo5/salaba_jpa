@@ -14,9 +14,12 @@ import salaba.entity.Nation;
 import salaba.entity.member.*;
 import salaba.entity.rental.Reservation;
 import salaba.entity.rental.Review;
-import salaba.repository.*;
-import salaba.repository.rentalHome.ReservationRepository;
-import salaba.repository.rentalHome.ReviewRepository;
+import salaba.repository.jpa.AlarmRepository;
+import salaba.repository.jpa.MemberRepository;
+import salaba.repository.jpa.NationRepository;
+import salaba.repository.jpa.PointRepository;
+import salaba.repository.jpa.rentalHome.ReservationRepository;
+import salaba.repository.jpa.rentalHome.ReviewRepository;
 import java.util.NoSuchElementException;
 
 @Service

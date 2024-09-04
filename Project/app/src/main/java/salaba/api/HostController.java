@@ -6,7 +6,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.web.bind.annotation.*;
 import salaba.dto.request.RentalHomeCreateReqDto;
 import salaba.dto.request.RentalHomeModiReqDto;
@@ -16,10 +15,8 @@ import salaba.dto.response.RentalHomeResDto;
 import salaba.service.HostService;
 import salaba.service.RentalHomeService;
 import salaba.service.ReservationService;
-import salaba.util.MemberContextHolder;
+import salaba.interceptor.MemberContextHolder;
 import salaba.util.RestResult;
-
-import java.util.List;
 
 @Tag(name = "호스트 API")
 @RestController
@@ -36,7 +33,8 @@ public class HostController {
     @Operation(summary = "숙소 등록")
     @PostMapping("new")
     public RestResult<?> createRentalHome(@RequestBody RentalHomeCreateReqDto rentalHomeCreateReqDto) {
-        return RestResult.success(new IdResDto(hostService.createRentalHome(MemberContextHolder.getMemberId(), rentalHomeCreateReqDto)));
+        Long rentalHomeId = hostService.createRentalHome(MemberContextHolder.getMemberId(), rentalHomeCreateReqDto);
+        return RestResult.success(new IdResDto(rentalHomeId));
     }
 
     @Operation(summary = "호스트 소유 숙소 목록")

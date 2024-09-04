@@ -10,9 +10,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import salaba.dto.request.*;
 import salaba.dto.response.*;
-import salaba.exception.AlreadyExistsException;
+import salaba.security.jwt.util.JwtTokenizer;
 import salaba.service.*;
-import salaba.util.MemberContextHolder;
+import salaba.interceptor.MemberContextHolder;
 import salaba.util.RestResult;
 
 @Tag(name = "회원 API")
@@ -30,7 +30,7 @@ public class MemberController {
     private final ReservationService reservationService;
 
     private final BookMarkService bookMarkService;
-
+    private final JwtTokenizer jwtTokenizer;
 
 
     @Operation(summary = "회원 프로필 수정")
@@ -48,6 +48,7 @@ public class MemberController {
         Page<BoardByMemberResDto> boards = boardService.boardsByMember(MemberContextHolder.getMemberId(), pageable);
         return RestResult.success(boards);
     }
+
 
     @Operation(summary = "회원이 작성한 댓글 목록")
     @GetMapping("wrote/replies")

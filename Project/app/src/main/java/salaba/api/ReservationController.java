@@ -7,8 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import salaba.dto.ReservedDateDto;
 import salaba.dto.request.ReservationReqDto;
 import salaba.dto.response.IdResDto;
-import salaba.util.MemberContextHolder;
-import salaba.util.ProcessStatus;
+import salaba.interceptor.MemberContextHolder;
 import salaba.service.ReservationService;
 import salaba.util.RestResult;
 
