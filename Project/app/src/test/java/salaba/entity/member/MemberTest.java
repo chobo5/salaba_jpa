@@ -5,9 +5,9 @@ import salaba.domain.common.entity.Address;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.constants.Gender;
 import salaba.domain.common.entity.Nation;
-import salaba.exception.ValidationException;
 import salaba.domain.member.constants.MemberStatus;
 
+import javax.validation.ValidationException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;

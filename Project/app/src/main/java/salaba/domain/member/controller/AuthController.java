@@ -92,7 +92,7 @@ public class AuthController {
     @Operation(summary = "로그아웃")
     @DeleteMapping("/logout")
     public RestResult<?> logout(@RequestBody RefreshTokenDto refreshTokenDto) {
-        authService.logout(refreshTokenDto);
+        authService.logout(MemberContextHolder.getMemberId(), refreshTokenDto);
         // token repository에서 refresh Token에 해당하는 값을 삭제한다.
         return RestResult.success();
     }

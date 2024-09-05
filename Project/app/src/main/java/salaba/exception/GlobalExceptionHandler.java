@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import salaba.util.RestResult;
 
+import javax.validation.ValidationException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -56,6 +57,11 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
     public RestResult<?> handleIllegalArgumentException(IllegalArgumentException e) {
+        return RestResult.error(e.getMessage());
+    }
+
+    @ExceptionHandler(ValidationException.class)
+    public RestResult<?> handleValidationException(ValidationException e) {
         return RestResult.error(e.getMessage());
     }
 

@@ -14,14 +14,15 @@ import salaba.domain.rentalHome.dto.response.RentalHomeDetailResDto;
 import java.util.List;
 import java.util.Optional;
 
-import static salaba.entity.QRegion.*;
-import static salaba.entity.member.QMember.*;
-import static salaba.entity.rental.QFacility.*;
-import static salaba.entity.rental.QRentalHome.*;
-import static salaba.entity.rental.QRentalHomeFacility.*;
-import static salaba.entity.rental.QRentalHomeTheme.*;
-import static salaba.entity.rental.QReservation.*;
-import static salaba.entity.rental.QTheme.*;
+import static salaba.domain.common.entity.QRegion.region;
+import static salaba.domain.member.entity.QMember.member;
+import static salaba.domain.rentalHome.entity.QFacility.facility;
+import static salaba.domain.rentalHome.entity.QRentalHome.rentalHome;
+import static salaba.domain.rentalHome.entity.QRentalHomeFacility.rentalHomeFacility;
+import static salaba.domain.rentalHome.entity.QRentalHomeTheme.rentalHomeTheme;
+import static salaba.domain.rentalHome.entity.QTheme.theme;
+import static salaba.domain.reservation.entity.QReservation.reservation;
+
 
 @RequiredArgsConstructor
 public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom{

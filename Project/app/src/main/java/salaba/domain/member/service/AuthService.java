@@ -98,7 +98,7 @@ public class AuthService {
     }
 
 
-    public void logout(RefreshTokenDto refreshTokenDto) {
-        tokenService.deleteRefreshToken(refreshTokenDto.getRefreshToken());
+    public void logout(Long memberId, RefreshTokenDto refreshTokenDto) {
+        tokenService.deleteRefreshToken(memberId, refreshTokenDto.getRefreshToken());
     }
 }

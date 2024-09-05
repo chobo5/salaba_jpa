@@ -6,9 +6,10 @@ import salaba.domain.member.entity.Member;
 
 import java.util.Optional;
 
-import static salaba.entity.member.QMember.member;
-import static salaba.entity.member.QMemberRole.*;
-import static salaba.entity.member.QRole.*;
+import static salaba.domain.member.entity.QMember.member;
+import static salaba.domain.member.entity.QMemberRole.memberRole;
+import static salaba.domain.member.entity.QRole.role;
+
 
 @RequiredArgsConstructor
 public class MemberRepositoryImpl implements MemberRepositoryCustom {

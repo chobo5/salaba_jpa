@@ -12,7 +12,6 @@ import org.springframework.data.redis.core.index.Indexed;
 import javax.persistence.*;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @RedisHash(value = "refresh_token") //객체를 레디스에 저장할 때 Hash 자료구조를 사용
 public class RefreshToken {
@@ -27,10 +26,16 @@ public class RefreshToken {
     @TimeToLive
     private long ttl;
 
-    public void update(String value, long ttl) {
-        this.value = value;
-        this.ttl = ttl;
+    public static RefreshToken createRefreshToken(Long memberId, String value) {
+        RefreshToken refreshToken = new RefreshToken();
+        refreshToken.memberId = memberId;
+        refreshToken.value = value;
+        refreshToken.ttl = 60 * 60 * 24 * 7;
+        return refreshToken;
     }
 
-
+    public void update(String value) {
+        this.value = value;
+        this.ttl = 60 * 60 * 24 * 7;;
+    }
 }

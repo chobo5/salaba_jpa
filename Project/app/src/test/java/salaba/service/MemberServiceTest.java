@@ -7,9 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import salaba.domain.member.dto.request.MemberJoinReqDto;
-import salaba.exception.ValidationException;
 import salaba.domain.member.service.AuthService;
 
+import javax.validation.ValidationException;
 import java.time.LocalDate;
 
 @SpringBootTest

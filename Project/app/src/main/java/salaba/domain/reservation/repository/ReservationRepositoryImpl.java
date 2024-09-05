@@ -11,9 +11,10 @@ import salaba.domain.reservation.entity.Reservation;
 import java.util.List;
 import java.util.Optional;
 
-import static salaba.entity.member.QMember.member;
-import static salaba.entity.rental.QRentalHome.rentalHome;
-import static salaba.entity.rental.QReservation.reservation;
+import static salaba.domain.member.entity.QMember.member;
+import static salaba.domain.rentalHome.entity.QRentalHome.rentalHome;
+import static salaba.domain.reservation.entity.QReservation.reservation;
+
 
 @RequiredArgsConstructor
 public class ReservationRepositoryImpl implements ReservationRepositoryCustom {

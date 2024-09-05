@@ -14,8 +14,9 @@ import salaba.domain.rentalHome.entity.Review;
 
 import java.util.List;
 
-import static salaba.entity.rental.QReservation.*;
-import static salaba.entity.rental.QReview.*;
+import static salaba.domain.rentalHome.entity.QReview.review;
+import static salaba.domain.reservation.entity.QReservation.reservation;
+
 
 @RequiredArgsConstructor
 public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
