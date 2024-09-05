@@ -13,7 +13,7 @@ import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.CorsUtils;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import salaba.security.jwt.exception.CustomAuthenticationEntryPoint;
-import salaba.util.RoleName;
+import salaba.domain.member.constants.RoleName;
 
 import java.util.List;
 

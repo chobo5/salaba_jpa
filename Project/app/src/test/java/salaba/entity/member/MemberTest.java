@@ -1,11 +1,12 @@
 package salaba.entity.member;
 
 import org.junit.jupiter.api.Test;
-import salaba.entity.Address;
-import salaba.util.Gender;
-import salaba.entity.Nation;
+import salaba.domain.common.entity.Address;
+import salaba.domain.member.entity.Member;
+import salaba.domain.member.constants.Gender;
+import salaba.domain.common.entity.Nation;
 import salaba.exception.ValidationException;
-import salaba.util.MemberStatus;
+import salaba.domain.member.constants.MemberStatus;
 
 import java.time.LocalDate;
 import java.util.ArrayList;

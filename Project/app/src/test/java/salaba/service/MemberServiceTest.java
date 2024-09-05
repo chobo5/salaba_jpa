@@ -6,8 +6,9 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.dto.request.MemberJoinReqDto;
+import salaba.domain.member.dto.request.MemberJoinReqDto;
 import salaba.exception.ValidationException;
+import salaba.domain.member.service.AuthService;
 
 import java.time.LocalDate;
 

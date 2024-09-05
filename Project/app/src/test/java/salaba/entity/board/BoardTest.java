@@ -1,14 +1,14 @@
 package salaba.entity.board;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import salaba.entity.member.Member;
+import salaba.domain.board.constants.BoardScope;
+import salaba.domain.board.entity.Board;
+import salaba.domain.member.entity.Member;
 
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class BoardTest {
 

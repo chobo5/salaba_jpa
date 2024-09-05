@@ -2,8 +2,6 @@ package salaba.interceptor;
 
 import salaba.exception.CannotFindMemberException;
 
-import java.util.Optional;
-
 public class MemberContextHolder {
     private static final ThreadLocal<Long> userContext = new ThreadLocal<>();
 

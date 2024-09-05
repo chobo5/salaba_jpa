@@ -4,11 +4,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.dto.request.MemberJoinReqDto;
-import salaba.entity.board.Board;
-import salaba.entity.board.BoardScope;
-import salaba.entity.member.Member;
-import salaba.repository.jpa.MemberRepository;
+import salaba.domain.board.service.BoardService;
+import salaba.domain.member.dto.request.MemberJoinReqDto;
+import salaba.domain.board.entity.Board;
+import salaba.domain.board.constants.BoardScope;
+import salaba.domain.member.entity.Member;
+import salaba.domain.member.repository.MemberRepository;
+import salaba.domain.member.service.AuthService;
 
 import java.time.LocalDate;
 

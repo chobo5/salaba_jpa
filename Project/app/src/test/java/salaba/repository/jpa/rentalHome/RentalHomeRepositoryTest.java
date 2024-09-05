@@ -8,18 +8,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.dto.response.RentalHomeDetailResDto;
-import salaba.entity.Address;
-import salaba.entity.Nation;
-import salaba.entity.Region;
-import salaba.entity.member.Member;
-import salaba.entity.rental.RentalHome;
-import salaba.repository.jpa.MemberRepository;
-import salaba.repository.jpa.NationRepository;
-import salaba.repository.jpa.RegionRepository;
+import salaba.domain.rentalHome.dto.response.RentalHomeDetailResDto;
+import salaba.domain.common.entity.Address;
+import salaba.domain.common.entity.Nation;
+import salaba.domain.common.entity.Region;
+import salaba.domain.member.entity.Member;
+import salaba.domain.rentalHome.entity.RentalHome;
+import salaba.domain.member.repository.MemberRepository;
+import salaba.domain.rentalHome.repository.RentalHomeRepository;
+import salaba.domain.common.repository.NationRepository;
+import salaba.domain.common.repository.RegionRepository;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
