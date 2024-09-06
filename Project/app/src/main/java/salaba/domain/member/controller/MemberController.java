@@ -8,23 +8,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import salaba.domain.board.dto.response.BoardByMemberResDto;
-import salaba.domain.board.service.BoardService;
 import salaba.domain.common.dto.IdResDto;
-import salaba.domain.member.dto.request.MemberModiReqDto;
+import salaba.domain.member.dto.request.*;
 import salaba.domain.member.dto.response.AlarmResDto;
 import salaba.domain.member.dto.response.PointResDto;
 import salaba.domain.member.service.MemberService;
-import salaba.domain.rentalHome.dto.request.RentalHomeMarkReqDto;
-import salaba.domain.rentalHome.dto.request.ReviewReqDto;
-import salaba.domain.rentalHome.service.BookMarkService;
-import salaba.domain.reply.dto.response.ReplyByMemberResDto;
-import salaba.domain.reply.service.ReplyService;
-import salaba.domain.reservation.dto.response.ReservationToGuestResDto;
-import salaba.domain.reservation.service.ReservationService;
-import salaba.security.jwt.util.JwtTokenizer;
 import salaba.interceptor.MemberContextHolder;
 import salaba.util.RestResult;
+
+import javax.validation.Valid;
 
 @Tag(name = "회원 API")
 @RestController
@@ -34,16 +26,6 @@ public class MemberController {
 
     private final MemberService memberService;
 
-    private final BoardService boardService;
-
-    private final ReplyService replyService;
-
-    private final ReservationService reservationService;
-
-    private final BookMarkService bookMarkService;
-    private final JwtTokenizer jwtTokenizer;
-
-
     @Operation(summary = "회원 프로필 수정")
     @PutMapping("modify")
     public RestResult<?> changeProfile(@RequestBody MemberModiReqDto memberModiReqDto) {
@@ -51,13 +33,32 @@ public class MemberController {
         return RestResult.success(new IdResDto(memberId));
     }
 
-    @Operation(summary = "회원의 예약 목록")
-    @GetMapping("reservation/list")
-    public RestResult<?> reservationList(@RequestParam(defaultValue = "0") int pageNumber,
-                                         @RequestParam(defaultValue = "10") int pageSize) {
-        Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<ReservationToGuestResDto> reservations = reservationService.getWithRentalHomeAndHost(MemberContextHolder.getMemberId(), pageable);
-        return RestResult.success(reservations);
+    @Operation(summary = "회원 비밀번호 변경")
+    @PutMapping("changePassword")
+    public RestResult<?> changePassword(@RequestBody @Valid ChangePasswordReqDto reqDto) {
+        memberService.changePassword(MemberContextHolder.getMemberId(), reqDto);
+        return RestResult.success();
+    }
+    
+    @Operation(summary = "회원 닉네임 변경")
+    @PutMapping("changeNickname")
+    public RestResult<?> changeNickname(@RequestBody ChangeNicknameReqDto reqDto) {
+        memberService.changeNickname(MemberContextHolder.getMemberId(), reqDto);
+        return RestResult.success();
+    }
+
+    @Operation(summary = "회원 연락처 변경")
+    @PutMapping("changeTelNo")
+    public RestResult<?> changeTelNo(@RequestBody ChangeTelNoReqDto reqDto) {
+        memberService.changeTelNo(MemberContextHolder.getMemberId(), reqDto);
+        return RestResult.success();
+    }
+
+    @Operation(summary = "회원 탈퇴")
+    @DeleteMapping("resign")
+    public RestResult<?> quit(@RequestBody MemberResignReqDto reqDto) {
+        memberService.resign(MemberContextHolder.getMemberId(), reqDto);
+        return RestResult.success();
     }
 
     @Operation(summary = "회원의 포인트 내역 목록")

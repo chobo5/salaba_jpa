@@ -1,9 +1,9 @@
-package salaba.domain.payment.dto.request;
+package salaba.domain.reservation.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Data;
 import salaba.domain.common.constants.ProcessStatus;
-import salaba.domain.payment.constants.PayMethod;
+import salaba.domain.reservation.constants.PayMethod;
 
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
@@ -16,9 +16,9 @@ public class PaymentReqDto {
     @NotNull
     private Long reservationId;
 
-    @Schema(description = "결제 API 요청후 응답받은 결제번호")
+    @Schema(description = "결제 API 요청후 응답받은 결제코드")
     @NotEmpty
-    private String paymentId;
+    private String paymentCode;
 
     @Schema(description = "최종 결제 금액")
     @NotNull

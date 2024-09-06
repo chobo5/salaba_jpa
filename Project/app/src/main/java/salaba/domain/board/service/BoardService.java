@@ -21,6 +21,7 @@ import salaba.domain.board.repository.BoardLikeRepository;
 import salaba.domain.board.repository.BoardRepository;
 import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.board.dto.response.BoardModiResDto;
+import salaba.domain.member.service.PointService;
 
 
 import javax.persistence.EntityManager;
@@ -33,7 +34,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
     private final BoardLikeRepository boardLikeRepository;
-    private final PointRepository pointRepository;
+    private final PointService pointService;
     private final EntityManager em;
 
     public Long createBoard(Long memberId, BoardCreateReqDto boardDto) {
@@ -41,7 +42,8 @@ public class BoardService {
         Board board = Board.createBoard(boardDto.getTitle(), boardDto.getContent(), boardDto.getScope(), writer);
 
         boardRepository.save(board);
-        pointRepository.save(Point.createBoardPoint(writer));
+
+        pointService.createBoardPoint(writer);
 
         return board.getId();
     }

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import salaba.domain.member.entity.QMember;
 import salaba.domain.reservation.entity.Reservation;
 
 import java.util.List;
@@ -21,17 +22,22 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 
     @Override
-    public Page<Reservation> findWithGuest(Long rentalHomeId, Pageable pageable) {
+    public Page<Reservation> findWithGuest(Long hostId, Pageable pageable) {
+        QMember host = new QMember("host");
         List<Reservation> reservations = queryFactory.selectFrom(reservation)
                 .join(reservation.member, member).fetchJoin()
-                .where(reservation.rentalHome.id.eq(rentalHomeId))
+                .join(reservation.rentalHome, rentalHome).fetchJoin()
+                .join(rentalHome.host, host).fetchJoin()
+                .where(reservation.rentalHome.host.id.eq(hostId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
         JPAQuery<Long> totalCount = queryFactory.select(reservation.id.count())
                 .from(reservation)
-                .where(reservation.rentalHome.id.eq(rentalHomeId));
+                .join(reservation.rentalHome, rentalHome)
+                .join(rentalHome.host, host)
+                .where(reservation.rentalHome.host.id.eq(hostId));
 
         return PageableExecutionUtils.getPage(reservations, pageable, totalCount::fetchOne);
     }

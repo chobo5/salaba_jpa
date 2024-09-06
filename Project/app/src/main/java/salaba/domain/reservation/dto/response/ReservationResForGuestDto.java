@@ -8,8 +8,12 @@ import salaba.domain.reservation.entity.Reservation;
 import java.time.LocalDateTime;
 
 @Data
-public class ReservationToHostResDto {
+public class ReservationResForGuestDto {
     private Long reservationId;
+
+    private String rentalHomeName;
+
+    private String hostName;
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime startDate;
@@ -19,14 +23,13 @@ public class ReservationToHostResDto {
 
     private ProcessStatus status;
 
-    private String guestName;
 
-    public ReservationToHostResDto(Reservation reservation) {
+    public ReservationResForGuestDto(Reservation reservation) {
         reservationId = reservation.getId();
+        rentalHomeName = reservation.getRentalHome().getName();
+        hostName = reservation.getRentalHome().getHost().getName();
         startDate = reservation.getStartDate();
         endDate = reservation.getEndDate();
         status = reservation.getStatus();
-        guestName = reservation.getMember().getName();
     }
-
 }

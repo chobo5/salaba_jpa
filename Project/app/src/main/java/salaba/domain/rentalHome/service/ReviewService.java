@@ -4,6 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import salaba.domain.member.entity.Point;
 import salaba.domain.member.repository.PointRepository;
+import salaba.domain.member.service.PointService;
 import salaba.domain.rentalHome.dto.request.ReviewReqDto;
 import salaba.domain.rentalHome.entity.Review;
 import salaba.domain.rentalHome.repository.ReviewRepository;
@@ -17,15 +18,14 @@ import java.util.NoSuchElementException;
 public class ReviewService {
     private final ReviewRepository reviewRepository;
     private final ReservationRepository reservationRepository;
-    private final PointRepository pointRepository;
+    private final PointService pointService;
 
     public Long createReview(ReviewReqDto reviewReqDto) {
         Reservation reservation = reservationRepository.findByIdWithMember(reviewReqDto.getReservationId()).orElseThrow(NoSuchElementException::new);
         Review review = Review.createReview(reservation, reviewReqDto.getScore(), reviewReqDto.getContent());
         reviewRepository.save(review);
 
-        Point point = Point.createReviewPoint(reservation.getMember());
-        pointRepository.save(point);
+        pointService.createReviewPoint(reservation.getMember());
 
         return review.getId();
     }

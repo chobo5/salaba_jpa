@@ -54,39 +54,11 @@ public class AuthController {
     }
 
 
-    @Operation(summary = "회원 비밀번호 변경")
-    @PutMapping("changePassword")
-    public RestResult<?> changePassword(@RequestBody @Valid ChangePasswordReqDto reqDto) {
-        authService.changePassword(MemberContextHolder.getMemberId(), reqDto);
-        return RestResult.success();
-    }
-
     @Operation(summary = "회원 로그인")
     @PostMapping("/login")
     public RestResult<?> login(@RequestBody @Valid MemberLoginReqDto reqDto) {
         MemberLoginResDto loginResDto = authService.login(reqDto);
         return RestResult.success(loginResDto);
-    }
-
-    @Operation(summary = "회원 닉네임 변경")
-    @PutMapping("changeNickname")
-    public RestResult<?> changeNickname(@RequestBody ChangeNicknameReqDto reqDto) {
-        authService.changeNickname(MemberContextHolder.getMemberId(), reqDto);
-        return RestResult.success();
-    }
-
-    @Operation(summary = "회원 연락처 변경")
-    @PutMapping("changeTelNo")
-    public RestResult<?> changeTelNo(@RequestBody ChangeTelNoReqDto reqDto) {
-        authService.changeTelNo(MemberContextHolder.getMemberId(), reqDto);
-        return RestResult.success();
-    }
-
-    @Operation(summary = "회원 탈퇴")
-    @DeleteMapping("resign")
-    public RestResult<?> quit(@RequestBody MemberResignReqDto reqDto) {
-        authService.resign(MemberContextHolder.getMemberId(), reqDto);
-        return RestResult.success();
     }
 
     @Operation(summary = "로그아웃")

@@ -5,17 +5,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import salaba.domain.member.service.AlarmService;
+import salaba.domain.member.service.PointService;
 import salaba.domain.reply.dto.response.ReplyByMemberResDto;
 import salaba.domain.reply.dto.request.ReplyCreateReqDto;
 import salaba.domain.reply.dto.request.ReplyModifyReqDto;
 import salaba.domain.reply.dto.request.ReplyToReplyCreateReqDto;
 import salaba.domain.board.entity.Board;
 import salaba.domain.reply.entity.Reply;
-import salaba.domain.member.entity.Alarm;
 import salaba.domain.member.entity.Member;
-import salaba.domain.member.entity.Point;
-import salaba.domain.member.repository.AlarmRepository;
-import salaba.domain.member.repository.PointRepository;
 import salaba.domain.board.repository.BoardRepository;
 import salaba.domain.reply.repository.ReplyRepository;
 import salaba.domain.member.repository.MemberRepository;
@@ -31,9 +29,9 @@ public class ReplyService {
     private final BoardRepository boardRepository;
     private final MemberRepository memberRepository;
     private final ReplyRepository replyRepository;
-    private final PointRepository pointRepository;
+    private final PointService pointService;
     private final EntityManager em;
-    private final AlarmRepository alarmRepository;
+    private final AlarmService alarmService;
 
     public Long createReply(Long memberId, ReplyCreateReqDto replyCreateReqDto) {
         Board board = boardRepository.findByIdWithWriter(replyCreateReqDto.getBoardId()).orElseThrow(NoSuchElementException::new);
@@ -41,10 +39,8 @@ public class ReplyService {
         Reply reply = Reply.createReply(board, replyCreateReqDto.getContent(), member);
         replyRepository.save(reply);
 
-        Alarm alarm = Alarm.createReplyAlarm(board.getWriter(), member.getNickname(), reply.getContent());
-        alarmRepository.save(alarm);
-
-        pointRepository.save(Point.createReplyPoint(member));
+        alarmService.createReplyAlarm(board.getWriter(), member, reply.getContent());
+        pointService.createReplyPoint(member);
 
         return reply.getId();
     }
@@ -69,8 +65,8 @@ public class ReplyService {
         Reply reply = Reply.createReplyToReply(parent, replyToReplyCreateReqDto.getContent(), writer);
         replyRepository.save(reply);
 
-        Alarm alarm = Alarm.createReplyAlarm(parent.getWriter(), writer.getNickname(), reply.getContent());
-        alarmRepository.save(alarm);
+        alarmService.createReplyAlarm(parent.getWriter(), writer, reply.getContent());
+
         return reply.getId();
     }
 

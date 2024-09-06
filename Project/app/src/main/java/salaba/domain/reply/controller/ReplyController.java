@@ -39,9 +39,9 @@ public class ReplyController {
     }
 
     @Operation(summary = "댓글 삭제")
-    @DeleteMapping("delete/{id}")
-    public RestResult<?> deleteReply(@PathVariable Long id) {
-        Long deletedId = replyService.delete(id);
+    @DeleteMapping("delete")
+    public RestResult<?> deleteReply(@RequestParam Long replyId) {
+        Long deletedId = replyService.delete(replyId);
         return RestResult.success(new IdResDto(deletedId));
     }
 
@@ -53,14 +53,14 @@ public class ReplyController {
     }
 
     @Operation(summary = "대댓글 삭제")
-    @DeleteMapping("toReply/delete/{id}")
-    public RestResult<?> deleteReReply(@PathVariable Long id) {
-        Long deletedId = replyService.deleteReplyToReply(id);
+    @DeleteMapping("toReply/delete/")
+    public RestResult<?> deleteReReply(@RequestParam Long replyId) {
+        Long deletedId = replyService.deleteReplyToReply(replyId);
         return RestResult.success(new IdResDto(deletedId));
     }
 
     @Operation(summary = "회원이 작성한 댓글 목록")
-    @GetMapping("wrote/replies")
+    @GetMapping("wrote/list")
     public RestResult<?> replyListByMember(@RequestParam(defaultValue = "0") int pageNumber,
                                            @RequestParam(defaultValue = "10") int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);

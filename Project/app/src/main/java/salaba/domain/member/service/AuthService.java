@@ -70,34 +70,6 @@ public class AuthService {
         return new MemberLoginResDto(tokens.getAccessToken(), tokens.getRefreshToken());
     }
 
-    public void changePassword(Long memberId, ChangePasswordReqDto reqDto) {
-        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
-        if (!passwordEncoder.matches(reqDto.getPassword(), member.getPassword())) {
-            throw new PasswordNotCorrectException("비밀번호가 일치하지 않습니다.");
-        }
-        member.changePassword(passwordEncoder.encode(reqDto.getNewPassword()));
-    }
-
-    public void changeNickname(Long memberId, ChangeNicknameReqDto reqDto) {
-        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
-        member.changeNickname(reqDto.getNickname());
-    }
-
-    public void changeTelNo(Long memberId, ChangeTelNoReqDto reqDto) {
-        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
-        member.changeTelNo(reqDto.getTelNo());
-    }
-
-    public void resign(Long memberId, MemberResignReqDto reqDto) {
-        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
-        if (!passwordEncoder.matches(reqDto.getPassword(), member.getPassword())) {
-             throw new PasswordNotCorrectException("비밀번호가 일치하지 않습니다.");
-        }
-        member.resign();
-
-    }
-
-
     public void logout(Long memberId, RefreshTokenDto refreshTokenDto) {
         tokenService.deleteRefreshToken(memberId, refreshTokenDto.getRefreshToken());
     }

@@ -58,9 +58,9 @@ public class BoardController {
     }
 
     @Operation(summary = "게시물 삭제")
-    @DeleteMapping("delete/{id}")
-    public RestResult<?> deleteBoard(@PathVariable Long id) {
-        return RestResult.success(new IdResDto(boardService.delete(id)));
+    @DeleteMapping("delete")
+    public RestResult<?> deleteBoard(@RequestParam Long boardId) {
+        return RestResult.success(new IdResDto(boardService.delete(boardId)));
     }
 
     @Operation(summary = "게시물 검색")
@@ -92,7 +92,7 @@ public class BoardController {
     }
 
     @Operation(summary = "회원이 작성한 게시물 목록")
-    @GetMapping("wrote/boards")
+    @GetMapping("wrote/list")
     public RestResult<?> boardListByMember(@RequestParam(defaultValue = "0") int pageNumber,
                                            @RequestParam(defaultValue = "10") int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);

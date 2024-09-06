@@ -63,7 +63,7 @@ public class RentalHomeController {
     }
 
     @Operation(summary = "호스트 소유 숙소 목록")
-    @GetMapping("rentalHome/list")
+    @GetMapping("host/list")
     public RestResult<?> getRentalHomeList(@RequestParam(defaultValue = "0") int pageNumber,
                                            @RequestParam(defaultValue = "10") int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
@@ -72,20 +72,20 @@ public class RentalHomeController {
     }
 
     @Operation(summary = "호스트 소유 숙소 상세")
-    @GetMapping("rentalHome/detail/{rentalHomeId}")
-    public RestResult<?> getRentalHomeDetail(@PathVariable Long rentalHomeId) {
+    @GetMapping("host/detail")
+    public RestResult<?> getRentalHomeDetail(@RequestParam Long rentalHomeId) {
         RentalHomeDetailResDto rentalHomeDetail = rentalHomeService.getRentalHomeByHost(MemberContextHolder.getMemberId(), rentalHomeId);
         return RestResult.success(rentalHomeDetail);
     }
 
     @Operation(summary = "호스트 소유 숙소 수정")
-    @PutMapping("rentalHome/modify")
+    @PutMapping("modify")
     public RestResult<?> modifyRentalHome(@RequestBody RentalHomeModiReqDto rentalHomeModiReqDto) {
         return RestResult.success(rentalHomeService.modifyRentalHome(MemberContextHolder.getMemberId(), rentalHomeModiReqDto));
     }
 
     @Operation(summary = "호스트 소유 숙소 폐쇄(삭제)")
-    @DeleteMapping("rentalHome/delete/")
+    @DeleteMapping("delete")
     public RestResult<?> deleteRentalHome(@RequestParam Long rentalHomeId) {
         return RestResult.success(rentalHomeService.deleteRentalHome(MemberContextHolder.getMemberId(), rentalHomeId));
     }
@@ -98,14 +98,14 @@ public class RentalHomeController {
     }
 
     @Operation(summary = "숙소 찜하기")
-    @PostMapping("mark")
+    @PostMapping("bookmark")
     public RestResult<?> markOnRentalHome(RentalHomeMarkReqDto reqDto) {
         Long bookmarkId = bookMarkService.mark(MemberContextHolder.getMemberId(), reqDto.getRentalHomeId());
         return RestResult.success(bookmarkId);
     }
 
     @Operation(summary = "숙소 찜하기 취소")
-    @DeleteMapping("mark/delete")
+    @DeleteMapping("bookmark/delete")
     public RestResult<?> deleteMarkOnRentalHome(@RequestParam Long rentalHomeId) {
         bookMarkService.deleteMark(MemberContextHolder.getMemberId(), rentalHomeId);
         return RestResult.success();

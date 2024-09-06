@@ -1,4 +1,4 @@
-package salaba.domain.payment.entity;
+package salaba.domain.reservation.entity;
 
 import lombok.Getter;
 
@@ -13,8 +13,8 @@ public class Discount {
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "payment_id", nullable = false)
-    private Payment payment;
+    @JoinColumn(name = "reservation_id", nullable = false)
+    private Reservation reservation;
 
     @Column(nullable = false)
     private int amount;
@@ -22,9 +22,9 @@ public class Discount {
     @Column(nullable = false)
     private String content;
 
-    public static Discount createDiscount(Payment payment, int amount, String content) {
+    public static Discount createDiscount(Reservation reservation, int amount, String content) {
         Discount discount = new Discount();
-        discount.payment = payment;
+        discount.reservation = reservation;
         discount.amount = amount;
         discount.content = content;
         return discount;
