@@ -19,11 +19,11 @@ import salaba.domain.board.entity.Board;
 import salaba.domain.board.entity.BoardLike;
 import salaba.domain.reply.dto.response.ReplyResDto;
 import salaba.domain.reply.dto.response.ReplyToReplyResDto;
-import salaba.entity.board.*;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.board.repository.BoardLikeRepository;
 import salaba.domain.board.repository.BoardRepository;
+import salaba.domain.reply.entity.QReply;
 import salaba.domain.reply.entity.Reply;
 import salaba.domain.reply.repository.ReplyRepository;
 
@@ -35,7 +35,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static salaba.entity.board.QReply.reply;
+import static salaba.domain.reply.entity.QReply.reply;
 
 @SpringBootTest
 @Transactional

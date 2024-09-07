@@ -15,9 +15,11 @@ import salaba.domain.rentalHome.dto.response.RentalHomeDetailResDto;
 import salaba.domain.rentalHome.dto.response.RentalHomeResDto;
 import salaba.domain.rentalHome.dto.response.ReviewResDto;
 import salaba.domain.rentalHome.entity.*;
+import salaba.domain.rentalHome.es.RentalHomeESRepository;
 import salaba.domain.rentalHome.repository.*;
 import salaba.exception.NoAuthorityException;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -33,7 +35,7 @@ public class RentalHomeService {
     private final RentalHomeFacilityRepository rentalHomeFacilityRepository;
     private final RentalHomeThemeRepository rentalHomeThemeRepository;
     private final ReviewRepository reviewRepository;
-
+    private final RentalHomeESRepository rentalHomeESRepository;
     public RentalHomeDetailResDto get(Long rentalHomeId) {
         return rentalHomeRepository.findDetailById(rentalHomeId);
     }
@@ -130,4 +132,30 @@ public class RentalHomeService {
     public RentalHomeDetailResDto getRentalHomeByHost(Long memberId, Long rentalHomeId) {
         return rentalHomeRepository.findDetailByIdAndHost(rentalHomeId, memberId);
     }
+
+    public Page<RentalHomeResDto> searchRentalHomes(String keyword) {
+        String[] keywords = keyword.split(" ");
+        Criteria criteria = new Criteria("name").matchingAny(keywords)
+                .or(new Criteria("regionName").matchingAny(keywords))
+                .or(new Criteria("themes").matchingAny(keywords));
+
+        Query searchQuery = new CriteriaQuery(criteria);
+
+        // 쿼리 실행 및 결과 정렬
+        return elasticsearchRestTemplate.search(searchQuery, RentalHomeDocument.class, pageable)
+                .map(searchHit -> new RentalHomeResDto(
+                        searchHit.getContent().getId(),
+                        searchHit.getContent().getName(),
+                        searchHit.getContent().getRegionName(),
+                        searchHit.getContent().getThemes(),
+                        searchHit.getContent().getPrice(),
+                        searchHit.getContent().getRating(),
+                        searchHit.getContent().getReviewCount(),
+                        searchHit.getContent().getSalesCount(),
+                        searchHit.getContent().getDescription(),
+                        searchHit.getContent().getScore()
+                ));
+    }
+
+
 }

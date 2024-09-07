@@ -21,7 +21,7 @@ import salaba.util.RestResult;
 
 import java.util.List;
 
-@Tag(name = "숙소예약 API")
+@Tag(name = "숙소예약/결제 API")
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/reservation")
