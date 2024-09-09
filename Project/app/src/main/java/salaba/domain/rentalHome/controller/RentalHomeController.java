@@ -21,6 +21,7 @@ import salaba.domain.rentalHome.service.ReviewService;
 import salaba.interceptor.MemberContextHolder;
 import salaba.util.RestResult;
 
+
 @Tag(name = "숙소 API")
 @RestController
 @RequiredArgsConstructor
@@ -110,4 +111,34 @@ public class RentalHomeController {
         bookMarkService.deleteMark(MemberContextHolder.getMemberId(), rentalHomeId);
         return RestResult.success();
     }
+
+    @Operation(summary = "숙소 찾기(리뷰순)")
+    @GetMapping("search/orderByReview")
+    public RestResult<?> searchRentalHomeOrderByReview(@RequestParam(required = false) String region,
+                                          @RequestParam(required = false) String theme,
+                                          @RequestParam(required = false) Long minPrice,
+                                          @RequestParam(required = false) Long maxPrice,
+                                          @RequestParam(defaultValue = "0") int pageNumber,
+                                          @RequestParam(defaultValue = "10") int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<RentalHomeResDto> rentalHomeResDtos = rentalHomeService
+                .searchRentalHomesOrderByReview(region, theme, minPrice, maxPrice, pageable);
+        return RestResult.success(rentalHomeResDtos);
+    }
+
+    @Operation(summary = "숙소 찾기(판매순)")
+    @GetMapping("search/orderByReview")
+    public RestResult<?> searchRentalHomeOrderBySalesCount(@RequestParam(required = false) String region,
+                                          @RequestParam(required = false) String theme,
+                                          @RequestParam(required = false) Long minPrice,
+                                          @RequestParam(required = false) Long maxPrice,
+                                          @RequestParam(defaultValue = "0") int pageNumber,
+                                          @RequestParam(defaultValue = "10") int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<RentalHomeResDto> rentalHomeResDtos = rentalHomeService
+                .searchRentalHomesOrderBySalesCount(region, theme, minPrice, maxPrice, pageable);
+        return RestResult.success(rentalHomeResDtos);
+    }
+
+
 }

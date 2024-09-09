@@ -116,15 +116,28 @@ public class InitService {
 //        em.persist(venezuela);
 //        em.persist(ukraine);
 //
-//        Nation findKorea = em.find(Nation.class, 82);
+        Nation findKorea = em.find(Nation.class, 82);
 //        Region seoul = new Region("seoul", findKorea);
+        Region busan = new Region("Busan", findKorea);
+        Region daegu = new Region("Daegu", findKorea);
+        Region incheon = new Region("Incheon", findKorea);
+        Region gwangju = new Region("Gwangju", findKorea);
+        Region daegeon = new Region("Daegeon", findKorea);
+        Region ulsan = new Region("Ulsan", findKorea);
+        Region sejong = new Region("Sejong", findKorea);
+        Region koyang = new Region("Koyang", findKorea);
+        Region sungnam = new Region("Sungnam", findKorea);
+        Region jeonju = new Region("Jeonju", findKorea);
+        Region jeju = new Region("Jeju", findKorea);
 //        Region suwon = new Region("suwon", findKorea);
 //        Region hwaseong = new Region("hwaseong", findKorea);
 //        Region yongin = new Region("yongin", findKorea);
+
 //        em.persist(seoul);
 //        em.persist(suwon);
 //        em.persist(hwaseong);
 //        em.persist(yongin);
+
 //
 //        Role roleAdmin = new Role(RoleName.ADMIN.getId(), RoleName.ADMIN);
 //        Role roleManager = new Role(RoleName.MANAGER.getId(), RoleName.MANAGER);

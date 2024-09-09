@@ -2,13 +2,16 @@ package salaba.domain.rentalHome.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 import salaba.domain.common.entity.Address;
 import salaba.domain.common.entity.Region;
 import salaba.domain.common.repository.RegionRepository;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.repository.MemberRepository;
+import salaba.domain.rentalHome.dto.SearchRentalHomeDto;
 import salaba.domain.rentalHome.dto.request.RentalHomeCreateReqDto;
 import salaba.domain.rentalHome.dto.request.RentalHomeModiReqDto;
 import salaba.domain.rentalHome.dto.response.RentalHomeDetailResDto;
@@ -19,10 +22,12 @@ import salaba.domain.rentalHome.es.RentalHomeESRepository;
 import salaba.domain.rentalHome.repository.*;
 import salaba.exception.NoAuthorityException;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -133,28 +138,18 @@ public class RentalHomeService {
         return rentalHomeRepository.findDetailByIdAndHost(rentalHomeId, memberId);
     }
 
-    public Page<RentalHomeResDto> searchRentalHomes(String keyword) {
-        String[] keywords = keyword.split(" ");
-        Criteria criteria = new Criteria("name").matchingAny(keywords)
-                .or(new Criteria("regionName").matchingAny(keywords))
-                .or(new Criteria("themes").matchingAny(keywords));
+    public Page<RentalHomeResDto> searchRentalHomesOrderByReview(String regionName, String themeName, Long minPrice, Long maxPrice, Pageable pageable) {
+        Page<RentalHome> rentalHomes = rentalHomeRepository
+                .findRentalHomesOrderByReview(regionName, themeName, minPrice, maxPrice, pageable);
 
-        Query searchQuery = new CriteriaQuery(criteria);
+        return rentalHomes.map(RentalHomeResDto::new);
+    }
 
-        // 쿼리 실행 및 결과 정렬
-        return elasticsearchRestTemplate.search(searchQuery, RentalHomeDocument.class, pageable)
-                .map(searchHit -> new RentalHomeResDto(
-                        searchHit.getContent().getId(),
-                        searchHit.getContent().getName(),
-                        searchHit.getContent().getRegionName(),
-                        searchHit.getContent().getThemes(),
-                        searchHit.getContent().getPrice(),
-                        searchHit.getContent().getRating(),
-                        searchHit.getContent().getReviewCount(),
-                        searchHit.getContent().getSalesCount(),
-                        searchHit.getContent().getDescription(),
-                        searchHit.getContent().getScore()
-                ));
+    public Page<RentalHomeResDto> searchRentalHomesOrderBySalesCount(String regionName, String themeName, Long minPrice, Long maxPrice, Pageable pageable) {
+        Page<RentalHome> rentalHomes = rentalHomeRepository
+                .findRentalHomesOrderBySalesCount(regionName, themeName, minPrice, maxPrice, pageable);
+
+        return rentalHomes.map(RentalHomeResDto::new);
     }
 
 

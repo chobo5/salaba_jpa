@@ -73,6 +73,16 @@ public class RentalHome extends BaseEntity {
     @OneToMany(mappedBy = "rentalHome")
     private List<Reservation> reservations = new ArrayList<>();
 
+    @Transient
+    private Double reviewAvg;
+
+    @Transient
+    private Long reviewCount;
+
+    @Transient
+    private Long salesCount;
+
+
     public static RentalHome createRentalHome(Member host, Region region, String name, String explanation, Address address, int price, int capacity, double lat, double lon, String rule, int cleanFee) {
         RentalHome rentalHome = new RentalHome();
         rentalHome.host = host;
@@ -121,5 +131,17 @@ public class RentalHome extends BaseEntity {
             }
         });
         this.status = RentalHomeStatus.DELETED;
+    }
+
+    public void setReviewAvg(Double reviewAvg) {
+        this.reviewAvg = reviewAvg != null ? (double) Math.round(reviewAvg * 100) / 100 : 0.0;
+    }
+
+    public void setReviewCount(Long reviewCount) {
+        this.reviewCount = reviewCount != null ? reviewCount : 0;
+    }
+
+    public void setSalesCount(Long salesCount) {
+        this.salesCount = salesCount != null ? salesCount : 0;
     }
 }

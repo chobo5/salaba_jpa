@@ -4,6 +4,7 @@ import lombok.Getter;
 import salaba.domain.common.entity.BaseEntity;
 import salaba.domain.common.constants.ProcessStatus;
 import salaba.domain.member.entity.Member;
+import salaba.domain.rentalHome.entity.Review;
 import salaba.domain.reservation.constants.PayMethod;
 import salaba.exception.CannotChangeStatusException;
 import salaba.domain.rentalHome.entity.RentalHome;
@@ -53,6 +54,9 @@ public class Reservation extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
+
+    @OneToOne(mappedBy = "reservation")
+    private Review review;
 
 
     public static Reservation createReservation(LocalDateTime startDate, LocalDateTime endDate, RentalHome rentalHome, Member member) {
