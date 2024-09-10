@@ -3,6 +3,7 @@ package salaba.domain.rentalHome.controller;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -26,6 +27,7 @@ import salaba.util.RestResult;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/rentalHome/")
+@Slf4j
 public class RentalHomeController {
     private final RentalHomeService rentalHomeService;
     private final BookMarkService bookMarkService;

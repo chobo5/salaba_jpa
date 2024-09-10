@@ -128,7 +128,6 @@ public class RentalHomeService {
         Page<RentalHome> rentalHomes = rentalHomeRepository.findByHost(hostId, pageable);
 
         return rentalHomes.map(RentalHomeResDto::new);
-
     }
 
     public RentalHomeDetailResDto getRentalHomeByHost(Long memberId, Long rentalHomeId) {

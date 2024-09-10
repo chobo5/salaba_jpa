@@ -61,6 +61,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     //Elastic Search
 //    implementation 'org.springframework.boot:spring-boot-starter-data-elasticsearch'
+    //Spring AOP
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
 
 }
 
