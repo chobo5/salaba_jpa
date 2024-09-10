@@ -70,7 +70,7 @@ public class Reservation extends BaseEntity {
         //예약 일수(체크인, 체크아웃 날짜 차이)
         int daysBetween = Period.between(endDate.toLocalDate(), startDate.toLocalDate()).getDays();
         //이용 가격 계산
-        reservation.originalPrice = rentalHome.getPrice() * daysBetween;
+        reservation.originalPrice = rentalHome.getPrice() * Math.abs(daysBetween);
         rentalHome.getReservations().add(reservation);
         return reservation;
     }

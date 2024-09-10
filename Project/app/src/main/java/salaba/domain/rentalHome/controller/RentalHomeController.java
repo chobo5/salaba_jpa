@@ -127,7 +127,7 @@ public class RentalHomeController {
     }
 
     @Operation(summary = "숙소 찾기(판매순)")
-    @GetMapping("search/orderByReview")
+    @GetMapping("search/orderBySalesCount")
     public RestResult<?> searchRentalHomeOrderBySalesCount(@RequestParam(required = false) String region,
                                           @RequestParam(required = false) String theme,
                                           @RequestParam(required = false) Long minPrice,

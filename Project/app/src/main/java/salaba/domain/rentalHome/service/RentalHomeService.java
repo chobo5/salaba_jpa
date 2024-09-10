@@ -11,14 +11,12 @@ import salaba.domain.common.entity.Region;
 import salaba.domain.common.repository.RegionRepository;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.repository.MemberRepository;
-import salaba.domain.rentalHome.dto.SearchRentalHomeDto;
 import salaba.domain.rentalHome.dto.request.RentalHomeCreateReqDto;
 import salaba.domain.rentalHome.dto.request.RentalHomeModiReqDto;
 import salaba.domain.rentalHome.dto.response.RentalHomeDetailResDto;
 import salaba.domain.rentalHome.dto.response.RentalHomeResDto;
 import salaba.domain.rentalHome.dto.response.ReviewResDto;
 import salaba.domain.rentalHome.entity.*;
-import salaba.domain.rentalHome.es.RentalHomeESRepository;
 import salaba.domain.rentalHome.repository.*;
 import salaba.exception.NoAuthorityException;
 
@@ -40,7 +38,6 @@ public class RentalHomeService {
     private final RentalHomeFacilityRepository rentalHomeFacilityRepository;
     private final RentalHomeThemeRepository rentalHomeThemeRepository;
     private final ReviewRepository reviewRepository;
-    private final RentalHomeESRepository rentalHomeESRepository;
     public RentalHomeDetailResDto get(Long rentalHomeId) {
         return rentalHomeRepository.findDetailById(rentalHomeId);
     }

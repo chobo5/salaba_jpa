@@ -1,18 +1,32 @@
 package salaba.domain.common.service;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
+import salaba.domain.common.entity.Address;
 import salaba.domain.common.entity.Nation;
 import salaba.domain.common.entity.Region;
+import salaba.domain.common.repository.RegionRepository;
+import salaba.domain.member.entity.Member;
 import salaba.domain.member.entity.Role;
 import salaba.domain.member.constants.RoleName;
-import salaba.domain.rentalHome.entity.Facility;
-import salaba.domain.rentalHome.entity.Theme;
+import salaba.domain.member.repository.MemberRepository;
+import salaba.domain.rentalHome.entity.*;
+import salaba.domain.rentalHome.repository.FacilityRepository;
+import salaba.domain.rentalHome.repository.ThemeRepository;
+import salaba.domain.reply.entity.Reply;
+import salaba.domain.reservation.entity.Reservation;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
 
 @Component
+@RequiredArgsConstructor
 public class InitService {
     @PersistenceContext
     private EntityManager em;
@@ -75,7 +89,7 @@ public class InitService {
 //        em.persist(germany);
 //        em.persist(france);
 //        em.persist(uk);
-////        em.persist(canada);
+//        em.persist(canada);
 //        em.persist(australia);
 //        em.persist(india);
 //        em.persist(brazil);
@@ -116,19 +130,19 @@ public class InitService {
 //        em.persist(venezuela);
 //        em.persist(ukraine);
 //
-        Nation findKorea = em.find(Nation.class, 82);
+//        Nation findKorea = em.find(Nation.class, 82);
 //        Region seoul = new Region("seoul", findKorea);
-        Region busan = new Region("Busan", findKorea);
-        Region daegu = new Region("Daegu", findKorea);
-        Region incheon = new Region("Incheon", findKorea);
-        Region gwangju = new Region("Gwangju", findKorea);
-        Region daegeon = new Region("Daegeon", findKorea);
-        Region ulsan = new Region("Ulsan", findKorea);
-        Region sejong = new Region("Sejong", findKorea);
-        Region koyang = new Region("Koyang", findKorea);
-        Region sungnam = new Region("Sungnam", findKorea);
-        Region jeonju = new Region("Jeonju", findKorea);
-        Region jeju = new Region("Jeju", findKorea);
+//        Region busan = new Region("Busan", findKorea);
+//        Region daegu = new Region("Daegu", findKorea);
+//        Region incheon = new Region("Incheon", findKorea);
+//        Region gwangju = new Region("Gwangju", findKorea);
+//        Region daegeon = new Region("Daegeon", findKorea);
+//        Region ulsan = new Region("Ulsan", findKorea);
+//        Region sejong = new Region("Sejong", findKorea);
+//        Region koyang = new Region("Koyang", findKorea);
+//        Region sungnam = new Region("Sungnam", findKorea);
+//        Region jeonju = new Region("Jeonju", findKorea);
+//        Region jeju = new Region("Jeju", findKorea);
 //        Region suwon = new Region("suwon", findKorea);
 //        Region hwaseong = new Region("hwaseong", findKorea);
 //        Region yongin = new Region("yongin", findKorea);
@@ -137,6 +151,17 @@ public class InitService {
 //        em.persist(suwon);
 //        em.persist(hwaseong);
 //        em.persist(yongin);
+//        em.persist(busan);
+//        em.persist(daegu);
+//        em.persist(incheon);
+//        em.persist(gwangju);
+//        em.persist(daegeon);
+//        em.persist(ulsan);
+//        em.persist(sejong);
+//        em.persist(koyang);
+//        em.persist(sungnam);
+//        em.persist(jeonju);
+//        em.persist(jeju);
 
 //
 //        Role roleAdmin = new Role(RoleName.ADMIN.getId(), RoleName.ADMIN);
@@ -196,27 +221,166 @@ public class InitService {
 //        em.persist(theme10);
 //        em.persist(theme11);
 
+        //회원 생성
+//        Member member1 = Member.createMember("john.smith0@gmail.com", "Tt12241509!@", "John", "john_123", LocalDate.of(1975, 5, 12));
+//        em.persist(member1);
+//
+//        Member member2 = Member.createMember("jane.johnson1@yahoo.com", "Tt12241509!@", "Jane", "jane_456", LocalDate.of(1983, 3, 8));
+//        em.persist(member2);
+//
+//        Member member3 = Member.createMember("alex.williams2@outlook.com", "Tt12241509!@", "Alex", "alex_789", LocalDate.of(1990, 11, 22));
+//        em.persist(member3);
+//
+//        Member member4 = Member.createMember("laura.moore98@gmail.com", "Tt12241509!@", "Laura", "laura_523", LocalDate.of(1985, 8, 17));
+//        em.persist(member4);
+//
+//        Member member5 = Member.createMember("chris.taylor99@yahoo.com", "Tt12241509!@", "Chris", "chris_842", LocalDate.of(1993, 12, 5));
+//        em.persist(member5);
+//
+//        Member member6 = Member.createMember("anna.wilson100@outlook.com", "Tt12241509!@", "Anna", "anna_351", LocalDate.of(1979, 7, 21));
+//        em.persist(member6);
+//
+//        Member member7 = Member.createMember("david.smith101@gmail.com", "Tt12241509!@", "David", "david_101", LocalDate.of(1972, 2, 15));
+//        em.persist(member7);
+//
+//        Member member8 = Member.createMember("sarah.johnson102@yahoo.com", "Tt12241509!@", "Sarah", "sarah_102", LocalDate.of(1980, 9, 30));
+//        em.persist(member8);
+//
+//        Member member9 = Member.createMember("michael.williams103@outlook.com", "Tt12241509!@", "Michael", "michael_103", LocalDate.of(1995, 6, 5));
+//        em.persist(member9);
+//
+//        Member member10 = Member.createMember("laura.jones104@gmail.com", "Tt12241509!@", "Laura", "laura_104", LocalDate.of(1987, 1, 10));
+//        em.persist(member10);
+//
+//        Member member11 = Member.createMember("chris.brown105@yahoo.com", "Tt12241509!@", "Chris", "chris_105", LocalDate.of(1974, 12, 25));
+//        em.persist(member11);
+//
+//        Member member12 = Member.createMember("anna.davis106@outlook.com", "Tt12241509!@", "Anna", "anna_106", LocalDate.of(1991, 4, 18));
+//        em.persist(member12);
+//
+//        Member member13 = Member.createMember("john.miller107@gmail.com", "Tt12241509!@", "John", "john_107", LocalDate.of(1984, 7, 13));
+//        em.persist(member13);
+//
+//        Member member14 = Member.createMember("jane.wilson108@yahoo.com", "Tt12241509!@", "Jane", "jane_108", LocalDate.of(1978, 10, 22));
+//        em.persist(member14);
+//
+//        Member member15 = Member.createMember("alex.moore109@outlook.com", "Tt12241509!@", "Alex", "alex_109", LocalDate.of(1993, 8, 2));
+//        em.persist(member15);
+//
+//        Member member16 = Member.createMember("emily.taylor110@gmail.com", "Tt12241509!@", "Emily", "emily_110", LocalDate.of(1989, 11, 27));
+//        em.persist(member16);
+//
+//        Member member17 = Member.createMember("david.smith199@gmail.com", "Tt12241509!@", "David", "david_199", LocalDate.of(1997, 3, 7));
+//        em.persist(member17);
+//
+//        Member member18 = Member.createMember("sarah.johnson200@yahoo.com", "Tt12241509!@", "Sarah", "sarah_200", LocalDate.of(1982, 12, 14));
+//        em.persist(member18);
+//
+//        for (int i = 1; i <= 100000; i++) {
+//            Member member = Member.createMember("test" + i + "@yahoo.com", "Tt12241509!@", "testName" + i, "testNick" + i, LocalDate.of(1982, 12, 14));
+//            em.persist(member);
+//        }
 
-//        for (int i = 4; i <= 9; i++) {
-//            Member newMember = Member.createMember("test" + i + "@test.com", "Tt12241509!@", "test" + i, "test" + i, LocalDate.of(1999, 1, 1));
-//            em.persist(newMember);
-//            for (int j = 0; j < 4; j++) {
-//                Board board = Board.createBoard("board" + newMember.getId() + i, "board" + newMember.getId() + i, BoardCategory.FREE, BoardScope.ALL, newMember);
-//                em.persist(board);
+//        List<Region> regions = em.createQuery("select r from Region r", Region.class).getResultList();
+
+//        for (int i = 0; i <= 10000; i++) {
+//            Address seoul = new Address("seoulStreet" + i, 11111 + i);
+//            RentalHome rentalHome = RentalHome.createRentalHome(members.get(0), regions.get(i % 15), "seoulHotel" + i, "it's seoulHotel" + i, seoul, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+//            em.persist(rentalHome);
 //
-//                BoardLike boardLike = BoardLike.createBoardLike(board, newMember);
-//                em.persist(boardLike);
+//            Address suwon = new Address("suwonStreet" + i, 22222 + i);
+//            RentalHome rentalHome1 = RentalHome.createRentalHome(members.get(1), regions.get(i % 15), "suwonHotel" + i, "it's suwonHotel" + i, suwon, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+//            em.persist(rentalHome1);
 //
-//                for (int k = 0; k < 4; k++) {
-//                    Reply reply = Reply.createReply(board, "reply" + board.getId() + newMember.getId(), newMember);
-//                    em.persist(reply);
-//                    for (int l = 0; l < 3; l++) {
-//                        Reply reReply = Reply.createReplyToReply(reply, "reReply" + board.getId() + newMember.getId(), newMember);
-//                        em.persist(reReply);
-//                    }
-//                }
+//            Address hwaseong = new Address("hwaseongStreet" + i, 33333 + i);
+//            RentalHome rentalHome2 = RentalHome.createRentalHome(members.get(2), regions.get(i % 15), "hwaseongHotel" + i, "it's hwaseongHotel" + i, hwaseong, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+//            em.persist(rentalHome2);
+//
+//            Address yongin = new Address("yonginStreet" + i, 44444 + i);
+//            RentalHome rentalHome3 = RentalHome.createRentalHome(members.get(3), regions.get(i % 15), "yonginHotel" + i, "it's yonginHotel" + i, yongin, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+//            em.persist(rentalHome3);
+//
+//            Address daegu = new Address("daeguStreet" + i, 55555 + i);
+//            RentalHome rentalHome4 = RentalHome.createRentalHome(members.get(4), regions.get(i % 15), "deaguHotel" + i, "it's deaguHotel" + i, daegu, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+//            em.persist(rentalHome4);
+//
+//            Address busan = new Address("busanStreet" + i, 66666 + i);
+//            RentalHome rentalHome5 = RentalHome.createRentalHome(members.get(5), regions.get(i % 15), "busanHotel" + i, "it's busanHotel" + i, busan, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+//            em.persist(rentalHome5);
+//
+//            Address incheon = new Address("incheonStreet" + i, 77777 + i);
+//            RentalHome rentalHome6 = RentalHome.createRentalHome(members.get(6), regions.get(i % 15), "incheonHotel" + i, "it's incheonHotel" + i, incheon, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+//            em.persist(rentalHome6);
+//
+//            Address gwangju = new Address("gwangjuStreet" + i, 88888 + i);
+//            RentalHome rentalHome7 = RentalHome.createRentalHome(members.get(7), regions.get(i % 15), "gwangjuHotel" + i, "it's gwangjuHotel" + i, gwangju, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+//            em.persist(rentalHome7);
+//
+//            Address daegeon = new Address("daegeonStreet" + i, 99999 + i);
+//            RentalHome rentalHome8 = RentalHome.createRentalHome(members.get(8), regions.get(i % 15), "daegeonHotel" + i, "it's deageonHotel" + i, daegeon, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+//            em.persist(rentalHome8);
+//
+//            Address ulsan = new Address("ulsanStreet" + i, 101010 + i);
+//            RentalHome rentalHome9 = RentalHome.createRentalHome(members.get(9), regions.get(i % 15), "ulsanHotel" + i, "it's ulsanHotel" + i, ulsan, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+//            em.persist(rentalHome9);
+//
+//            Address sejong = new Address("sejongStreet" + i, 11111 + i);
+//            RentalHome rentalHome10 = RentalHome.createRentalHome(members.get(10), regions.get(i % 15), "sejongHotel" + i, "it's sejongHotel" + i, sejong, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+//            em.persist(rentalHome10);
+//
+//            Address koyang = new Address("koyangStreet" + i, 121212 + i);
+//            RentalHome rentalHome11 = RentalHome.createRentalHome(members.get(11), regions.get(i % 15), "koyangHotel" + i, "it's koyangHotel" + i, koyang, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+//            em.persist(rentalHome11);
+//
+//            Address sungnam = new Address("sungnamStreet" + i, 131313 + i);
+//            RentalHome rentalHome12 = RentalHome.createRentalHome(members.get(12), regions.get(i % 15), "sungnamHotel" + i, "it's sungnamHotel" + i, sungnam, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+//            em.persist(rentalHome12);
+//
+//            Address jeonju = new Address("jeonjuStreet" + i, 141414 + i);
+//            RentalHome rentalHome13 = RentalHome.createRentalHome(members.get(13), regions.get(i % 15), "jeonjuHotel" + i, "it's jeonjuHotel" + i, jeonju, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+//            em.persist(rentalHome13);
+//
+//
+//            Address jeju1 = new Address("jejuStreet" + i, 151515 + i);
+//            RentalHome rentalHome14 = RentalHome.createRentalHome(members.get(14), regions.get(i % 15), "jejuHotel" + i, "it's jejuHotel" + i, jeju1, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+//            em.persist(rentalHome14);
+//
+//
+//            Address jeju2 = new Address("jejuStreet" + i, 161616 + i);
+//            RentalHome rentalHome15 = RentalHome.createRentalHome(members.get(15), regions.get(i % 15), "jejuHotel" + i, "it's jejuHotel" + i, jeju2, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+//            em.persist(rentalHome15);
+//
+//            Address jeju3 = new Address("jejuStreet" + i, 171717 + i);
+//            RentalHome rentalHome16 = RentalHome.createRentalHome(members.get(16), regions.get(i % 15), "jejuHotel" + i, "it's jejuHotel" + i, jeju3, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+//            em.persist(rentalHome16);
+//        }
+//        List<Member> members = em.createQuery("select m from Member m", Member.class).setMaxResults(1000).getResultList();
+//        List<RentalHome> rentalHomes = em.createQuery("select r from RentalHome r", RentalHome.class).setMaxResults(1000).getResultList();
+//        List<Theme> themes = em.createQuery("select t from Theme t", Theme.class).getResultList();
+//        List<Facility> facilities = em.createQuery("select f from Facility f", Facility.class).getResultList();
+//        Random random = new Random();
+//        for (int i = 0; i < rentalHomes.size(); i++) {
+//            for (int j = 0; j < random.nextInt(10); j++) {
+//                RentalHomeTheme rht = RentalHomeTheme.createRentalHomeTheme(rentalHomes.get(i), themes.get(j));
+//                em.persist(rht);
+//            }
+
+//            for (int j = 0; j < random.nextInt(13); j++) {
+//                RentalHomeFacility rhf = RentalHomeFacility.createRentalHomeFacility(rentalHomes.get(i), facilities.get(j));
+//                em.persist(rhf);
+//            }
+
+//            for (int j = 0; j < random.nextInt(1000) + 1; j++) {
+//                Reservation reservation = Reservation.createReservation(LocalDateTime.of(2021, 9, 10, 15, 00), LocalDateTime.of(2021, 9, 12, 11, 00), rentalHome, members.get(j));
+//                em.persist(reservation);
+//                Review review = Review.createReview(reservation, random.nextInt(5) + 1, "review " + j);
+//                em.persist(review);
 //            }
 //        }
+
+
+
     }
+
 
 }

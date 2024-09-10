@@ -122,7 +122,7 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
     public Page<RentalHome> findRentalHomesOrderByReview(String regionName, String themeName, Long minPrice, Long maxPrice, Pageable pageable) {
         List<Tuple> result = queryFactory.select(rentalHome, review.count(), review.score.avg())
                 .from(rentalHome)
-                .leftJoin(rentalHome.region, region).fetchJoin()
+                .join(rentalHome.region, region)
                 .leftJoin(reservation).on(reservation.rentalHome.id.eq(rentalHome.id))
                 .leftJoin(review).on(review.reservation.id.eq(reservation.id))
                 .leftJoin(rentalHomeTheme).on(rentalHomeTheme.rentalHome.id.eq(rentalHome.id))
@@ -138,7 +138,9 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        JPAQuery<Long> totalCount = queryFactory.select(rentalHome.id.count())
+        JPAQuery<Long> totalCount = queryFactory.select(rentalHome.id.countDistinct())
+                .from(rentalHome)
+                .join(rentalHome.region, region)
                 .leftJoin(rentalHomeTheme).on(rentalHomeTheme.rentalHome.id.eq(rentalHome.id))
                 .leftJoin(reservation).on(reservation.rentalHome.id.eq(rentalHome.id))
                 .leftJoin(theme).on(rentalHomeTheme.theme.id.eq(theme.id))
@@ -162,7 +164,7 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
     public Page<RentalHome> findRentalHomesOrderBySalesCount(String regionName, String themeName, Long minPrice, Long maxPrice, Pageable pageable) {
         List<Tuple> result = queryFactory.select(rentalHome, reservation.count())
                 .from(rentalHome)
-                .leftJoin(rentalHome.region, region).fetchJoin()
+                .leftJoin(rentalHome.region, region)
                 .leftJoin(reservation).on(reservation.rentalHome.id.eq(rentalHome.id))
                 .leftJoin(rentalHomeTheme).on(rentalHomeTheme.rentalHome.id.eq(rentalHome.id))
                 .leftJoin(theme).on(rentalHomeTheme.theme.id.eq(theme.id))
@@ -177,7 +179,9 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
                 .limit(pageable.getPageSize())
                 .fetch();
 
-        JPAQuery<Long> totalCount = queryFactory.select(rentalHome.id.count())
+        JPAQuery<Long> totalCount = queryFactory.select(rentalHome.id.countDistinct())
+                .from(rentalHome)
+                .join(rentalHome.region, region)
                 .leftJoin(rentalHomeTheme).on(rentalHomeTheme.rentalHome.id.eq(rentalHome.id))
                 .leftJoin(reservation).on(reservation.rentalHome.id.eq(rentalHome.id))
                 .leftJoin(theme).on(rentalHomeTheme.theme.id.eq(theme.id))
@@ -197,7 +201,7 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
     }
 
     private BooleanExpression regionNameContains(String regionName) {
-        return regionName != null ? region.name.contains(regionName.substring(0, 2)) : null;
+        return regionName != null ? region.name.contains(regionName) : null;
     }
 
     private BooleanExpression themeNameContains(String themeName) {
