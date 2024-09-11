@@ -1,11 +1,14 @@
 package salaba.domain.rentalHome.service;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import salaba.domain.member.entity.Point;
 import salaba.domain.member.repository.PointRepository;
 import salaba.domain.member.service.PointService;
 import salaba.domain.rentalHome.dto.request.ReviewReqDto;
+import salaba.domain.rentalHome.entity.RentalHome;
 import salaba.domain.rentalHome.entity.Review;
 import salaba.domain.rentalHome.repository.ReviewRepository;
 import salaba.domain.reservation.entity.Reservation;
@@ -28,5 +31,14 @@ public class ReviewService {
         pointService.createReviewPoint(reservation.getMember());
 
         return review.getId();
+    }
+
+    public Page<Review> findByRentalHome(RentalHome rentalHome, Pageable pageable) {
+        Page<Review> reviews = reviewRepository.findByRentalHome(rentalHome, pageable);
+        return reviews;
+    }
+
+    public Double getReviewAvg(RentalHome rentalHome) {
+        return reviewRepository.getReviewAvg(rentalHome);
     }
 }

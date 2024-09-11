@@ -76,7 +76,7 @@ public class ReplyService {
         return reply.getId();
     }
 
-    public Page<ReplyByMemberResDto> repliesByMember(Long memberId, Pageable pageable) {
+    public Page<ReplyByMemberResDto> getRepliesByMember(Long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
         Page<Reply> replyList = replyRepository.findByWriter(member, pageable);
         return replyList.map(reply -> new ReplyByMemberResDto(reply.getId(), reply.getContent(), reply.getCreatedDate()));

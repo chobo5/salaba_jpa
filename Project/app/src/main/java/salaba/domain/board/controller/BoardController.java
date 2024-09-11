@@ -15,7 +15,6 @@ import salaba.domain.board.dto.response.BoardResDto;
 import salaba.domain.board.dto.request.BoardModifyReqDto;
 import salaba.domain.common.dto.IdResDto;
 import salaba.domain.board.service.BoardService;
-import salaba.domain.reply.dto.response.ReplyByMemberResDto;
 import salaba.interceptor.MemberContextHolder;
 import salaba.util.RestResult;
 
@@ -40,14 +39,14 @@ public class BoardController {
     public RestResult<?> getBoardList(@RequestParam(defaultValue = "0") int pageNumber,
                                       @RequestParam(defaultValue = "10") int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<BoardResDto> dtoList = boardService.list(pageable);
+        Page<BoardResDto> dtoList = boardService.getBoardList(pageable);
         return RestResult.success(dtoList);
     }
 
     @Operation(summary = "게시물 상세보기")
     @GetMapping()
     public RestResult<?> getBoard(@RequestParam Long boardId) {
-        return RestResult.success(boardService.get(boardId));
+        return RestResult.success(boardService.getBoard(boardId));
     }
 
 

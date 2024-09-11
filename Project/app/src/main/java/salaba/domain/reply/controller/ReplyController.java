@@ -64,7 +64,7 @@ public class ReplyController {
     public RestResult<?> replyListByMember(@RequestParam(defaultValue = "0") int pageNumber,
                                            @RequestParam(defaultValue = "10") int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<ReplyByMemberResDto> replies = replyService.repliesByMember(MemberContextHolder.getMemberId(), pageable);
+        Page<ReplyByMemberResDto> replies = replyService.getRepliesByMember(MemberContextHolder.getMemberId(), pageable);
         return RestResult.success(replies);
     }
 

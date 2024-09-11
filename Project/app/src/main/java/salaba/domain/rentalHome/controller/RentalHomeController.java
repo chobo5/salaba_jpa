@@ -36,7 +36,7 @@ public class RentalHomeController {
     @Operation(summary = "숙소 상세보기")
     @GetMapping()
     public RestResult<?> getRentalHome(@RequestParam Long rentalHomeId) {
-        RentalHomeDetailResDto rentalHomeDetail = rentalHomeService.get(rentalHomeId);
+        RentalHomeDetailResDto rentalHomeDetail = rentalHomeService.getRentalHome(rentalHomeId);
         return RestResult.success(rentalHomeDetail);
 
     }

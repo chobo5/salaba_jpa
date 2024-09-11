@@ -36,6 +36,7 @@ public class ReservationService {
     private final RentalHomeRepository rentalHomeRepository;
     private final DiscountRepository discountRepository;
     private final PointService pointService;
+
     public Long makeReservation(Long memberId, ReservationReqDto reqDto) {
         Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
         RentalHome rentalHome = rentalHomeRepository.findById(reqDto.getRentalHomeId()).orElseThrow(NoSuchElementException::new);

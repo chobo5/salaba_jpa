@@ -17,9 +17,43 @@ public class ExecutionTimeLoggerAspect {
     @Pointcut("execution(* salaba.domain.rentalHome.service.RentalHomeService.searchRentalHomesOrderBySalesCount(..))")
     public void searchRentalHomesOrderBySalesCount() {}
 
+    @Pointcut("execution(* salaba.domain.rentalHome.service.RentalHomeService.getRentalHome(..))")
+    public void getRentalHome() {}
+
+    @Pointcut("execution(* salaba.domain.rentalHome.service.ReviewService.getRentalHomeReviews(..))")
+    public void getRentalHomeReviews() {}
+
+    @Pointcut("execution(* salaba.domain.rentalHome.service.RentalHomeService.getRentalHomeByHost(..))")
+    public void getRentalHomeByHost() {}
+
+    @Pointcut("execution(* salaba.domain.rentalHome.service.RentalHomeService.getRentalHomesByHost(..))")
+    public void getRentalHomesByHost() {}
+
+    @Pointcut("execution(* salaba.domain.board.service.BoardService.getBoardList(..))")
+    public void getBoardList() {}
+
+    @Pointcut("execution(* salaba.domain.board.service.BoardService.getBoard(..))")
+    public void getBoard() {}
+
+    @Pointcut("execution(* salaba.domain.reply.service.ReplyService.getRepliesByMember(..))")
+    public void getRepliesByMember() {}
+
+    @Pointcut("execution(* salaba.domain.reservation.service.ReservationService.getReservedDate(..))")
+    public void getReservedDate() {}
+
+    @Pointcut("execution(* salaba.domain.reservation.service.ReservationService.getWithRentalHomeForHost(..))")
+    public void getWithRentalHomeForHost() {}
+
+    @Pointcut("execution(* salaba.domain.reservation.service.ReservationService.getWithRentalHomeForGuest(..))")
+    public void getWithRentalHomeForGuest() {}
+
+
 
     // 특정 패키지와 클래스의 메서드들에 적용
-    @Around("searchRentalHomesOrderByReview() || searchRentalHomesOrderBySalesCount()")
+    @Around("searchRentalHomesOrderByReview() || searchRentalHomesOrderBySalesCount() || " +
+            "getRentalHome() || getRentalHomeReviews() || getRentalHomeByHost() || getRentalHomesByHost() || " +
+            "getBoardList() || getBoard() || getRepliesByMember() || " +
+            "getReservedDate() || getWithRentalHomeForHost() || getWithRentalHomeForGuest()")
     public Object logExecutionTime(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
         Object proceed = joinPoint.proceed();

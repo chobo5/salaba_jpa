@@ -15,8 +15,6 @@ import salaba.domain.board.dto.response.BoardResDto;
 import salaba.domain.board.entity.Board;
 import salaba.domain.board.entity.BoardLike;
 import salaba.domain.member.entity.Member;
-import salaba.domain.member.entity.Point;
-import salaba.domain.member.repository.PointRepository;
 import salaba.domain.board.repository.BoardLikeRepository;
 import salaba.domain.board.repository.BoardRepository;
 import salaba.domain.member.repository.MemberRepository;
@@ -48,12 +46,11 @@ public class BoardService {
         return board.getId();
     }
 
-    public Page<BoardResDto> list(Pageable pageable) {
+    public Page<BoardResDto> getBoardList(Pageable pageable) {
         return boardRepository.getList(pageable);
     }
 
-    public BoardDetailResDto get(Long boardId) {
-
+    public BoardDetailResDto getBoard(Long boardId) {
         return boardRepository.get(boardId).orElseThrow(NoSuchElementException::new);
     }
 

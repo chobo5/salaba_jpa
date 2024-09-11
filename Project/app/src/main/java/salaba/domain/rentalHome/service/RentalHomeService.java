@@ -2,9 +2,7 @@ package salaba.domain.rentalHome.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Service;
 import salaba.domain.common.entity.Address;
 import salaba.domain.common.entity.Region;
@@ -20,12 +18,9 @@ import salaba.domain.rentalHome.entity.*;
 import salaba.domain.rentalHome.repository.*;
 import salaba.exception.NoAuthorityException;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @Service
 @RequiredArgsConstructor
@@ -37,20 +32,22 @@ public class RentalHomeService {
     private final ThemeRepository themeRepository;
     private final RentalHomeFacilityRepository rentalHomeFacilityRepository;
     private final RentalHomeThemeRepository rentalHomeThemeRepository;
-    private final ReviewRepository reviewRepository;
-    public RentalHomeDetailResDto get(Long rentalHomeId) {
+    private final ReviewService reviewService;
+
+    public RentalHomeDetailResDto getRentalHome(Long rentalHomeId) {
         return rentalHomeRepository.findDetailById(rentalHomeId);
     }
 
     public Page<ReviewResDto> getRentalHomeReviews(Long rentalHomeId, Pageable pageable) {
         RentalHome rentalHome = rentalHomeRepository.findById(rentalHomeId).orElseThrow(NoSuchElementException::new);
-        Page<Review> reviews = reviewRepository.findByRentalHome(rentalHome, pageable);
+        Page<Review> reviews = reviewService.findByRentalHome(rentalHome, pageable);
         return reviews.map(ReviewResDto::new);
     }
 
     public Double getRentalHomeReviewAvg(Long rentalHomeId) {
         RentalHome rentalHome = rentalHomeRepository.findById(rentalHomeId).orElseThrow(NoSuchElementException::new);
-        return reviewRepository.getReviewAvg(rentalHome);
+        double reviewAvg = reviewService.getReviewAvg(rentalHome);
+        return reviewAvg;
     }
 
     public Long createRentalHome(Long memberId, RentalHomeCreateReqDto dto) {
