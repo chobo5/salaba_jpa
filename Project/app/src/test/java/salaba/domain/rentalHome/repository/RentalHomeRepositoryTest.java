@@ -1,4 +1,4 @@
-package salaba.repository.jpa.rentalHome;
+package salaba.domain.rentalHome.repository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,7 +15,6 @@ import salaba.domain.common.entity.Region;
 import salaba.domain.member.entity.Member;
 import salaba.domain.rentalHome.entity.RentalHome;
 import salaba.domain.member.repository.MemberRepository;
-import salaba.domain.rentalHome.repository.RentalHomeRepository;
 import salaba.domain.common.repository.NationRepository;
 import salaba.domain.common.repository.RegionRepository;
 

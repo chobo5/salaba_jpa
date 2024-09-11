@@ -1,10 +1,9 @@
-package salaba.service;
+package salaba.domain.board.service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.domain.board.service.BoardService;
 import salaba.domain.member.dto.request.MemberJoinReqDto;
 import salaba.domain.board.entity.Board;
 import salaba.domain.board.constants.BoardScope;

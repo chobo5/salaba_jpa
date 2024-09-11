@@ -1,4 +1,4 @@
-package salaba.repository;
+package salaba.domain.member.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +7,6 @@ import org.springframework.transaction.annotation.Transactional;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.entity.MemberRole;
 import salaba.domain.member.entity.Role;
-import salaba.domain.member.repository.MemberRepository;
-import salaba.domain.member.repository.MemberRoleRepository;
-import salaba.domain.member.repository.RoleRepository;
 import salaba.domain.member.constants.RoleName;
 
 import java.time.LocalDate;

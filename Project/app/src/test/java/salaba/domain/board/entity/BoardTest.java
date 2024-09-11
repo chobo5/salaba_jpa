@@ -1,9 +1,8 @@
-package salaba.entity.board;
+package salaba.domain.board.entity;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import salaba.domain.board.constants.BoardScope;
-import salaba.domain.board.entity.Board;
 import salaba.domain.member.entity.Member;
 
 import java.time.LocalDate;

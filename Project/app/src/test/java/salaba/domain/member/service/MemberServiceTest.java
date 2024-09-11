@@ -1,4 +1,4 @@
-package salaba.service;
+package salaba.domain.member.service;
 
 
 import org.junit.jupiter.api.Assertions;
