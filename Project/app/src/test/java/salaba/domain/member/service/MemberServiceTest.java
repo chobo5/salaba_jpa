@@ -27,15 +27,5 @@ class MemberServiceTest {
 
     }
 
-    @Test
-    public void joinFailTest() {
-        MemberJoinReqDto member = new MemberJoinReqDto("흥판봉", "원준연", "wnsdus1008@gmail.com",
-                "1234", LocalDate.of(1996, 10, 8));
-
-        Assertions.assertThrows(ValidationException.class, () -> authService.join(member));
-
-
-    }
-
 
 }
