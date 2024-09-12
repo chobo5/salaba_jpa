@@ -10,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 import salaba.domain.common.service.InitService;
 
@@ -21,6 +22,10 @@ import javax.persistence.EntityManager;
 @RequiredArgsConstructor
 @EnableCaching
 @EnableAspectJAutoProxy
+@PropertySource({
+        "file:${user.home}/config/jdbc.properties",
+        "file:${user.home}/config/jwt.properties"
+})
 public class App {
     private final InitService initService;
 
