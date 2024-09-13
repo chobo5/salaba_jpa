@@ -41,7 +41,6 @@ public class InitService {
 //        Nation germany = new Nation(49, "Germany");
 //        Nation france = new Nation(33, "France");
 //        Nation uk = new Nation(44, "United Kingdom");
-////        Nation canada = new Nation(1, "Canada");
 //        Nation australia = new Nation(61, "Australia");
 //        Nation india = new Nation(91, "India");
 //        Nation brazil = new Nation(55, "Brazil");
@@ -89,7 +88,6 @@ public class InitService {
 //        em.persist(germany);
 //        em.persist(france);
 //        em.persist(uk);
-//        em.persist(canada);
 //        em.persist(australia);
 //        em.persist(india);
 //        em.persist(brazil);
@@ -146,7 +144,7 @@ public class InitService {
 //        Region suwon = new Region("suwon", findKorea);
 //        Region hwaseong = new Region("hwaseong", findKorea);
 //        Region yongin = new Region("yongin", findKorea);
-
+//
 //        em.persist(seoul);
 //        em.persist(suwon);
 //        em.persist(hwaseong);
@@ -162,7 +160,7 @@ public class InitService {
 //        em.persist(sungnam);
 //        em.persist(jeonju);
 //        em.persist(jeju);
-
+//
 //
 //        Role roleAdmin = new Role(RoleName.ADMIN.getId(), RoleName.ADMIN);
 //        Role roleManager = new Role(RoleName.MANAGER.getId(), RoleName.MANAGER);
