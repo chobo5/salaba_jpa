@@ -54,7 +54,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 )
                 .from(board)
                 .join(board.writer, member)
-                .join(boardLike).on(boardLike.board.eq(board))
+                .leftJoin(boardLike).on(boardLike.board.eq(board))
                 .leftJoin(reply).on(reply.board.eq(board))
                 .where(board.writingStatus.eq(WritingStatus.NORMAL))
                 .groupBy(board.id)
