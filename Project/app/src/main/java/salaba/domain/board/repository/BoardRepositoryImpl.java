@@ -84,7 +84,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                         .from(boardLike)
                         .where(boardLike.board.id.eq(boardId)),"likeCount");
 
-        //board
+        //게시글, 작성자, 좋아요수를 가져온다.
         BoardDetailResDto boardResult = queryFactory.select(Projections.constructor(BoardDetailResDto.class,
                         board.id,
                         board.boardScope,
@@ -105,7 +105,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
             throw new NoSuchElementException();
         }
 
-        //댓글 리스트
+        //댓글 리스트를 가져온다.
         List<ReplyResDto> replyResDtoList = queryFactory.select(Projections.constructor(ReplyResDto.class,
                         reply.id,
                         reply.board.id,
@@ -118,7 +118,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .orderBy(reply.createdDate.desc())
                 .fetch();
 
-        //모든 대댓글 리스트
+        //모든 대댓글 리스트를 가져온다.
         QReply parentReply = new QReply("parent");
         List<ReplyToReplyResDto> reReplyList = queryFactory.select(Projections.constructor(ReplyToReplyResDto.class,
                         reply.id,

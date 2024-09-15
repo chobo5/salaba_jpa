@@ -137,4 +137,5 @@ public class Member extends BaseEntity {
         lastLoginDate = LocalDateTime.now();
     }
 
+
 }
