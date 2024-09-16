@@ -44,7 +44,7 @@ public class Point extends BaseEntity {
     public static Point createPaymentPoint(Member member, int price) {
         Point point = new Point();
         point.content = "숙소 이용";
-        point.amount = (int) Math.ceil(price * 0.05);
+        point.amount = (int) Math.ceil(price * 0.01);
         point.member = member;
         member.getPointHistories().add(point);
         return point;
@@ -72,8 +72,9 @@ public class Point extends BaseEntity {
         return null;
     }
 
-    public void deletePointHistory(Point point) {
-        member.getPointHistories().remove(point);
+
+    public void deletePointHistory() {
+        member.getPointHistories().remove(this);
     }
 
 
