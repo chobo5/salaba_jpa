@@ -11,25 +11,20 @@ import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.*;
 
 class AlarmTest {
-    private Member member;
-    private Alarm alarm;
 
-    @BeforeEach
-    public void 회원_알람생성() {
+    @Test
+    public void 알람객체확인() {
+        //given
         final String email = "test@test.com";
         final String password = "Tt12241509!@";
         final String name = "chobo5";
         final String nickname = "chobo5";
         final LocalDate birthday = LocalDate.of(1996, 10, 8);
 
-        //when
-        member = Member.createMember(email, password, name, nickname, birthday);
+        Member member = Member.createMember(email, password, name, nickname, birthday);
 
-        alarm = Alarm.createReplyAlarm(member, "chobo6", "alarm content");
-    }
+        Alarm alarm = Alarm.createReplyAlarm(member, "chobo6", "alarm content");
 
-    @Test
-    public void 알람객체확인() {
         //when
         Alarm memberAlarm = member.getAlarms().get(0);
 
@@ -42,6 +37,17 @@ class AlarmTest {
 
     @Test
     public void 알람읽기() {
+        //given
+        final String email = "test@test.com";
+        final String password = "Tt12241509!@";
+        final String name = "chobo5";
+        final String nickname = "chobo5";
+        final LocalDate birthday = LocalDate.of(1996, 10, 8);
+
+        Member member = Member.createMember(email, password, name, nickname, birthday);
+
+        Alarm alarm = Alarm.createReplyAlarm(member, "chobo6", "alarm content");
+
         //when
         alarm.readAlarm();
 

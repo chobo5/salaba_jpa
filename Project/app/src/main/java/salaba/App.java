@@ -27,16 +27,16 @@ import javax.persistence.EntityManager;
         "file:${user.home}/config/jwt.properties"
 })
 public class App {
-    private final InitService initService;
+//    private final InitService initService;
 
     public static void main(String[] args) throws Exception {
         SpringApplication.run(App.class, args);
     }
 
-    @PostConstruct
-    public void init() {
-        initService.init();
-    }
+//    @PostConstruct
+//    public void init() {
+//        initService.init();
+//    }
 
 //    @Bean
 //    public AuditorAware<String> auditorProvider() {
@@ -48,9 +48,5 @@ public class App {
 //
 //    }
 
-    @Bean
-    public JPAQueryFactory jpaQueryFactory(EntityManager entityManager) {
-        return new JPAQueryFactory(entityManager);
-    }
 
 }

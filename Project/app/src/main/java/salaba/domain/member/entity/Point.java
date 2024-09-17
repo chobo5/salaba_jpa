@@ -2,6 +2,7 @@ package salaba.domain.member.entity;
 
 import lombok.Getter;
 import salaba.domain.common.entity.BaseEntity;
+import salaba.exception.CannotBeZeroException;
 
 import javax.persistence.*;
 
@@ -60,16 +61,17 @@ public class Point extends BaseEntity {
     }
 
     public static Point createUsedPoint(String content, int usedPoint, Member member) {
-        int negativePoint = Math.abs(usedPoint) * -1;
-        if (negativePoint != 0) {
-            Point point = new Point();
-            point.content = content;
-            point.amount = usedPoint;
-            point.member = member;
-            member.getPointHistories().add(point);
-            return point;
+        if (usedPoint == 0) {
+            throw new CannotBeZeroException("사용 포인트가 0원일 수 없습니다.");
         }
-        return null;
+        int negativePoint = Math.abs(usedPoint) * -1;
+
+        Point point = new Point();
+        point.content = content;
+        point.amount = negativePoint;
+        point.member = member;
+        member.getPointHistories().add(point);
+        return point;
     }
 
 

@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.stereotype.Repository;
 import salaba.domain.board.dto.request.BoardSearchReqDto;
 import salaba.domain.board.dto.response.BoardDetailResDto;
 import salaba.domain.board.dto.response.BoardResDto;
@@ -37,6 +38,7 @@ import static salaba.domain.reply.entity.QReply.reply;
 
 @RequiredArgsConstructor
 @Slf4j
+@Repository
 public class BoardRepositoryImpl implements BoardRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 

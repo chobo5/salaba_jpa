@@ -2,57 +2,109 @@ package salaba.domain.member.repository;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.test.context.ActiveProfiles;
+import salaba.config.QuerydslConfig;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.entity.MemberRole;
 import salaba.domain.member.entity.Role;
 import salaba.domain.member.constants.RoleName;
 
+import javax.persistence.EntityManager;
 import java.time.LocalDate;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 
-@SpringBootTest
-@Transactional
+@DataJpaTest
+@ActiveProfiles("test")
+@Import(QuerydslConfig.class)
 class MemberRepositoryTest {
     @Autowired
     MemberRepository memberRepository;
 
     @Autowired
-    RoleRepository roleRepository;
-
-    @Autowired
-    MemberRoleRepository memberRoleRepository;
-
+    EntityManager em;
 
     @Test
-    public void 권한과회원찾기() {
+    public void 데이터베이스_연결_확인() {
+        assertThat(memberRepository.count()).isEqualTo(0);
+    }
+
+    @Test
+    public void 이메일로회원찾기() {
         //given
-        Member member = Member.createMember("test1@test.com", "Aa1234567!@", "testname1",
-                "testNickName1", LocalDate.of(1996, 10, 8));
+        final String email = "test@test.com";
+        final String password = "Tt12241509!@";
+        final String name = "chobo";
+        final String nickname = "chobo";
+        final LocalDate birthday = LocalDate.of(1996, 10, 8);
+
+        Member member = Member.createMember(email, password, name, nickname, birthday);
         memberRepository.save(member);
+        Role role = new Role(RoleName.MEMBER.getId(), RoleName.MEMBER);
+        em.persist(role);
+        MemberRole memberRole = MemberRole.createMemberRole(member, role);
+        em.persist(memberRole);
 
-        Role role1 = roleRepository.findByRoleName(RoleName.MEMBER).get();
-        Role role2 = roleRepository.findByRoleName(RoleName.MANAGER).get();
-        Role role3 = roleRepository.findByRoleName(RoleName.ADMIN).get();
-
-        MemberRole memberRole = MemberRole.createMemberRole(member, role1);
-        memberRoleRepository.save(memberRole);
-        MemberRole memberRole2 = MemberRole.createMemberRole(member, role2);
-        memberRoleRepository.save(memberRole2);
-        MemberRole memberRole3 = MemberRole.createMemberRole(member, role3);
-        memberRoleRepository.save(memberRole3);
 
         //when
-       Member findMember = memberRepository.findByEmail("test1@test.com").get();
+        Optional<Member> findMember = memberRepository.findByEmail(email);
 
         //then
+        assertThat(findMember).isNotEmpty();
+        assertThat(findMember.get()).isEqualTo(member);
+    }
 
-        assertThat(findMember.getRoles().size()).isEqualTo(3);
-        assertThat(findMember.getRoles()).contains(memberRole).contains(memberRole2).contains(memberRole3);
+    @Test
+    public void 이메일_비밀번호로회원찾기() {
+        //given
+        final String email = "test@test.com";
+        final String password = "Tt12241509!@";
+        final String name = "chobo";
+        final String nickname = "chobo";
+        final LocalDate birthday = LocalDate.of(1996, 10, 8);
 
+
+        Member member = Member.createMember(email, password, name, nickname, birthday);
+        memberRepository.save(member);
+        Role role = new Role(RoleName.MEMBER.getId(), RoleName.MEMBER);
+        em.persist(role);
+        MemberRole memberRole = MemberRole.createMemberRole(member, role);
+        em.persist(memberRole);
+
+        //when
+        Optional<Member> findMember = memberRepository.findByEmailAndPassword(email, password);
+
+        //then
+        assertThat(findMember.get()).isEqualTo(member);
+
+    }
+
+    @Test
+    public void 닉네임으로회원찾기() {
+        //given
+        final String email = "test@test.com";
+        final String password = "Tt12241509!@";
+        final String name = "chobo";
+        final String nickname = "chobo";
+        final LocalDate birthday = LocalDate.of(1996, 10, 8);
+
+
+        Member member = Member.createMember(email, password, name, nickname, birthday);
+        memberRepository.save(member);
+        Role role = new Role(RoleName.MEMBER.getId(), RoleName.MEMBER);
+        em.persist(role);
+        MemberRole memberRole = MemberRole.createMemberRole(member, role);
+        em.persist(memberRole);
+
+        //when
+        Optional<Member> findMember = memberRepository.findByNickname(nickname);
+
+        //then
+        assertThat(findMember.get()).isEqualTo(member);
     }
 
 }

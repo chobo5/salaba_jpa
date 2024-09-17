@@ -8,6 +8,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.stereotype.Repository;
 import salaba.domain.member.entity.Member;
 import salaba.domain.rentalHome.entity.RentalHome;
 import salaba.domain.rentalHome.entity.Review;
@@ -19,6 +20,7 @@ import static salaba.domain.reservation.entity.QReservation.reservation;
 
 
 @RequiredArgsConstructor
+@Repository
 public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
     private final JPAQueryFactory queryFactory;
 

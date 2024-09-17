@@ -65,6 +65,10 @@ public class GlobalExceptionHandler {
         return RestResult.error(e.getMessage());
     }
 
+    @ExceptionHandler(CannotBeZeroException.class)
+    public RestResult<?> handleCannotBeZeroException(CannotBeZeroException e) {
+        return RestResult.error(e.getMessage());
+    }
 
 
 }

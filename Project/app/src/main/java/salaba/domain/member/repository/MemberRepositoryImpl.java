@@ -2,6 +2,7 @@ package salaba.domain.member.repository;
 
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Repository;
 import salaba.domain.member.entity.Member;
 
 import java.util.Optional;
@@ -12,6 +13,7 @@ import static salaba.domain.member.entity.QRole.role;
 
 
 @RequiredArgsConstructor
+@Repository
 public class MemberRepositoryImpl implements MemberRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;

@@ -6,6 +6,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
+import org.springframework.stereotype.Repository;
 import salaba.domain.member.entity.QMember;
 import salaba.domain.reservation.entity.Reservation;
 
@@ -18,6 +19,7 @@ import static salaba.domain.reservation.entity.QReservation.reservation;
 
 
 @RequiredArgsConstructor
+@Repository
 public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
     private final JPAQueryFactory queryFactory;
 

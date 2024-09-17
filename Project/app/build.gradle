@@ -64,7 +64,7 @@ dependencies {
     //Spring AOP
     implementation 'org.springframework.boot:spring-boot-starter-aop'
     //H2 데이터베이스(테스트 용)
-    runtimeOnly 'com.h2database:h2'
+    testImplementation 'com.h2database:h2'
 
 }
 

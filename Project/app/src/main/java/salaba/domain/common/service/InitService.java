@@ -1,7 +1,9 @@
 package salaba.domain.common.service;
 
+import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import salaba.domain.common.entity.Address;
 import salaba.domain.common.entity.Nation;
