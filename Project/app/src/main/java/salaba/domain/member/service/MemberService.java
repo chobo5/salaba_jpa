@@ -16,8 +16,8 @@ import salaba.domain.common.entity.Address;
 import salaba.domain.common.entity.Nation;
 import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.common.repository.NationRepository;
-import salaba.exception.PasswordNotCorrectException;
 
+import javax.validation.ValidationException;
 import java.util.NoSuchElementException;
 
 @Service
@@ -30,27 +30,32 @@ public class MemberService {
     private final PasswordEncoder passwordEncoder;
     private final AlarmService alarmService;
     private final PointService pointService;
+    private final AuthService authService;
 
 
-    public Long modifyProfile(Long memberId, MemberModiReqDto memberModiReqDto) {
+    public Long modifyProfile(Long memberId, MemberModiReqDto reqDto) {
         //회원이 없으면 예외 발생
         Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
-        Nation nation = nationRepository.findById(memberModiReqDto.getNationId()).orElseThrow(NoSuchElementException::new);
+        Nation nation = nationRepository.findById(reqDto.getNationId()).orElseThrow(NoSuchElementException::new);
         //entity를 변경하면 자동으로 반영
-        member.changeProfile(memberModiReqDto.getName(), memberModiReqDto.getGender(), nation, new Address(memberModiReqDto.getStreet(), memberModiReqDto.getZipcode()));
+        Address address = reqDto.getStreet() != null && reqDto.getZipcode() != null ? new Address(reqDto.getStreet(), reqDto.getZipcode()) : null;
+
+        member.changeProfile(reqDto.getName(), reqDto.getGender(), nation, address);
         return member.getId();
     }
 
 
     public void changePassword(Long memberId, ChangePasswordReqDto reqDto) {
         Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
+
         if (!passwordEncoder.matches(reqDto.getPassword(), member.getPassword())) {
-            throw new PasswordNotCorrectException("비밀번호가 일치하지 않습니다.");
+            throw new ValidationException("비밀번호가 일치하지 않습니다.");
         }
         member.changePassword(passwordEncoder.encode(reqDto.getNewPassword()));
     }
 
     public void changeNickname(Long memberId, ChangeNicknameReqDto reqDto) {
+        authService.isExistingNickname(reqDto.getNickname());
         Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
         member.changeNickname(reqDto.getNickname());
     }
@@ -63,7 +68,7 @@ public class MemberService {
     public void resign(Long memberId, MemberResignReqDto reqDto) {
         Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
         if (!passwordEncoder.matches(reqDto.getPassword(), member.getPassword())) {
-            throw new PasswordNotCorrectException("비밀번호가 일치하지 않습니다.");
+            throw new ValidationException("비밀번호가 일치하지 않습니다.");
         }
         member.resign();
 

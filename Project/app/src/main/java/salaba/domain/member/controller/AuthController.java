@@ -28,22 +28,17 @@ public class AuthController {
 
     @Operation(summary = "회원 닉네임 사용가능 여부 확인")
     @GetMapping("validateNickname")
-    public RestResult<?> validateNickname(@ModelAttribute @Valid ValidateNicknameReqDto reqDto) {
-        if (authService.isExistingNickname(reqDto.getNickname())) {
-            return RestResult.success();
-        }
-        throw new AlreadyExistsException("이미 사용중인 닉네임 입니다.");
+    public RestResult<?> validateNickname(@RequestParam @Valid ValidateNicknameReqDto reqDto) {
+        authService.isExistingNickname(reqDto);
+        return RestResult.success();
+
     }
 
     @Operation(summary = "회원 이메일 사용가능 여부 확인")
     @GetMapping("validateEmail")
-    public RestResult<?> validateEmail(@RequestParam String email) {
-        ValidateEmailReqDto reqDto = new ValidateEmailReqDto();
-        reqDto.setEmail(email);
-        if (authService.isExistingEmail(reqDto.getEmail())) {
-            return RestResult.success();
-        }
-        throw new AlreadyExistsException("이미 사용중인 이메일 입니다.");
+    public RestResult<?> validateEmail(@RequestParam @Valid ValidateEmailReqDto reqDto) {
+        authService.isExistingEmail(reqDto);
+        return RestResult.success();
     }
 
     @Operation(summary = "회원 가입")

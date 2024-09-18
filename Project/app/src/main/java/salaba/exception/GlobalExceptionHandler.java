@@ -45,11 +45,6 @@ public class GlobalExceptionHandler {
         return RestResult.error(e.getMessage());
     }
 
-    @ExceptionHandler(PasswordNotCorrectException.class)
-    public RestResult<?> handlePasswordNotCorrectException(PasswordNotCorrectException e) {
-        return RestResult.error(e.getMessage());
-    }
-
     @ExceptionHandler(NoAuthorityException.class)
     public RestResult<?> handleNoAuthorityException(NoAuthorityException e) {
         return RestResult.error(e.getMessage());

@@ -1,7 +1,9 @@
 package salaba.domain.member.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import salaba.util.Regex;
 
 import javax.validation.constraints.Email;
@@ -10,6 +12,8 @@ import javax.validation.constraints.Pattern;
 
 @Data
 @Schema(description = "로그인 요청 DTO")
+@NoArgsConstructor
+@AllArgsConstructor
 public class MemberLoginReqDto {
     @NotEmpty
     @Email(message = Regex.EMAIL_ERROR)
