@@ -10,23 +10,31 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 import salaba.domain.common.entity.Address;
 import salaba.domain.common.entity.Nation;
 import salaba.domain.common.repository.NationRepository;
 import salaba.domain.member.constants.Gender;
-import salaba.domain.member.dto.request.ChangeNicknameReqDto;
-import salaba.domain.member.dto.request.ChangePasswordReqDto;
-import salaba.domain.member.dto.request.MemberJoinReqDto;
-import salaba.domain.member.dto.request.MemberModiReqDto;
+import salaba.domain.member.constants.MemberStatus;
+import salaba.domain.member.dto.request.*;
+import salaba.domain.member.entity.Alarm;
 import salaba.domain.member.entity.Member;
+import salaba.domain.member.entity.Point;
 import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.member.service.AuthService;
 import salaba.exception.AlreadyExistsException;
 
 import javax.validation.ValidationException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -56,6 +64,9 @@ class MemberServiceTest {
 
     @Mock
     private AuthService authService;
+
+    @Mock
+    private TokenService tokenService;
 
 
     @Test
@@ -219,12 +230,112 @@ class MemberServiceTest {
 
     @Test
     public void 전화번호변경_성공() {
+        //given
+        Long memberId = 1L;
+        ChangeTelNoReqDto reqDto = new ChangeTelNoReqDto("01011111111");
 
+        //when
+        Member findMember = Member.createMember("test@test.com", "비밀번호",
+                "닉네임","nickname", LocalDate.of(2022, 12, 12));
+
+        when(memberRepository.findById(memberId)).thenReturn(Optional.of(findMember));
+
+        memberService.changeTelNo(memberId, reqDto);
+
+        //then
+        verify(memberRepository, times(1)).findById(memberId);
+        assertThat(findMember.getTelNo()).isEqualTo(reqDto.getTelNo());
     }
 
     @Test
     public void 전화번호변경실패_없는회원() {
+        //given
+        Long memberId = 1L;
+        ChangeTelNoReqDto reqDto = new ChangeTelNoReqDto("01011111111");
 
+        //when
+        when(memberRepository.findById(memberId)).thenReturn(Optional.empty());
+        assertThrows(NoSuchElementException.class, () -> memberService.changeTelNo(memberId, reqDto));
+
+        //then
+        verify(memberRepository, times(1)).findById(memberId);
+    }
+
+    @Test
+    public void 회원탈퇴() {
+        //given
+        Long memberId = 1L;
+        MemberResignReqDto reqDto = new MemberResignReqDto("비밀번호", "리프레쉬토큰");
+
+        //when
+        Member findMember = Member.createMember("test@test.com", "인코딩된 비밀번호",
+                "닉네임","nickname", LocalDate.of(2022, 12, 12));
+
+        when(memberRepository.findById(memberId)).thenReturn(Optional.of(findMember));
+        when(passwordEncoder.matches(reqDto.getPassword(), findMember.getPassword())).thenReturn(true);
+
+        memberService.resign(memberId, reqDto);
+
+        //then
+        assertThat(findMember.getStatus()).isEqualTo(MemberStatus.RESIGN);
+        assertThat(findMember.getExitDate().plusMinutes(1)).isAfter(LocalDateTime.now());
+        verify(memberRepository, times(1)).findById(memberId);
+        verify(passwordEncoder, times(1)).matches(reqDto.getPassword(), findMember.getPassword());
+        verify(tokenService, times(1)).deleteRefreshToken(memberId, reqDto.getRefreshToken());
+
+    }
+
+
+    @Test
+    public void 포인트적립내역() {
+        //given
+        Long memberId = 1L;
+        Pageable pageable = PageRequest.of(0, 10);
+
+        //when
+        Member findMember = Member.createMember("test@test.com", "인코딩된 비밀번호",
+                "닉네임","nickname", LocalDate.of(2022, 12, 12));
+
+        when(memberRepository.findById(memberId)).thenReturn(Optional.of(findMember));
+        findMember.getPointHistories().add(Point.createBoardPoint(findMember));
+        findMember.getPointHistories().add(Point.createReplyPoint(findMember));
+        findMember.getPointHistories().add(Point.createReviewPoint(findMember));
+        findMember.getPointHistories().add(Point.createPaymentPoint(findMember, 100000));
+
+        Page<Point> pointsPage = new PageImpl<>(findMember.getPointHistories(), pageable, 4);
+        when(pointService.getPointHistory(findMember, pageable)).thenReturn(pointsPage);
+
+        memberService.getPointHistory(memberId, pageable);
+
+        //then
+        verify(memberRepository, times(1)).findById(memberId);
+        verify(pointService, times(1)).getPointHistory(findMember, pageable);
+    }
+
+    @Test
+    public void 알람내역() {
+        //given
+        Long memberId = 1L;
+        Pageable pageable = PageRequest.of(0, 10);
+
+        //when
+        Member findMember = Member.createMember("test@test.com", "인코딩된 비밀번호",
+                "닉네임","nickname", LocalDate.of(2022, 12, 12));
+
+        when(memberRepository.findById(memberId)).thenReturn(Optional.of(findMember));
+        findMember.getAlarms().add(Alarm.createReplyAlarm(findMember, "writer1", "alarm1"));
+        findMember.getAlarms().add(Alarm.createReplyAlarm(findMember, "writer2", "alarm2"));
+        findMember.getAlarms().add(Alarm.createReplyAlarm(findMember, "writer3", "alarm3"));
+        findMember.getAlarms().add(Alarm.createReplyAlarm(findMember, "writer4", "alarm4"));
+
+        Page<Alarm> alarmsPage = new PageImpl<>(findMember.getAlarms(), pageable, 4);
+        when(alarmService.getAlarmsToMember(findMember, pageable)).thenReturn(alarmsPage);
+
+        memberService.getAlarms(memberId, pageable);
+
+        //then
+        verify(memberRepository, times(1)).findById(memberId);
+        verify(alarmService, times(1)).getAlarmsToMember(findMember, pageable);
     }
 
 

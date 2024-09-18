@@ -31,6 +31,7 @@ public class MemberService {
     private final AlarmService alarmService;
     private final PointService pointService;
     private final AuthService authService;
+    private final TokenService tokenService;
 
 
     public Long modifyProfile(Long memberId, MemberModiReqDto reqDto) {
@@ -70,6 +71,7 @@ public class MemberService {
         if (!passwordEncoder.matches(reqDto.getPassword(), member.getPassword())) {
             throw new ValidationException("비밀번호가 일치하지 않습니다.");
         }
+        tokenService.deleteRefreshToken(memberId, reqDto.getRefreshToken());
         member.resign();
 
     }
