@@ -46,7 +46,7 @@ public class Board extends BaseEntity {
     private List<BoardLike> boardLikes = new ArrayList<>();
 
 
-    public static Board createBoard(String title, String content, BoardScope boardScope, Member writer) {
+    public static Board create(String title, String content, BoardScope boardScope, Member writer) {
         Board newBoard = new Board();
         newBoard.title = title;
         newBoard.content = content;
@@ -58,14 +58,14 @@ public class Board extends BaseEntity {
         return newBoard;
     }
 
-    public void deleteBoard() {
+    public void delete() {
         writingStatus = WritingStatus.DELETED;
     }
 
-    public void modifyBoard(String title, String content, BoardScope boardScope) {
-        this.title = title;
-        this.content = content;
-        this.boardScope = boardScope;
+    public void modify(String title, String content, BoardScope boardScope) {
+        this.title = title != null ? title : this.title;
+        this.content = content != null ? content : this.content;
+        this.boardScope = boardScope != null ? boardScope : this.boardScope;
     }
 
 

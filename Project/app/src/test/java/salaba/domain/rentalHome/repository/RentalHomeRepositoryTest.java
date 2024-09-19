@@ -1,14 +1,9 @@
 package salaba.domain.rentalHome.repository;
 
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.domain.rentalHome.dto.response.RentalHomeDetailResDto;
 import salaba.domain.common.entity.Address;
 import salaba.domain.common.entity.Nation;
 import salaba.domain.common.entity.Region;
@@ -19,8 +14,6 @@ import salaba.domain.common.repository.NationRepository;
 import salaba.domain.common.repository.RegionRepository;
 
 import java.time.LocalDate;
-
-import static org.assertj.core.api.Assertions.*;
 
 @SpringBootTest
 @Transactional
@@ -39,7 +32,7 @@ class RentalHomeRepositoryTest {
 
     @BeforeEach
     public void 초기화() {
-        Member member = Member.createMember("test@test.com", "Aa123456!@", "test",
+        Member member = Member.create("test@test.com", "Aa123456!@", "test",
                 "testNickname", LocalDate.of(2000, 12, 12));
         memberRepository.save(member);
 

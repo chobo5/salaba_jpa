@@ -107,7 +107,7 @@ public class Member extends BaseEntity {
         this.nickname = nickname;
     }
 
-    public static Member createMember(String email, String password, String name, String nickname, LocalDate birthday) {
+    public static Member create(String email, String password, String name, String nickname, LocalDate birthday) {
         Member newMember = new Member();
         newMember.email = email;
         newMember.password = password;

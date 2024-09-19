@@ -14,6 +14,7 @@ import salaba.domain.board.dto.response.BoardDetailResDto;
 import salaba.domain.board.dto.response.BoardResDto;
 import salaba.domain.board.entity.Board;
 import salaba.domain.board.entity.BoardLike;
+import salaba.domain.common.constants.WritingStatus;
 import salaba.domain.member.entity.Member;
 import salaba.domain.board.repository.BoardLikeRepository;
 import salaba.domain.board.repository.BoardRepository;
@@ -37,7 +38,7 @@ public class BoardService {
 
     public Long createBoard(Long memberId, BoardCreateReqDto boardDto) {
         Member writer = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
-        Board board = Board.createBoard(boardDto.getTitle(), boardDto.getContent(), boardDto.getScope(), writer);
+        Board board = Board.create(boardDto.getTitle(), boardDto.getContent(), boardDto.getScope(), writer);
 
         boardRepository.save(board);
 
@@ -57,14 +58,14 @@ public class BoardService {
     public BoardModiResDto modify(BoardModifyReqDto boardDto) {
         Board board = boardRepository.findById(boardDto.getBoardId()).orElseThrow(NoSuchElementException::new);
 
-        board.modifyBoard(boardDto.getTitle(), boardDto.getContent(), boardDto.getBoardScope());
+        board.modify(boardDto.getTitle(), boardDto.getContent(), boardDto.getBoardScope());
         em.flush(); //변경된 updatedDate를 응답값에 포함하기 위해 강제로 flush(요청을 날려도 entity가 변경되지 않으면 업데이트 되지 않음)
         return new BoardModiResDto(board.getId(), board.getTitle(), board.getContent(), board.getBoardScope(), board.getCreatedDate(), board.getUpdatedDate());
     }
 
     public Long delete(Long boardId) {
         Board board = boardRepository.findById(boardId).orElseThrow(NoSuchElementException::new);
-        board.deleteBoard();
+        board.delete();
         return board.getId();
     }
 
@@ -76,7 +77,7 @@ public class BoardService {
         Board board = boardRepository.findById(boardLikeReqDto.getBoardId()).orElseThrow(NoSuchElementException::new);
         Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
 
-        BoardLike boardLike = BoardLike.createBoardLike(board, member);
+        BoardLike boardLike = BoardLike.create(board, member);
         boardLikeRepository.save(boardLike);
 
         return boardLike.getId();
@@ -86,14 +87,14 @@ public class BoardService {
         BoardLike boardLike = boardLikeRepository.findByBoardIdAndMemberId(boardLikeReqDto.getBoardId(), memberId)
                 .orElseThrow(NoSuchElementException::new);
 
-        boardLike.cancelBoardLike();
+        boardLike.cancel();
         boardLikeRepository.delete(boardLike);
         return boardLike.getId();
     }
 
     public Page<BoardByMemberResDto> boardsByMember(Long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
-        Page<Board> boardList = boardRepository.findByWriter(member, pageable);
+        Page<Board> boardList = boardRepository.findByWriterAndWritingStatus(member, WritingStatus.NORMAL, pageable);
         return boardList.map(board -> new BoardByMemberResDto(board.getId(), board.getTitle(), board.getCreatedDate()));
     }
 }

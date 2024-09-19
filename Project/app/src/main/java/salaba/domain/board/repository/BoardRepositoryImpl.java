@@ -198,4 +198,6 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .fetchOne();
         return Optional.ofNullable(findBoard);
     }
+
+
 }

@@ -53,13 +53,13 @@ public class AuthService {
         isExistingEmail(reqDto.getEmail());
 
         //회원 생성
-        Member newMember = Member.createMember(reqDto.getEmail(), passwordEncoder.encode(reqDto.getPassword()),
+        Member newMember = Member.create(reqDto.getEmail(), passwordEncoder.encode(reqDto.getPassword()),
                 reqDto.getName(), reqDto.getNickname(), reqDto.getBirthday());
         memberRepository.save(newMember);
 
         //일반 회원 권한 부여
         Role role = roleRepository.findByRoleName(RoleName.MEMBER).orElseThrow(NoSuchElementException::new);
-        MemberRole memberRole = MemberRole.createMemberRole(newMember, role);
+        MemberRole memberRole = MemberRole.create(newMember, role);
         memberRoleRepository.save(memberRole);
         return newMember.getId();
     }

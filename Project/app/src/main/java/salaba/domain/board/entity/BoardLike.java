@@ -22,7 +22,7 @@ public class BoardLike {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    public static BoardLike createBoardLike(Board board, Member member) {
+    public static BoardLike create(Board board, Member member) {
         BoardLike boardLike = new BoardLike();
         boardLike.member = member;
         boardLike.board = board;
@@ -30,7 +30,7 @@ public class BoardLike {
         return boardLike;
     }
 
-    public void cancelBoardLike() {
+    public void cancel() {
         board.getBoardLikes().remove(this);
     }
 

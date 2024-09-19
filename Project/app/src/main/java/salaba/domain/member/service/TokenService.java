@@ -32,7 +32,7 @@ public class TokenService {
         RefreshToken findRefreshToken = redisTemplate.opsForValue().get(refreshTokenKey);
 
         if (findRefreshToken == null) { //회원의 refreshToken이 없으면 새로 생성
-            RefreshToken refreshTokenEntity = RefreshToken.createRefreshToken(member.getId(), refreshToken);
+            RefreshToken refreshTokenEntity = RefreshToken.create(member.getId(), refreshToken);
             redisTemplate.opsForValue().set(refreshTokenKey, refreshTokenEntity);
         } else { //회원의 refreshToken이 있으면 갱신
             findRefreshToken.update(refreshToken);

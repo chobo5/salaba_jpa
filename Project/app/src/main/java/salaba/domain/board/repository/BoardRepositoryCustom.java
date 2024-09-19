@@ -19,4 +19,5 @@ public interface BoardRepositoryCustom {
     Page<BoardResDto> search(BoardSearchReqDto boardSearchReqDto, Pageable pageable);
 
     Optional<Board> findByIdWithWriter(Long boardId);
+
 }
