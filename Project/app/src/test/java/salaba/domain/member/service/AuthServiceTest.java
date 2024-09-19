@@ -18,8 +18,6 @@ import salaba.domain.member.constants.RoleName;
 import salaba.domain.member.dto.RefreshTokenDto;
 import salaba.domain.member.dto.request.MemberJoinReqDto;
 import salaba.domain.member.dto.request.MemberLoginReqDto;
-import salaba.domain.member.dto.request.ValidateEmailReqDto;
-import salaba.domain.member.dto.request.ValidateNicknameReqDto;
 import salaba.domain.member.dto.response.MemberLoginResDto;
 import salaba.domain.member.dto.response.TokenResDto;
 import salaba.domain.member.entity.Member;
@@ -65,63 +63,62 @@ class AuthServiceTest {
     public void 이메일유효성검사_사용가능() {
         // given
 
-        ValidateEmailReqDto validateEmailReqDto = new ValidateEmailReqDto("test@test.com");
+        String email = "test@test.com";
 
         //when
-        when(memberRepository.findByEmail(validateEmailReqDto.getEmail()))
+        when(memberRepository.findByEmail(email))
                 .thenReturn(Optional.empty());
 
         //then
-        assertDoesNotThrow(() -> authService.isExistingEmail(validateEmailReqDto));
+        assertDoesNotThrow(() -> authService.isExistingEmail(email));
 
     }
 
     @Test
     public void 이메일유효성검사_사용불가() {
         // given
-        ValidateEmailReqDto validateEmailReqDto = new ValidateEmailReqDto("test@test.com");
+        String email = "test@test.com";
 
         //when
         Member existingMember = Member.createMember("test@test.com", "Aabc12432532!@", "test",
                 "test", LocalDate.of(1996,10,8));
 
-        when(memberRepository.findByEmail(validateEmailReqDto.getEmail()))
+        when(memberRepository.findByEmail(email))
                 .thenReturn(Optional.of(existingMember));
 
         //then
-        assertThrows(AlreadyExistsException.class, () -> authService.isExistingEmail(validateEmailReqDto));
+        assertThrows(AlreadyExistsException.class, () -> authService.isExistingEmail(email));
 
     }
 
     @Test
     public void 닉네임유효성검사_사용가능() {
         // given
-
-        ValidateNicknameReqDto validateNicknameReqDto = new ValidateNicknameReqDto("testNick");
+        String nickname = "testNick";
 
         //when
-        when(memberRepository.findByNickname(validateNicknameReqDto.getNickname()))
+        when(memberRepository.findByNickname(nickname))
                 .thenReturn(Optional.empty());
 
         //then
-        assertDoesNotThrow(() -> authService.isExistingNickname(validateNicknameReqDto));
+        assertDoesNotThrow(() -> authService.isExistingNickname(nickname));
 
     }
 
     @Test
     public void 닉네임유효성검사_사용불가() {
         // given
-        ValidateNicknameReqDto validateNicknameReqDto = new ValidateNicknameReqDto("testNick");
+        String nickname = "testNick";
 
         //when
         Member existingMember = Member.createMember("test@test.com", "Aabc12432532!@", "test",
                 "testNick", LocalDate.of(1996,10,8));
 
-        when(memberRepository.findByNickname(validateNicknameReqDto.getNickname()))
+        when(memberRepository.findByNickname(nickname))
                 .thenReturn(Optional.of(existingMember));
 
         //then
-        assertThrows(AlreadyExistsException.class, () -> authService.isExistingNickname(validateNicknameReqDto));
+        assertThrows(AlreadyExistsException.class, () -> authService.isExistingNickname(nickname));
 
     }
 

@@ -18,7 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
 @SpringBootApplication
-@EnableJpaAuditing
+//@EnableJpaAuditing
 @RequiredArgsConstructor
 @EnableCaching
 @EnableAspectJAutoProxy

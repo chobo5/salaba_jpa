@@ -31,13 +31,6 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final TokenService tokenService;
 
-    public void isExistingNickname(ValidateNicknameReqDto reqDto) {
-        if (memberRepository.findByNickname(reqDto.getNickname()).isEmpty()) {
-            return;
-        }
-        throw new AlreadyExistsException("이미 사용중인 닉네임 입니다.");
-    }
-
     public void isExistingNickname(String nickname) {
         if (memberRepository.findByNickname(nickname).isEmpty()) {
             return;
@@ -45,13 +38,6 @@ public class AuthService {
         throw new AlreadyExistsException("이미 사용중인 닉네임 입니다.");
     }
 
-
-    public void isExistingEmail(ValidateEmailReqDto reqDto) {
-        if (memberRepository.findByEmail(reqDto.getEmail()).isEmpty()) {
-            return;
-        }
-        throw new AlreadyExistsException("이미 사용중인 이메일 입니다.");
-    }
 
     public void isExistingEmail(String email) {
         if (memberRepository.findByEmail(email).isEmpty()) {

@@ -13,9 +13,14 @@ import salaba.exception.AlreadyExistsException;
 import salaba.domain.member.dto.RefreshTokenDto;
 import salaba.domain.member.service.AuthService;
 import salaba.interceptor.MemberContextHolder;
+import salaba.util.Regex;
 import salaba.util.RestResult;
 
 import javax.validation.Valid;
+import javax.validation.Validator;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.Pattern;
 
 @Validated
 @RestController
@@ -28,16 +33,16 @@ public class AuthController {
 
     @Operation(summary = "회원 닉네임 사용가능 여부 확인")
     @GetMapping("validateNickname")
-    public RestResult<?> validateNickname(@RequestParam @Valid ValidateNicknameReqDto reqDto) {
-        authService.isExistingNickname(reqDto);
+    public RestResult<?> validateNickname(@RequestParam @Pattern(regexp = Regex.NICKNAME, message = Regex.NICKNAME_ERROR) String nickname) {
+        authService.isExistingNickname(nickname);
         return RestResult.success();
 
     }
 
     @Operation(summary = "회원 이메일 사용가능 여부 확인")
     @GetMapping("validateEmail")
-    public RestResult<?> validateEmail(@RequestParam @Valid ValidateEmailReqDto reqDto) {
-        authService.isExistingEmail(reqDto);
+    public RestResult<?> validateEmail(@RequestParam @Email(message = Regex.EMAIL_ERROR) String email) {
+        authService.isExistingEmail(email);
         return RestResult.success();
     }
 
