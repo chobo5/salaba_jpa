@@ -42,11 +42,11 @@ class MemberRepositoryTest {
         final String nickname = "chobo";
         final LocalDate birthday = LocalDate.of(1996, 10, 8);
 
-        Member member = Member.createMember(email, password, name, nickname, birthday);
+        Member member = Member.create(email, password, name, nickname, birthday);
         memberRepository.save(member);
         Role role = new Role(RoleName.MEMBER.getId(), RoleName.MEMBER);
         em.persist(role);
-        MemberRole memberRole = MemberRole.createMemberRole(member, role);
+        MemberRole memberRole = MemberRole.create(member, role);
         em.persist(memberRole);
 
 
@@ -68,11 +68,11 @@ class MemberRepositoryTest {
         final LocalDate birthday = LocalDate.of(1996, 10, 8);
 
 
-        Member member = Member.createMember(email, password, name, nickname, birthday);
+        Member member = Member.create(email, password, name, nickname, birthday);
         memberRepository.save(member);
         Role role = new Role(RoleName.MEMBER.getId(), RoleName.MEMBER);
         em.persist(role);
-        MemberRole memberRole = MemberRole.createMemberRole(member, role);
+        MemberRole memberRole = MemberRole.create(member, role);
         em.persist(memberRole);
 
         //when
@@ -93,11 +93,11 @@ class MemberRepositoryTest {
         final LocalDate birthday = LocalDate.of(1996, 10, 8);
 
 
-        Member member = Member.createMember(email, password, name, nickname, birthday);
+        Member member = Member.create(email, password, name, nickname, birthday);
         memberRepository.save(member);
         Role role = new Role(RoleName.MEMBER.getId(), RoleName.MEMBER);
         em.persist(role);
-        MemberRole memberRole = MemberRole.createMemberRole(member, role);
+        MemberRole memberRole = MemberRole.create(member, role);
         em.persist(memberRole);
 
         //when

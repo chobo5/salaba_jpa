@@ -1,6 +1,5 @@
 package salaba.domain.member.entity;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import salaba.domain.member.constants.RoleName;
 
@@ -20,9 +19,9 @@ class MemberRoleTest {
         final LocalDate birthday = LocalDate.of(1996, 10, 8);
 
         //when
-        Member member = Member.createMember(email, password, name, nickname, birthday);
+        Member member = Member.create(email, password, name, nickname, birthday);
         Role role = new Role(RoleName.MEMBER.getId(), RoleName.MEMBER);
-        MemberRole memberRole = MemberRole.createMemberRole(member, role);
+        MemberRole memberRole = MemberRole.create(member, role);
 
         //given
         MemberRole memberRoleFromMember = member.getRoles().stream().toList().get(0);

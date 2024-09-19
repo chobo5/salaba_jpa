@@ -5,26 +5,13 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.annotation.Rollback;
-import salaba.domain.board.entity.Board;
 import salaba.domain.common.entity.Address;
-import salaba.domain.common.entity.BaseEntity;
 import salaba.domain.member.constants.Gender;
-import salaba.domain.common.entity.Nation;
 import salaba.domain.member.constants.Grade;
 import salaba.domain.member.constants.MemberStatus;
-import salaba.domain.rentalHome.entity.BookMark;
-import salaba.domain.reply.entity.Reply;
-import salaba.domain.reservation.entity.Reservation;
 
-import javax.persistence.*;
-import javax.validation.ValidationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -44,7 +31,7 @@ class MemberTest {
         final LocalDate birthday = LocalDate.of(1996, 10, 8);
 
         //when
-        member = Member.createMember(email, password, name, nickname, birthday);
+        member = Member.create(email, password, name, nickname, birthday);
     }
 
     @Test

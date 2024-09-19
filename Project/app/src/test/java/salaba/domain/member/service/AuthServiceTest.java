@@ -1,24 +1,15 @@
 package salaba.domain.member.service;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.mockito.stubbing.Answer;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
 import salaba.domain.member.constants.RoleName;
 import salaba.domain.member.dto.RefreshTokenDto;
 import salaba.domain.member.dto.request.MemberJoinReqDto;
 import salaba.domain.member.dto.request.MemberLoginReqDto;
-import salaba.domain.member.dto.response.MemberLoginResDto;
 import salaba.domain.member.dto.response.TokenResDto;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.entity.MemberRole;
@@ -28,7 +19,6 @@ import salaba.domain.member.repository.MemberRoleRepository;
 import salaba.domain.member.repository.RoleRepository;
 import salaba.exception.AlreadyExistsException;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.NoSuchElementException;
@@ -80,7 +70,7 @@ class AuthServiceTest {
         String email = "test@test.com";
 
         //when
-        Member existingMember = Member.createMember("test@test.com", "Aabc12432532!@", "test",
+        Member existingMember = Member.create("test@test.com", "Aabc12432532!@", "test",
                 "test", LocalDate.of(1996,10,8));
 
         when(memberRepository.findByEmail(email))
@@ -111,7 +101,7 @@ class AuthServiceTest {
         String nickname = "testNick";
 
         //when
-        Member existingMember = Member.createMember("test@test.com", "Aabc12432532!@", "test",
+        Member existingMember = Member.create("test@test.com", "Aabc12432532!@", "test",
                 "testNick", LocalDate.of(1996,10,8));
 
         when(memberRepository.findByNickname(nickname))
@@ -153,7 +143,7 @@ class AuthServiceTest {
 
         //when
         when(memberRepository.findByNickname(reqDto.getNickname()))
-                .thenReturn(Optional.of(Member.createMember("", "", "", "testNick",
+                .thenReturn(Optional.of(Member.create("", "", "", "testNick",
                         LocalDate.of(2022, 12, 12))));
 
         //then
@@ -177,7 +167,7 @@ class AuthServiceTest {
         when(memberRepository.findByNickname(reqDto.getNickname())).thenReturn(Optional.empty());
 
         when(memberRepository.findByEmail(reqDto.getEmail()))
-                .thenReturn(Optional.of(Member.createMember("test@test.com", "", "", "",
+                .thenReturn(Optional.of(Member.create("test@test.com", "", "", "",
                         LocalDate.of(2022, 12, 12))));
 
         //then
@@ -197,7 +187,7 @@ class AuthServiceTest {
         MemberLoginReqDto reqDto = new MemberLoginReqDto("test@test.com", "Aa12345678!@");
 
         //when
-        Member member = Member.createMember("test@test.com", "encodedPassword", "", "",
+        Member member = Member.create("test@test.com", "encodedPassword", "", "",
                 LocalDate.of(2022, 12, 12));
         when(memberRepository.findByEmail(reqDto.getEmail()))
                 .thenReturn(Optional.of(member));
@@ -223,7 +213,7 @@ class AuthServiceTest {
         MemberLoginReqDto reqDto = new MemberLoginReqDto("test@test.com", "Aa12345678!@");
 
         //when
-        Member member = Member.createMember("test2@test.com", "encodedPassword", "", "",
+        Member member = Member.create("test2@test.com", "encodedPassword", "", "",
                 LocalDate.of(2022, 12, 12));
         when(memberRepository.findByEmail(reqDto.getEmail()))
                 .thenReturn(Optional.empty());
@@ -243,7 +233,7 @@ class AuthServiceTest {
         MemberLoginReqDto reqDto = new MemberLoginReqDto("test@test.com", "Aa12345678!@");
 
         //when
-        Member member = Member.createMember("test@test.com", "encodedPassword", "", "",
+        Member member = Member.create("test@test.com", "encodedPassword", "", "",
                 LocalDate.of(2022, 12, 12));
         when(memberRepository.findByEmail(reqDto.getEmail()))
                 .thenReturn(Optional.of(member));

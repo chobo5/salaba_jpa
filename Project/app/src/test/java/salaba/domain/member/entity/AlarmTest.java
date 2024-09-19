@@ -1,14 +1,10 @@
 package salaba.domain.member.entity;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
-import static org.junit.jupiter.api.Assertions.*;
 
 class AlarmTest {
 
@@ -21,7 +17,7 @@ class AlarmTest {
         final String nickname = "chobo5";
         final LocalDate birthday = LocalDate.of(1996, 10, 8);
 
-        Member member = Member.createMember(email, password, name, nickname, birthday);
+        Member member = Member.create(email, password, name, nickname, birthday);
 
         Alarm alarm = Alarm.createReplyAlarm(member, "chobo6", "alarm content");
 
@@ -44,7 +40,7 @@ class AlarmTest {
         final String nickname = "chobo5";
         final LocalDate birthday = LocalDate.of(1996, 10, 8);
 
-        Member member = Member.createMember(email, password, name, nickname, birthday);
+        Member member = Member.create(email, password, name, nickname, birthday);
 
         Alarm alarm = Alarm.createReplyAlarm(member, "chobo6", "alarm content");
 

@@ -1,6 +1,5 @@
 package salaba.domain.member.repository;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -10,18 +9,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import salaba.config.QuerydslConfig;
-import salaba.domain.member.constants.RoleName;
 import salaba.domain.member.entity.Alarm;
 import salaba.domain.member.entity.Member;
-import salaba.domain.member.entity.MemberRole;
-import salaba.domain.member.entity.Role;
 
 import javax.persistence.EntityManager;
 
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 
 @DataJpaTest
@@ -42,7 +37,7 @@ class AlarmRepositoryTest {
         final String name = "chobo";
         final String nickname = "chobo";
         final LocalDate birthday = LocalDate.of(1996, 10, 8);
-        Member member = Member.createMember(email, password, name, nickname, birthday);
+        Member member = Member.create(email, password, name, nickname, birthday);
         em.persist(member);
 
         //when
@@ -65,7 +60,7 @@ class AlarmRepositoryTest {
             final String name = "chobo";
             final String nickname = "chobo";
             final LocalDate birthday = LocalDate.of(1996, 10, 8);
-            member = Member.createMember(email, password, name, nickname, birthday);
+            member = Member.create(email, password, name, nickname, birthday);
             em.persist(member);
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -94,7 +89,7 @@ class AlarmRepositoryTest {
         final String name = "chobo";
         final String nickname = "chobo";
         final LocalDate birthday = LocalDate.of(1996, 10, 8);
-        Member member = Member.createMember(email, password, name, nickname, birthday);
+        Member member = Member.create(email, password, name, nickname, birthday);
         em.persist(member);
 
         Alarm replyAlarm = Alarm.createReplyAlarm(member, "test", "content");

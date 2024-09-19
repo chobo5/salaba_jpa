@@ -1,7 +1,5 @@
 package salaba.domain.member.entity;
 
-import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import salaba.exception.CannotBeZeroException;
 
@@ -24,7 +22,7 @@ class PointTest {
         final LocalDate birthday = LocalDate.of(1996, 10, 8);
 
         //when
-        Member member = Member.createMember(email, password, name, nickname, birthday);
+        Member member = Member.create(email, password, name, nickname, birthday);
         Point boardPoint = Point.createBoardPoint(member);
         Point replyPoint = Point.createReplyPoint(member);
         Point paymentPoint = Point.createPaymentPoint(member, 100000);
@@ -49,7 +47,7 @@ class PointTest {
         final LocalDate birthday = LocalDate.of(1996, 10, 8);
 
         //when
-        Member member = Member.createMember(email, password, name, nickname, birthday);
+        Member member = Member.create(email, password, name, nickname, birthday);
         Point boardPoint = Point.createBoardPoint(member);
         Point replyPoint = Point.createReplyPoint(member);
         Point paymentPoint = Point.createPaymentPoint(member, 100000);
@@ -72,7 +70,7 @@ class PointTest {
         final String name = "chobo";
         final String nickname = "chobo";
         final LocalDate birthday = LocalDate.of(1996, 10, 8);
-        Member member = Member.createMember(email, password, name, nickname, birthday);
+        Member member = Member.create(email, password, name, nickname, birthday);
 
         assertThrows(CannotBeZeroException.class, () -> Point.createUsedPoint("포인트 사용", 0, member));
 
@@ -87,7 +85,7 @@ class PointTest {
         final LocalDate birthday = LocalDate.of(1996, 10, 8);
 
         //when
-        Member member = Member.createMember(email, password, name, nickname, birthday);
+        Member member = Member.create(email, password, name, nickname, birthday);
         Point boardPoint = Point.createBoardPoint(member);
         Point replyPoint = Point.createReplyPoint(member);
         Point paymentPoint = Point.createPaymentPoint(member, 100000);

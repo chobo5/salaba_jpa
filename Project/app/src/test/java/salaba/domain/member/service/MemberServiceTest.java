@@ -1,22 +1,16 @@
 package salaba.domain.member.service;
 
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.transaction.annotation.Transactional;
 import salaba.domain.common.entity.Address;
 import salaba.domain.common.entity.Nation;
 import salaba.domain.common.repository.NationRepository;
@@ -27,14 +21,10 @@ import salaba.domain.member.entity.Alarm;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.entity.Point;
 import salaba.domain.member.repository.MemberRepository;
-import salaba.domain.member.service.AuthService;
-import salaba.exception.AlreadyExistsException;
 
 import javax.validation.ValidationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -77,7 +67,7 @@ class MemberServiceTest {
                 Gender.FEMALE, "teststreet", 11111);
 
         //when
-        Member findMember = Member.createMember("test@test.com", "encodedPassword",
+        Member findMember = Member.create("test@test.com", "encodedPassword",
                 "name","nickname", LocalDate.of(2022, 12, 12));
         when(memberRepository.findById(memberId))
                 .thenReturn(Optional.of(findMember));
@@ -105,7 +95,7 @@ class MemberServiceTest {
                 null, null, null);
 
         //when
-        Member findMember = Member.createMember("test@test.com", "encodedPassword",
+        Member findMember = Member.create("test@test.com", "encodedPassword",
                 "name","nickname", LocalDate.of(2022, 12, 12));
 
         findMember.changeProfile("name", Gender.FEMALE, new Nation(2, "korea"), new Address("teststreet", 1111));
@@ -135,7 +125,7 @@ class MemberServiceTest {
         ChangePasswordReqDto reqDto = new ChangePasswordReqDto("기존 비밀번호", "새로운 비밀번호");
 
         //when
-        Member findMember = Member.createMember("test@test.com", "인코딩된 기존 비밀번호",
+        Member findMember = Member.create("test@test.com", "인코딩된 기존 비밀번호",
                 "name","nickname", LocalDate.of(2022, 12, 12));
 
         when(memberRepository.findById(memberId))
@@ -177,7 +167,7 @@ class MemberServiceTest {
         ChangePasswordReqDto reqDto = new ChangePasswordReqDto("기존 비밀번호", "새로운 비밀번호");
 
         //when
-        Member findMember = Member.createMember("test@test.com", "인코딩된 기존 비밀번호",
+        Member findMember = Member.create("test@test.com", "인코딩된 기존 비밀번호",
                 "name","nickname", LocalDate.of(2022, 12, 12));
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(findMember));
 
@@ -197,7 +187,7 @@ class MemberServiceTest {
         ChangeNicknameReqDto reqDto = new ChangeNicknameReqDto("새로운 닉네임");
 
         //when
-        Member findMember = Member.createMember("test@test.com", "비밀번호",
+        Member findMember = Member.create("test@test.com", "비밀번호",
                 "닉네임","nickname", LocalDate.of(2022, 12, 12));
 
         doNothing().when(authService).isExistingNickname(reqDto.getNickname());
@@ -235,7 +225,7 @@ class MemberServiceTest {
         ChangeTelNoReqDto reqDto = new ChangeTelNoReqDto("01011111111");
 
         //when
-        Member findMember = Member.createMember("test@test.com", "비밀번호",
+        Member findMember = Member.create("test@test.com", "비밀번호",
                 "닉네임","nickname", LocalDate.of(2022, 12, 12));
 
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(findMember));
@@ -268,7 +258,7 @@ class MemberServiceTest {
         MemberResignReqDto reqDto = new MemberResignReqDto("비밀번호", "리프레쉬토큰");
 
         //when
-        Member findMember = Member.createMember("test@test.com", "인코딩된 비밀번호",
+        Member findMember = Member.create("test@test.com", "인코딩된 비밀번호",
                 "닉네임","nickname", LocalDate.of(2022, 12, 12));
 
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(findMember));
@@ -293,7 +283,7 @@ class MemberServiceTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
-        Member findMember = Member.createMember("test@test.com", "인코딩된 비밀번호",
+        Member findMember = Member.create("test@test.com", "인코딩된 비밀번호",
                 "닉네임","nickname", LocalDate.of(2022, 12, 12));
 
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(findMember));
@@ -319,7 +309,7 @@ class MemberServiceTest {
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
-        Member findMember = Member.createMember("test@test.com", "인코딩된 비밀번호",
+        Member findMember = Member.create("test@test.com", "인코딩된 비밀번호",
                 "닉네임","nickname", LocalDate.of(2022, 12, 12));
 
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(findMember));

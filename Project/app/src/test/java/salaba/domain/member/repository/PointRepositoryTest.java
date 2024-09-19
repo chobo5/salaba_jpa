@@ -1,6 +1,5 @@
 package salaba.domain.member.repository;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -12,14 +11,12 @@ import org.springframework.test.context.ActiveProfiles;
 import salaba.config.QuerydslConfig;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.entity.Point;
-import salaba.exception.CannotBeZeroException;
 
 import javax.persistence.EntityManager;
 
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles("test")
@@ -39,7 +36,7 @@ class PointRepositoryTest {
         final String name = "chobo";
         final String nickname = "chobo";
         final LocalDate birthday = LocalDate.of(1996, 10, 8);
-        Member member = Member.createMember(email, password, name, nickname, birthday);
+        Member member = Member.create(email, password, name, nickname, birthday);
         em.persist(member);
 
         Point boardPoint = Point.createBoardPoint(member);
@@ -78,7 +75,7 @@ class PointRepositoryTest {
         final String name = "chobo";
         final String nickname = "chobo";
         final LocalDate birthday = LocalDate.of(1996, 10, 8);
-        Member member = Member.createMember(email, password, name, nickname, birthday);
+        Member member = Member.create(email, password, name, nickname, birthday);
         em.persist(member);
 
         Point boardPoint = Point.createBoardPoint(member);
@@ -115,7 +112,7 @@ class PointRepositoryTest {
         final String name = "chobo";
         final String nickname = "chobo";
         final LocalDate birthday = LocalDate.of(1996, 10, 8);
-        Member member = Member.createMember(email, password, name, nickname, birthday);
+        Member member = Member.create(email, password, name, nickname, birthday);
         em.persist(member);
 
         Point boardPoint = Point.createBoardPoint(member);
