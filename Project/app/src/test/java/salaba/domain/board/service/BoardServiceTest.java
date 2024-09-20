@@ -1,5 +1,6 @@
 package salaba.domain.board.service;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 import salaba.domain.board.dto.request.BoardCreateReqDto;
+import salaba.domain.board.dto.request.BoardModifyReqDto;
 import salaba.domain.board.entity.BoardLike;
 import salaba.domain.board.repository.BoardLikeRepository;
 import salaba.domain.board.repository.BoardRepository;
@@ -21,6 +23,7 @@ import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.member.service.AuthService;
 import salaba.domain.member.service.PointService;
 import salaba.domain.reply.entity.Reply;
+import salaba.exception.NoAuthorityException;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
@@ -69,5 +72,54 @@ class BoardServiceTest {
         verify(pointService, times(1)).createBoardPoint(member);
 
     }
+
+    @Test
+    public void 게시글수정() {
+        //given
+        Long memberId = 1L;
+        BoardModifyReqDto reqDto = new BoardModifyReqDto(1L, "modifiedTitle", "modifiedContent", null);
+
+        //when
+        Member member = Member.create("test@test.com", "password", "name",
+                "nickname", LocalDate.of(1996, 10, 8));
+        Board board = Board.create("title", "content", BoardScope.ALL, member);
+
+        when(boardRepository.findByIdWithWriter(reqDto.getBoardId())).thenReturn(Optional.of(board));
+
+        when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
+
+        boardService.modify(memberId, reqDto);
+
+        //then
+        verify(boardRepository, times(1)).findByIdWithWriter(reqDto.getBoardId());
+        verify(memberRepository, times(1)).findById(memberId);
+
+    }
+
+    @Test
+    public void 게시글수정실패_권한없음() {
+        //given
+        Long memberId = 1L;
+        BoardModifyReqDto reqDto = new BoardModifyReqDto(1L, "modifiedTitle", "modifiedContent", null);
+
+        //when
+        Member member = Member.create("test@test.com", "password", "name",
+                "nickname", LocalDate.of(1996, 10, 8));
+
+        Member otherMember = Member.create("test2@test.com", "password2", "name2",
+                "nickname2", LocalDate.of(1996, 10, 8));
+        Board board = Board.create("title", "content", BoardScope.ALL, member);
+
+        when(boardRepository.findByIdWithWriter(reqDto.getBoardId())).thenReturn(Optional.of(board));
+
+        when(memberRepository.findById(memberId)).thenReturn(Optional.of(otherMember));
+
+        //then
+        Assertions.assertThrows(NoAuthorityException.class, () -> boardService.modify(memberId, reqDto));
+        verify(boardRepository, times(1)).findByIdWithWriter(reqDto.getBoardId());
+        verify(memberRepository, times(1)).findById(memberId);
+
+    }
+
 
 }

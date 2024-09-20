@@ -70,7 +70,7 @@ public class Reply extends BaseEntity {
         writingStatus = WritingStatus.DELETED;
     }
 
-    public void modifyReply(String content) {
+    public void modify(String content) {
         this.content = content;
     }
 }

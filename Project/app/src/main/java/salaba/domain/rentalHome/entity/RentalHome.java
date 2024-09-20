@@ -100,17 +100,17 @@ public class RentalHome extends BaseEntity {
         return rentalHome;
     }
 
-    public void modifyRentalHome(Region region, String name, String explanation, Address address, int price, int capacity, double lat, double lon, String rule, int cleanFee) {
-        this.region = region;
-        this.name = name;
-        this.explanation = explanation;
-        this.address = address;
-        this.price = price;
-        this.capacity = capacity;
-        this.lat = lat;
-        this.lon = lon;
-        this.rule = rule;
-        this.cleanFee = cleanFee;
+    public void modify(Region region, String name, String explanation, Address address, Integer price, Integer capacity, Double lat, Double lon, String rule, Integer cleanFee) {
+        this.region = region != null ? region : this.region;
+        this.name = name != null ? name : this.name;
+        this.explanation = explanation != null ? explanation : this.explanation;
+        this.address = address != null ? address : this.address;
+        this.price = price != null ? price : this.price;
+        this.capacity = capacity != null ? capacity : this.capacity;
+        this.lat = lat != null ? lat : this.lat;
+        this.lon = lon != null ? lon : this.lon;
+        this.rule = rule != null ? rule : this.rule;
+        this.cleanFee = cleanFee != null ? cleanFee : this.cleanFee;
     }
 
     public void setFacilities(List<RentalHomeFacility> facilities) {

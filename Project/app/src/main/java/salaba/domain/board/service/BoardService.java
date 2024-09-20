@@ -21,6 +21,7 @@ import salaba.domain.board.repository.BoardRepository;
 import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.board.dto.response.BoardModiResDto;
 import salaba.domain.member.service.PointService;
+import salaba.exception.NoAuthorityException;
 
 
 import javax.persistence.EntityManager;
@@ -55,8 +56,14 @@ public class BoardService {
         return boardRepository.get(boardId).orElseThrow(NoSuchElementException::new);
     }
 
-    public BoardModiResDto modify(BoardModifyReqDto boardDto) {
-        Board board = boardRepository.findById(boardDto.getBoardId()).orElseThrow(NoSuchElementException::new);
+    public BoardModiResDto modify(Long memberId, BoardModifyReqDto boardDto) {
+        Board board = boardRepository.findByIdWithWriter(boardDto.getBoardId()).orElseThrow(NoSuchElementException::new);
+
+        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
+
+        if (!board.getWriter().equals(member)) {
+            throw new NoAuthorityException("게시물 수정 권한이 없습니다.");
+        }
 
         board.modify(boardDto.getTitle(), boardDto.getContent(), boardDto.getBoardScope());
         em.flush(); //변경된 updatedDate를 응답값에 포함하기 위해 강제로 flush(요청을 날려도 entity가 변경되지 않으면 업데이트 되지 않음)

@@ -89,7 +89,7 @@ public class RentalHomeService {
 
         Region region = regionRepository.findById(dto.getRegionId()).orElseThrow(NoSuchElementException::new);
         Address address = new Address(dto.getStreet(), dto.getZipcode());
-        rentalHome.modifyRentalHome(region, dto.getName(), dto.getExplanation(), address, dto.getPrice(),
+        rentalHome.modify(region, dto.getName(), dto.getExplanation(), address, dto.getPrice(),
                 dto.getCapacity(), dto.getLat(), dto.getLon(), dto.getRule(), dto.getCleanFee());
 
         // 숙소_테마 저장

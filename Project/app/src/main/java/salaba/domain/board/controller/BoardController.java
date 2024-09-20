@@ -53,7 +53,7 @@ public class BoardController {
     @Operation(summary = "게시물 수정")
     @PutMapping("modify")
     public RestResult<?> modifyBoard(@RequestBody BoardModifyReqDto boardModifyReqDto) {
-        return RestResult.success(boardService.modify(boardModifyReqDto));
+        return RestResult.success(boardService.modify(MemberContextHolder.getMemberId(), boardModifyReqDto));
     }
 
     @Operation(summary = "게시물 삭제")

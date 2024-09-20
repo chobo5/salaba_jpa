@@ -62,7 +62,6 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
 
 
         return new RentalHomeDetailResDto(findRentalHome, findThemes, findFacilities);
-
     }
 
     @Override

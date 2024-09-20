@@ -47,7 +47,7 @@ public class ReplyService {
 
     public ReplyModiResDto modify(ReplyModifyReqDto replyModifyReqDto) {
         Reply reply = replyRepository.findById(replyModifyReqDto.getReplyId()).orElseThrow(NoSuchElementException::new);
-        reply.modifyReply(replyModifyReqDto.getContent());
+        reply.modify(replyModifyReqDto.getContent());
         em.flush();
         return new ReplyModiResDto(reply.getId(), reply.getContent(), reply.getCreatedDate(), reply.getUpdatedDate());
     }
