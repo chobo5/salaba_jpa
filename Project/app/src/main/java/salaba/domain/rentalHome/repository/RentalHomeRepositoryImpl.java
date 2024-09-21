@@ -1,6 +1,7 @@
 package salaba.domain.rentalHome.repository;
 
 import com.querydsl.core.Tuple;
+import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -10,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import salaba.domain.common.constants.ProcessStatus;
+import salaba.domain.rentalHome.dto.response.RentalHomeResDto;
 import salaba.domain.rentalHome.entity.Facility;
 import salaba.domain.rentalHome.entity.QReview;
 import salaba.domain.rentalHome.entity.RentalHome;
@@ -158,6 +160,51 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
             return rh;
         }).collect(Collectors.toList());
 
+        return PageableExecutionUtils.getPage(rentalHomes, pageable, totalCount::fetchOne);
+    }
+
+    @Override
+    public Page<RentalHomeResDto> findRentalHomeDtosOrderByReview(String regionName, String themeName, Long minPrice, Long maxPrice, Pageable pageable) {
+
+        List<RentalHomeResDto> rentalHomes = queryFactory.select(Projections.constructor(RentalHomeResDto.class,
+                        rentalHome.id,
+                        rentalHome.name,
+                        rentalHome.address,
+                        rentalHome.capacity,
+                        rentalHome.cleanFee,
+                        rentalHome.price,
+                        rentalHome.region.name,
+                        rentalHome.status,
+                        review.count(),
+                        review.score.avg()))
+                .from(rentalHome)
+                .join(rentalHome.region, region)
+                .leftJoin(reservation).on(reservation.rentalHome.id.eq(rentalHome.id))
+                .leftJoin(review).on(review.reservation.id.eq(reservation.id))
+                .leftJoin(rentalHomeTheme).on(rentalHomeTheme.rentalHome.id.eq(rentalHome.id))
+                .leftJoin(theme).on(rentalHomeTheme.theme.id.eq(theme.id))
+                .where(regionNameContains(regionName),
+                        themeNameContains(themeName),
+                        setMaxPrice(maxPrice),
+                        setMinPrice(minPrice),
+                        reservation.status.eq(ProcessStatus.COMPLETE))
+                .groupBy(rentalHome.id)
+                .orderBy(review.score.avg().desc(), review.count().desc())
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetch();
+
+        JPAQuery<Long> totalCount = queryFactory.select(rentalHome.id.countDistinct())
+                .from(rentalHome)
+                .join(rentalHome.region, region)
+                .leftJoin(rentalHomeTheme).on(rentalHomeTheme.rentalHome.id.eq(rentalHome.id))
+                .leftJoin(reservation).on(reservation.rentalHome.id.eq(rentalHome.id))
+                .leftJoin(theme).on(rentalHomeTheme.theme.id.eq(theme.id))
+                .where(regionNameContains(regionName),
+                        themeNameContains(themeName),
+                        setMaxPrice(maxPrice),
+                        setMinPrice(minPrice),
+                        reservation.status.eq(ProcessStatus.COMPLETE));
         return PageableExecutionUtils.getPage(rentalHomes, pageable, totalCount::fetchOne);
     }
 

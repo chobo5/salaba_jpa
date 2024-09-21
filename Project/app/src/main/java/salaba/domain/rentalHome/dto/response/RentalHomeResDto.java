@@ -27,6 +27,10 @@ public class RentalHomeResDto {
 
     private RentalHomeStatus status;
 
+    private long reviewCount;
+
+    private double reviewAvg;
+
 
     public RentalHomeResDto(RentalHome rentalHome) {
         rentalHomeId = rentalHome.getId();
@@ -37,6 +41,9 @@ public class RentalHomeResDto {
         price = rentalHome.getPrice();
         regionName = rentalHome.getRegion().getName();
         status = rentalHome.getStatus();
+        reviewCount = rentalHome.getReviewCount();
+        reviewAvg = rentalHome.getReviewAvg();
+
     }
 
 }

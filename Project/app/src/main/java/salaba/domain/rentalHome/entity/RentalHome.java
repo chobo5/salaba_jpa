@@ -56,6 +56,7 @@ public class RentalHome extends BaseEntity {
     private double lon;
 
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private RentalHomeStatus status;
 
     @Column(nullable = false)
@@ -94,7 +95,7 @@ public class RentalHome extends BaseEntity {
         rentalHome.capacity = capacity;
         rentalHome.lat = lat;
         rentalHome.lon = lon;
-        rentalHome.status = RentalHomeStatus.AWAIT;
+        rentalHome.status = RentalHomeStatus.RUN;
         rentalHome.rule = rule;
         rentalHome.cleanFee = cleanFee;
         return rentalHome;

@@ -132,10 +132,11 @@ public class RentalHomeService {
     }
 
     public Page<RentalHomeResDto> searchRentalHomesOrderByReview(String regionName, String themeName, Long minPrice, Long maxPrice, Pageable pageable) {
-        Page<RentalHome> rentalHomes = rentalHomeRepository
-                .findRentalHomesOrderByReview(regionName, themeName, minPrice, maxPrice, pageable);
-
-        return rentalHomes.map(RentalHomeResDto::new);
+//        Page<RentalHome> rentalHomes = rentalHomeRepository
+//                .findRentalHomesOrderByReview(regionName, themeName, minPrice, maxPrice, pageable);
+//
+//        return rentalHomes.map(RentalHomeResDto::new);
+        return rentalHomeRepository.findRentalHomeDtosOrderByReview(regionName, themeName, minPrice, maxPrice, pageable);
     }
 
     public Page<RentalHomeResDto> searchRentalHomesOrderBySalesCount(String regionName, String themeName, Long minPrice, Long maxPrice, Pageable pageable) {
