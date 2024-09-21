@@ -18,7 +18,6 @@ import javax.annotation.PostConstruct;
 import javax.persistence.EntityManager;
 
 @SpringBootApplication
-//@EnableJpaAuditing
 @RequiredArgsConstructor
 @EnableCaching
 @EnableAspectJAutoProxy
@@ -37,16 +36,5 @@ public class App {
 //    public void init() {
 //        initService.init();
 //    }
-
-//    @Bean
-//    public AuditorAware<String> auditorProvider() {
-//        try {
-//            return () -> Optional.of(MemberContextHolder.getMemberId().toString());
-//        } catch (CannotFindMemberException e) {
-//            return () -> Optional.of("new");
-//        }
-//
-//    }
-
 
 }

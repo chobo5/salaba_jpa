@@ -72,9 +72,9 @@ public class SecurityConfig {
                 //host
                 .mvcMatchers(BASE_URL+"host/**").hasAnyAuthority(MEMBER, MANAGER, ADMIN)
                 //rentalHome
-                .mvcMatchers(BASE_URL+"rentalHome/").permitAll()
+                .mvcMatchers(BASE_URL+"rentalHome/detail/**").permitAll()
                 .mvcMatchers(BASE_URL+"rentalHome/search/**").permitAll()
-                .mvcMatchers(BASE_URL+"rentalHome/reviews").permitAll()
+                .mvcMatchers(BASE_URL+"rentalHome/reviews/**").permitAll()
                 .mvcMatchers(BASE_URL+"rentalHome/**").hasAnyAuthority(MEMBER, MANAGER, ADMIN)
                 .and()
                 .exceptionHandling()

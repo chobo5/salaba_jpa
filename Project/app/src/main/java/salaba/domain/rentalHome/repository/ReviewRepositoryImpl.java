@@ -15,6 +15,7 @@ import salaba.domain.rentalHome.entity.Review;
 
 import java.util.List;
 
+import static salaba.domain.rentalHome.entity.QRentalHome.rentalHome;
 import static salaba.domain.rentalHome.entity.QReview.review;
 import static salaba.domain.reservation.entity.QReservation.reservation;
 
@@ -44,19 +45,21 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
     }
 
     @Override
-    public Page<Review> findByRentalHome(RentalHome rentalHome, Pageable pageable) {
+    public Page<Review> findByRentalHome(RentalHome targetRentalHome, Pageable pageable) {
         List<Review> reviews = queryFactory.select(review)
                 .from(review)
-                .join(review.reservation, reservation).fetchJoin()
-                .where(review.reservation.rentalHome.eq(rentalHome))
+                .join(review.reservation, reservation)
+                .join(reservation.rentalHome, rentalHome)
+                .where(review.reservation.rentalHome.eq(targetRentalHome))
+                .orderBy(review.createdDate.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
 
         JPAQuery<Long> reviewCount = queryFactory.select(review.count())
                 .from(review)
-                .join(review.reservation, reservation).fetchJoin()
-                .where(review.reservation.rentalHome.eq(rentalHome));
+                .join(review.reservation, reservation)
+                .where(review.reservation.rentalHome.eq(targetRentalHome));
 
         return PageableExecutionUtils.getPage(reviews, pageable, reviewCount::fetchOne);
     }

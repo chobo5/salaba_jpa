@@ -11,7 +11,7 @@ public class MemberContextHolder {
 
     public static Long getMemberId() {
         if (userContext.get() == null) {
-            throw new CannotFindMemberException("회원정보를 찾을 수 없습니다.");
+            return 0L;
         }
         return userContext.get();
     }
