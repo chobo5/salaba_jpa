@@ -4,8 +4,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import salaba.domain.member.entity.Point;
-import salaba.domain.member.repository.PointRepository;
 import salaba.domain.member.service.PointService;
 import salaba.domain.rentalHome.dto.request.ReviewReqDto;
 import salaba.domain.rentalHome.entity.RentalHome;
@@ -24,7 +22,7 @@ public class ReviewService {
     private final PointService pointService;
 
     public Long createReview(ReviewReqDto reviewReqDto) {
-        Reservation reservation = reservationRepository.findByIdWithMember(reviewReqDto.getReservationId()).orElseThrow(NoSuchElementException::new);
+        Reservation reservation = reservationRepository.findByIdWithMemberAndRentalHome(reviewReqDto.getReservationId()).orElseThrow(NoSuchElementException::new);
         Review review = Review.createReview(reservation, reviewReqDto.getScore(), reviewReqDto.getContent());
         reviewRepository.save(review);
 

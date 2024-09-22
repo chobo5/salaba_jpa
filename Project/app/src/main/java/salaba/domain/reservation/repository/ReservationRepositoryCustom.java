@@ -13,5 +13,5 @@ public interface ReservationRepositoryCustom {
 
     Page<Reservation> findWithRentalHomeAndHost(Long memberId, Pageable pageable);
 
-    Optional<Reservation> findByIdWithMember(Long reservationId);
+    Optional<Reservation> findByIdWithMemberAndRentalHome(Long reservationId);
 }

@@ -63,9 +63,10 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
     }
 
     @Override
-    public Optional<Reservation> findByIdWithMember(Long reservationId) {
+    public Optional<Reservation> findByIdWithMemberAndRentalHome(Long reservationId) {
         Reservation findReservation = queryFactory.selectFrom(reservation)
                 .join(reservation.member, member).fetchJoin()
+                .join(reservation.rentalHome, rentalHome).fetchJoin()
                 .where(reservation.id.eq(reservationId))
                 .fetchOne();
         return Optional.ofNullable(findReservation);

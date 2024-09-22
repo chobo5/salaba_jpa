@@ -32,6 +32,7 @@ public class Review extends BaseEntity {
         review.score = score;
         review.content = content;
         review.status = WritingStatus.NORMAL;
+        reservation.getRentalHome().updateReviewStatistics(score);
         return review;
     }
 }

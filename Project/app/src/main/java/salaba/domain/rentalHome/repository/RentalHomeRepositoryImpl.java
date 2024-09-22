@@ -123,20 +123,17 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
 
     @Override
     public Page<RentalHome> findRentalHomesOrderByReview(String regionName, String themeName, Long minPrice, Long maxPrice, Pageable pageable) {
-        List<Tuple> result = queryFactory.select(rentalHome, review.count(), review.score.avg())
+        List<RentalHome> result = queryFactory.select(rentalHome)
                 .from(rentalHome)
                 .join(rentalHome.region, region)
-                .leftJoin(reservation).on(reservation.rentalHome.id.eq(rentalHome.id))
-                .leftJoin(review).on(review.reservation.id.eq(reservation.id))
                 .leftJoin(rentalHomeTheme).on(rentalHomeTheme.rentalHome.id.eq(rentalHome.id))
                 .leftJoin(theme).on(rentalHomeTheme.theme.id.eq(theme.id))
                 .where(regionNameContains(regionName),
                         themeNameContains(themeName),
                         setMaxPrice(maxPrice),
-                        setMinPrice(minPrice),
-                        reservation.status.eq(ProcessStatus.COMPLETE))
+                        setMinPrice(minPrice))
                 .groupBy(rentalHome.id)
-                .orderBy(review.score.avg().desc(), review.count().desc())
+                .orderBy(rentalHome.reviewAvg.desc(), rentalHome.reviewCount.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -145,22 +142,14 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
                 .from(rentalHome)
                 .join(rentalHome.region, region)
                 .leftJoin(rentalHomeTheme).on(rentalHomeTheme.rentalHome.id.eq(rentalHome.id))
-                .leftJoin(reservation).on(reservation.rentalHome.id.eq(rentalHome.id))
                 .leftJoin(theme).on(rentalHomeTheme.theme.id.eq(theme.id))
                 .where(regionNameContains(regionName),
                         themeNameContains(themeName),
                         setMaxPrice(maxPrice),
-                        setMinPrice(minPrice),
-                        reservation.status.eq(ProcessStatus.COMPLETE));
+                        setMinPrice(minPrice));
 
-        List<RentalHome> rentalHomes = result.stream().map(tuple -> {
-            RentalHome rh = tuple.get(rentalHome);
-            rh.setReviewAvg(tuple.get(review.score.avg()));
-            rh.setReviewCount(tuple.get(review.count()));
-            return rh;
-        }).collect(Collectors.toList());
 
-        return PageableExecutionUtils.getPage(rentalHomes, pageable, totalCount::fetchOne);
+        return PageableExecutionUtils.getPage(result, pageable, totalCount::fetchOne);
     }
 
     @Override
@@ -175,21 +164,18 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
                         rentalHome.price,
                         rentalHome.region.name,
                         rentalHome.status,
-                        review.count(),
-                        review.score.avg()))
+                        rentalHome.reviewCount,
+                        rentalHome.reviewAvg))
                 .from(rentalHome)
                 .join(rentalHome.region, region)
-                .leftJoin(reservation).on(reservation.rentalHome.id.eq(rentalHome.id))
-                .leftJoin(review).on(review.reservation.id.eq(reservation.id))
                 .leftJoin(rentalHomeTheme).on(rentalHomeTheme.rentalHome.id.eq(rentalHome.id))
                 .leftJoin(theme).on(rentalHomeTheme.theme.id.eq(theme.id))
                 .where(regionNameContains(regionName),
                         themeNameContains(themeName),
                         setMaxPrice(maxPrice),
-                        setMinPrice(minPrice),
-                        reservation.status.eq(ProcessStatus.COMPLETE))
+                        setMinPrice(minPrice))
                 .groupBy(rentalHome.id)
-                .orderBy(review.score.avg().desc(), review.count().desc())
+                .orderBy(rentalHome.reviewAvg.desc(), rentalHome.reviewCount.desc())
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
@@ -198,13 +184,11 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
                 .from(rentalHome)
                 .join(rentalHome.region, region)
                 .leftJoin(rentalHomeTheme).on(rentalHomeTheme.rentalHome.id.eq(rentalHome.id))
-                .leftJoin(reservation).on(reservation.rentalHome.id.eq(rentalHome.id))
                 .leftJoin(theme).on(rentalHomeTheme.theme.id.eq(theme.id))
                 .where(regionNameContains(regionName),
                         themeNameContains(themeName),
                         setMaxPrice(maxPrice),
-                        setMinPrice(minPrice),
-                        reservation.status.eq(ProcessStatus.COMPLETE));
+                        setMinPrice(minPrice));
         return PageableExecutionUtils.getPage(rentalHomes, pageable, totalCount::fetchOne);
     }
 

@@ -22,7 +22,6 @@ import salaba.domain.reservation.repository.ReservationRepository;
 import salaba.domain.rentalHome.repository.RentalHomeRepository;
 import salaba.exception.NoAuthorityException;
 
-import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -73,7 +72,7 @@ public class ReservationService {
 
     public ReservationCompleteResDto completeReservation(Long memberId, PaymentReqDto paymentReqDto) {
         Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
-        Reservation reservation = reservationRepository.findByIdWithMember(paymentReqDto.getReservationId()).orElseThrow(NoSuchElementException::new);
+        Reservation reservation = reservationRepository.findByIdWithMemberAndRentalHome(paymentReqDto.getReservationId()).orElseThrow(NoSuchElementException::new);
         if (!reservation.getMember().equals(member)) {
             throw new NoAuthorityException("예약자와 회원이 일치하지 않습니다.");
         }
@@ -103,7 +102,7 @@ public class ReservationService {
 
     public void cancelReservation(Long reservationId, Long memberId) {
         Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
-        Reservation reservation = reservationRepository.findByIdWithMember(reservationId).orElseThrow(NoSuchElementException::new);
+        Reservation reservation = reservationRepository.findByIdWithMemberAndRentalHome(reservationId).orElseThrow(NoSuchElementException::new);
         if (!reservation.getMember().equals(member)) {
             throw new NoAuthorityException("예약자와 회원이 일치하지 않습니다.");
         }
