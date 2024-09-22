@@ -2,6 +2,7 @@ package salaba.domain.rentalHome.repository;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.annotation.Rollback;
 import salaba.domain.common.constants.ProcessStatus;
 
 import javax.transaction.Transactional;
@@ -99,6 +101,48 @@ class RentalHomeRepositoryImplTest {
 
     private BooleanExpression setMaxPrice(Long maxPrice) {
         return maxPrice != null ? rentalHome.price.loe(maxPrice) : null;
+    }
+
+    @Test
+    @Rollback(value = false)
+    public void 리뷰평균벌크쿼리() {
+        JPAQuery<Double> avg = queryFactory.select(review.score.avg().coalesce(0.0))
+                .from(review)
+                .join(review.reservation, reservation)
+                .where(reservation.rentalHome.eq(rentalHome));
+
+
+        queryFactory.update(rentalHome)
+                .set(rentalHome.reviewAvg, avg)
+                .execute();
+    }
+
+    @Test
+    @Rollback(value = false)
+    public void 리뷰합벌크쿼리() {
+        JPAQuery<Long> sum = queryFactory.select(review.score.sum().longValue().coalesce(0L))
+                .from(review)
+                .join(review.reservation, reservation)
+                .where(reservation.rentalHome.eq(rentalHome));
+
+
+        queryFactory.update(rentalHome)
+                .set(rentalHome.reviewSum, sum)
+                .execute();
+    }
+
+    @Test
+    @Rollback(value = false)
+    public void 리뷰개수벌크쿼리() {
+        JPAQuery<Long> count = queryFactory.select(review.score.count())
+                .from(review)
+                .join(review.reservation, reservation)
+                .where(reservation.rentalHome.eq(rentalHome));
+
+
+        queryFactory.update(rentalHome)
+                .set(rentalHome.reviewCount, count)
+                .execute();
     }
 
 }

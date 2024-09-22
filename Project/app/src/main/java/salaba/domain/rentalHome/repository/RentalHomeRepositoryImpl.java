@@ -232,6 +232,31 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
         return PageableExecutionUtils.getPage(rentalHomes, pageable, totalCount::fetchOne);
     }
 
+    @Override
+    public void updateReviewStatistics() {
+        JPAQuery<Double> avg = queryFactory.select(review.score.avg().coalesce(0.0))
+                .from(review)
+                .join(review.reservation, reservation)
+                .where(reservation.rentalHome.eq(rentalHome));
+
+        JPAQuery<Long> sum = queryFactory.select(review.score.sum().longValue().coalesce(0L))
+                .from(review)
+                .join(review.reservation, reservation)
+                .where(reservation.rentalHome.eq(rentalHome));
+
+        JPAQuery<Long> count = queryFactory.select(review.score.count())
+                .from(review)
+                .join(review.reservation, reservation)
+                .where(reservation.rentalHome.eq(rentalHome));
+
+
+        queryFactory.update(rentalHome)
+                .set(rentalHome.reviewAvg, avg)
+                .set(rentalHome.reviewSum, sum)
+                .set(rentalHome.reviewCount, count)
+                .execute();
+    }
+
     private BooleanExpression regionNameContains(String regionName) {
         return regionName != null ? region.name.contains(regionName) : null;
     }

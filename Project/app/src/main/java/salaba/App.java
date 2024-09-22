@@ -3,24 +3,22 @@
  */
 package salaba;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cache.annotation.EnableCaching;
-import org.springframework.context.annotation.Bean;
+
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
-import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.scheduling.annotation.EnableScheduling;
 import salaba.domain.common.service.InitService;
-
 import javax.annotation.PostConstruct;
-import javax.persistence.EntityManager;
 
 @SpringBootApplication
 @RequiredArgsConstructor
 @EnableCaching
 @EnableAspectJAutoProxy
+@EnableScheduling
 @PropertySource({
         "file:${user.home}/config/jdbc.properties",
         "file:${user.home}/config/jwt.properties"

@@ -3,6 +3,7 @@ package salaba.domain.rentalHome.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import salaba.domain.common.entity.Address;
 import salaba.domain.common.entity.Region;
@@ -145,6 +146,7 @@ public class RentalHomeService {
 
         return rentalHomes.map(RentalHomeResDto::new);
     }
+
 
 
 }
