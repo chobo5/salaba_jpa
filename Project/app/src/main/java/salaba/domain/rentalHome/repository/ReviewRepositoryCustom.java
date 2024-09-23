@@ -7,6 +7,8 @@ import salaba.domain.member.entity.Member;
 import salaba.domain.rentalHome.entity.RentalHome;
 import salaba.domain.rentalHome.entity.Review;
 
+import java.util.Optional;
+
 @Repository
 public interface ReviewRepositoryCustom {
     Page<Review> findByMember(Member member, Pageable pageable);
@@ -14,4 +16,6 @@ public interface ReviewRepositoryCustom {
     Page<Review> findByRentalHome(RentalHome rentalHome, Pageable pageable);
 
     Double getReviewAvg(RentalHome rentalHome);
+
+    Optional<Review> findByIdWithReservationAndMemberAndRentalHome(Long reviewId);
 }

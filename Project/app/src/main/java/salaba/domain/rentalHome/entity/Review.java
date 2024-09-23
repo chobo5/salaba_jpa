@@ -35,4 +35,9 @@ public class Review extends BaseEntity {
         reservation.getRentalHome().updateReviewStatistics(score);
         return review;
     }
+
+    public void modifyReview(String content, Integer score) {
+        this.content = content != null ? content : this.content;
+        this.score = score != null ? score : this.score;
+    }
 }

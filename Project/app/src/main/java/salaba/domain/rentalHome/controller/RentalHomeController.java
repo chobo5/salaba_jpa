@@ -9,10 +9,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import salaba.domain.common.dto.IdResDto;
-import salaba.domain.rentalHome.dto.request.RentalHomeCreateReqDto;
-import salaba.domain.rentalHome.dto.request.RentalHomeMarkReqDto;
-import salaba.domain.rentalHome.dto.request.RentalHomeModiReqDto;
-import salaba.domain.rentalHome.dto.request.ReviewReqDto;
+import salaba.domain.rentalHome.dto.request.*;
 import salaba.domain.rentalHome.dto.response.RentalHomeDetailResDto;
 import salaba.domain.rentalHome.dto.response.RentalHomeResDto;
 import salaba.domain.rentalHome.dto.response.ReviewResDto;
@@ -98,6 +95,20 @@ public class RentalHomeController {
     public RestResult<?> createReview(@RequestBody ReviewReqDto reviewReqDto) {
         Long reviewId = reviewService.createReview(reviewReqDto);
         return RestResult.success(reviewId);
+    }
+
+    @Operation(summary = "숙소 리뷰 수정")
+    @PutMapping("reservation/review/modify")
+    public RestResult<?> modifyReview(@RequestBody ReviewModiReqDto reqDto) {
+        reviewService.modifyReview(reqDto, MemberContextHolder.getMemberId());
+        return RestResult.success();
+    }
+
+    @Operation(summary = "숙소 리뷰 삭제")
+    @DeleteMapping("reservation/review/delete")
+    public RestResult<?> deleteReview(@RequestParam Long reviewId) {
+        reviewService.deleteReview(reviewId, MemberContextHolder.getMemberId());
+        return RestResult.success();
     }
 
     @Operation(summary = "숙소 찜하기")

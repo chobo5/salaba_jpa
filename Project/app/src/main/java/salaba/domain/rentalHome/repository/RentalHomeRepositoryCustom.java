@@ -26,4 +26,8 @@ public interface RentalHomeRepositoryCustom {
     Page<RentalHome> findRentalHomesOrderBySalesCount(String regionName, String themeName, Long minPrice, Long maxPrice, Pageable pageable);
 
     void updateReviewStatistics();
+
+    void updateAReviewStatistics(RentalHome rentalHome);
+
+    void updateAReviewAvgAndSum(RentalHome rentalHome);
 }

@@ -17,9 +17,6 @@ public class ExecutionTimeLoggerAspect {
     @Pointcut("execution(* salaba.domain.rentalHome.service.RentalHomeService.searchRentalHomesOrderBySalesCount(..))")
     public void searchRentalHomesOrderBySalesCount() {}
 
-    @Pointcut("execution(* salaba.domain.rentalHome.service.RentalHomeUpdateService.updateReviewStatistics(..))")
-    public void updateReviewStatistics() {}
-
     @Pointcut("execution(* salaba.domain.rentalHome.service.RentalHomeService.getRentalHome(..))")
     public void getRentalHome() {}
 
@@ -53,7 +50,7 @@ public class ExecutionTimeLoggerAspect {
 
 
     // 특정 패키지와 클래스의 메서드들에 적용
-    @Around("searchRentalHomesOrderByReview() || searchRentalHomesOrderBySalesCount() || updateReviewStatistics || " +
+    @Around("searchRentalHomesOrderByReview() || searchRentalHomesOrderBySalesCount() || " +
             "getRentalHome() || getRentalHomeReviews() || getRentalHomeByHost() || getRentalHomesByHost() || " +
             "getBoardList() || getBoard() || getRepliesByMember() || " +
             "getReservedDate() || getWithRentalHomeForHost() || getWithRentalHomeForGuest()")

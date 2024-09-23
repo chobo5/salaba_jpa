@@ -33,7 +33,17 @@ public class RedisCacheConfig {
                 .build();
     }
 
-    //Data를 가져오고 보낼 때, 우리가 만든 도메인 모델을 Serialize 해 주기 위해 설정이 필요하다.
-    //여기서 생성한 rcm 메서드를 앞으로 사용 할 레디스 어노테이션에 명시 해 주어야 한다.
-    //entryTtl 옵션으로 캐시 유효 시간을 3분으로 제한한다.
+    @Bean
+    public CacheManager rentalHomeReviewCacheManager(RedisConnectionFactory cf) {
+        RedisCacheConfiguration redisCacheConfiguration = RedisCacheConfiguration.defaultCacheConfig()
+                .serializeKeysWith(RedisSerializationContext.SerializationPair.fromSerializer(new StringRedisSerializer()))
+                .serializeValuesWith(RedisSerializationContext.SerializationPair.fromSerializer(new GenericJackson2JsonRedisSerializer()))
+                .entryTtl(Duration.ofDays(1)); // 캐시 수명 24시간
+
+        return RedisCacheManager.RedisCacheManagerBuilder
+                .fromConnectionFactory(cf)
+                .cacheDefaults(redisCacheConfiguration)
+                .build();
+    }
+
 }

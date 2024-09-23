@@ -14,7 +14,9 @@ import salaba.domain.rentalHome.entity.RentalHome;
 import salaba.domain.rentalHome.entity.Review;
 
 import java.util.List;
+import java.util.Optional;
 
+import static salaba.domain.member.entity.QMember.member;
 import static salaba.domain.rentalHome.entity.QRentalHome.rentalHome;
 import static salaba.domain.rentalHome.entity.QReview.review;
 import static salaba.domain.reservation.entity.QReservation.reservation;
@@ -62,6 +64,19 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom{
                 .where(review.reservation.rentalHome.eq(targetRentalHome));
 
         return PageableExecutionUtils.getPage(reviews, pageable, reviewCount::fetchOne);
+    }
+
+    @Override
+    public Optional<Review> findByIdWithReservationAndMemberAndRentalHome(Long reviewId) {
+        Review findReview = queryFactory.select(review)
+                .from(review)
+                .join(review.reservation, reservation).fetchJoin()
+                .join(reservation.member, member).fetchJoin()
+                .join(reservation.rentalHome, rentalHome).fetchJoin()
+                .where(review.id.eq(reviewId))
+                .fetchOne();
+
+        return Optional.of(findReview);
     }
 
     @Override
