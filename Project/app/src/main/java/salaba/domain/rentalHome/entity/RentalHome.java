@@ -101,6 +101,7 @@ public class RentalHome extends BaseEntity {
         rentalHome.status = RentalHomeStatus.RUN;
         rentalHome.rule = rule;
         rentalHome.cleanFee = cleanFee;
+        host.getRentalHomes().add(rentalHome);
         return rentalHome;
     }
 

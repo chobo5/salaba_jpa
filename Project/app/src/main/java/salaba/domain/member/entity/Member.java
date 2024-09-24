@@ -8,6 +8,7 @@ import salaba.domain.board.entity.Board;
 import salaba.domain.member.constants.Gender;
 import salaba.domain.member.constants.MemberStatus;
 import salaba.domain.rentalHome.entity.BookMark;
+import salaba.domain.rentalHome.entity.RentalHome;
 import salaba.domain.reservation.entity.Reservation;
 import salaba.domain.reply.entity.Reply;
 import salaba.domain.member.constants.Grade;
@@ -75,6 +76,9 @@ public class Member extends BaseEntity {
 
     @OneToMany(mappedBy = "writer")
     private List<Reply> replies = new ArrayList<>();
+
+    @OneToMany(mappedBy = "host")
+    private List<RentalHome> rentalHomes = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Reservation> reservations = new ArrayList<>();

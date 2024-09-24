@@ -118,7 +118,6 @@ class RentalHomeRepositoryImplTest {
     }
 
     @Test
-    @Rollback(value = false)
     public void 리뷰합벌크쿼리() {
         JPAQuery<Long> sum = queryFactory.select(review.score.sum().longValue().coalesce(0L))
                 .from(review)
@@ -132,7 +131,6 @@ class RentalHomeRepositoryImplTest {
     }
 
     @Test
-    @Rollback(value = false)
     public void 리뷰개수벌크쿼리() {
         JPAQuery<Long> count = queryFactory.select(review.score.count())
                 .from(review)
