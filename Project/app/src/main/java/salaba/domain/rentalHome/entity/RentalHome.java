@@ -104,7 +104,8 @@ public class RentalHome extends BaseEntity {
         return rentalHome;
     }
 
-    public void modify(Region region, String name, String explanation, Address address, Integer price, Integer capacity, Double lat, Double lon, String rule, Integer cleanFee) {
+    public void modify(Region region, String name, String explanation, Address address, Integer price,
+                       Integer capacity, Double lat, Double lon, String rule, Integer cleanFee) {
         this.region = region != null ? region : this.region;
         this.name = name != null ? name : this.name;
         this.explanation = explanation != null ? explanation : this.explanation;
@@ -115,6 +116,7 @@ public class RentalHome extends BaseEntity {
         this.lon = lon != null ? lon : this.lon;
         this.rule = rule != null ? rule : this.rule;
         this.cleanFee = cleanFee != null ? cleanFee : this.cleanFee;
+
     }
 
     public void setFacilities(List<RentalHomeFacility> facilities) {

@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import salaba.domain.common.entity.Address;
 import salaba.domain.common.entity.Region;
 import salaba.domain.common.repository.RegionRepository;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class RentalHomeService {
     private final MemberRepository memberRepository;
     private final RentalHomeRepository rentalHomeRepository;
@@ -88,26 +90,38 @@ public class RentalHomeService {
         RentalHome rentalHome = rentalHomeRepository.findByIdAndHost(dto.getRentalHomeId(), host)
                 .orElseThrow(NoSuchElementException::new);
 
-        Region region = regionRepository.findById(dto.getRegionId()).orElseThrow(NoSuchElementException::new);
-        Address address = new Address(dto.getStreet(), dto.getZipcode());
+        Region region = dto.getRegionId() != null ?
+                regionRepository.findById(dto.getRegionId()).orElseThrow(NoSuchElementException::new) : null;
+
+        Address address = dto.getStreet() != null && dto.getZipcode() != null ?
+                new Address(dto.getStreet(), dto.getZipcode()) : null;
+
         rentalHome.modify(region, dto.getName(), dto.getExplanation(), address, dto.getPrice(),
                 dto.getCapacity(), dto.getLat(), dto.getLon(), dto.getRule(), dto.getCleanFee());
 
         // 숙소_테마 저장
-        List<Theme> themes = themeRepository.findAllById(dto.getThemes());
-        List<RentalHomeTheme> rentalHomeThemes = themes.stream()
-                .map(theme -> RentalHomeTheme.createRentalHomeTheme(rentalHome, theme))
-                .collect(Collectors.toList());
-        rentalHomeThemeRepository.saveAll(rentalHomeThemes);
-        rentalHome.setThemes(rentalHomeThemes);
+        if (dto.getThemes() != null && !dto.getThemes().isEmpty()) {
+            List<Theme> themes = themeRepository.findAllById(dto.getThemes());
+            rentalHomeThemeRepository.deleteByRentalHome(rentalHome);
+            List<RentalHomeTheme> rentalHomeThemes = themes.stream()
+                    .map(theme -> RentalHomeTheme.createRentalHomeTheme(rentalHome, theme))
+                    .collect(Collectors.toList());
+            rentalHomeThemeRepository.saveAll(rentalHomeThemes);
+            rentalHome.setThemes(rentalHomeThemes);
+        }
+
 
         // 숙소_시설 저장
-        List<Facility> facilities = facilityRepository.findAllById(dto.getFacilities());
-        List<RentalHomeFacility> rentalHomeFacilities = facilities.stream()
-                .map(facility -> RentalHomeFacility.createRentalHomeFacility(rentalHome, facility))
-                .collect(Collectors.toList());
-        rentalHomeFacilityRepository.saveAll(rentalHomeFacilities);
-        rentalHome.setFacilities(rentalHomeFacilities);
+        if (dto.getFacilities() != null && !dto.getFacilities().isEmpty()) {
+            List<Facility> facilities = facilityRepository.findAllById(dto.getFacilities());
+            rentalHomeFacilityRepository.deleteByRentalHome(rentalHome);
+            List<RentalHomeFacility> rentalHomeFacilities = facilities.stream()
+                    .map(facility -> RentalHomeFacility.createRentalHomeFacility(rentalHome, facility))
+                    .collect(Collectors.toList());
+            rentalHomeFacilityRepository.saveAll(rentalHomeFacilities);
+            rentalHome.setFacilities(rentalHomeFacilities);
+        }
+
 
         return new RentalHomeDetailResDto(rentalHome);
     }

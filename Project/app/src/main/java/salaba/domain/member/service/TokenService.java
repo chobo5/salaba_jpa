@@ -3,6 +3,7 @@ package salaba.domain.member.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import salaba.domain.member.dto.response.TokenResDto;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.entity.RefreshToken;
@@ -14,6 +15,7 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class TokenService {
 
     private final JwtTokenizer jwtTokenizer;
