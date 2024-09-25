@@ -10,6 +10,7 @@ import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.member.service.PointService;
 import salaba.domain.rentalHome.dto.request.ReviewModiReqDto;
 import salaba.domain.rentalHome.dto.request.ReviewReqDto;
+import salaba.domain.rentalHome.dto.response.ReviewResDto;
 import salaba.domain.rentalHome.entity.RentalHome;
 import salaba.domain.rentalHome.entity.Review;
 import salaba.domain.rentalHome.repository.RentalHomeRepository;
@@ -63,12 +64,14 @@ public class ReviewService {
 
     }
 
-    public Page<Review> findByRentalHome(RentalHome rentalHome, Pageable pageable) {
+    public Page<ReviewResDto> getRentalHomeReviews(Long rentalHomeId, Pageable pageable) {
+        RentalHome rentalHome = rentalHomeRepository.findById(rentalHomeId).orElseThrow(NoSuchElementException::new);
         Page<Review> reviews = reviewRepository.findByRentalHome(rentalHome, pageable);
-        return reviews;
+        return reviews.map(ReviewResDto::new);
     }
 
-    public Double getReviewAvg(RentalHome rentalHome) {
+    public Double getRentalHomeReviewAvg(Long rentalHomeId) {
+        RentalHome rentalHome = rentalHomeRepository.findById(rentalHomeId).orElseThrow(NoSuchElementException::new);
         return reviewRepository.getReviewAvg(rentalHome);
     }
 }

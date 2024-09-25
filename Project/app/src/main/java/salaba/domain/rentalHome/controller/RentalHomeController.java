@@ -44,14 +44,14 @@ public class RentalHomeController {
                                               @RequestParam(defaultValue = "0") int pageNumber,
                                               @RequestParam(defaultValue = "10") int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<ReviewResDto> rentalHomeReviews = rentalHomeService.getRentalHomeReviews(rentalHomeId, pageable);
+        Page<ReviewResDto> rentalHomeReviews = reviewService.getRentalHomeReviews(rentalHomeId, pageable);
         return RestResult.success(rentalHomeReviews);
     }
 
     @Operation(summary = "숙소 리뷰 평균 점수")
     @GetMapping("reviews/avg")
     public RestResult<?> getRentalHomeReviewAvg(@RequestParam Long rentalHomeId) {
-        Double rentalHomeReviewAvg = rentalHomeService.getRentalHomeReviewAvg(rentalHomeId);
+        Double rentalHomeReviewAvg = reviewService.getRentalHomeReviewAvg(rentalHomeId);
         return RestResult.success(rentalHomeReviewAvg);
     }
 

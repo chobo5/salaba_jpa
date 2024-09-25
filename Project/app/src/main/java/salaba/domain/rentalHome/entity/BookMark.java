@@ -21,7 +21,7 @@ public class BookMark {
     @JoinColumn(name = "rental_home_id", nullable = false)
     private RentalHome rentalHome;
 
-    public static BookMark createBookMark(Member member, RentalHome rentalHome) {
+    public static BookMark create(Member member, RentalHome rentalHome) {
         BookMark bookMark = new BookMark();
         bookMark.member = member;
         bookMark.rentalHome = rentalHome;

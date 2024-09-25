@@ -87,7 +87,7 @@ public class RentalHome extends BaseEntity {
     private Long salesCount;
 
 
-    public static RentalHome createRentalHome(Member host, Region region, String name, String explanation, Address address, int price, int capacity, double lat, double lon, String rule, int cleanFee) {
+    public static RentalHome create(Member host, Region region, String name, String explanation, Address address, int price, int capacity, double lat, double lon, String rule, int cleanFee) {
         RentalHome rentalHome = new RentalHome();
         rentalHome.host = host;
         rentalHome.region = region;

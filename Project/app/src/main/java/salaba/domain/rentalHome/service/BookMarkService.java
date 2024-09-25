@@ -28,7 +28,7 @@ public class BookMarkService {
             throw new AlreadyExistsException("이미 추가된 숙소입니다.");
         }
 
-        BookMark bookMark = BookMark.createBookMark(member, rentalHome);
+        BookMark bookMark = BookMark.create(member, rentalHome);
         bookMarkRepository.save(bookMark);
         return bookMark.getId();
     }

@@ -3,7 +3,6 @@ package salaba.domain.rentalHome.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import salaba.domain.common.entity.Address;
@@ -15,7 +14,6 @@ import salaba.domain.rentalHome.dto.request.RentalHomeCreateReqDto;
 import salaba.domain.rentalHome.dto.request.RentalHomeModiReqDto;
 import salaba.domain.rentalHome.dto.response.RentalHomeDetailResDto;
 import salaba.domain.rentalHome.dto.response.RentalHomeResDto;
-import salaba.domain.rentalHome.dto.response.ReviewResDto;
 import salaba.domain.rentalHome.entity.*;
 import salaba.domain.rentalHome.repository.*;
 import salaba.exception.NoAuthorityException;
@@ -41,24 +39,12 @@ public class RentalHomeService {
         return rentalHomeRepository.findDetailById(rentalHomeId);
     }
 
-    public Page<ReviewResDto> getRentalHomeReviews(Long rentalHomeId, Pageable pageable) {
-        RentalHome rentalHome = rentalHomeRepository.findById(rentalHomeId).orElseThrow(NoSuchElementException::new);
-        Page<Review> reviews = reviewService.findByRentalHome(rentalHome, pageable);
-        return reviews.map(ReviewResDto::new);
-    }
-
-    public Double getRentalHomeReviewAvg(Long rentalHomeId) {
-        RentalHome rentalHome = rentalHomeRepository.findById(rentalHomeId).orElseThrow(NoSuchElementException::new);
-        double reviewAvg = reviewService.getReviewAvg(rentalHome);
-        return reviewAvg;
-    }
-
     public Long createRentalHome(Long memberId, RentalHomeCreateReqDto dto) {
         Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
         Region region = regionRepository.findById(dto.getRegionId()).orElseThrow(NoSuchElementException::new);
 
         // 숙소 생성 후 저장
-        RentalHome rentalHome = RentalHome.createRentalHome(member, region, dto.getName(),
+        RentalHome rentalHome = RentalHome.create(member, region, dto.getName(),
                 dto.getExplanation(), new Address(dto.getStreet(), dto.getZipcode()), dto.getPrice(),
                 dto.getCapacity(), dto.getLat(), dto.getLon(),
                 dto.getRule(), dto.getCleanFee());

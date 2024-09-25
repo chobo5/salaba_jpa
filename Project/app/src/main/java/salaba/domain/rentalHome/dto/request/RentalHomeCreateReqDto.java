@@ -1,6 +1,7 @@
 package salaba.domain.rentalHome.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -10,6 +11,7 @@ import java.util.List;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 @Schema(description = "숙소 등록 요청 DTO")
 public class RentalHomeCreateReqDto {
 

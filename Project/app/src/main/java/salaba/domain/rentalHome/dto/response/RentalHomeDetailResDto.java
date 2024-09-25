@@ -1,5 +1,6 @@
 package salaba.domain.rentalHome.dto.response;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import salaba.domain.common.entity.Address;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 
 @Data
 @NoArgsConstructor
+@AllArgsConstructor
 public class RentalHomeDetailResDto {
     private Long rentalHomeId;
 

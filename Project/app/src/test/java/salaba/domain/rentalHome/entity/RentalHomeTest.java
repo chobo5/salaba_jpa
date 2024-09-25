@@ -1,6 +1,5 @@
 package salaba.domain.rentalHome.entity;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import salaba.domain.common.entity.Address;
 import salaba.domain.common.entity.Nation;
@@ -31,7 +30,7 @@ class RentalHomeTest {
         Address address = new Address("test street", 123412);
 
         //when
-        RentalHome rentalHome = RentalHome.createRentalHome(member, region, "testHome",
+        RentalHome rentalHome = RentalHome.create(member, region, "testHome",
                 "testHome_explanation", address, 100000, 4, 12.123421, 12.21321,
                 "test rule", 10000);
 
@@ -53,7 +52,7 @@ class RentalHomeTest {
         Address address = new Address("test street", 123412);
 
 
-        RentalHome rentalHome = RentalHome.createRentalHome(member, region, "testHome",
+        RentalHome rentalHome = RentalHome.create(member, region, "testHome",
                 "testHome_explanation", address, 100000, 4, 12.123421, 12.21321,
                 "test rule", 10000);
 
@@ -88,7 +87,7 @@ class RentalHomeTest {
         Address address = new Address("test street", 123412);
 
 
-        RentalHome rentalHome = RentalHome.createRentalHome(member, region, "testHome",
+        RentalHome rentalHome = RentalHome.create(member, region, "testHome",
                 "testHome_explanation", address, 100000, 4, 12.123421, 12.21321,
                 "test rule", 10000);
 
@@ -117,7 +116,7 @@ class RentalHomeTest {
         Address address = new Address("test street", 123412);
 
 
-        RentalHome rentalHome = RentalHome.createRentalHome(member, region, "testHome",
+        RentalHome rentalHome = RentalHome.create(member, region, "testHome",
                 "testHome_explanation", address, 100000, 4, 12.123421, 12.21321,
                 "test rule", 10000);
 
@@ -147,7 +146,7 @@ class RentalHomeTest {
         Address address = new Address("test street", 123412);
 
 
-        RentalHome rentalHome = RentalHome.createRentalHome(member, region, "testHome",
+        RentalHome rentalHome = RentalHome.create(member, region, "testHome",
                 "testHome_explanation", address, 100000, 4, 12.123421, 12.21321,
                 "test rule", 10000);
 
@@ -172,7 +171,7 @@ class RentalHomeTest {
         Address address = new Address("test street", 123412);
 
 
-        RentalHome rentalHome = RentalHome.createRentalHome(member, region, "testHome",
+        RentalHome rentalHome = RentalHome.create(member, region, "testHome",
                 "testHome_explanation", address, 100000, 4, 12.123421, 12.21321,
                 "test rule", 10000);
 
@@ -196,7 +195,7 @@ class RentalHomeTest {
         Address address = new Address("test street", 123412);
 
 
-        RentalHome rentalHome = RentalHome.createRentalHome(member, region, "testHome",
+        RentalHome rentalHome = RentalHome.create(member, region, "testHome",
                 "testHome_explanation", address, 100000, 4, 12.123421, 12.21321,
                 "test rule", 10000);
 

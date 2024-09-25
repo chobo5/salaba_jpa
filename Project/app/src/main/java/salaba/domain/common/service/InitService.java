@@ -1,30 +1,17 @@
 package salaba.domain.common.service;
 
-import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import salaba.domain.common.entity.Address;
-import salaba.domain.common.entity.Nation;
 import salaba.domain.common.entity.Region;
-import salaba.domain.common.repository.RegionRepository;
 import salaba.domain.member.entity.Member;
-import salaba.domain.member.entity.Role;
-import salaba.domain.member.constants.RoleName;
-import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.rentalHome.entity.*;
-import salaba.domain.rentalHome.repository.FacilityRepository;
-import salaba.domain.rentalHome.repository.ThemeRepository;
-import salaba.domain.reply.entity.Reply;
 import salaba.domain.reservation.entity.Reservation;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.TypedQuery;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -291,89 +278,89 @@ public class InitService {
             List<Member> members = em.createQuery("select m from Member m", Member.class).getResultList();
 
             Address seoulAd = new Address("seoulStreet" + i, 11111 + i);
-            RentalHome rentalHome = RentalHome.createRentalHome(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "seoulHotel" + i, "it's seoulHotel" + i, seoulAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+            RentalHome rentalHome = RentalHome.create(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "seoulHotel" + i, "it's seoulHotel" + i, seoulAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
             em.persist(rentalHome);
             rentalHomeHelper(rentalHome, themes, facilities, members);
             
 
             Address suwonAd = new Address("suwonStreet" + i, 22222 + i);
-            RentalHome rentalHome1 = RentalHome.createRentalHome(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "suwonHotel" + i, "it's suwonHotel" + i, suwonAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+            RentalHome rentalHome1 = RentalHome.create(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "suwonHotel" + i, "it's suwonHotel" + i, suwonAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
             em.persist(rentalHome1);
 
             Address hwaseongAd = new Address("hwaseongStreet" + i, 33333 + i);
-            RentalHome rentalHome2 = RentalHome.createRentalHome(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "hwaseongHotel" + i, "it's hwaseongHotel" + i, hwaseongAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+            RentalHome rentalHome2 = RentalHome.create(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "hwaseongHotel" + i, "it's hwaseongHotel" + i, hwaseongAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
             em.persist(rentalHome2);
             rentalHomeHelper(rentalHome2, themes, facilities, members);
 
             Address yonginAd = new Address("yonginStreet" + i, 44444 + i);
-            RentalHome rentalHome3 = RentalHome.createRentalHome(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "yonginHotel" + i, "it's yonginHotel" + i, yonginAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+            RentalHome rentalHome3 = RentalHome.create(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "yonginHotel" + i, "it's yonginHotel" + i, yonginAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
             em.persist(rentalHome3);
             rentalHomeHelper(rentalHome3, themes, facilities, members);
 
             Address daeguAd = new Address("daeguStreet" + i, 55555 + i);
-            RentalHome rentalHome4 = RentalHome.createRentalHome(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "deaguHotel" + i, "it's deaguHotel" + i, daeguAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+            RentalHome rentalHome4 = RentalHome.create(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "deaguHotel" + i, "it's deaguHotel" + i, daeguAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
             em.persist(rentalHome4);
             rentalHomeHelper(rentalHome4, themes, facilities, members);
 
             Address busanAd = new Address("busanStreet" + i, 66666 + i);
-            RentalHome rentalHome5 = RentalHome.createRentalHome(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "busanHotel" + i, "it's busanHotel" + i, busanAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+            RentalHome rentalHome5 = RentalHome.create(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "busanHotel" + i, "it's busanHotel" + i, busanAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
             em.persist(rentalHome5);
             rentalHomeHelper(rentalHome5, themes, facilities, members);
 
             Address incheonAd = new Address("incheonStreet" + i, 77777 + i);
-            RentalHome rentalHome6 = RentalHome.createRentalHome(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "incheonHotel" + i, "it's incheonHotel" + i, incheonAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+            RentalHome rentalHome6 = RentalHome.create(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "incheonHotel" + i, "it's incheonHotel" + i, incheonAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
             em.persist(rentalHome6);
             rentalHomeHelper(rentalHome6, themes, facilities, members);
 
             Address gwangjuAd = new Address("gwangjuStreet" + i, 88888 + i);
-            RentalHome rentalHome7 = RentalHome.createRentalHome(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "gwangjuHotel" + i, "it's gwangjuHotel" + i, gwangjuAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+            RentalHome rentalHome7 = RentalHome.create(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "gwangjuHotel" + i, "it's gwangjuHotel" + i, gwangjuAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
             em.persist(rentalHome7);
             rentalHomeHelper(rentalHome7, themes, facilities, members);
 
             Address daegeonAd = new Address("daegeonStreet" + i, 99999 + i);
-            RentalHome rentalHome8 = RentalHome.createRentalHome(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "daegeonHotel" + i, "it's deageonHotel" + i, daegeonAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+            RentalHome rentalHome8 = RentalHome.create(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "daegeonHotel" + i, "it's deageonHotel" + i, daegeonAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
             em.persist(rentalHome8);
             rentalHomeHelper(rentalHome8, themes, facilities, members);
 
             Address ulsanAd = new Address("ulsanStreet" + i, 101010 + i);
-            RentalHome rentalHome9 = RentalHome.createRentalHome(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "ulsanHotel" + i, "it's ulsanHotel" + i, ulsanAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+            RentalHome rentalHome9 = RentalHome.create(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "ulsanHotel" + i, "it's ulsanHotel" + i, ulsanAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
             em.persist(rentalHome9);
             rentalHomeHelper(rentalHome9, themes, facilities, members);
 
             Address sejongAd = new Address("sejongStreet" + i, 11111 + i);
-            RentalHome rentalHome10 = RentalHome.createRentalHome(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "sejongHotel" + i, "it's sejongHotel" + i, sejongAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+            RentalHome rentalHome10 = RentalHome.create(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "sejongHotel" + i, "it's sejongHotel" + i, sejongAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
             em.persist(rentalHome10);
             rentalHomeHelper(rentalHome10, themes, facilities, members);
 
             Address koyangAd = new Address("koyangStreet" + i, 121212 + i);
-            RentalHome rentalHome11 = RentalHome.createRentalHome(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "koyangHotel" + i, "it's koyangHotel" + i, koyangAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+            RentalHome rentalHome11 = RentalHome.create(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "koyangHotel" + i, "it's koyangHotel" + i, koyangAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
             em.persist(rentalHome11);
             rentalHomeHelper(rentalHome11, themes, facilities, members);
 
             Address sungnamAd = new Address("sungnamStreet" + i, 131313 + i);
-            RentalHome rentalHome12 = RentalHome.createRentalHome(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "sungnamHotel" + i, "it's sungnamHotel" + i, sungnamAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+            RentalHome rentalHome12 = RentalHome.create(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "sungnamHotel" + i, "it's sungnamHotel" + i, sungnamAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
             em.persist(rentalHome12);
             rentalHomeHelper(rentalHome12, themes, facilities, members);
 
             Address jeonjuAd = new Address("jeonjuStreet" + i, 141414 + i);
-            RentalHome rentalHome13 = RentalHome.createRentalHome(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "jeonjuHotel" + i, "it's jeonjuHotel" + i, jeonjuAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+            RentalHome rentalHome13 = RentalHome.create(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "jeonjuHotel" + i, "it's jeonjuHotel" + i, jeonjuAd, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
             em.persist(rentalHome13);
             rentalHomeHelper(rentalHome13, themes, facilities, members);
 
 
             Address jeju1 = new Address("jejuStreet" + i, 151515 + i);
-            RentalHome rentalHome14 = RentalHome.createRentalHome(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "jejuHotel" + i, "it's jejuHotel" + i, jeju1, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+            RentalHome rentalHome14 = RentalHome.create(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "jejuHotel" + i, "it's jejuHotel" + i, jeju1, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
             em.persist(rentalHome14);
             rentalHomeHelper(rentalHome14, themes, facilities, members);
 
 
             Address jeju2 = new Address("jejuStreet" + i, 161616 + i);
-            RentalHome rentalHome15 = RentalHome.createRentalHome(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "jejuHotel" + i, "it's jejuHotel" + i, jeju2, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+            RentalHome rentalHome15 = RentalHome.create(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "jejuHotel" + i, "it's jejuHotel" + i, jeju2, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
             em.persist(rentalHome15);
             rentalHomeHelper(rentalHome15, themes, facilities, members);
 
             Address jeju3 = new Address("jejuStreet" + i, 171717 + i);
-            RentalHome rentalHome16 = RentalHome.createRentalHome(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "jejuHotel" + i, "it's jejuHotel" + i, jeju3, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
+            RentalHome rentalHome16 = RentalHome.create(members.get(random.nextInt(members.size())), regions.get(i % regions.size()), "jejuHotel" + i, "it's jejuHotel" + i, jeju3, 50000 + 10 * i, 4, 123.123123, 111.111111, "seoulHotel" + i + "rule", 10000);
             em.persist(rentalHome16);
             rentalHomeHelper(rentalHome16, themes, facilities, members);
 
