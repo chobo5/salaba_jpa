@@ -59,7 +59,7 @@ public class Reservation extends BaseEntity {
     private Review review;
 
 
-    public static Reservation createReservation(LocalDateTime startDate, LocalDateTime endDate, RentalHome rentalHome, Member member) {
+    public static Reservation create(LocalDateTime startDate, LocalDateTime endDate, RentalHome rentalHome, Member member) {
         Reservation reservation = new Reservation();
         reservation.startDate = startDate;
         reservation.endDate = endDate;

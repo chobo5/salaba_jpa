@@ -21,7 +21,7 @@ public class RentalHomeTheme extends BaseEntity {
     @JoinColumn(name = "theme_id", nullable = false)
     private Theme theme;
 
-    public static RentalHomeTheme createRentalHomeTheme(RentalHome rentalHome, Theme theme) {
+    public static RentalHomeTheme create(RentalHome rentalHome, Theme theme) {
         RentalHomeTheme rentalHomeTheme = new RentalHomeTheme();
         rentalHomeTheme.rentalHome = rentalHome;
         rentalHomeTheme.theme = theme;

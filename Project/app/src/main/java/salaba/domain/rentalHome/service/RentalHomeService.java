@@ -46,15 +46,14 @@ public class RentalHomeService {
         // 숙소 생성 후 저장
         RentalHome rentalHome = RentalHome.create(member, region, dto.getName(),
                 dto.getExplanation(), new Address(dto.getStreet(), dto.getZipcode()), dto.getPrice(),
-                dto.getCapacity(), dto.getLat(), dto.getLon(),
-                dto.getRule(), dto.getCleanFee());
+                dto.getCapacity(), dto.getLat(), dto.getLon(), dto.getRule(), dto.getCleanFee());
 
         rentalHomeRepository.save(rentalHome);
 
         // 숙소_테마 저장
         List<Theme> themes = themeRepository.findAllById(dto.getThemes());
         List<RentalHomeTheme> rentalHomeThemes = themes.stream()
-                .map(theme -> RentalHomeTheme.createRentalHomeTheme(rentalHome, theme))
+                .map(theme -> RentalHomeTheme.create(rentalHome, theme))
                 .collect(Collectors.toList());
         rentalHomeThemeRepository.saveAll(rentalHomeThemes);
         rentalHome.setThemes(rentalHomeThemes);
@@ -62,7 +61,7 @@ public class RentalHomeService {
         // 숙소_시설 저장
         List<Facility> facilities = facilityRepository.findAllById(dto.getFacilities());
         List<RentalHomeFacility> rentalHomeFacilities = facilities.stream()
-                .map(facility -> RentalHomeFacility.createRentalHomeFacility(rentalHome, facility))
+                .map(facility -> RentalHomeFacility.create(rentalHome, facility))
                 .collect(Collectors.toList());
         rentalHomeFacilityRepository.saveAll(rentalHomeFacilities);
         rentalHome.setFacilities(rentalHomeFacilities);
@@ -90,7 +89,7 @@ public class RentalHomeService {
             List<Theme> themes = themeRepository.findAllById(dto.getThemes());
             rentalHomeThemeRepository.deleteByRentalHome(rentalHome);
             List<RentalHomeTheme> rentalHomeThemes = themes.stream()
-                    .map(theme -> RentalHomeTheme.createRentalHomeTheme(rentalHome, theme))
+                    .map(theme -> RentalHomeTheme.create(rentalHome, theme))
                     .collect(Collectors.toList());
             rentalHomeThemeRepository.saveAll(rentalHomeThemes);
             rentalHome.setThemes(rentalHomeThemes);
@@ -102,7 +101,7 @@ public class RentalHomeService {
             List<Facility> facilities = facilityRepository.findAllById(dto.getFacilities());
             rentalHomeFacilityRepository.deleteByRentalHome(rentalHome);
             List<RentalHomeFacility> rentalHomeFacilities = facilities.stream()
-                    .map(facility -> RentalHomeFacility.createRentalHomeFacility(rentalHome, facility))
+                    .map(facility -> RentalHomeFacility.create(rentalHome, facility))
                     .collect(Collectors.toList());
             rentalHomeFacilityRepository.saveAll(rentalHomeFacilities);
             rentalHome.setFacilities(rentalHomeFacilities);

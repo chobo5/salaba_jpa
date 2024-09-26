@@ -32,8 +32,14 @@ public class ReviewService {
     private final MemberRepository memberRepository;
     private final RentalHomeRepository rentalHomeRepository;
 
-    public Long createReview(ReviewReqDto reviewReqDto) {
+    public Long createReview(ReviewReqDto reviewReqDto, Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
         Reservation reservation = reservationRepository.findByIdWithMemberAndRentalHome(reviewReqDto.getReservationId()).orElseThrow(NoSuchElementException::new);
+
+        if (!reservation.getMember().equals(member)) {
+            throw new NoAuthorityException("리뷰 작성 권한이 없습니다.");
+        }
+
         Review review = Review.createReview(reservation, reviewReqDto.getScore(), reviewReqDto.getContent());
         reviewRepository.save(review);
 

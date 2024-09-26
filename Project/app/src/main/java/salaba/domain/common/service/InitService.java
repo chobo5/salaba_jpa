@@ -373,17 +373,17 @@ public class InitService {
     private void rentalHomeHelper(RentalHome rentalHome, List<Theme> themes, List<Facility> facilities, List<Member> members) {
         Random random = new Random();
         for (int j = 0; j < random.nextInt(themes.size()); j++) {
-            RentalHomeTheme rht = RentalHomeTheme.createRentalHomeTheme(rentalHome, themes.get(j));
+            RentalHomeTheme rht = RentalHomeTheme.create(rentalHome, themes.get(j));
             em.persist(rht);
         }
 
         for (int j = 0; j < random.nextInt(facilities.size()); j++) {
-            RentalHomeFacility rhf = RentalHomeFacility.createRentalHomeFacility(rentalHome, facilities.get(j));
+            RentalHomeFacility rhf = RentalHomeFacility.create(rentalHome, facilities.get(j));
             em.persist(rhf);
         }
 
         for (int j = 0; j < random.nextInt(members.size()); j++) {
-            Reservation reservation = Reservation.createReservation(LocalDateTime.of(2021, 9, 10, 15, 00), LocalDateTime.of(2021, 9, 12, 11, 00), rentalHome, members.get(random.nextInt(members.size())));
+            Reservation reservation = Reservation.create(LocalDateTime.of(2021, 9, 10, 15, 00), LocalDateTime.of(2021, 9, 12, 11, 00), rentalHome, members.get(random.nextInt(members.size())));
             em.persist(reservation);
             Review review = Review.createReview(reservation, random.nextInt(5) + 1, "review " + j);
             em.persist(review);

@@ -92,10 +92,10 @@ class RentalHomeTest {
                 "test rule", 10000);
 
         List<RentalHomeFacility> facilities = new ArrayList<>();
-        facilities.add(RentalHomeFacility.createRentalHomeFacility(rentalHome,new Facility("facility1")));
-        facilities.add(RentalHomeFacility.createRentalHomeFacility(rentalHome,new Facility("facility2")));
-        facilities.add(RentalHomeFacility.createRentalHomeFacility(rentalHome,new Facility("facility3")));
-        facilities.add(RentalHomeFacility.createRentalHomeFacility(rentalHome,new Facility("facility4")));
+        facilities.add(RentalHomeFacility.create(rentalHome,new Facility("facility1")));
+        facilities.add(RentalHomeFacility.create(rentalHome,new Facility("facility2")));
+        facilities.add(RentalHomeFacility.create(rentalHome,new Facility("facility3")));
+        facilities.add(RentalHomeFacility.create(rentalHome,new Facility("facility4")));
 
         //when
         rentalHome.setFacilities(facilities);
@@ -121,12 +121,12 @@ class RentalHomeTest {
                 "test rule", 10000);
 
         List<RentalHomeTheme> themes = new ArrayList<>();
-        themes.add(RentalHomeTheme.createRentalHomeTheme(rentalHome,new Theme("theme1")));
-        themes.add(RentalHomeTheme.createRentalHomeTheme(rentalHome,new Theme("theme2")));
-        themes.add(RentalHomeTheme.createRentalHomeTheme(rentalHome,new Theme("theme3")));
-        themes.add(RentalHomeTheme.createRentalHomeTheme(rentalHome,new Theme("theme4")));
-        themes.add(RentalHomeTheme.createRentalHomeTheme(rentalHome,new Theme("theme5")));
-        themes.add(RentalHomeTheme.createRentalHomeTheme(rentalHome,new Theme("theme6")));
+        themes.add(RentalHomeTheme.create(rentalHome,new Theme("theme1")));
+        themes.add(RentalHomeTheme.create(rentalHome,new Theme("theme2")));
+        themes.add(RentalHomeTheme.create(rentalHome,new Theme("theme3")));
+        themes.add(RentalHomeTheme.create(rentalHome,new Theme("theme4")));
+        themes.add(RentalHomeTheme.create(rentalHome,new Theme("theme5")));
+        themes.add(RentalHomeTheme.create(rentalHome,new Theme("theme6")));
 
         //when
         rentalHome.setThemes(themes);
@@ -152,7 +152,7 @@ class RentalHomeTest {
 
         LocalDateTime startDate = LocalDateTime.of(2024, 9, 21, 15, 0);
         LocalDateTime endDate = LocalDateTime.of(2024, 9, 23, 11, 0);
-        Reservation reservation = Reservation.createReservation(startDate, endDate, rentalHome, member);
+        Reservation reservation = Reservation.create(startDate, endDate, rentalHome, member);
 
         //when
         rentalHome.closeRentalHome();
@@ -177,7 +177,7 @@ class RentalHomeTest {
 
         LocalDateTime startDate = LocalDateTime.of(2024, 9, 21, 15, 0);
         LocalDateTime endDate = LocalDateTime.of(2024, 9, 25, 11, 0);
-        Reservation reservation = Reservation.createReservation(startDate, endDate, rentalHome, member);
+        Reservation reservation = Reservation.create(startDate, endDate, rentalHome, member);
 
         //when
         assertThrows(CannotChangeStatusException.class, () -> rentalHome.closeRentalHome());

@@ -21,7 +21,7 @@ public class RentalHomeFacility extends BaseEntity {
     @JoinColumn(name = "facility_id", nullable = false)
     private Facility facility;
 
-    public static RentalHomeFacility createRentalHomeFacility(RentalHome rentalHome, Facility facility) {
+    public static RentalHomeFacility create(RentalHome rentalHome, Facility facility) {
         RentalHomeFacility rentalHomeFacility = new RentalHomeFacility();
         rentalHomeFacility.rentalHome = rentalHome;
         rentalHomeFacility.facility = facility;

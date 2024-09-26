@@ -94,17 +94,17 @@ class ReviewRepositoryTest {
         LocalDateTime endDate4 = LocalDateTime.of(2024, 9, 25 ,11, 0);
         LocalDateTime endDate5 = LocalDateTime.of(2024, 9, 28 ,11, 0);
 
-        Reservation reservation1 = Reservation.createReservation(startDate1, endDate1, rentalHome, member2);
-        Reservation reservation2 = Reservation.createReservation(startDate2, endDate2, rentalHome, member3);
-        Reservation reservation3 = Reservation.createReservation(startDate3, endDate3, rentalHome, member4);
-        Reservation reservation4 = Reservation.createReservation(startDate4, endDate4, rentalHome, member5);
-        Reservation reservation5 = Reservation.createReservation(startDate5, endDate5, rentalHome, member6);
+        Reservation reservation1 = Reservation.create(startDate1, endDate1, rentalHome, member2);
+        Reservation reservation2 = Reservation.create(startDate2, endDate2, rentalHome, member3);
+        Reservation reservation3 = Reservation.create(startDate3, endDate3, rentalHome, member4);
+        Reservation reservation4 = Reservation.create(startDate4, endDate4, rentalHome, member5);
+        Reservation reservation5 = Reservation.create(startDate5, endDate5, rentalHome, member6);
 
-        Reservation reservation6 = Reservation.createReservation(startDate5, endDate5, rentalHome2, member2);
-        Reservation reservation7 = Reservation.createReservation(startDate4, endDate4, rentalHome2, member3);
-        Reservation reservation8 = Reservation.createReservation(startDate3, endDate3, rentalHome2, member4);
-        Reservation reservation9 = Reservation.createReservation(startDate2, endDate2, rentalHome2, member5);
-        Reservation reservation10 = Reservation.createReservation(startDate1, endDate1, rentalHome2, member6);
+        Reservation reservation6 = Reservation.create(startDate5, endDate5, rentalHome2, member2);
+        Reservation reservation7 = Reservation.create(startDate4, endDate4, rentalHome2, member3);
+        Reservation reservation8 = Reservation.create(startDate3, endDate3, rentalHome2, member4);
+        Reservation reservation9 = Reservation.create(startDate2, endDate2, rentalHome2, member5);
+        Reservation reservation10 = Reservation.create(startDate1, endDate1, rentalHome2, member6);
         em.persist(reservation1);
         em.persist(reservation2);
         em.persist(reservation3);

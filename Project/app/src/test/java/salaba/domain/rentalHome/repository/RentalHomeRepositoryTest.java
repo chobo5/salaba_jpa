@@ -93,15 +93,15 @@ class RentalHomeRepositoryTest {
         em.persist(facility3);
         em.persist(facility4);
 
-        RentalHomeTheme rentalHomeTheme1 = RentalHomeTheme.createRentalHomeTheme(rentalHome, theme1);
-        RentalHomeTheme rentalHomeTheme2 = RentalHomeTheme.createRentalHomeTheme(rentalHome, theme2);
-        RentalHomeTheme rentalHomeTheme3 = RentalHomeTheme.createRentalHomeTheme(rentalHome, theme3);
-        RentalHomeTheme rentalHomeTheme4 = RentalHomeTheme.createRentalHomeTheme(rentalHome, theme4);
-        RentalHomeTheme rentalHomeTheme5 = RentalHomeTheme.createRentalHomeTheme(rentalHome2, theme2);
-        RentalHomeTheme rentalHomeTheme6 = RentalHomeTheme.createRentalHomeTheme(rentalHome2, theme3);
-        RentalHomeTheme rentalHomeTheme7 = RentalHomeTheme.createRentalHomeTheme(rentalHome2, theme4);
-        RentalHomeTheme rentalHomeTheme8 = RentalHomeTheme.createRentalHomeTheme(rentalHome3, theme1);
-        RentalHomeTheme rentalHomeTheme9 = RentalHomeTheme.createRentalHomeTheme(rentalHome3, theme2);
+        RentalHomeTheme rentalHomeTheme1 = RentalHomeTheme.create(rentalHome, theme1);
+        RentalHomeTheme rentalHomeTheme2 = RentalHomeTheme.create(rentalHome, theme2);
+        RentalHomeTheme rentalHomeTheme3 = RentalHomeTheme.create(rentalHome, theme3);
+        RentalHomeTheme rentalHomeTheme4 = RentalHomeTheme.create(rentalHome, theme4);
+        RentalHomeTheme rentalHomeTheme5 = RentalHomeTheme.create(rentalHome2, theme2);
+        RentalHomeTheme rentalHomeTheme6 = RentalHomeTheme.create(rentalHome2, theme3);
+        RentalHomeTheme rentalHomeTheme7 = RentalHomeTheme.create(rentalHome2, theme4);
+        RentalHomeTheme rentalHomeTheme8 = RentalHomeTheme.create(rentalHome3, theme1);
+        RentalHomeTheme rentalHomeTheme9 = RentalHomeTheme.create(rentalHome3, theme2);
         em.persist(rentalHomeTheme1);
         em.persist(rentalHomeTheme2);
         em.persist(rentalHomeTheme3);
@@ -112,15 +112,15 @@ class RentalHomeRepositoryTest {
         em.persist(rentalHomeTheme8);
         em.persist(rentalHomeTheme9);
 
-        RentalHomeFacility rentalHomeFacility1 = RentalHomeFacility.createRentalHomeFacility(rentalHome, facility1);
-        RentalHomeFacility rentalHomeFacility2 = RentalHomeFacility.createRentalHomeFacility(rentalHome, facility2);
-        RentalHomeFacility rentalHomeFacility3 = RentalHomeFacility.createRentalHomeFacility(rentalHome, facility3);
-        RentalHomeFacility rentalHomeFacility4 = RentalHomeFacility.createRentalHomeFacility(rentalHome, facility4);
-        RentalHomeFacility rentalHomeFacility5 = RentalHomeFacility.createRentalHomeFacility(rentalHome2, facility2);
-        RentalHomeFacility rentalHomeFacility6 = RentalHomeFacility.createRentalHomeFacility(rentalHome2, facility3);
-        RentalHomeFacility rentalHomeFacility7 = RentalHomeFacility.createRentalHomeFacility(rentalHome2, facility4);
-        RentalHomeFacility rentalHomeFacility8 = RentalHomeFacility.createRentalHomeFacility(rentalHome3, facility2);
-        RentalHomeFacility rentalHomeFacility9 = RentalHomeFacility.createRentalHomeFacility(rentalHome3, facility3);
+        RentalHomeFacility rentalHomeFacility1 = RentalHomeFacility.create(rentalHome, facility1);
+        RentalHomeFacility rentalHomeFacility2 = RentalHomeFacility.create(rentalHome, facility2);
+        RentalHomeFacility rentalHomeFacility3 = RentalHomeFacility.create(rentalHome, facility3);
+        RentalHomeFacility rentalHomeFacility4 = RentalHomeFacility.create(rentalHome, facility4);
+        RentalHomeFacility rentalHomeFacility5 = RentalHomeFacility.create(rentalHome2, facility2);
+        RentalHomeFacility rentalHomeFacility6 = RentalHomeFacility.create(rentalHome2, facility3);
+        RentalHomeFacility rentalHomeFacility7 = RentalHomeFacility.create(rentalHome2, facility4);
+        RentalHomeFacility rentalHomeFacility8 = RentalHomeFacility.create(rentalHome3, facility2);
+        RentalHomeFacility rentalHomeFacility9 = RentalHomeFacility.create(rentalHome3, facility3);
 
         em.persist(rentalHomeFacility1);
         em.persist(rentalHomeFacility2);
@@ -163,17 +163,17 @@ class RentalHomeRepositoryTest {
         LocalDateTime endDate4 = LocalDateTime.of(2024, 9, 25 ,11, 0);
         LocalDateTime endDate5 = LocalDateTime.of(2024, 9, 28 ,11, 0);
 
-        Reservation reservation1 = Reservation.createReservation(startDate1, endDate1, rentalHome, member2);
-        Reservation reservation2 = Reservation.createReservation(startDate2, endDate2, rentalHome, member3);
-        Reservation reservation3 = Reservation.createReservation(startDate3, endDate3, rentalHome, member4);
-        Reservation reservation4 = Reservation.createReservation(startDate4, endDate4, rentalHome, member5);
-        Reservation reservation5 = Reservation.createReservation(startDate5, endDate5, rentalHome, member6);
+        Reservation reservation1 = Reservation.create(startDate1, endDate1, rentalHome, member2);
+        Reservation reservation2 = Reservation.create(startDate2, endDate2, rentalHome, member3);
+        Reservation reservation3 = Reservation.create(startDate3, endDate3, rentalHome, member4);
+        Reservation reservation4 = Reservation.create(startDate4, endDate4, rentalHome, member5);
+        Reservation reservation5 = Reservation.create(startDate5, endDate5, rentalHome, member6);
 
-        Reservation reservation6 = Reservation.createReservation(startDate5, endDate5, rentalHome2, member2);
-        Reservation reservation7 = Reservation.createReservation(startDate4, endDate4, rentalHome2, member3);
-        Reservation reservation8 = Reservation.createReservation(startDate3, endDate3, rentalHome2, member4);
-        Reservation reservation9 = Reservation.createReservation(startDate2, endDate2, rentalHome2, member5);
-        Reservation reservation10 = Reservation.createReservation(startDate1, endDate1, rentalHome2, member6);
+        Reservation reservation6 = Reservation.create(startDate5, endDate5, rentalHome2, member2);
+        Reservation reservation7 = Reservation.create(startDate4, endDate4, rentalHome2, member3);
+        Reservation reservation8 = Reservation.create(startDate3, endDate3, rentalHome2, member4);
+        Reservation reservation9 = Reservation.create(startDate2, endDate2, rentalHome2, member5);
+        Reservation reservation10 = Reservation.create(startDate1, endDate1, rentalHome2, member6);
         em.persist(reservation1);
         em.persist(reservation2);
         em.persist(reservation3);

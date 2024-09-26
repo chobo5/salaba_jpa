@@ -41,7 +41,7 @@ public class ReservationService {
         RentalHome rentalHome = rentalHomeRepository.findById(reqDto.getRentalHomeId()).orElseThrow(NoSuchElementException::new);
 
         // 예약 생성
-        Reservation reservation = Reservation.createReservation(reqDto.getStartDate(), reqDto.getEndDate(), rentalHome, member);
+        Reservation reservation = Reservation.create(reqDto.getStartDate(), reqDto.getEndDate(), rentalHome, member);
         // 예약 저장
         reservationRepository.save(reservation);
 

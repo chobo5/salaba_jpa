@@ -93,7 +93,7 @@ public class RentalHomeController {
     @Operation(summary = "숙소 리뷰 작성")
     @PostMapping("reservation/review")
     public RestResult<?> createReview(@RequestBody ReviewReqDto reviewReqDto) {
-        Long reviewId = reviewService.createReview(reviewReqDto);
+        Long reviewId = reviewService.createReview(reviewReqDto, MemberContextHolder.getMemberId());
         return RestResult.success(reviewId);
     }
 
