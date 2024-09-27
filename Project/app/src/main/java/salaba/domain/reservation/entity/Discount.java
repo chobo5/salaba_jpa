@@ -22,11 +22,12 @@ public class Discount {
     @Column(nullable = false)
     private String content;
 
-    public static Discount createDiscount(Reservation reservation, int amount, String content) {
+    public static Discount create(Reservation reservation, int amount, String content) {
         Discount discount = new Discount();
         discount.reservation = reservation;
         discount.amount = amount;
         discount.content = content;
+        reservation.getDiscounts().add(discount);
         return discount;
     }
 }

@@ -60,13 +60,10 @@ public class Reply extends BaseEntity {
         return reply;
     }
 
-    public void deleteReply() {
-        board.getReplies().remove(this);
-        writingStatus = WritingStatus.DELETED;
-    }
-
-    public void deleteReplyToReply() {
-        parent.getRepliesToReply().remove(this);
+    public void delete() {
+        if (parent != null) {
+            parent.getRepliesToReply().remove(this);
+        }
         writingStatus = WritingStatus.DELETED;
     }
 

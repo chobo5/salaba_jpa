@@ -12,5 +12,4 @@ import java.util.List;
 @Repository
 public interface ReservationRepository extends JpaRepository<Reservation, Long>, ReservationRepositoryCustom {
     List<Reservation> findByRentalHomeAndStatus(RentalHome rentalHome, ProcessStatus status);
-    List<Reservation> findByRentalHome(RentalHome rentalHome, Pageable pageable);
 }

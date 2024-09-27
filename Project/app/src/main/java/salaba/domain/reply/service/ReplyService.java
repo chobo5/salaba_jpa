@@ -18,6 +18,8 @@ import salaba.domain.board.repository.BoardRepository;
 import salaba.domain.reply.repository.ReplyRepository;
 import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.reply.dto.response.ReplyModiResDto;
+import salaba.exception.CannotFindMemberException;
+import salaba.exception.NoAuthorityException;
 
 import javax.persistence.EntityManager;
 import java.util.NoSuchElementException;
@@ -45,16 +47,28 @@ public class ReplyService {
         return reply.getId();
     }
 
-    public ReplyModiResDto modify(ReplyModifyReqDto replyModifyReqDto) {
-        Reply reply = replyRepository.findById(replyModifyReqDto.getReplyId()).orElseThrow(NoSuchElementException::new);
+    public ReplyModiResDto modify(ReplyModifyReqDto replyModifyReqDto, Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(CannotFindMemberException::new);
+        Reply reply = replyRepository.findByIdWithWriter(replyModifyReqDto.getReplyId()).orElseThrow(NoSuchElementException::new);
+
+        if(!reply.getWriter().equals(member)) {
+            throw new NoAuthorityException("댓글 수정 권한이 없습니다.");
+        }
+
         reply.modify(replyModifyReqDto.getContent());
         em.flush();
         return new ReplyModiResDto(reply.getId(), reply.getContent(), reply.getCreatedDate(), reply.getUpdatedDate());
     }
 
-    public Long delete(Long id) {
-        Reply reply = replyRepository.findById(id).orElseThrow(NoSuchElementException::new);
-        reply.deleteReply();
+    public Long delete(Long replyId, Long memberId) {
+        Member member = memberRepository.findById(memberId).orElseThrow(CannotFindMemberException::new);
+        Reply reply = replyRepository.findByIdWithWriter(replyId).orElseThrow(NoSuchElementException::new);
+
+        if(!reply.getWriter().equals(member)) {
+            throw new NoAuthorityException("댓글 삭제 권한이 없습니다.");
+        }
+
+        reply.delete();
         return reply.getId();
     }
 
@@ -70,11 +84,6 @@ public class ReplyService {
         return reply.getId();
     }
 
-    public Long deleteReplyToReply(Long id) {
-        Reply reply = replyRepository.findById(id).orElseThrow(NoSuchElementException::new);
-        reply.deleteReplyToReply();
-        return reply.getId();
-    }
 
     public Page<ReplyByMemberResDto> getRepliesByMember(Long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);

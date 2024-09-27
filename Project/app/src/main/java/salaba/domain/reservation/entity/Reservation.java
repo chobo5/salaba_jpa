@@ -70,12 +70,12 @@ public class Reservation extends BaseEntity {
         //예약 일수(체크인, 체크아웃 날짜 차이)
         int daysBetween = Period.between(endDate.toLocalDate(), startDate.toLocalDate()).getDays();
         //이용 가격 계산
-        reservation.originalPrice = rentalHome.getPrice() * Math.abs(daysBetween);
+        reservation.originalPrice = rentalHome.getPrice() * Math.abs(daysBetween) + rentalHome.getCleanFee();
         rentalHome.getReservations().add(reservation);
         return reservation;
     }
 
-    public void cancelReservation() throws CannotChangeStatusException{
+    public void cancel() throws CannotChangeStatusException{
         if (status != ProcessStatus.AWAIT) {
             throw new CannotChangeStatusException();
         }
@@ -83,8 +83,7 @@ public class Reservation extends BaseEntity {
     }
 
 
-    public void completePayment(String paymentCode, List<Discount> discounts, PayMethod method) {
-        this.discounts.addAll(discounts);
+    public void complete(String paymentCode, PayMethod method) {
         finalPrice = originalPrice;
         discounts.forEach(discount -> finalPrice -= discount.getAmount());
         status = ProcessStatus.COMPLETE;

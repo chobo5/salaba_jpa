@@ -31,17 +31,17 @@ public class ReplyController {
         return RestResult.success(new IdResDto(replyId));
     }
 
-    @Operation(summary = "댓글 또는 대댓글 수정")
+    @Operation(summary = "댓글 수정")
     @PutMapping("modify")
     public RestResult<?> modifyReply(@RequestBody ReplyModifyReqDto replyModifyReqDto) {
-        ReplyModiResDto replyModi = replyService.modify(replyModifyReqDto);
+        ReplyModiResDto replyModi = replyService.modify(replyModifyReqDto, MemberContextHolder.getMemberId());
         return RestResult.success(replyModi);
     }
 
     @Operation(summary = "댓글 삭제")
     @DeleteMapping("delete")
     public RestResult<?> deleteReply(@RequestParam Long replyId) {
-        Long deletedId = replyService.delete(replyId);
+        Long deletedId = replyService.delete(replyId, MemberContextHolder.getMemberId());
         return RestResult.success(new IdResDto(deletedId));
     }
 
@@ -52,12 +52,6 @@ public class ReplyController {
         return RestResult.success(new IdResDto(replyToReplyId));
     }
 
-    @Operation(summary = "대댓글 삭제")
-    @DeleteMapping("toReply/delete/")
-    public RestResult<?> deleteReReply(@RequestParam Long replyId) {
-        Long deletedId = replyService.deleteReplyToReply(replyId);
-        return RestResult.success(new IdResDto(deletedId));
-    }
 
     @Operation(summary = "회원이 작성한 댓글 목록")
     @GetMapping("wrote/list")

@@ -81,7 +81,7 @@ public class ReservationService {
         //할인이 있다면 할인을 만든다.
         if (paymentReqDto.getDiscounts() != null && !paymentReqDto.getDiscounts().isEmpty()) {
              discounts = paymentReqDto.getDiscounts().stream().map(reqDto ->
-                    Discount.createDiscount(reservation, reqDto.getAmount(), reqDto.getContent())).toList();
+                    Discount.create(reservation, reqDto.getAmount(), reqDto.getContent())).toList();
             // 포인트를 사용했다면 포인트를 차감시킨다.
             discounts.forEach(discount -> {
                 if (discount.getContent().contains("포인트")) {
@@ -93,7 +93,7 @@ public class ReservationService {
         }
 
         // 결제를 완료시킨다.
-        reservation.completePayment(paymentReqDto.getPaymentCode(), discounts ,paymentReqDto.getMethod());
+        reservation.complete(paymentReqDto.getPaymentCode() ,paymentReqDto.getMethod());
 
         // 포인트를 적립시킨다.
         pointService.createPaymentPoint(reservation.getMember(), reservation.getFinalPrice());
@@ -107,7 +107,7 @@ public class ReservationService {
             throw new NoAuthorityException("예약자와 회원이 일치하지 않습니다.");
         }
         discountRepository.deleteByReservation(reservation);
-        reservation.cancelReservation();
+        reservation.cancel();
 
     }
 }
