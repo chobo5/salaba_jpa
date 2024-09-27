@@ -1,7 +1,9 @@
 package salaba.domain.reservation.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import salaba.domain.common.constants.ProcessStatus;
 import salaba.domain.reservation.constants.PayMethod;
 
@@ -11,6 +13,8 @@ import java.util.List;
 
 @Data
 @Schema(description = "결제 요청 DTO")
+@NoArgsConstructor
+@AllArgsConstructor
 public class PaymentReqDto {
     @Schema(description = "예약 번호")
     @NotNull
