@@ -1,4 +1,4 @@
-package salaba.domain.reply.dto.response;
+package salaba.domain.board.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;

@@ -1,4 +1,4 @@
-package salaba.domain.reply.service;
+package salaba.domain.board.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -7,17 +7,17 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import salaba.domain.member.service.AlarmService;
 import salaba.domain.member.service.PointService;
-import salaba.domain.reply.dto.response.ReplyByMemberResDto;
-import salaba.domain.reply.dto.request.ReplyCreateReqDto;
-import salaba.domain.reply.dto.request.ReplyModifyReqDto;
-import salaba.domain.reply.dto.request.ReplyToReplyCreateReqDto;
+import salaba.domain.board.dto.response.ReplyByMemberResDto;
+import salaba.domain.board.dto.request.ReplyCreateReqDto;
+import salaba.domain.board.dto.request.ReplyModifyReqDto;
+import salaba.domain.board.dto.request.ReplyToReplyCreateReqDto;
 import salaba.domain.board.entity.Board;
-import salaba.domain.reply.entity.Reply;
+import salaba.domain.board.entity.Reply;
 import salaba.domain.member.entity.Member;
 import salaba.domain.board.repository.BoardRepository;
-import salaba.domain.reply.repository.ReplyRepository;
+import salaba.domain.board.repository.ReplyRepository;
 import salaba.domain.member.repository.MemberRepository;
-import salaba.domain.reply.dto.response.ReplyModiResDto;
+import salaba.domain.board.dto.response.ReplyModiResDto;
 import salaba.exception.CannotFindMemberException;
 import salaba.exception.NoAuthorityException;
 

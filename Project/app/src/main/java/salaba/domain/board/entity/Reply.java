@@ -1,7 +1,6 @@
-package salaba.domain.reply.entity;
+package salaba.domain.board.entity;
 
 import lombok.*;
-import salaba.domain.board.entity.Board;
 import salaba.domain.common.constants.WritingStatus;
 import salaba.domain.common.entity.BaseEntity;
 import salaba.domain.member.entity.Member;

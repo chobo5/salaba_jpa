@@ -1,28 +1,20 @@
 package salaba.domain.board.service;
 
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.transaction.annotation.Transactional;
 import salaba.domain.board.dto.request.BoardCreateReqDto;
 import salaba.domain.board.dto.request.BoardModifyReqDto;
-import salaba.domain.board.entity.BoardLike;
 import salaba.domain.board.repository.BoardLikeRepository;
 import salaba.domain.board.repository.BoardRepository;
-import salaba.domain.member.dto.request.MemberJoinReqDto;
 import salaba.domain.board.entity.Board;
 import salaba.domain.board.constants.BoardScope;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.repository.MemberRepository;
-import salaba.domain.member.service.AuthService;
 import salaba.domain.member.service.PointService;
-import salaba.domain.reply.entity.Reply;
 import salaba.exception.NoAuthorityException;
 
 import javax.persistence.EntityManager;

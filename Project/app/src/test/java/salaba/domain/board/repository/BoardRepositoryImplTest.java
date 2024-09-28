@@ -12,25 +12,18 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.domain.board.constants.BoardScope;
-import salaba.domain.board.dto.request.BoardSearchReqDto;
 import salaba.domain.board.dto.response.BoardDetailResDto;
 import salaba.domain.board.dto.response.BoardResDto;
 import salaba.domain.board.entity.Board;
-import salaba.domain.board.entity.BoardLike;
 import salaba.domain.common.constants.WritingStatus;
-import salaba.domain.reply.dto.response.ReplyResDto;
-import salaba.domain.reply.dto.response.ReplyToReplyResDto;
-import salaba.domain.member.entity.Member;
+import salaba.domain.board.dto.response.ReplyResDto;
+import salaba.domain.board.dto.response.ReplyToReplyResDto;
 import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.reply.entity.QReply;
-import salaba.domain.reply.entity.Reply;
-import salaba.domain.reply.repository.ReplyRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
-import java.time.LocalDate;
 import java.util.List;
 import java.util.NoSuchElementException;
 

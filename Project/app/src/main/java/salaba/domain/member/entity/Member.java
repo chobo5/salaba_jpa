@@ -10,7 +10,7 @@ import salaba.domain.member.constants.MemberStatus;
 import salaba.domain.rentalHome.entity.BookMark;
 import salaba.domain.rentalHome.entity.RentalHome;
 import salaba.domain.reservation.entity.Reservation;
-import salaba.domain.reply.entity.Reply;
+import salaba.domain.board.entity.Reply;
 import salaba.domain.member.constants.Grade;
 
 import javax.persistence.*;

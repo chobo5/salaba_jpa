@@ -1,4 +1,4 @@
-package salaba.domain.reply.service;
+package salaba.domain.board.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -15,11 +15,11 @@ import salaba.domain.member.entity.Member;
 import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.member.service.AlarmService;
 import salaba.domain.member.service.PointService;
-import salaba.domain.reply.dto.request.ReplyCreateReqDto;
-import salaba.domain.reply.dto.request.ReplyModifyReqDto;
-import salaba.domain.reply.dto.request.ReplyToReplyCreateReqDto;
-import salaba.domain.reply.entity.Reply;
-import salaba.domain.reply.repository.ReplyRepository;
+import salaba.domain.board.dto.request.ReplyCreateReqDto;
+import salaba.domain.board.dto.request.ReplyModifyReqDto;
+import salaba.domain.board.dto.request.ReplyToReplyCreateReqDto;
+import salaba.domain.board.entity.Reply;
+import salaba.domain.board.repository.ReplyRepository;
 
 import javax.persistence.EntityManager;
 

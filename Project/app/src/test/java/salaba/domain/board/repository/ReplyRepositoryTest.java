@@ -1,6 +1,5 @@
-package salaba.domain.reply.repository;
+package salaba.domain.board.repository;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,14 +10,13 @@ import salaba.config.QuerydslConfig;
 import salaba.domain.board.constants.BoardScope;
 import salaba.domain.board.entity.Board;
 import salaba.domain.member.entity.Member;
-import salaba.domain.reply.entity.Reply;
+import salaba.domain.board.entity.Reply;
 
 import javax.persistence.EntityManager;
 
 import java.time.LocalDate;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @DataJpaTest
 @ActiveProfiles("test")

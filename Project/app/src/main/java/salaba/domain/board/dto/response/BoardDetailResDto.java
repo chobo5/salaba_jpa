@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import salaba.domain.board.constants.BoardScope;
-import salaba.domain.reply.dto.response.ReplyResDto;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -15,6 +15,12 @@ import salaba.domain.board.dto.response.BoardResDto;
 import salaba.domain.board.dto.request.BoardModifyReqDto;
 import salaba.domain.common.dto.IdResDto;
 import salaba.domain.board.service.BoardService;
+import salaba.domain.board.dto.request.ReplyCreateReqDto;
+import salaba.domain.board.dto.request.ReplyModifyReqDto;
+import salaba.domain.board.dto.request.ReplyToReplyCreateReqDto;
+import salaba.domain.board.dto.response.ReplyByMemberResDto;
+import salaba.domain.board.dto.response.ReplyModiResDto;
+import salaba.domain.board.service.ReplyService;
 import salaba.interceptor.MemberContextHolder;
 import salaba.util.RestResult;
 
@@ -25,6 +31,7 @@ import salaba.util.RestResult;
 public class BoardController {
 
     private final BoardService boardService;
+    private final ReplyService replyService;
 
     @Operation(summary = "게시물 작성")
     @PostMapping("new")
@@ -97,6 +104,44 @@ public class BoardController {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
         Page<BoardByMemberResDto> boards = boardService.boardsByMember(MemberContextHolder.getMemberId(), pageable);
         return RestResult.success(boards);
+    }
+
+    @Operation(summary = "댓글 작성")
+    @PostMapping("reply/new")
+    public RestResult<?> createReply(@RequestBody ReplyCreateReqDto replyCreateReqDto) {
+        Long replyId = replyService.createReply(MemberContextHolder.getMemberId(), replyCreateReqDto);
+        return RestResult.success(new IdResDto(replyId));
+    }
+
+    @Operation(summary = "댓글 수정")
+    @PutMapping("reply/modify")
+    public RestResult<?> modifyReply(@RequestBody ReplyModifyReqDto replyModifyReqDto) {
+        ReplyModiResDto replyModi = replyService.modify(replyModifyReqDto, MemberContextHolder.getMemberId());
+        return RestResult.success(replyModi);
+    }
+
+    @Operation(summary = "댓글 삭제")
+    @DeleteMapping("reply/delete")
+    public RestResult<?> deleteReply(@RequestParam Long replyId) {
+        Long deletedId = replyService.delete(replyId, MemberContextHolder.getMemberId());
+        return RestResult.success(new IdResDto(deletedId));
+    }
+
+    @Operation(summary = "대댓글 작성")
+    @PostMapping("reply/toReply/new")
+    public RestResult<?> createReplyToReply(@RequestBody ReplyToReplyCreateReqDto replyCreateDto) {
+        Long replyToReplyId = replyService.createReplyToReply(MemberContextHolder.getMemberId(), replyCreateDto);
+        return RestResult.success(new IdResDto(replyToReplyId));
+    }
+
+
+    @Operation(summary = "회원이 작성한 댓글 목록")
+    @GetMapping("reply/wrote/list")
+    public RestResult<?> replyListByMember(@RequestParam(defaultValue = "0") int pageNumber,
+                                           @RequestParam(defaultValue = "10") int pageSize) {
+        Pageable pageable = PageRequest.of(pageNumber, pageSize);
+        Page<ReplyByMemberResDto> replies = replyService.getRepliesByMember(MemberContextHolder.getMemberId(), pageable);
+        return RestResult.success(replies);
     }
 
 

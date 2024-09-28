@@ -1,8 +1,7 @@
-package salaba.domain.reply.entity;
+package salaba.domain.board.entity;
 
 import org.junit.jupiter.api.Test;
 import salaba.domain.board.constants.BoardScope;
-import salaba.domain.board.entity.Board;
 import salaba.domain.common.constants.WritingStatus;
 import salaba.domain.member.entity.Member;
 

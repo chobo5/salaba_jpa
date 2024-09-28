@@ -35,7 +35,7 @@ public class ExecutionTimeLoggerAspect {
     @Pointcut("execution(* salaba.domain.board.service.BoardService.getBoard(..))")
     public void getBoard() {}
 
-    @Pointcut("execution(* salaba.domain.reply.service.ReplyService.getRepliesByMember(..))")
+    @Pointcut("execution(* salaba.domain.board.service.ReplyService.getRepliesByMember(..))")
     public void getRepliesByMember() {}
 
     @Pointcut("execution(* salaba.domain.reservation.service.ReservationService.getReservedDate(..))")

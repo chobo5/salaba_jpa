@@ -1,4 +1,4 @@
-package salaba.domain.reply.dto.request;
+package salaba.domain.board.dto.request;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;

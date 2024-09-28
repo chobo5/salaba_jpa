@@ -4,7 +4,6 @@ import lombok.*;
 import salaba.domain.common.entity.BaseEntity;
 import salaba.domain.board.constants.BoardScope;
 import salaba.domain.common.constants.WritingStatus;
-import salaba.domain.reply.entity.Reply;
 import salaba.domain.member.entity.Member;
 
 import javax.persistence.*;
