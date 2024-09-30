@@ -71,8 +71,8 @@ class ReservationRepositoryTest {
     @Test
     void 특정상태인숙소의예약목록() {
         //when
-        Long rentalHomeId = 1L;
-        RentalHome rentalHome = em.find(RentalHome.class, 1L);
+        List<RentalHome> rentalHomes = em.createQuery("select r from RentalHome r", RentalHome.class).getResultList();
+        RentalHome rentalHome = rentalHomes.get(0);
         List<Reservation> reservations = reservationRepository.findByRentalHomeAndStatus(rentalHome, ProcessStatus.AWAIT);
 
         //then
@@ -84,11 +84,11 @@ class ReservationRepositoryTest {
     @Test
     public void 게스트포함예약목록() {
         //given
-        Long rentalHomeId = 1L;
+        List<RentalHome> rentalHomes = em.createQuery("select r from RentalHome r", RentalHome.class).getResultList();
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
-        Page<Reservation> reservations = reservationRepository.findWithGuest(rentalHomeId, pageable);
+        Page<Reservation> reservations = reservationRepository.findWithGuest(rentalHomes.get(0).getId(), pageable);
 
         //then
         assertThat(reservations.getTotalElements()).isEqualTo(1);
@@ -98,11 +98,11 @@ class ReservationRepositoryTest {
     @Test
     public void 숙소_호스트_포함예약목록() {
         //given
-        Long memberid = 1L;
+        List<Member> members = em.createQuery("select m from Member m", Member.class).getResultList();
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
-        Page<Reservation> reservations = reservationRepository.findWithRentalHomeAndHost(memberid, pageable);
+        Page<Reservation> reservations = reservationRepository.findWithRentalHomeAndHost(members.get(0).getId(), pageable);
 
         assertThat(reservations.getTotalElements()).isEqualTo(1);
         assertThat(reservations.getContent().get(0).getRentalHome()).isNotNull();
@@ -112,11 +112,11 @@ class ReservationRepositoryTest {
     @Test
     public void 숙소_게스트_포함예약목록() {
         //given
-        Long reservationId = 1L;
+        List<Reservation> reservations = em.createQuery("select r from Reservation r", Reservation.class).getResultList();
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
-        Reservation reservation = reservationRepository.findByIdWithMemberAndRentalHome(reservationId)
+        Reservation reservation = reservationRepository.findByIdWithMemberAndRentalHome(reservations.get(0).getId())
                 .orElseThrow(NoSuchElementException::new);
 
         //then

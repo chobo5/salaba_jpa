@@ -20,6 +20,7 @@ import salaba.domain.reservation.entity.Reservation;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -142,7 +143,8 @@ class ReviewRepositoryTest {
     @Test
     public void 회원의리뷰목록() {
         //given
-        Member member = em.find(Member.class, 2L);
+        List<Member> members = em.createQuery("select m from Member m", Member.class).getResultList();
+        Member member = members.get(1);
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
@@ -155,7 +157,8 @@ class ReviewRepositoryTest {
     @Test
     public void 숙소의리뷰목록() {
         //given
-        RentalHome rentalHome = em.find(RentalHome.class, 1L);
+        List<RentalHome> rentalHomes = em.createQuery("select r from RentalHome r", RentalHome.class).getResultList();
+        RentalHome rentalHome = em.find(RentalHome.class, rentalHomes.get(0).getId());
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
@@ -169,7 +172,8 @@ class ReviewRepositoryTest {
     @Test
     public void 숙소의리뷰평점() {
         //given
-        RentalHome rentalHome = em.find(RentalHome.class, 1L);
+        List<RentalHome> rentalHomes = em.createQuery("select r from RentalHome r", RentalHome.class).getResultList();
+        RentalHome rentalHome = rentalHomes.get(0);
 
         //when
         Double reviewAvg = reviewRepository.getReviewAvg(rentalHome);
@@ -181,9 +185,12 @@ class ReviewRepositoryTest {
     @Test
     public void 리뷰_예약_회원_숙소가져오기() {
         //given
-        Member member = em.find(Member.class, 2L);
-        RentalHome rentalHome = em.find(RentalHome.class, 1L);
-        Reservation reservation = em.find(Reservation.class, 1L);
+        List<Member> members = em.createQuery("select m from Member m", Member.class).getResultList();
+        List<RentalHome> rentalHomes = em.createQuery("select r from RentalHome r", RentalHome.class).getResultList();
+        List<Reservation> reservations = em.createQuery("select r from Reservation r", Reservation.class).getResultList();
+        Member member = members.get(1);
+        RentalHome rentalHome = rentalHomes.get(0);
+        Reservation reservation = reservations.get(0);
         //when
         Review review = reviewRepository.findByIdWithReservationAndMemberAndRentalHome(1L).orElseThrow(NoSuchElementException::new);
 

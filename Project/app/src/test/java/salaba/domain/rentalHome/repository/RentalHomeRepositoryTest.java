@@ -25,6 +25,7 @@ import salaba.domain.reservation.entity.Reservation;
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -198,10 +199,13 @@ class RentalHomeRepositoryTest {
     }
     @Test
     public void 숙소상세() {
+        //given
+        List<RentalHome> rentalHomes = rentalHomeRepository.findAll();
+
         //when
-        RentalHomeDetailResDto rentalHome1 = rentalHomeRepository.findDetailById(1L);
-        RentalHomeDetailResDto rentalHome2 = rentalHomeRepository.findDetailById(2L);
-        RentalHomeDetailResDto rentalHome3 = rentalHomeRepository.findDetailById(3L);
+        RentalHomeDetailResDto rentalHome1 = rentalHomeRepository.findDetailById(rentalHomes.get(0).getId());
+        RentalHomeDetailResDto rentalHome2 = rentalHomeRepository.findDetailById(rentalHomes.get(1).getId());
+        RentalHomeDetailResDto rentalHome3 = rentalHomeRepository.findDetailById(rentalHomes.get(2).getId());
 
         //then
         assertThat(rentalHome1.getThemes().size()).isEqualTo(4);
@@ -215,10 +219,13 @@ class RentalHomeRepositoryTest {
 
     @Test
     public void 숙소상세_호스트용() {
+        //given
+        List<RentalHome> rentalHomes = rentalHomeRepository.findAll();
+        List<Member> members = memberRepository.findAll();
         //when
-        RentalHomeDetailResDto rentalHome1 = rentalHomeRepository.findDetailByIdAndHost(1L, 1L);
-        RentalHomeDetailResDto rentalHome2 = rentalHomeRepository.findDetailByIdAndHost(2L, 1L);
-        RentalHomeDetailResDto rentalHome3 = rentalHomeRepository.findDetailByIdAndHost(3L, 1L);
+        RentalHomeDetailResDto rentalHome1 = rentalHomeRepository.findDetailByIdAndHost(rentalHomes.get(0).getId(), members.get(0).getId());
+        RentalHomeDetailResDto rentalHome2 = rentalHomeRepository.findDetailByIdAndHost(rentalHomes.get(1).getId(), members.get(0).getId());
+        RentalHomeDetailResDto rentalHome3 = rentalHomeRepository.findDetailByIdAndHost(rentalHomes.get(2).getId(), members.get(0).getId());
 
         //then
         assertThat(rentalHome1.getThemes().size()).isEqualTo(4);
@@ -232,9 +239,11 @@ class RentalHomeRepositoryTest {
 
     @Test
     public void 호스트의숙소목록() {
+        //given
+        List<Member> members = memberRepository.findAll();
         //when
         Pageable pageable = PageRequest.of(0, 10);
-        Page<RentalHome> rentalHomes = rentalHomeRepository.findByHost(1L, pageable);
+        Page<RentalHome> rentalHomes = rentalHomeRepository.findByHost(members.get(0).getId(), pageable);
 
         //then
         assertThat(rentalHomes.getTotalElements()).isEqualTo(3);
@@ -243,10 +252,12 @@ class RentalHomeRepositoryTest {
 
     @Test
     public void 숙소의예약목록과함께() {
+        //given
+        List<RentalHome> rentalHomes = rentalHomeRepository.findAll();
         //when
-        RentalHome rentalHome1 = rentalHomeRepository.findWithReservations(1L).orElseThrow(NoSuchElementException::new);
-        RentalHome rentalHome2 = rentalHomeRepository.findWithReservations(2L).orElseThrow(NoSuchElementException::new);
-        RentalHome rentalHome3 = rentalHomeRepository.findWithReservations(3L).orElseThrow(NoSuchElementException::new);
+        RentalHome rentalHome1 = rentalHomeRepository.findWithReservations(rentalHomes.get(0).getId()).orElseThrow(NoSuchElementException::new);
+        RentalHome rentalHome2 = rentalHomeRepository.findWithReservations(rentalHomes.get(1).getId()).orElseThrow(NoSuchElementException::new);
+        RentalHome rentalHome3 = rentalHomeRepository.findWithReservations(rentalHomes.get(2).getId()).orElseThrow(NoSuchElementException::new);
 
 
         //then
@@ -305,11 +316,14 @@ class RentalHomeRepositoryTest {
 
     @Test
     public void 숙소리뷰통계_전체업데이트() {
+        //given
+        List<RentalHome> rentalHomes = rentalHomeRepository.findAll();
+
         //when
         rentalHomeRepository.updateReviewStatistics();
-        RentalHome rentalHome1 = em.find(RentalHome.class, 1L);
-        RentalHome rentalHome2 = em.find(RentalHome.class, 2L);
-        RentalHome rentalHome3 = em.find(RentalHome.class, 3L);
+        RentalHome rentalHome1 = em.find(RentalHome.class, rentalHomes.get(0).getId());
+        RentalHome rentalHome2 = em.find(RentalHome.class, rentalHomes.get(1).getId());
+        RentalHome rentalHome3 = em.find(RentalHome.class, rentalHomes.get(2).getId());
 
         //then
         assertThat(rentalHome1.getReviewAvg()).isEqualTo(3.4);
@@ -328,8 +342,11 @@ class RentalHomeRepositoryTest {
 
     @Test
     public void 숙소리뷰통계_1개업데이트() {
+        //given
+        List<RentalHome> rentalHomes = rentalHomeRepository.findAll();
+
         //when
-        RentalHome rentalHome1 = em.find(RentalHome.class, 1L);
+        RentalHome rentalHome1 = em.find(RentalHome.class, rentalHomes.get(0).getId());
         rentalHomeRepository.updateAReviewStatistics(rentalHome1);
 
         //then
@@ -340,8 +357,11 @@ class RentalHomeRepositoryTest {
 
     @Test
     public void 숙소리뷰통계_합_평군업데이트() {
+        //given
+        List<RentalHome> rentalHomes = rentalHomeRepository.findAll();
+
         //when
-        RentalHome rentalHome1 = em.find(RentalHome.class, 1L);
+        RentalHome rentalHome1 = em.find(RentalHome.class, rentalHomes.get(0).getId());
         rentalHomeRepository.updateAReviewStatistics(rentalHome1);
 
         //then

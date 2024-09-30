@@ -13,4 +13,6 @@ public class JpaAuditingConfig {
     public AuditorAware<String> auditorAware() {
         return new JwtAuditorAware();
     }
+
+    
 }

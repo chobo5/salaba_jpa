@@ -1,14 +1,20 @@
 package salaba.domain.board.repository;
 
+import org.junit.Before;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 import salaba.config.QuerydslConfig;
 import salaba.domain.board.constants.BoardScope;
 import salaba.domain.board.dto.request.BoardSearchReqDto;
@@ -23,6 +29,7 @@ import salaba.domain.board.entity.Reply;
 import javax.persistence.EntityManager;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,15 +39,13 @@ import static org.assertj.core.api.Assertions.assertThat;
 class BoardRepositoryTest {
     @Autowired
     private BoardRepository boardRepository;
-    
+
     @Autowired
     private EntityManager em;
     
     @Test
     public void 게시물목록() {
         //given
-        setup();
-
         Pageable pageable = PageRequest.of(0, 10);
 
         //when
@@ -56,7 +61,8 @@ class BoardRepositoryTest {
     @Test
     public void 게시물상세() {
         //when
-        BoardDetailResDto board = boardRepository.get(1L).get();
+        List<Board> boards = boardRepository.findAll();
+        BoardDetailResDto board = boardRepository.get(boards.get(0).getId()).get();
 
         //then
         assertThat(board.getReplyList().size()).isEqualTo(3);
@@ -83,7 +89,7 @@ class BoardRepositoryTest {
     @Test
     public void 회원의게시글목록() {
         //given
-        Member member = em.find(Member.class, 1L);
+        Member member = em.createQuery("select m from Member m", Member.class).getResultList().get(0);
         Pageable pageable = PageRequest.of(0, 10);
 
         //given
@@ -132,17 +138,17 @@ class BoardRepositoryTest {
     @Test
     public void 게시물과작성자가져오기() {
         //given
-        Member member = em.find(Member.class, 1L);
-
+        Member member = em.createQuery("select m from Member m", Member.class).getResultList().get(0);
+        List<Board> boards = boardRepository.findAll();
         //when
-        Board board = boardRepository.findByIdWithWriter(1L).get();
+        Board board = boardRepository.findByIdWithWriter(boards.get(0).getId()).get();
 
         //then
         assertThat(board.getWriter()).isEqualTo(member);
     }
 
     @BeforeEach
-    public void setup() {
+    public void 데이터생성() {
         Member member1 = Member.create("test1@test.com", "Aa1234567!@", "testname1",
                 "testNickName1", LocalDate.of(1996, 10, 8));
         em.persist(member1);
@@ -164,10 +170,10 @@ class BoardRepositoryTest {
         em.persist(member5);
 
         Board board = Board.create("test title", "test content", BoardScope.ALL, member1);
-        boardRepository.save(board);
+        em.persist(board);
 
         Board board2  = Board.create("test title2", "test content2", BoardScope.ALL, member2);
-        boardRepository.save(board2);
+        em.persist(board2);
 
 
         Reply reply1 = Reply.createReply(board, "reply1", member1);

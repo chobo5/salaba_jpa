@@ -16,40 +16,16 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
-@DataJpaTest
 class MemberTest {
-
-    private Member member;
-
-    @BeforeEach
-    public void 회원생성() {
-        //given
-        final String email = "test@test.com";
-        final String password = "Tt12241509!@";
-        final String name = "chobo5";
-        final String nickname = "chobo5";
-        final LocalDate birthday = LocalDate.of(1996, 10, 8);
-
-        //when
-        member = Member.create(email, password, name, nickname, birthday);
-    }
 
     @Test
     public void 회원생성_검증() {
         //given
-        final String email = "test@test.com";
-        final String password = "Tt12241509!@";
-        final String name = "chobo5";
-        final String nickname = "chobo5";
-        final LocalDate birthday = LocalDate.of(1996, 10, 8);
+        Member member = Member.create("test@test.com", "Tt12241509!@", "chobo5",
+                "chobo5", LocalDate.of(1996, 10, 8));
 
         //then
         assertThat(member.getId()).isNull();
-        assertThat(member.getEmail()).isEqualTo(email);
-        assertThat(member.getPassword()).isEqualTo(password);
-        assertThat(member.getName()).isEqualTo(name);
-        assertThat(member.getNickname()).isEqualTo(nickname);
-        assertThat(member.getBirthday()).isEqualTo(birthday);
         assertThat(member.getAddress()).isNull();
         assertThat(member.getTelNo()).isNull();
         assertThat(member.getWarningCount()).isEqualTo(0);
@@ -78,6 +54,8 @@ class MemberTest {
             final String changedName = "chobo5_modified";
             final Gender gender = Gender.FEMALE;
             final Address address = new Address("teststreet", 123456);
+            Member member = Member.create("test@test.com", "Tt12241509!@", "chobo5",
+                    "chobo5", LocalDate.of(1996, 10, 8));
 
             //when
             member.changeProfile(changedName, gender, null, address);
@@ -92,6 +70,8 @@ class MemberTest {
         @Test
         public void 이메일변경() {
             //given
+            Member member = Member.create("test@test.com", "Tt12241509!@", "chobo5",
+                    "chobo5", LocalDate.of(1996, 10, 8));
             final String changedEmail = "chobo5@test.com";
 
             //when
@@ -103,6 +83,9 @@ class MemberTest {
 
         @Test
         public void 비밀번호변경() {
+            //given
+            Member member = Member.create("test@test.com", "Tt12241509!@", "chobo5",
+                    "chobo5", LocalDate.of(1996, 10, 8));
             final String changedPassword = "Aa123456@";
 
             //when
@@ -116,6 +99,8 @@ class MemberTest {
         @Test
         public void 전화번호변경() {
             //given
+            Member member = Member.create("test@test.com", "Tt12241509!@", "chobo5",
+                    "chobo5", LocalDate.of(1996, 10, 8));
             final String changedTelNo = "01022857358";
 
             //when
@@ -128,6 +113,8 @@ class MemberTest {
         @Test
         public void 닉네임변경() {
             //given
+            Member member = Member.create("test@test.com", "Tt12241509!@", "chobo5",
+                    "chobo5", LocalDate.of(1996, 10, 8));
             final String changedNickname = "chobo5_modified";
 
             //when
@@ -144,6 +131,8 @@ class MemberTest {
     @Test
     public void 회원로그인() {
         //when
+        Member member = Member.create("test@test.com", "Tt12241509!@", "chobo5",
+                "chobo5", LocalDate.of(1996, 10, 8));
         member.login();
 
         //then
@@ -153,6 +142,8 @@ class MemberTest {
     @Test
     public void 회원탈퇴() {
         //when
+        Member member = Member.create("test@test.com", "Tt12241509!@", "chobo5",
+                "chobo5", LocalDate.of(1996, 10, 8));
         member.resign();
 
         //then

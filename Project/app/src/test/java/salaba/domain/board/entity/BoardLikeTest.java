@@ -1,5 +1,6 @@
 package salaba.domain.board.entity;
 
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import salaba.domain.board.constants.BoardScope;
 import salaba.domain.member.entity.Member;
@@ -11,6 +12,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class BoardLikeTest {
 
     @Test
+    @DisplayName(value = "게시물 좋아요 생성")
     public void 게시물좋아요생성() {
         //given
         final String email = "test@test.com";
@@ -36,6 +38,7 @@ class BoardLikeTest {
     }
 
     @Test
+    @DisplayName(value = "게시물 좋아요 취소")
     public void 게시물좋아요취소() {
         //given
         final String email = "test@test.com";

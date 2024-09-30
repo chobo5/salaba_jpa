@@ -176,7 +176,7 @@ class RentalHomeTest {
                 "test rule", 10000);
 
         LocalDateTime startDate = LocalDateTime.of(2024, 9, 21, 15, 0);
-        LocalDateTime endDate = LocalDateTime.of(2024, 9, 25, 11, 0);
+        LocalDateTime endDate = LocalDateTime.now().plusDays(1);
         Reservation reservation = Reservation.create(startDate, endDate, rentalHome, member);
 
         //when
