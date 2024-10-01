@@ -20,11 +20,17 @@ DB: `MySql` `Redis`
 <img width="800" src="https://github.com/user-attachments/assets/c8ca32d6-a410-4de6-a266-f015a56d50ed">
 
 ## 시스템 아키텍처
-<img width="931" alt="스크린샷 2024-09-28 오후 2 59 19" src="https://github.com/user-attachments/assets/51429b46-2b66-4604-a41a-247c796df71f">
+![sys_arch](https://github.com/user-attachments/assets/70bae035-3613-4678-b2f7-4786ea8fac0f)
+
+## 어플리케이션 아키텍처
+![app_arch](https://github.com/user-attachments/assets/c44be7df-fbb4-4b8e-b2bc-3e892dd6ba9e)
 
 
 ## ER Diagram
 ![erd](https://github.com/user-attachments/assets/d1718aae-9c50-4209-8e50-5ef5385563bd)
+
+## 태스트 작성
+![tests](https://github.com/user-attachments/assets/037c7586-2c9d-41b9-b9cf-d6690d2dce69)
 
 
 
