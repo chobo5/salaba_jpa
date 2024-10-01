@@ -125,7 +125,7 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
     public Page<RentalHome> findRentalHomesOrderByReview(String regionName, String themeName, Long minPrice, Long maxPrice, Pageable pageable) {
         List<RentalHome> result = queryFactory.select(rentalHome)
                 .from(rentalHome)
-                .join(rentalHome.region, region)
+                .join(rentalHome.region, region).fetchJoin()
                 .leftJoin(rentalHomeTheme).on(rentalHomeTheme.rentalHome.id.eq(rentalHome.id))
                 .leftJoin(theme).on(rentalHomeTheme.theme.id.eq(theme.id))
                 .where(regionNameContains(regionName),
@@ -196,7 +196,7 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
     public Page<RentalHome> findRentalHomesOrderBySalesCount(String regionName, String themeName, Long minPrice, Long maxPrice, Pageable pageable) {
         List<Tuple> result = queryFactory.select(rentalHome, reservation.count())
                 .from(rentalHome)
-                .leftJoin(rentalHome.region, region)
+                .leftJoin(rentalHome.region, region).fetchJoin()
                 .leftJoin(reservation).on(reservation.rentalHome.id.eq(rentalHome.id))
                 .leftJoin(rentalHomeTheme).on(rentalHomeTheme.rentalHome.id.eq(rentalHome.id))
                 .leftJoin(theme).on(rentalHomeTheme.theme.id.eq(theme.id))

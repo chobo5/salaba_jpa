@@ -147,6 +147,7 @@ class BoardRepositoryTest {
         assertThat(board.getWriter()).isEqualTo(member);
     }
 
+
     @BeforeEach
     public void 데이터생성() {
         Member member1 = Member.create("test1@test.com", "Aa1234567!@", "testname1",

@@ -55,10 +55,6 @@ public class Reservation extends BaseEntity {
     @JoinColumn(name = "member_id", nullable = false)
     private Member member;
 
-    @OneToOne(mappedBy = "reservation")
-    private Review review;
-
-
     public static Reservation create(LocalDateTime startDate, LocalDateTime endDate, RentalHome rentalHome, Member member) {
         Reservation reservation = new Reservation();
         reservation.startDate = startDate;
