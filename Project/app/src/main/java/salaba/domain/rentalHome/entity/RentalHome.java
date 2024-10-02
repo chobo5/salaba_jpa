@@ -1,12 +1,12 @@
 package salaba.domain.rentalHome.entity;
 
 import lombok.Getter;
-import salaba.domain.common.entity.Address;
-import salaba.domain.common.entity.BaseEntity;
-import salaba.domain.common.entity.Region;
+import salaba.global.entity.Address;
+import salaba.global.entity.BaseEntity;
+import salaba.global.entity.Region;
 import salaba.domain.reservation.entity.Reservation;
 import salaba.domain.member.entity.Member;
-import salaba.exception.CannotChangeStatusException;
+import salaba.domain.rentalHome.exception.CannotChangeStatusException;
 import salaba.domain.rentalHome.constants.RentalHomeStatus;
 
 import javax.persistence.*;

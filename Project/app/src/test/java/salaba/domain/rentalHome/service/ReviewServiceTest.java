@@ -9,16 +9,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import salaba.domain.common.entity.Address;
-import salaba.domain.common.entity.Nation;
-import salaba.domain.common.entity.Region;
+import salaba.global.entity.Address;
+import salaba.global.entity.Nation;
+import salaba.global.entity.Region;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.member.service.PointService;
 import salaba.domain.rentalHome.dto.request.ReviewModiReqDto;
 import salaba.domain.rentalHome.dto.request.ReviewReqDto;
 import salaba.domain.rentalHome.entity.RentalHome;
-import salaba.domain.rentalHome.entity.Review;
+import salaba.domain.reservation.entity.Review;
 import salaba.domain.rentalHome.repository.RentalHomeRepository;
 import salaba.domain.rentalHome.repository.ReviewRepository;
 import salaba.domain.reservation.entity.Reservation;
@@ -29,7 +29,6 @@ import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)

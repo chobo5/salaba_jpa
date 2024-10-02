@@ -4,15 +4,14 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import salaba.domain.common.constants.ProcessStatus;
-import salaba.domain.common.entity.Address;
-import salaba.domain.common.entity.Nation;
-import salaba.domain.common.entity.Region;
+import salaba.global.constants.ProcessStatus;
+import salaba.global.entity.Address;
+import salaba.global.entity.Nation;
+import salaba.global.entity.Region;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.member.service.PointService;
@@ -27,7 +26,6 @@ import salaba.domain.reservation.entity.Reservation;
 import salaba.domain.reservation.repository.DiscountRepository;
 import salaba.domain.reservation.repository.ReservationRepository;
 
-import javax.swing.text.html.Option;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -35,7 +33,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)

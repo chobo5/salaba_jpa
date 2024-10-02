@@ -1,7 +1,7 @@
 package salaba.config;
 
 import org.springframework.data.domain.AuditorAware;
-import salaba.interceptor.MemberContextHolder;
+import salaba.domain.auth.interceptor.MemberContextHolder;
 
 import java.util.Optional;
 

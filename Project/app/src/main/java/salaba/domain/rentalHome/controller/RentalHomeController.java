@@ -8,15 +8,15 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import salaba.domain.common.dto.IdResDto;
+import salaba.global.dto.IdResDto;
 import salaba.domain.rentalHome.dto.request.*;
 import salaba.domain.rentalHome.dto.response.RentalHomeDetailResDto;
 import salaba.domain.rentalHome.dto.response.RentalHomeResDto;
 import salaba.domain.rentalHome.dto.response.ReviewResDto;
-import salaba.domain.rentalHome.service.BookMarkService;
+import salaba.domain.member.service.BookMarkService;
 import salaba.domain.rentalHome.service.RentalHomeService;
 import salaba.domain.rentalHome.service.ReviewService;
-import salaba.interceptor.MemberContextHolder;
+import salaba.domain.auth.interceptor.MemberContextHolder;
 import salaba.util.RestResult;
 
 

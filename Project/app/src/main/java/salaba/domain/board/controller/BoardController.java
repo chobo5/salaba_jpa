@@ -13,7 +13,7 @@ import salaba.domain.board.dto.request.BoardCreateReqDto;
 import salaba.domain.board.dto.response.BoardByMemberResDto;
 import salaba.domain.board.dto.response.BoardResDto;
 import salaba.domain.board.dto.request.BoardModifyReqDto;
-import salaba.domain.common.dto.IdResDto;
+import salaba.global.dto.IdResDto;
 import salaba.domain.board.service.BoardService;
 import salaba.domain.board.dto.request.ReplyCreateReqDto;
 import salaba.domain.board.dto.request.ReplyModifyReqDto;
@@ -21,7 +21,7 @@ import salaba.domain.board.dto.request.ReplyToReplyCreateReqDto;
 import salaba.domain.board.dto.response.ReplyByMemberResDto;
 import salaba.domain.board.dto.response.ReplyModiResDto;
 import salaba.domain.board.service.ReplyService;
-import salaba.interceptor.MemberContextHolder;
+import salaba.domain.auth.interceptor.MemberContextHolder;
 import salaba.util.RestResult;
 
 @Tag(name = "게시판 API")

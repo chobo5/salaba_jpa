@@ -9,7 +9,7 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.Jackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-import salaba.domain.member.entity.RefreshToken;
+import salaba.domain.auth.entity.RefreshToken;
 
 @Configuration
 public class RedisConfig {

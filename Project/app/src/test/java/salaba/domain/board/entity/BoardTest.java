@@ -2,7 +2,7 @@ package salaba.domain.board.entity;
 
 import org.junit.jupiter.api.Test;
 import salaba.domain.board.constants.BoardScope;
-import salaba.domain.common.constants.WritingStatus;
+import salaba.global.constants.WritingStatus;
 import salaba.domain.member.entity.Member;
 
 import java.time.LocalDate;

@@ -6,8 +6,8 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import salaba.security.jwt.filter.JwtAuthenticationFilter;
-import salaba.security.jwt.provider.JwtAuthenticationProvider;
+import salaba.domain.auth.security.jwt.filter.JwtAuthenticationFilter;
+import salaba.domain.auth.security.jwt.provider.JwtAuthenticationProvider;
 
 @Configuration
 @RequiredArgsConstructor

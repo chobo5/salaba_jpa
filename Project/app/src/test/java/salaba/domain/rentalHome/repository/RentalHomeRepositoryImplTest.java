@@ -4,14 +4,12 @@ import com.querydsl.core.Tuple;
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.annotation.Rollback;
-import salaba.domain.common.constants.ProcessStatus;
+import salaba.global.constants.ProcessStatus;
 import salaba.domain.rentalHome.entity.RentalHome;
 
 import javax.persistence.EntityManager;
@@ -22,7 +20,7 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static salaba.domain.common.entity.QRegion.region;
+import static salaba.domain.global.entity.QRegion.region;
 import static salaba.domain.rentalHome.entity.QRentalHome.rentalHome;
 import static salaba.domain.rentalHome.entity.QRentalHomeTheme.rentalHomeTheme;
 import static salaba.domain.rentalHome.entity.QReview.review;

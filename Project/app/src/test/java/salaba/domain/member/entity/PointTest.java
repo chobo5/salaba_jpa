@@ -1,7 +1,7 @@
 package salaba.domain.member.entity;
 
 import org.junit.jupiter.api.Test;
-import salaba.exception.CannotBeZeroException;
+import salaba.domain.member.exception.PointCannotBeZeroException;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -72,7 +72,7 @@ class PointTest {
         final LocalDate birthday = LocalDate.of(1996, 10, 8);
         Member member = Member.create(email, password, name, nickname, birthday);
 
-        assertThrows(CannotBeZeroException.class, () -> Point.createUsedPoint("포인트 사용", 0, member));
+        assertThrows(PointCannotBeZeroException.class, () -> Point.createUsedPoint("포인트 사용", 0, member));
 
     }
 

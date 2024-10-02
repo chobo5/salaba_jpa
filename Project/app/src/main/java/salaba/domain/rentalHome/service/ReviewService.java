@@ -12,13 +12,13 @@ import salaba.domain.rentalHome.dto.request.ReviewModiReqDto;
 import salaba.domain.rentalHome.dto.request.ReviewReqDto;
 import salaba.domain.rentalHome.dto.response.ReviewResDto;
 import salaba.domain.rentalHome.entity.RentalHome;
-import salaba.domain.rentalHome.entity.Review;
+import salaba.domain.reservation.entity.Review;
 import salaba.domain.rentalHome.repository.RentalHomeRepository;
 import salaba.domain.rentalHome.repository.ReviewRepository;
 import salaba.domain.reservation.entity.Reservation;
 import salaba.domain.reservation.repository.ReservationRepository;
-import salaba.exception.CannotFindMemberException;
-import salaba.exception.NoAuthorityException;
+import salaba.domain.auth.exception.CannotFindMemberException;
+import salaba.domain.auth.exception.NoAuthorityException;
 
 import java.util.NoSuchElementException;
 

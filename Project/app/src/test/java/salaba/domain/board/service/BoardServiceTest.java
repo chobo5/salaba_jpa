@@ -15,7 +15,7 @@ import salaba.domain.board.constants.BoardScope;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.member.service.PointService;
-import salaba.exception.NoAuthorityException;
+import salaba.domain.auth.exception.NoAuthorityException;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;

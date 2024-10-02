@@ -14,14 +14,14 @@ import salaba.domain.board.dto.response.BoardDetailResDto;
 import salaba.domain.board.dto.response.BoardResDto;
 import salaba.domain.board.entity.Board;
 import salaba.domain.board.entity.BoardLike;
-import salaba.domain.common.constants.WritingStatus;
+import salaba.global.constants.WritingStatus;
 import salaba.domain.member.entity.Member;
 import salaba.domain.board.repository.BoardLikeRepository;
 import salaba.domain.board.repository.BoardRepository;
 import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.board.dto.response.BoardModiResDto;
 import salaba.domain.member.service.PointService;
-import salaba.exception.NoAuthorityException;
+import salaba.domain.auth.exception.NoAuthorityException;
 
 
 import javax.persistence.EntityManager;

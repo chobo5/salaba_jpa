@@ -18,8 +18,8 @@ import salaba.domain.board.repository.BoardRepository;
 import salaba.domain.board.repository.ReplyRepository;
 import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.board.dto.response.ReplyModiResDto;
-import salaba.exception.CannotFindMemberException;
-import salaba.exception.NoAuthorityException;
+import salaba.domain.auth.exception.CannotFindMemberException;
+import salaba.domain.auth.exception.NoAuthorityException;
 
 import javax.persistence.EntityManager;
 import java.util.NoSuchElementException;

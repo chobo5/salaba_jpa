@@ -15,12 +15,12 @@ import salaba.domain.reservation.dto.response.ReservationResForHostDto;
 import salaba.domain.reservation.entity.Reservation;
 import salaba.domain.reservation.dto.ReservedDateDto;
 import salaba.domain.reservation.dto.request.ReservationReqDto;
-import salaba.domain.common.constants.ProcessStatus;
+import salaba.global.constants.ProcessStatus;
 import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.reservation.repository.DiscountRepository;
 import salaba.domain.reservation.repository.ReservationRepository;
 import salaba.domain.rentalHome.repository.RentalHomeRepository;
-import salaba.exception.NoAuthorityException;
+import salaba.domain.auth.exception.NoAuthorityException;
 
 import java.util.ArrayList;
 import java.util.List;

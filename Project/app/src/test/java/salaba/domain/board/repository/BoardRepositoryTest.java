@@ -1,20 +1,14 @@
 package salaba.domain.board.repository;
 
-import org.junit.Before;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.transaction.annotation.Transactional;
 import salaba.config.QuerydslConfig;
 import salaba.domain.board.constants.BoardScope;
 import salaba.domain.board.dto.request.BoardSearchReqDto;
@@ -22,7 +16,7 @@ import salaba.domain.board.dto.response.BoardDetailResDto;
 import salaba.domain.board.dto.response.BoardResDto;
 import salaba.domain.board.entity.Board;
 import salaba.domain.board.entity.BoardLike;
-import salaba.domain.common.constants.WritingStatus;
+import salaba.global.constants.WritingStatus;
 import salaba.domain.member.entity.Member;
 import salaba.domain.board.entity.Reply;
 

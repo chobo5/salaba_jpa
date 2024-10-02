@@ -8,12 +8,12 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import salaba.domain.common.dto.IdResDto;
+import salaba.global.dto.IdResDto;
 import salaba.domain.member.dto.request.*;
 import salaba.domain.member.dto.response.AlarmResDto;
 import salaba.domain.member.dto.response.PointResDto;
 import salaba.domain.member.service.MemberService;
-import salaba.interceptor.MemberContextHolder;
+import salaba.domain.auth.interceptor.MemberContextHolder;
 import salaba.util.RestResult;
 
 import javax.validation.Valid;

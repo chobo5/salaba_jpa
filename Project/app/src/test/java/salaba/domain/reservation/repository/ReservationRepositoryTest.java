@@ -1,6 +1,5 @@
 package salaba.domain.reservation.repository;
 
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,10 +10,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import salaba.config.QuerydslConfig;
-import salaba.domain.common.constants.ProcessStatus;
-import salaba.domain.common.entity.Address;
-import salaba.domain.common.entity.Nation;
-import salaba.domain.common.entity.Region;
+import salaba.global.constants.ProcessStatus;
+import salaba.global.entity.Address;
+import salaba.global.entity.Nation;
+import salaba.global.entity.Region;
 import salaba.domain.member.entity.Member;
 import salaba.domain.rentalHome.entity.RentalHome;
 import salaba.domain.reservation.entity.Discount;
@@ -25,10 +24,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 @Import(QuerydslConfig.class)
 @DataJpaTest

@@ -1,18 +1,17 @@
 package salaba.domain.rentalHome.entity;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import salaba.domain.common.entity.Address;
-import salaba.domain.common.entity.Nation;
-import salaba.domain.common.entity.Region;
+import salaba.global.entity.Address;
+import salaba.global.entity.Nation;
+import salaba.global.entity.Region;
 import salaba.domain.member.entity.Member;
 import salaba.domain.reservation.entity.Reservation;
+import salaba.domain.reservation.entity.Review;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 class ReviewTest {
     @Test

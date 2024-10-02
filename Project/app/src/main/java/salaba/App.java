@@ -11,8 +11,6 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.EnableAspectJAutoProxy;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.scheduling.annotation.EnableScheduling;
-import salaba.domain.common.service.InitService;
-import javax.annotation.PostConstruct;
 
 @SpringBootApplication
 @RequiredArgsConstructor

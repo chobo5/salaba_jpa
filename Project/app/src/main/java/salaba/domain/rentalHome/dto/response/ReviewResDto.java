@@ -2,7 +2,7 @@ package salaba.domain.rentalHome.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import salaba.domain.rentalHome.entity.Review;
+import salaba.domain.reservation.entity.Review;
 
 import java.time.LocalDateTime;
 

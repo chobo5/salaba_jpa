@@ -3,7 +3,7 @@ package salaba.domain.rentalHome.dto.response;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import salaba.domain.common.entity.Address;
+import salaba.global.entity.Address;
 import salaba.domain.rentalHome.entity.Facility;
 import salaba.domain.rentalHome.entity.RentalHome;
 import salaba.domain.rentalHome.entity.Theme;

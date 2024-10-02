@@ -1,7 +1,7 @@
 package salaba.domain.rentalHome.entity;
 
 import lombok.Getter;
-import salaba.domain.common.entity.BaseEntity;
+import salaba.global.entity.BaseEntity;
 
 import javax.persistence.*;
 

@@ -1,15 +1,14 @@
 package salaba.domain.rentalHome.service;
 
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import salaba.domain.common.entity.Address;
-import salaba.domain.common.entity.Nation;
-import salaba.domain.common.entity.Region;
-import salaba.domain.common.repository.RegionRepository;
+import salaba.global.entity.Address;
+import salaba.global.entity.Nation;
+import salaba.global.entity.Region;
+import salaba.global.repository.RegionRepository;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.rentalHome.dto.request.RentalHomeCreateReqDto;
@@ -18,8 +17,8 @@ import salaba.domain.rentalHome.dto.response.RentalHomeDetailResDto;
 import salaba.domain.rentalHome.entity.*;
 import salaba.domain.rentalHome.repository.*;
 import salaba.domain.reservation.entity.Reservation;
-import salaba.exception.CannotChangeStatusException;
-import salaba.exception.NoAuthorityException;
+import salaba.domain.rentalHome.exception.CannotChangeStatusException;
+import salaba.domain.auth.exception.NoAuthorityException;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

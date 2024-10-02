@@ -1,14 +1,12 @@
 package salaba.domain.member.entity;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import salaba.domain.common.entity.Address;
+import salaba.global.entity.Address;
 import salaba.domain.member.constants.Gender;
 import salaba.domain.member.constants.Grade;
-import salaba.domain.member.constants.MemberStatus;
+import salaba.domain.auth.constant.MemberStatus;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

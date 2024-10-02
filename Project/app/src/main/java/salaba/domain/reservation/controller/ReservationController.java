@@ -8,15 +8,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 import salaba.domain.reservation.dto.ReservedDateDto;
-import salaba.domain.reservation.dto.request.DiscountReqDto;
 import salaba.domain.reservation.dto.request.PaymentReqDto;
 import salaba.domain.reservation.dto.request.ReservationReqDto;
 import salaba.domain.reservation.dto.response.ReservationCompleteResDto;
 import salaba.domain.reservation.dto.response.ReservationResForGuestDto;
 import salaba.domain.reservation.dto.response.ReservationResForHostDto;
 import salaba.domain.reservation.service.ReservationService;
-import salaba.domain.common.dto.IdResDto;
-import salaba.interceptor.MemberContextHolder;
+import salaba.global.dto.IdResDto;
+import salaba.domain.auth.interceptor.MemberContextHolder;
 import salaba.util.RestResult;
 
 import java.util.List;
@@ -43,7 +42,7 @@ public class ReservationController {
     }
 
     @Operation(summary = "숙소 이미 예약되어있는 날짜 목록")
-    @GetMapping("/api/v1/reservedDate/{rentalHomeId}/{status}")
+    @GetMapping("/api/v1/reservedDate")
     public RestResult<?> getReservedDates(@RequestParam Long rentalHomeId) {
         List<ReservedDateDto> reservedDates = reservationService.getReservedDate(rentalHomeId);
         return RestResult.success(reservedDates);

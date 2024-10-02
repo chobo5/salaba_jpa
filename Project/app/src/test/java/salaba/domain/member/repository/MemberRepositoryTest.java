@@ -7,9 +7,9 @@ import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
 import salaba.config.QuerydslConfig;
 import salaba.domain.member.entity.Member;
-import salaba.domain.member.entity.MemberRole;
-import salaba.domain.member.entity.Role;
-import salaba.domain.member.constants.RoleName;
+import salaba.domain.auth.entity.MemberRole;
+import salaba.domain.auth.entity.Role;
+import salaba.domain.auth.constant.RoleName;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
