@@ -20,12 +20,14 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static salaba.domain.global.entity.QRegion.region;
+
 import static salaba.domain.rentalHome.entity.QRentalHome.rentalHome;
 import static salaba.domain.rentalHome.entity.QRentalHomeTheme.rentalHomeTheme;
-import static salaba.domain.rentalHome.entity.QReview.review;
+
 import static salaba.domain.rentalHome.entity.QTheme.theme;
 import static salaba.domain.reservation.entity.QReservation.reservation;
+import static salaba.domain.reservation.entity.QReview.review;
+import static salaba.global.entity.QRegion.region;
 
 @SpringBootTest
 @Transactional
