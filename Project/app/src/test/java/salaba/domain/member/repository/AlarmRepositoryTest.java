@@ -24,10 +24,10 @@ import static org.assertj.core.api.Assertions.assertThat;
 @Import(QuerydslConfig.class)
 class AlarmRepositoryTest {
     @Autowired
-    AlarmRepository alarmRepository;
+    private AlarmRepository alarmRepository;
 
     @Autowired
-    EntityManager em;
+    private EntityManager em;
 
     @Test
     public void 알람생성하기() {
@@ -52,19 +52,14 @@ class AlarmRepositoryTest {
 
     @Test
     public void 회원의알람내역() {
-        Member member = null;
-        try {
-            //given
-            final String email = "test@test.com";
-            final String password = "Tt12241509!@";
-            final String name = "chobo";
-            final String nickname = "chobo";
-            final LocalDate birthday = LocalDate.of(1996, 10, 8);
-            member = Member.create(email, password, name, nickname, birthday);
-            em.persist(member);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        //given
+        final String email = "test@test.com";
+        final String password = "Tt12241509!@";
+        final String name = "chobo";
+        final String nickname = "chobo";
+        final LocalDate birthday = LocalDate.of(1996, 10, 8);
+        Member member = Member.create(email, password, name, nickname, birthday);
+        em.persist(member);
 
         Alarm replyAlarm = Alarm.createReplyAlarm(member, "test", "content");
         alarmRepository.save(replyAlarm);

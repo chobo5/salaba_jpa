@@ -3,7 +3,7 @@ package salaba.domain.member.entity;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
-import salaba.global.entity.Address;
+import salaba.domain.global.entity.Address;
 import salaba.domain.member.constants.Gender;
 import salaba.domain.member.constants.Grade;
 import salaba.domain.auth.constant.MemberStatus;

@@ -1,9 +1,9 @@
 package salaba.domain.rentalHome.entity;
 
 import org.junit.jupiter.api.Test;
-import salaba.global.entity.Address;
-import salaba.global.entity.Nation;
-import salaba.global.entity.Region;
+import salaba.domain.global.entity.Address;
+import salaba.domain.global.entity.Nation;
+import salaba.domain.global.entity.Region;
 import salaba.domain.member.entity.Member;
 import salaba.domain.reservation.entity.Reservation;
 import salaba.domain.reservation.entity.Review;

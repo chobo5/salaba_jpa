@@ -1,9 +1,8 @@
-package salaba.domain.member.entity;
+package salaba.domain.auth.entity;
 
 import org.junit.jupiter.api.Test;
-import salaba.domain.auth.entity.MemberRole;
-import salaba.domain.auth.entity.Role;
 import salaba.domain.auth.constant.RoleName;
+import salaba.domain.member.entity.Member;
 
 import java.time.LocalDate;
 

@@ -1,4 +1,4 @@
-package salaba.domain.rentalHome.service;
+package salaba.domain.reservation.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -14,7 +14,7 @@ import salaba.domain.rentalHome.dto.response.ReviewResDto;
 import salaba.domain.rentalHome.entity.RentalHome;
 import salaba.domain.reservation.entity.Review;
 import salaba.domain.rentalHome.repository.RentalHomeRepository;
-import salaba.domain.rentalHome.repository.ReviewRepository;
+import salaba.domain.reservation.repository.ReviewRepository;
 import salaba.domain.reservation.entity.Reservation;
 import salaba.domain.reservation.repository.ReservationRepository;
 import salaba.domain.auth.exception.CannotFindMemberException;

@@ -16,7 +16,7 @@ import salaba.domain.board.dto.response.BoardDetailResDto;
 import salaba.domain.board.dto.response.BoardResDto;
 import salaba.domain.board.entity.Board;
 import salaba.domain.board.entity.BoardLike;
-import salaba.global.constants.WritingStatus;
+import salaba.domain.global.constants.WritingStatus;
 import salaba.domain.member.entity.Member;
 import salaba.domain.board.entity.Reply;
 

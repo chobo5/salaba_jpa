@@ -17,6 +17,7 @@ import salaba.domain.rentalHome.dto.response.RentalHomeResDto;
 import salaba.domain.rentalHome.entity.*;
 import salaba.domain.rentalHome.repository.*;
 import salaba.domain.auth.exception.NoAuthorityException;
+import salaba.domain.reservation.service.ReviewService;
 
 import java.util.List;
 import java.util.NoSuchElementException;

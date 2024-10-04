@@ -1,4 +1,4 @@
-package salaba.domain.member.service;
+package salaba.domain.auth.service;
 
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -11,8 +11,6 @@ import salaba.domain.auth.dto.RefreshTokenDto;
 import salaba.domain.auth.dto.request.MemberJoinReqDto;
 import salaba.domain.auth.dto.request.MemberLoginReqDto;
 import salaba.domain.auth.dto.response.TokenResDto;
-import salaba.domain.auth.service.AuthService;
-import salaba.domain.auth.service.TokenService;
 import salaba.domain.member.entity.Member;
 import salaba.domain.auth.entity.MemberRole;
 import salaba.domain.auth.entity.Role;

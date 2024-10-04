@@ -1,10 +1,10 @@
 package salaba.domain.reservation.entity;
 
 import org.junit.jupiter.api.Test;
-import salaba.global.constants.ProcessStatus;
-import salaba.global.entity.Address;
-import salaba.global.entity.Nation;
-import salaba.global.entity.Region;
+import salaba.domain.global.constants.ProcessStatus;
+import salaba.domain.global.entity.Address;
+import salaba.domain.global.entity.Nation;
+import salaba.domain.global.entity.Region;
 import salaba.domain.member.entity.Member;
 import salaba.domain.rentalHome.entity.RentalHome;
 import salaba.domain.reservation.constants.PayMethod;

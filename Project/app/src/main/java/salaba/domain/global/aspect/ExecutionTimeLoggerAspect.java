@@ -20,7 +20,7 @@ public class ExecutionTimeLoggerAspect {
     @Pointcut("execution(* salaba.domain.rentalHome.service.RentalHomeService.getRentalHome(..))")
     public void getRentalHome() {}
 
-    @Pointcut("execution(* salaba.domain.rentalHome.service.ReviewService.getRentalHomeReviews(..))")
+    @Pointcut("execution(* salaba.domain.reservation.service.ReviewService.getRentalHomeReviews(..))")
     public void getRentalHomeReviews() {}
 
     @Pointcut("execution(* salaba.domain.rentalHome.service.RentalHomeService.getRentalHomeByHost(..))")

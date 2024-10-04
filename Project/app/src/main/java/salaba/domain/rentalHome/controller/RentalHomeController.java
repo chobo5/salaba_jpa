@@ -15,7 +15,7 @@ import salaba.domain.rentalHome.dto.response.RentalHomeResDto;
 import salaba.domain.rentalHome.dto.response.ReviewResDto;
 import salaba.domain.member.service.BookMarkService;
 import salaba.domain.rentalHome.service.RentalHomeService;
-import salaba.domain.rentalHome.service.ReviewService;
+import salaba.domain.reservation.service.ReviewService;
 import salaba.domain.auth.interceptor.MemberContextHolder;
 import salaba.util.RestResult;
 

@@ -10,13 +10,14 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.ActiveProfiles;
 import salaba.config.QuerydslConfig;
-import salaba.global.entity.Address;
-import salaba.global.entity.Nation;
-import salaba.global.entity.Region;
+import salaba.domain.global.entity.Address;
+import salaba.domain.global.entity.Nation;
+import salaba.domain.global.entity.Region;
 import salaba.domain.member.entity.Member;
 import salaba.domain.rentalHome.entity.*;
 import salaba.domain.reservation.entity.Reservation;
 import salaba.domain.reservation.entity.Review;
+import salaba.domain.reservation.repository.ReviewRepository;
 
 import javax.persistence.EntityManager;
 import java.time.LocalDate;
