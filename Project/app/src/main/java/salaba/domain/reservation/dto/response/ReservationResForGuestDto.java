@@ -2,7 +2,7 @@ package salaba.domain.reservation.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import salaba.global.constants.ProcessStatus;
+import salaba.domain.global.constants.ProcessStatus;
 import salaba.domain.reservation.entity.Reservation;
 
 import java.time.LocalDateTime;

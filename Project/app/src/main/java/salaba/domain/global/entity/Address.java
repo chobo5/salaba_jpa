@@ -1,4 +1,4 @@
-package salaba.global.entity;
+package salaba.domain.global.entity;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;

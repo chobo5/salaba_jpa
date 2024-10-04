@@ -8,7 +8,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
-import salaba.global.dto.IdResDto;
+import salaba.domain.global.dto.IdResDto;
 import salaba.domain.member.dto.request.*;
 import salaba.domain.member.dto.response.AlarmResDto;
 import salaba.domain.member.dto.response.PointResDto;

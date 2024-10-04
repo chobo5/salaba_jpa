@@ -21,7 +21,7 @@ import salaba.domain.board.dto.response.QBoardResDto;
 import salaba.domain.board.entity.Board;
 import salaba.domain.board.entity.QReply;
 import salaba.domain.board.repository.custom.BoardRepositoryCustom;
-import salaba.global.constants.WritingStatus;
+import salaba.domain.global.constants.WritingStatus;
 import salaba.domain.board.dto.response.ReplyResDto;
 import salaba.domain.board.dto.response.ReplyToReplyResDto;
 

@@ -2,9 +2,9 @@ package salaba.domain.member.entity;
 
 import lombok.*;
 import salaba.domain.auth.entity.MemberRole;
-import salaba.global.entity.Address;
-import salaba.global.entity.BaseEntity;
-import salaba.global.entity.Nation;
+import salaba.domain.global.entity.Address;
+import salaba.domain.global.entity.BaseEntity;
+import salaba.domain.global.entity.Nation;
 import salaba.domain.board.entity.Board;
 import salaba.domain.member.constants.Gender;
 import salaba.domain.auth.constant.MemberStatus;

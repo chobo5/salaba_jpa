@@ -4,7 +4,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import salaba.global.constants.ProcessStatus;
+import salaba.domain.global.constants.ProcessStatus;
 import salaba.domain.reservation.constants.PayMethod;
 
 import javax.validation.constraints.NotEmpty;

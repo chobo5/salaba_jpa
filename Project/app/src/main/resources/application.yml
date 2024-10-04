@@ -17,3 +17,6 @@ management:
       enable: true
       times: 3
 
+springdoc:
+  swagger-ui:
+    path: /swagger

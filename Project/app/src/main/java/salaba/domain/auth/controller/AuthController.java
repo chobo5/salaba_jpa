@@ -8,7 +8,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import salaba.domain.auth.dto.request.MemberJoinReqDto;
 import salaba.domain.auth.dto.request.MemberLoginReqDto;
-import salaba.global.dto.IdResDto;
+import salaba.domain.global.dto.IdResDto;
 import salaba.domain.auth.dto.response.MemberLoginResDto;
 import salaba.domain.auth.dto.RefreshTokenDto;
 import salaba.domain.auth.service.AuthService;

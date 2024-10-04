@@ -14,10 +14,10 @@ import salaba.domain.member.dto.response.PointResDto;
 import salaba.domain.member.entity.Alarm;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.entity.Point;
-import salaba.global.entity.Address;
-import salaba.global.entity.Nation;
+import salaba.domain.global.entity.Address;
+import salaba.domain.global.entity.Nation;
 import salaba.domain.member.repository.MemberRepository;
-import salaba.global.repository.NationRepository;
+import salaba.domain.global.repository.NationRepository;
 
 import javax.validation.ValidationException;
 import java.util.NoSuchElementException;

@@ -1,8 +1,8 @@
 package salaba.domain.reservation.entity;
 
 import lombok.Getter;
-import salaba.global.entity.BaseEntity;
-import salaba.global.constants.ProcessStatus;
+import salaba.domain.global.entity.BaseEntity;
+import salaba.domain.global.constants.ProcessStatus;
 import salaba.domain.member.entity.Member;
 import salaba.domain.reservation.constants.PayMethod;
 import salaba.domain.rentalHome.exception.CannotChangeStatusException;

@@ -13,7 +13,7 @@ import salaba.domain.board.dto.request.BoardCreateReqDto;
 import salaba.domain.board.dto.response.BoardByMemberResDto;
 import salaba.domain.board.dto.response.BoardResDto;
 import salaba.domain.board.dto.request.BoardModifyReqDto;
-import salaba.global.dto.IdResDto;
+import salaba.domain.global.dto.IdResDto;
 import salaba.domain.board.service.BoardService;
 import salaba.domain.board.dto.request.ReplyCreateReqDto;
 import salaba.domain.board.dto.request.ReplyModifyReqDto;

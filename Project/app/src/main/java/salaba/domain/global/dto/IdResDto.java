@@ -1,4 +1,4 @@
-package salaba.global.dto;
+package salaba.domain.global.dto;
 
 import lombok.Getter;
 import lombok.Setter;

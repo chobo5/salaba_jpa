@@ -14,7 +14,7 @@ import salaba.domain.reservation.dto.response.ReservationCompleteResDto;
 import salaba.domain.reservation.dto.response.ReservationResForGuestDto;
 import salaba.domain.reservation.dto.response.ReservationResForHostDto;
 import salaba.domain.reservation.service.ReservationService;
-import salaba.global.dto.IdResDto;
+import salaba.domain.global.dto.IdResDto;
 import salaba.domain.auth.interceptor.MemberContextHolder;
 import salaba.util.RestResult;
 

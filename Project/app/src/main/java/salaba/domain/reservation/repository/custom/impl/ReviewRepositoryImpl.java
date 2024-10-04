@@ -41,7 +41,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
 
         JPAQuery<Long> reviewCount = queryFactory.select(review.count())
                 .from(review)
-                .join(review.reservation, reservation).fetchJoin()
+                .join(review.reservation, reservation)
                 .where(review.reservation.member.eq(member));
 
         return PageableExecutionUtils.getPage(reviews, pageable, reviewCount::fetchOne);

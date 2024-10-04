@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import salaba.domain.board.entity.Board;
 import salaba.domain.board.repository.custom.BoardRepositoryCustom;
-import salaba.global.constants.WritingStatus;
+import salaba.domain.global.constants.WritingStatus;
 import salaba.domain.member.entity.Member;
 
 @Repository

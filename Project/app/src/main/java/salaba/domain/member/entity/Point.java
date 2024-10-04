@@ -1,7 +1,7 @@
 package salaba.domain.member.entity;
 
 import lombok.Getter;
-import salaba.global.entity.BaseEntity;
+import salaba.domain.global.entity.BaseEntity;
 import salaba.domain.member.exception.PointCannotBeZeroException;
 
 import javax.persistence.*;

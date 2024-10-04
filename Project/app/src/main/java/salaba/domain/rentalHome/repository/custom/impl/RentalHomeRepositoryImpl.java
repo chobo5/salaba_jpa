@@ -10,7 +10,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
-import salaba.global.constants.ProcessStatus;
+import salaba.domain.global.constants.ProcessStatus;
 import salaba.domain.rentalHome.dto.response.RentalHomeResDto;
 import salaba.domain.rentalHome.entity.Facility;
 import salaba.domain.rentalHome.entity.RentalHome;
@@ -22,8 +22,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static salaba.domain.global.entity.QRegion.region;
 import static salaba.domain.reservation.entity.QReview.review;
-import static salaba.global.entity.QRegion.region;
 import static salaba.domain.member.entity.QMember.member;
 import static salaba.domain.rentalHome.entity.QFacility.facility;
 import static salaba.domain.rentalHome.entity.QRentalHome.rentalHome;
@@ -126,8 +126,8 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
         List<RentalHome> result = queryFactory.select(rentalHome)
                 .from(rentalHome)
                 .join(rentalHome.region, region).fetchJoin()
-                .leftJoin(rentalHomeTheme).on(rentalHomeTheme.rentalHome.id.eq(rentalHome.id))
-                .leftJoin(theme).on(rentalHomeTheme.theme.id.eq(theme.id))
+                .leftJoin(rentalHome.rentalHomeThemes, rentalHomeTheme)
+                .leftJoin(rentalHomeTheme.theme, theme)
                 .where(regionNameContains(regionName),
                         themeNameContains(themeName),
                         setMaxPrice(maxPrice),
@@ -141,8 +141,8 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
         JPAQuery<Long> totalCount = queryFactory.select(rentalHome.id.countDistinct())
                 .from(rentalHome)
                 .join(rentalHome.region, region)
-                .leftJoin(rentalHomeTheme).on(rentalHomeTheme.rentalHome.id.eq(rentalHome.id))
-                .leftJoin(theme).on(rentalHomeTheme.theme.id.eq(theme.id))
+                .leftJoin(rentalHome.rentalHomeThemes, rentalHomeTheme)
+                .leftJoin(rentalHomeTheme.theme, theme)
                 .where(regionNameContains(regionName),
                         themeNameContains(themeName),
                         setMaxPrice(maxPrice),
@@ -168,8 +168,8 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
                         rentalHome.reviewAvg))
                 .from(rentalHome)
                 .join(rentalHome.region, region)
-                .leftJoin(rentalHomeTheme).on(rentalHomeTheme.rentalHome.id.eq(rentalHome.id))
-                .leftJoin(theme).on(rentalHomeTheme.theme.id.eq(theme.id))
+                .leftJoin(rentalHome.rentalHomeThemes, rentalHomeTheme)
+                .leftJoin(rentalHomeTheme.theme, theme)
                 .where(regionNameContains(regionName),
                         themeNameContains(themeName),
                         setMaxPrice(maxPrice),
@@ -183,8 +183,8 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
         JPAQuery<Long> totalCount = queryFactory.select(rentalHome.id.countDistinct())
                 .from(rentalHome)
                 .join(rentalHome.region, region)
-                .leftJoin(rentalHomeTheme).on(rentalHomeTheme.rentalHome.id.eq(rentalHome.id))
-                .leftJoin(theme).on(rentalHomeTheme.theme.id.eq(theme.id))
+                .leftJoin(rentalHome.rentalHomeThemes, rentalHomeTheme)
+                .leftJoin(rentalHomeTheme.theme, theme)
                 .where(regionNameContains(regionName),
                         themeNameContains(themeName),
                         setMaxPrice(maxPrice),
@@ -197,9 +197,9 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
         List<Tuple> result = queryFactory.select(rentalHome, reservation.count())
                 .from(rentalHome)
                 .leftJoin(rentalHome.region, region).fetchJoin()
-                .leftJoin(reservation).on(reservation.rentalHome.id.eq(rentalHome.id))
-                .leftJoin(rentalHomeTheme).on(rentalHomeTheme.rentalHome.id.eq(rentalHome.id))
-                .leftJoin(theme).on(rentalHomeTheme.theme.id.eq(theme.id))
+                .leftJoin(rentalHome.reservations, reservation)
+                .leftJoin(rentalHome.rentalHomeThemes, rentalHomeTheme)
+                .leftJoin(rentalHomeTheme.theme, theme)
                 .where(regionNameContains(regionName),
                         themeNameContains(themeName),
                         setMaxPrice(maxPrice),
@@ -214,9 +214,9 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
         JPAQuery<Long> totalCount = queryFactory.select(rentalHome.id.countDistinct())
                 .from(rentalHome)
                 .join(rentalHome.region, region)
-                .leftJoin(rentalHomeTheme).on(rentalHomeTheme.rentalHome.id.eq(rentalHome.id))
-                .leftJoin(reservation).on(reservation.rentalHome.id.eq(rentalHome.id))
-                .leftJoin(theme).on(rentalHomeTheme.theme.id.eq(theme.id))
+                .leftJoin(rentalHome.rentalHomeThemes, rentalHomeTheme)
+                .leftJoin(rentalHome.reservations, reservation)
+                .leftJoin(rentalHomeTheme.theme, theme)
                 .where(regionNameContains(regionName),
                         themeNameContains(themeName),
                         setMaxPrice(maxPrice),

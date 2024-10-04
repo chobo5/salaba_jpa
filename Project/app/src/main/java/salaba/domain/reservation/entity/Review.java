@@ -1,8 +1,8 @@
 package salaba.domain.reservation.entity;
 
 import lombok.Getter;
-import salaba.global.entity.BaseEntity;
-import salaba.global.constants.WritingStatus;
+import salaba.domain.global.entity.BaseEntity;
+import salaba.domain.global.constants.WritingStatus;
 
 import javax.persistence.*;
 

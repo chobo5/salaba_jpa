@@ -1,9 +1,9 @@
 package salaba.domain.board.entity;
 
 import lombok.*;
-import salaba.global.entity.BaseEntity;
+import salaba.domain.global.entity.BaseEntity;
 import salaba.domain.board.constants.BoardScope;
-import salaba.global.constants.WritingStatus;
+import salaba.domain.global.constants.WritingStatus;
 import salaba.domain.member.entity.Member;
 
 import javax.persistence.*;

@@ -1,10 +1,10 @@
-package salaba.global.service;
+package salaba.domain.global.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.global.entity.Address;
-import salaba.global.entity.Region;
+import salaba.domain.global.entity.Address;
+import salaba.domain.global.entity.Region;
 import salaba.domain.member.entity.Member;
 import salaba.domain.rentalHome.entity.*;
 import salaba.domain.reservation.entity.Reservation;

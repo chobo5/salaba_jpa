@@ -1,9 +1,9 @@
 package salaba.domain.rentalHome.entity;
 
 import lombok.Getter;
-import salaba.global.entity.Address;
-import salaba.global.entity.BaseEntity;
-import salaba.global.entity.Region;
+import salaba.domain.global.entity.Address;
+import salaba.domain.global.entity.BaseEntity;
+import salaba.domain.global.entity.Region;
 import salaba.domain.reservation.entity.Reservation;
 import salaba.domain.member.entity.Member;
 import salaba.domain.rentalHome.exception.CannotChangeStatusException;
