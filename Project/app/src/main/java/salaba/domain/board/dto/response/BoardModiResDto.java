@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import salaba.domain.board.constants.BoardScope;
+import salaba.domain.board.entity.Board;
 
 import java.time.LocalDateTime;
 
@@ -22,4 +23,13 @@ public class BoardModiResDto {
 
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime updatedDate;
+
+    public BoardModiResDto(Board board) {
+        boardId = board.getId();
+        title = board.getTitle();
+        content = board.getContent();
+        boardScope = board.getBoardScope();
+        createdDate = board.getCreatedDate();
+        updatedDate = board.getUpdatedDate();
+    }
 }

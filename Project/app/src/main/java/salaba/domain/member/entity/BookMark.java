@@ -28,4 +28,8 @@ public class BookMark {
         member.getBookMarks().add(bookMark);
         return bookMark;
     }
+
+    public void cancel(Member member) {
+        member.getBookMarks().remove(this);
+    }
 }

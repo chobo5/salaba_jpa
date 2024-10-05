@@ -8,6 +8,7 @@ import salaba.domain.auth.constant.RoleName;
 import salaba.domain.auth.dto.request.MemberJoinReqDto;
 import salaba.domain.auth.dto.request.MemberLoginReqDto;
 import salaba.domain.auth.dto.response.TokenResDto;
+import salaba.domain.global.exception.ErrorMessage;
 import salaba.domain.member.entity.Member;
 import salaba.domain.auth.entity.MemberRole;
 import salaba.domain.auth.entity.Role;
@@ -18,7 +19,8 @@ import salaba.domain.member.repository.MemberRoleRepository;
 import salaba.domain.member.repository.RoleRepository;
 import salaba.domain.auth.dto.RefreshTokenDto;
 
-import java.util.NoSuchElementException;
+import javax.persistence.EntityNotFoundException;
+import javax.validation.ValidationException;
 import java.util.Optional;
 
 @Service
@@ -59,7 +61,8 @@ public class AuthService {
         memberRepository.save(newMember);
 
         //일반 회원 권한 부여
-        Role role = roleRepository.findByRoleName(RoleName.MEMBER).orElseThrow(NoSuchElementException::new);
+        Role role = roleRepository.findByRoleName(RoleName.MEMBER)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Role.class, "MEMBER")));
         MemberRole memberRole = MemberRole.create(newMember, role);
         memberRoleRepository.save(memberRole);
         return newMember.getId();
@@ -69,7 +72,7 @@ public class AuthService {
         Optional<Member> findMember = memberRepository.findByEmail(reqDto.getEmail());
 
         if (findMember.isEmpty() || !passwordEncoder.matches(reqDto.getPassword(), findMember.get().getPassword())) {
-            throw new NoSuchElementException("아이디 또는 비밀번호가 잘못 되었습니다");
+            throw new ValidationException("아이디 또는 비밀번호가 잘못 되었습니다");
         }
         Member verifiedMember = findMember.get();
         verifiedMember.login();

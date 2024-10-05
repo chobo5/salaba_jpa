@@ -5,7 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
-import salaba.domain.auth.exception.CannotFindMemberException;
 import salaba.domain.auth.exception.NoAuthorityException;
 import salaba.util.RestResult;
 
@@ -30,13 +29,6 @@ public class MemberExceptionHandler {
     @ResponseStatus(HttpStatus.CONFLICT) // 또는 적절한 상태 코드 설정
     @ResponseBody
     public RestResult<?> handleAlreadyExistsException(AlreadyExistsException e) {
-        return RestResult.error(e.getMessage());
-    }
-
-    @ExceptionHandler(CannotFindMemberException.class)
-    @ResponseStatus(HttpStatus.BAD_REQUEST) // 또는 적절한 상태 코드 설정
-    @ResponseBody
-    public RestResult<?> handleCannotFindMemberException(CannotFindMemberException e) {
         return RestResult.error(e.getMessage());
     }
 
