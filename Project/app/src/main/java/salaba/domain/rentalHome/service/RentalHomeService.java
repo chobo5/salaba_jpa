@@ -18,11 +18,9 @@ import salaba.domain.rentalHome.dto.response.RentalHomeResDto;
 import salaba.domain.rentalHome.entity.*;
 import salaba.domain.rentalHome.repository.*;
 import salaba.domain.auth.exception.NoAuthorityException;
-import salaba.domain.reservation.service.ReviewService;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -31,16 +29,14 @@ public class RentalHomeService {
     private final MemberRepository memberRepository;
     private final RentalHomeRepository rentalHomeRepository;
     private final RegionRepository regionRepository;
-    private final FacilityRepository facilityRepository;
-    private final ThemeRepository themeRepository;
-    private final RentalHomeFacilityRepository rentalHomeFacilityRepository;
-    private final RentalHomeThemeRepository rentalHomeThemeRepository;
+    private final RentalHomeThemeService rentalHomeThemeService;
+    private final RentalHomeFacilityService rentalHomeFacilityService;
 
-    public RentalHomeDetailResDto getRentalHome(Long rentalHomeId) {
+    public RentalHomeDetailResDto view(Long rentalHomeId) {
         return rentalHomeRepository.findDetailById(rentalHomeId);
     }
 
-    public Long createRentalHome(Long memberId, RentalHomeCreateReqDto reqDto) {
+    public Long create(Long memberId, RentalHomeCreateReqDto reqDto) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
 
@@ -55,24 +51,17 @@ public class RentalHomeService {
         rentalHomeRepository.save(rentalHome);
 
         // 숙소_테마 저장
-        List<Theme> themes = themeRepository.findAllById(reqDto.getThemes());
-        List<RentalHomeTheme> rentalHomeThemes = themes.stream()
-                .map(theme -> RentalHomeTheme.create(rentalHome, theme))
-                .collect(Collectors.toList());
-        rentalHomeThemeRepository.saveAll(rentalHomeThemes);
+        List<RentalHomeTheme> rentalHomeThemes = rentalHomeThemeService.saveAll(rentalHome, reqDto.getThemes());
         rentalHome.setThemes(rentalHomeThemes);
 
         // 숙소_시설 저장
-        List<Facility> facilities = facilityRepository.findAllById(reqDto.getFacilities());
-        List<RentalHomeFacility> rentalHomeFacilities = facilities.stream()
-                .map(facility -> RentalHomeFacility.create(rentalHome, facility))
-                .collect(Collectors.toList());
-        rentalHomeFacilityRepository.saveAll(rentalHomeFacilities);
+        List<RentalHomeFacility> rentalHomeFacilities = rentalHomeFacilityService.saveAll(rentalHome, reqDto.getFacilities());
         rentalHome.setFacilities(rentalHomeFacilities);
+
         return rentalHome.getId();
     }
 
-    public RentalHomeDetailResDto modifyRentalHome(Long memberId, RentalHomeModiReqDto reqDto) {
+    public RentalHomeDetailResDto modify(Long memberId, RentalHomeModiReqDto reqDto) {
         //숙소의 호스트를 찾는다.
         Member host = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
@@ -93,33 +82,22 @@ public class RentalHomeService {
 
         // 숙소_테마 저장
         if (reqDto.getThemes() != null && !reqDto.getThemes().isEmpty()) {
-            List<Theme> themes = themeRepository.findAllById(reqDto.getThemes());
-            rentalHomeThemeRepository.deleteByRentalHome(rentalHome);
-
-            List<RentalHomeTheme> rentalHomeThemes = themes.stream()
-                    .map(theme -> RentalHomeTheme.create(rentalHome, theme))
-                    .collect(Collectors.toList());
-            rentalHomeThemeRepository.saveAll(rentalHomeThemes);
+            rentalHomeThemeService.deleteAll(rentalHome);
+            List<RentalHomeTheme> rentalHomeThemes = rentalHomeThemeService.saveAll(rentalHome, reqDto.getThemes());
             rentalHome.setThemes(rentalHomeThemes);
         }
 
-
         // 숙소_시설 저장
         if (reqDto.getFacilities() != null && !reqDto.getFacilities().isEmpty()) {
-            List<Facility> facilities = facilityRepository.findAllById(reqDto.getFacilities());
-            rentalHomeFacilityRepository.deleteByRentalHome(rentalHome);
-            List<RentalHomeFacility> rentalHomeFacilities = facilities.stream()
-                    .map(facility -> RentalHomeFacility.create(rentalHome, facility))
-                    .collect(Collectors.toList());
-            rentalHomeFacilityRepository.saveAll(rentalHomeFacilities);
+            rentalHomeFacilityService.deleteAll(rentalHome);
+            List<RentalHomeFacility> rentalHomeFacilities = rentalHomeFacilityService.saveAll(rentalHome, reqDto.getFacilities());
             rentalHome.setFacilities(rentalHomeFacilities);
         }
-
 
         return new RentalHomeDetailResDto(rentalHome);
     }
 
-    public Long deleteRentalHome(Long memberId, Long rentalHomeId) {
+    public Long delete(Long memberId, Long rentalHomeId) {
         Member host = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
         RentalHome rentalHome = rentalHomeRepository.findWithReservations(rentalHomeId)
@@ -132,31 +110,26 @@ public class RentalHomeService {
         return rentalHome.getId();
     }
 
-    public Page<RentalHomeResDto> getRentalHomesByHost(Long hostId, Pageable pageable) {
+    public Page<RentalHomeResDto> getRentalHomesOwnedByHost(Long hostId, Pageable pageable) {
         Page<RentalHome> rentalHomes = rentalHomeRepository.findByHost(hostId, pageable);
 
         return rentalHomes.map(RentalHomeResDto::new);
     }
 
-    public RentalHomeDetailResDto getRentalHomeByHost(Long memberId, Long rentalHomeId) {
+    public RentalHomeDetailResDto getRentalHomeOwnedByHost(Long memberId, Long rentalHomeId) {
         return rentalHomeRepository.findDetailByIdAndHost(rentalHomeId, memberId);
     }
 
-    public Page<RentalHomeResDto> searchRentalHomesOrderByReview(String regionName, String themeName, Long minPrice, Long maxPrice, Pageable pageable) {
-//        Page<RentalHome> rentalHomes = rentalHomeRepository
-//                .findRentalHomesOrderByReview(regionName, themeName, minPrice, maxPrice, pageable);
-//
-//        return rentalHomes.map(RentalHomeResDto::new);
+    public Page<RentalHomeResDto> searchRentalHomesOrderByReview(String regionName, String themeName, Long minPrice,
+                                                                 Long maxPrice, Pageable pageable) {
         return rentalHomeRepository.findRentalHomeDtosOrderByReview(regionName, themeName, minPrice, maxPrice, pageable);
     }
 
-    public Page<RentalHomeResDto> searchRentalHomesOrderBySalesCount(String regionName, String themeName, Long minPrice, Long maxPrice, Pageable pageable) {
+    public Page<RentalHomeResDto> searchRentalHomesOrderBySalesCount(String regionName, String themeName, Long minPrice,
+                                                                     Long maxPrice, Pageable pageable) {
         Page<RentalHome> rentalHomes = rentalHomeRepository
                 .findRentalHomesOrderBySalesCount(regionName, themeName, minPrice, maxPrice, pageable);
 
         return rentalHomes.map(RentalHomeResDto::new);
     }
-
-
-
 }

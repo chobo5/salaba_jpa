@@ -25,14 +25,14 @@ public class LocationController {
     @Operation(summary = "국가 목록")
     @GetMapping("nation/list")
     public RestResult<List<NationDto>> nationList() {
-        List<NationDto> nations = nationService.list();
+        List<NationDto> nations = nationService.getList();
         return RestResult.success(nations);
     }
 
     @Operation(summary = "지역 목록")
     @GetMapping("region/list")
     public RestResult<List<RegionDto>> regionList(@RequestParam Integer nationId) {
-        List<RegionDto> regions = regionService.list(nationId);
+        List<RegionDto> regions = regionService.getList(nationId);
         return RestResult.success(regions);
     }
 

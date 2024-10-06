@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
 public class NationService {
     private final NationRepository nationRepository;
 
-    public List<NationDto> list() {
+    public List<NationDto> getList() {
         List<Nation> nationList = nationRepository.findAll();
 
         return nationList.stream()

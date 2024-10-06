@@ -36,7 +36,7 @@ public class BoardController {
     @Operation(summary = "게시물 작성")
     @PostMapping("new")
     public RestResult<?> createBoard(@RequestBody BoardCreateReqDto boardCreateReqDto) {
-        Long boardId = boardService.createBoard(MemberContextHolder.getMemberId(), boardCreateReqDto);
+        Long boardId = boardService.create(MemberContextHolder.getMemberId(), boardCreateReqDto);
         return RestResult.success(new IdResDto(boardId));
 
     }
@@ -46,14 +46,14 @@ public class BoardController {
     public RestResult<?> getBoardList(@RequestParam(defaultValue = "0") int pageNumber,
                                       @RequestParam(defaultValue = "10") int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<BoardResDto> dtoList = boardService.getBoardList(pageable);
+        Page<BoardResDto> dtoList = boardService.getPage(pageable);
         return RestResult.success(dtoList);
     }
 
     @Operation(summary = "게시물 상세보기")
     @GetMapping()
     public RestResult<?> getBoard(@RequestParam Long boardId) {
-        return RestResult.success(boardService.getBoard(boardId));
+        return RestResult.success(boardService.view(boardId));
     }
 
 
@@ -102,14 +102,14 @@ public class BoardController {
     public RestResult<?> boardListByMember(@RequestParam(defaultValue = "0") int pageNumber,
                                            @RequestParam(defaultValue = "10") int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<BoardByMemberResDto> boards = boardService.boardsByMember(MemberContextHolder.getMemberId(), pageable);
+        Page<BoardByMemberResDto> boards = boardService.boardsWrittenByMember(MemberContextHolder.getMemberId(), pageable);
         return RestResult.success(boards);
     }
 
     @Operation(summary = "댓글 작성")
     @PostMapping("reply/new")
     public RestResult<?> createReply(@RequestBody ReplyCreateReqDto replyCreateReqDto) {
-        Long replyId = replyService.createReply(MemberContextHolder.getMemberId(), replyCreateReqDto);
+        Long replyId = replyService.create(MemberContextHolder.getMemberId(), replyCreateReqDto);
         return RestResult.success(new IdResDto(replyId));
     }
 
@@ -130,7 +130,7 @@ public class BoardController {
     @Operation(summary = "대댓글 작성")
     @PostMapping("reply/toReply/new")
     public RestResult<?> createReplyToReply(@RequestBody ReplyToReplyCreateReqDto replyCreateDto) {
-        Long replyToReplyId = replyService.createReplyToReply(MemberContextHolder.getMemberId(), replyCreateDto);
+        Long replyToReplyId = replyService.createToReply(MemberContextHolder.getMemberId(), replyCreateDto);
         return RestResult.success(new IdResDto(replyToReplyId));
     }
 
@@ -140,7 +140,7 @@ public class BoardController {
     public RestResult<?> replyListByMember(@RequestParam(defaultValue = "0") int pageNumber,
                                            @RequestParam(defaultValue = "10") int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<ReplyByMemberResDto> replies = replyService.getRepliesByMember(MemberContextHolder.getMemberId(), pageable);
+        Page<ReplyByMemberResDto> replies = replyService.getRepliesWrittenByMember(MemberContextHolder.getMemberId(), pageable);
         return RestResult.success(replies);
     }
 

@@ -3,7 +3,6 @@ package salaba.domain.global.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.domain.global.dto.NationDto;
 import salaba.domain.global.dto.RegionCreateDto;
 import salaba.domain.global.dto.RegionDto;
 import salaba.domain.global.entity.Nation;
@@ -24,7 +23,7 @@ public class RegionService {
     private final RegionRepository regionRepository;
     private final NationRepository nationRepository;
 
-    public List<RegionDto> list(Integer nationId) {
+    public List<RegionDto> getList(Integer nationId) {
         Nation nation = nationRepository.findById(nationId).orElseThrow(EntityNotFoundException::new);
         List<Region> regions = regionRepository.findByNation(nation);
         return  regions.stream()

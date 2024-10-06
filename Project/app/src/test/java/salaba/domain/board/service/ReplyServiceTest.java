@@ -69,7 +69,7 @@ class ReplyServiceTest {
         doNothing().when(alarmService).createReplyAlarm(board.getWriter(), member, reply.getContent());
         doNothing().when(pointService).createReplyPoint(member);
 
-        replyService.createReply(memberId, reqDto);
+        replyService.create(memberId, reqDto);
         //then
         verify(boardRepository, times(1)).findByIdWithWriter(reqDto.getBoardId());
         verify(memberRepository, times(1)).findById(memberId);
@@ -94,7 +94,7 @@ class ReplyServiceTest {
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
         doNothing().when(alarmService).createReplyAlarm(board.getWriter(), member, reply.getContent());
 
-        replyService.createReplyToReply(memberId, reqDto);
+        replyService.createToReply(memberId, reqDto);
         //then
         verify(replyRepository, times(1)).findByIdWithWriter(reqDto.getReplyId());
         verify(replyRepository, times(1)).save(any(Reply.class));
@@ -161,7 +161,7 @@ class ReplyServiceTest {
         List<Reply> replies = Arrays.asList(Reply.createReply(board, "content", member), Reply.createReply(board, "content2", member));
         when(replyRepository.findByWriter(member, pageable)).thenReturn(new PageImpl<>(replies, pageable, 2L));
 
-        replyService.getRepliesByMember(memberId, pageable);
+        replyService.getRepliesWrittenByMember(memberId, pageable);
         //then
         verify(memberRepository, times(1)).findById(memberId);
         verify(replyRepository, times(1)).findByWriter(member, pageable);

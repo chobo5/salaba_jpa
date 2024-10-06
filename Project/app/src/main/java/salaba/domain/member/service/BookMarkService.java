@@ -22,14 +22,14 @@ public class BookMarkService {
     private final RentalHomeRepository rentalHomeRepository;
     private final MemberRepository memberRepository;
 
-    public Long mark(Long memberId, Long rentalHomeId) {
+    public Long create(Long memberId, Long rentalHomeId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
 
         RentalHome rentalHome = rentalHomeRepository.findById(rentalHomeId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(RentalHome.class, rentalHomeId)));
 
-        if (bookMarkRepository.findByMemberAndRentalHome(member, rentalHome) != null) {
+        if (bookMarkRepository.findByMemberAndRentalHome(member, rentalHome).isPresent()) {
             throw new AlreadyExistsException("이미 추가된 숙소입니다.");
         }
 
@@ -38,7 +38,7 @@ public class BookMarkService {
         return bookMark.getId();
     }
 
-    public void deleteMark(Long memberId, Long rentalHomeId) {
+    public void delete(Long memberId, Long rentalHomeId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
 

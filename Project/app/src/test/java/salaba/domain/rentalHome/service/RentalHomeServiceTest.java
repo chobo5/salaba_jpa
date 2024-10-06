@@ -77,7 +77,7 @@ class RentalHomeServiceTest {
 
         when(rentalHomeRepository.findDetailById(rentalHomeId)).thenReturn(resDto);
 
-        rentalHomeService.getRentalHome(rentalHomeId);
+        rentalHomeService.view(rentalHomeId);
 
         //then
         verify(rentalHomeRepository, times(1)).findDetailById(rentalHomeId);
@@ -105,7 +105,7 @@ class RentalHomeServiceTest {
         when(themeRepository.findAllById(reqDto.getThemes())).thenReturn(themes);
         when(facilityRepository.findAllById(reqDto.getFacilities())).thenReturn(facilities);
 
-        rentalHomeService.createRentalHome(memberId, reqDto);
+        rentalHomeService.create(memberId, reqDto);
 //
 //        //then
         verify(memberRepository, times(1)).findById(memberId);
@@ -143,7 +143,7 @@ class RentalHomeServiceTest {
         when(themeRepository.findAllById(reqDto.getThemes())).thenReturn(themes);
         when(facilityRepository.findAllById(reqDto.getFacilities())).thenReturn(facilities);
 
-        rentalHomeService.modifyRentalHome(memberId, reqDto);
+        rentalHomeService.modify(memberId, reqDto);
 //
 //        //then
         verify(memberRepository, times(1)).findById(memberId);
@@ -177,7 +177,7 @@ class RentalHomeServiceTest {
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
         when(rentalHomeRepository.findWithReservations(rentalHomeId)).thenReturn(Optional.of(rentalHome));
 
-        rentalHomeService.deleteRentalHome(memberId, rentalHomeId);
+        rentalHomeService.delete(memberId, rentalHomeId);
         //then
         verify(memberRepository, times(1)).findById(memberId);
         verify(rentalHomeRepository, times(1)).findWithReservations(rentalHomeId);
@@ -207,7 +207,7 @@ class RentalHomeServiceTest {
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(otherMember));
         when(rentalHomeRepository.findWithReservations(rentalHomeId)).thenReturn(Optional.of(rentalHome));
 
-        assertThrows(NoAuthorityException.class, () -> rentalHomeService.deleteRentalHome(memberId, rentalHomeId));
+        assertThrows(NoAuthorityException.class, () -> rentalHomeService.delete(memberId, rentalHomeId));
 
         //then
         verify(memberRepository, times(1)).findById(memberId);
@@ -240,7 +240,7 @@ class RentalHomeServiceTest {
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
         when(rentalHomeRepository.findWithReservations(rentalHomeId)).thenReturn(Optional.of(rentalHome));
 
-        assertThrows(CannotChangeStatusException.class, () -> rentalHomeService.deleteRentalHome(memberId, rentalHomeId));
+        assertThrows(CannotChangeStatusException.class, () -> rentalHomeService.delete(memberId, rentalHomeId));
         //then
         verify(memberRepository, times(1)).findById(memberId);
         verify(rentalHomeRepository, times(1)).findWithReservations(rentalHomeId);
@@ -248,7 +248,7 @@ class RentalHomeServiceTest {
     }
 
     @Test
-    void getRentalHomesByHost() {
+    void getRentalHomesOwnedByHost() {
         //given
 
         //when
@@ -257,7 +257,7 @@ class RentalHomeServiceTest {
     }
 
     @Test
-    void getRentalHomeByHost() {
+    void getRentalHomeOwnedByHost() {
         //given
 
         //when

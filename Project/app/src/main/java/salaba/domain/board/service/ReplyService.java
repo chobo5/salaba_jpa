@@ -35,7 +35,7 @@ public class ReplyService {
     private final EntityManager em;
     private final AlarmService alarmService;
 
-    public Long createReply(Long memberId, ReplyCreateReqDto reqDto) {
+    public Long create(Long memberId, ReplyCreateReqDto reqDto) {
         Board board = boardRepository.findByIdWithWriter(reqDto.getBoardId())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Board.class, reqDto.getBoardId())));
 
@@ -81,7 +81,7 @@ public class ReplyService {
         return reply.getId();
     }
 
-    public Long createReplyToReply(Long memberId, ReplyToReplyCreateReqDto reqDto) {
+    public Long createToReply(Long memberId, ReplyToReplyCreateReqDto reqDto) {
         Reply parent = replyRepository.findByIdWithWriter(reqDto.getReplyId())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Reply.class, reqDto.getReplyId())));
         Member writer = memberRepository.findById(memberId)
@@ -96,7 +96,7 @@ public class ReplyService {
     }
 
 
-    public Page<ReplyByMemberResDto> getRepliesByMember(Long memberId, Pageable pageable) {
+    public Page<ReplyByMemberResDto> getRepliesWrittenByMember(Long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
 

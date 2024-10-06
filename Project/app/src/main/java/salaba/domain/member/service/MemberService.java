@@ -42,8 +42,10 @@ public class MemberService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
 
-        Nation nation = nationRepository.findById(reqDto.getNationId())
-                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Nation.class, reqDto.getNationId())));
+
+        Nation nation = reqDto.getNationId() != null ? nationRepository.findById(reqDto.getNationId())
+                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Nation.class, reqDto.getNationId()))) : null;
+
         //entity를 변경하면 자동으로 반영
         Address address = reqDto.getStreet() != null && reqDto.getZipcode() != null ? new Address(reqDto.getStreet(), reqDto.getZipcode()) : null;
 

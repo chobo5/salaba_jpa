@@ -33,7 +33,7 @@ public class RentalHomeController {
     @Operation(summary = "숙소 상세보기")
     @GetMapping("detail")
     public RestResult<?> getRentalHome(@RequestParam Long rentalHomeId) {
-        RentalHomeDetailResDto rentalHomeDetail = rentalHomeService.getRentalHome(rentalHomeId);
+        RentalHomeDetailResDto rentalHomeDetail = rentalHomeService.view(rentalHomeId);
         return RestResult.success(rentalHomeDetail);
 
     }
@@ -58,7 +58,7 @@ public class RentalHomeController {
     @Operation(summary = "숙소 등록")
     @PostMapping("new")
     public RestResult<?> createRentalHome(@RequestBody RentalHomeCreateReqDto rentalHomeCreateReqDto) {
-        Long rentalHomeId = rentalHomeService.createRentalHome(MemberContextHolder.getMemberId(), rentalHomeCreateReqDto);
+        Long rentalHomeId = rentalHomeService.create(MemberContextHolder.getMemberId(), rentalHomeCreateReqDto);
         return RestResult.success(new IdResDto(rentalHomeId));
     }
 
@@ -67,27 +67,27 @@ public class RentalHomeController {
     public RestResult<?> getRentalHomeList(@RequestParam(defaultValue = "0") int pageNumber,
                                            @RequestParam(defaultValue = "10") int pageSize) {
         Pageable pageable = PageRequest.of(pageNumber, pageSize);
-        Page<RentalHomeResDto> rentalHomes = rentalHomeService.getRentalHomesByHost(MemberContextHolder.getMemberId(), pageable);
+        Page<RentalHomeResDto> rentalHomes = rentalHomeService.getRentalHomesOwnedByHost(MemberContextHolder.getMemberId(), pageable);
         return RestResult.success(rentalHomes);
     }
 
     @Operation(summary = "호스트 소유 숙소 상세")
     @GetMapping("host/detail")
     public RestResult<?> getRentalHomeDetail(@RequestParam Long rentalHomeId) {
-        RentalHomeDetailResDto rentalHomeDetail = rentalHomeService.getRentalHomeByHost(MemberContextHolder.getMemberId(), rentalHomeId);
+        RentalHomeDetailResDto rentalHomeDetail = rentalHomeService.getRentalHomeOwnedByHost(MemberContextHolder.getMemberId(), rentalHomeId);
         return RestResult.success(rentalHomeDetail);
     }
 
     @Operation(summary = "호스트 소유 숙소 수정")
     @PutMapping("modify")
     public RestResult<?> modifyRentalHome(@RequestBody RentalHomeModiReqDto rentalHomeModiReqDto) {
-        return RestResult.success(rentalHomeService.modifyRentalHome(MemberContextHolder.getMemberId(), rentalHomeModiReqDto));
+        return RestResult.success(rentalHomeService.modify(MemberContextHolder.getMemberId(), rentalHomeModiReqDto));
     }
 
     @Operation(summary = "호스트 소유 숙소 폐쇄(삭제)")
     @DeleteMapping("delete")
     public RestResult<?> deleteRentalHome(@RequestParam Long rentalHomeId) {
-        return RestResult.success(rentalHomeService.deleteRentalHome(MemberContextHolder.getMemberId(), rentalHomeId));
+        return RestResult.success(rentalHomeService.delete(MemberContextHolder.getMemberId(), rentalHomeId));
     }
 
     @Operation(summary = "숙소 리뷰 작성")
@@ -114,14 +114,14 @@ public class RentalHomeController {
     @Operation(summary = "숙소 찜하기")
     @PostMapping("bookmark")
     public RestResult<?> markOnRentalHome(RentalHomeMarkReqDto reqDto) {
-        Long bookmarkId = bookMarkService.mark(MemberContextHolder.getMemberId(), reqDto.getRentalHomeId());
+        Long bookmarkId = bookMarkService.create(MemberContextHolder.getMemberId(), reqDto.getRentalHomeId());
         return RestResult.success(bookmarkId);
     }
 
     @Operation(summary = "숙소 찜하기 취소")
     @DeleteMapping("bookmark/delete")
     public RestResult<?> deleteMarkOnRentalHome(@RequestParam Long rentalHomeId) {
-        bookMarkService.deleteMark(MemberContextHolder.getMemberId(), rentalHomeId);
+        bookMarkService.delete(MemberContextHolder.getMemberId(), rentalHomeId);
         return RestResult.success();
     }
 

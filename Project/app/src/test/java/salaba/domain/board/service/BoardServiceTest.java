@@ -57,7 +57,7 @@ class BoardServiceTest {
         when(memberRepository.findById(memberId)).thenReturn(Optional.of(member));
         doNothing().when(pointService).createBoardPoint(member);
 
-        boardService.createBoard(memberId, reqDto);
+        boardService.create(memberId, reqDto);
 
         //then
         verify(boardRepository, times(1)).save(any(Board.class));

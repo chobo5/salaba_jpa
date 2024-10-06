@@ -38,7 +38,7 @@ public class BoardService {
     private final PointService pointService;
     private final EntityManager em;
 
-    public Long createBoard(Long memberId, BoardCreateReqDto boardDto) {
+    public Long create(Long memberId, BoardCreateReqDto boardDto) {
         Member writer = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
         Board board = Board.create(boardDto.getTitle(), boardDto.getContent(), boardDto.getScope(), writer);
@@ -50,11 +50,11 @@ public class BoardService {
         return board.getId();
     }
 
-    public Page<BoardResDto> getBoardList(Pageable pageable) {
+    public Page<BoardResDto> getPage(Pageable pageable) {
         return boardRepository.getList(pageable);
     }
 
-    public BoardDetailResDto getBoard(Long boardId) {
+    public BoardDetailResDto view(Long boardId) {
         return boardRepository.get(boardId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Board.class, boardId)));
     }
@@ -111,7 +111,7 @@ public class BoardService {
         return boardLike.getId();
     }
 
-    public Page<BoardByMemberResDto> boardsByMember(Long memberId, Pageable pageable) {
+    public Page<BoardByMemberResDto> boardsWrittenByMember(Long memberId, Pageable pageable) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
 
