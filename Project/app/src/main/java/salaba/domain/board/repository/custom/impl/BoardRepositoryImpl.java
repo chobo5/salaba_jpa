@@ -24,10 +24,11 @@ import salaba.domain.board.repository.custom.BoardRepositoryCustom;
 import salaba.domain.global.constants.WritingStatus;
 import salaba.domain.board.dto.response.ReplyResDto;
 import salaba.domain.board.dto.response.ReplyToReplyResDto;
+import salaba.domain.global.exception.ErrorMessage;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 import java.util.Map;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -105,7 +106,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
                 .fetchOne();
 
         if (boardResult == null) {
-            throw new NoSuchElementException();
+            throw new EntityNotFoundException(ErrorMessage.entityNotFound(Board.class, boardId));
         }
 
         //댓글 리스트를 가져온다.

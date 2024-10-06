@@ -24,10 +24,10 @@ import salaba.domain.member.entity.Member;
 import salaba.domain.member.entity.Point;
 import salaba.domain.member.repository.MemberRepository;
 
+import javax.persistence.EntityNotFoundException;
 import javax.validation.ValidationException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -156,7 +156,7 @@ class MemberServiceTest {
         when(memberRepository.findById(memberId)).thenReturn(Optional.empty());
 
         //then
-        assertThrows(NoSuchElementException.class, () -> memberService.changePassword(memberId, reqDto));
+        assertThrows(EntityNotFoundException.class, () -> memberService.changePassword(memberId, reqDto));
         verify(memberRepository, times(1)).findById(memberId);
         verify(passwordEncoder, times(0)).matches(reqDto.getPassword(), "인코딩된 기존 비밀번호");
         verify(passwordEncoder, times(0)).encode(reqDto.getNewPassword());
@@ -214,7 +214,7 @@ class MemberServiceTest {
         when(memberRepository.findById(memberId)).thenReturn(Optional.empty());
 
         //then
-        assertThrows(NoSuchElementException.class, () -> memberService.changeNickname(memberId, reqDto));
+        assertThrows(EntityNotFoundException.class, () -> memberService.changeNickname(memberId, reqDto));
         verify(authService, times(1)).isExistingNickname(reqDto.getNickname());
         verify(memberRepository, times(1)).findById(memberId);
     }
@@ -247,7 +247,7 @@ class MemberServiceTest {
 
         //when
         when(memberRepository.findById(memberId)).thenReturn(Optional.empty());
-        assertThrows(NoSuchElementException.class, () -> memberService.changeTelNo(memberId, reqDto));
+        assertThrows(EntityNotFoundException.class, () -> memberService.changeTelNo(memberId, reqDto));
 
         //then
         verify(memberRepository, times(1)).findById(memberId);

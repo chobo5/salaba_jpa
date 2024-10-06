@@ -20,10 +20,10 @@ import salaba.domain.reservation.entity.Discount;
 import salaba.domain.reservation.entity.Reservation;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -114,7 +114,7 @@ class ReservationRepositoryTest {
 
         //when
         Reservation reservation = reservationRepository.findByIdWithMemberAndRentalHome(reservations.get(0).getId())
-                .orElseThrow(NoSuchElementException::new);
+                .orElseThrow(EntityNotFoundException::new);
 
         //then
         assertThat(reservation.getMember()).isNotNull();

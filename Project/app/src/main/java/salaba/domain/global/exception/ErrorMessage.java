@@ -6,6 +6,11 @@ public class ErrorMessage {
         return className + " is not found with id: " + id;
     }
 
+    public static String entityNotFound(Class<?> entity, Integer id) {
+        String className = entity.getName();
+        return className + " is not found with id: " + id;
+    }
+
     public static String entityNotFound(Class<?> entity, String condition) {
         String className = entity.getName();
         return className + " is not found with: " + condition;

@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import salaba.domain.global.entity.Address;
 import salaba.domain.global.entity.Region;
+import salaba.domain.global.exception.ErrorMessage;
 import salaba.domain.global.repository.RegionRepository;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.repository.MemberRepository;
@@ -19,8 +20,8 @@ import salaba.domain.rentalHome.repository.*;
 import salaba.domain.auth.exception.NoAuthorityException;
 import salaba.domain.reservation.service.ReviewService;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @Service
@@ -34,25 +35,27 @@ public class RentalHomeService {
     private final ThemeRepository themeRepository;
     private final RentalHomeFacilityRepository rentalHomeFacilityRepository;
     private final RentalHomeThemeRepository rentalHomeThemeRepository;
-    private final ReviewService reviewService;
 
     public RentalHomeDetailResDto getRentalHome(Long rentalHomeId) {
         return rentalHomeRepository.findDetailById(rentalHomeId);
     }
 
-    public Long createRentalHome(Long memberId, RentalHomeCreateReqDto dto) {
-        Member member = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
-        Region region = regionRepository.findById(dto.getRegionId()).orElseThrow(NoSuchElementException::new);
+    public Long createRentalHome(Long memberId, RentalHomeCreateReqDto reqDto) {
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
+
+        Region region = regionRepository.findById(reqDto.getRegionId())
+                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Region.class, reqDto.getRegionId())));
 
         // 숙소 생성 후 저장
-        RentalHome rentalHome = RentalHome.create(member, region, dto.getName(),
-                dto.getExplanation(), new Address(dto.getStreet(), dto.getZipcode()), dto.getPrice(),
-                dto.getCapacity(), dto.getLat(), dto.getLon(), dto.getRule(), dto.getCleanFee());
+        RentalHome rentalHome = RentalHome.create(member, region, reqDto.getName(),
+                reqDto.getExplanation(), new Address(reqDto.getStreet(), reqDto.getZipcode()), reqDto.getPrice(),
+                reqDto.getCapacity(), reqDto.getLat(), reqDto.getLon(), reqDto.getRule(), reqDto.getCleanFee());
 
         rentalHomeRepository.save(rentalHome);
 
         // 숙소_테마 저장
-        List<Theme> themes = themeRepository.findAllById(dto.getThemes());
+        List<Theme> themes = themeRepository.findAllById(reqDto.getThemes());
         List<RentalHomeTheme> rentalHomeThemes = themes.stream()
                 .map(theme -> RentalHomeTheme.create(rentalHome, theme))
                 .collect(Collectors.toList());
@@ -60,7 +63,7 @@ public class RentalHomeService {
         rentalHome.setThemes(rentalHomeThemes);
 
         // 숙소_시설 저장
-        List<Facility> facilities = facilityRepository.findAllById(dto.getFacilities());
+        List<Facility> facilities = facilityRepository.findAllById(reqDto.getFacilities());
         List<RentalHomeFacility> rentalHomeFacilities = facilities.stream()
                 .map(facility -> RentalHomeFacility.create(rentalHome, facility))
                 .collect(Collectors.toList());
@@ -69,26 +72,30 @@ public class RentalHomeService {
         return rentalHome.getId();
     }
 
-    public RentalHomeDetailResDto modifyRentalHome(Long memberId, RentalHomeModiReqDto dto) {
+    public RentalHomeDetailResDto modifyRentalHome(Long memberId, RentalHomeModiReqDto reqDto) {
         //숙소의 호스트를 찾는다.
-        Member host = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
+        Member host = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
         //숙소의 id와 호스트를 통해 숙소를 찾는다.
-        RentalHome rentalHome = rentalHomeRepository.findByIdAndHost(dto.getRentalHomeId(), host)
-                .orElseThrow(NoSuchElementException::new);
+        RentalHome rentalHome = rentalHomeRepository.findByIdAndHost(reqDto.getRentalHomeId(), host)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(RentalHome.class, reqDto.getRentalHomeId())));
 
-        Region region = dto.getRegionId() != null ?
-                regionRepository.findById(dto.getRegionId()).orElseThrow(NoSuchElementException::new) : null;
+        Region region = reqDto.getRegionId() != null ?
+                regionRepository.findById(reqDto.getRegionId())
+                        .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Region.class, reqDto.getRegionId())))
+                : null;
 
-        Address address = dto.getStreet() != null && dto.getZipcode() != null ?
-                new Address(dto.getStreet(), dto.getZipcode()) : null;
+        Address address = reqDto.getStreet() != null && reqDto.getZipcode() != null ?
+                new Address(reqDto.getStreet(), reqDto.getZipcode()) : null;
 
-        rentalHome.modify(region, dto.getName(), dto.getExplanation(), address, dto.getPrice(),
-                dto.getCapacity(), dto.getLat(), dto.getLon(), dto.getRule(), dto.getCleanFee());
+        rentalHome.modify(region, reqDto.getName(), reqDto.getExplanation(), address, reqDto.getPrice(),
+                reqDto.getCapacity(), reqDto.getLat(), reqDto.getLon(), reqDto.getRule(), reqDto.getCleanFee());
 
         // 숙소_테마 저장
-        if (dto.getThemes() != null && !dto.getThemes().isEmpty()) {
-            List<Theme> themes = themeRepository.findAllById(dto.getThemes());
+        if (reqDto.getThemes() != null && !reqDto.getThemes().isEmpty()) {
+            List<Theme> themes = themeRepository.findAllById(reqDto.getThemes());
             rentalHomeThemeRepository.deleteByRentalHome(rentalHome);
+
             List<RentalHomeTheme> rentalHomeThemes = themes.stream()
                     .map(theme -> RentalHomeTheme.create(rentalHome, theme))
                     .collect(Collectors.toList());
@@ -98,8 +105,8 @@ public class RentalHomeService {
 
 
         // 숙소_시설 저장
-        if (dto.getFacilities() != null && !dto.getFacilities().isEmpty()) {
-            List<Facility> facilities = facilityRepository.findAllById(dto.getFacilities());
+        if (reqDto.getFacilities() != null && !reqDto.getFacilities().isEmpty()) {
+            List<Facility> facilities = facilityRepository.findAllById(reqDto.getFacilities());
             rentalHomeFacilityRepository.deleteByRentalHome(rentalHome);
             List<RentalHomeFacility> rentalHomeFacilities = facilities.stream()
                     .map(facility -> RentalHomeFacility.create(rentalHome, facility))
@@ -113,8 +120,11 @@ public class RentalHomeService {
     }
 
     public Long deleteRentalHome(Long memberId, Long rentalHomeId) {
-        Member host = memberRepository.findById(memberId).orElseThrow(NoSuchElementException::new);
-        RentalHome rentalHome = rentalHomeRepository.findWithReservations(rentalHomeId).orElseThrow(NoSuchElementException::new);
+        Member host = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
+        RentalHome rentalHome = rentalHomeRepository.findWithReservations(rentalHomeId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(RentalHome.class, rentalHomeId)));
+
         if (!rentalHome.getHost().equals(host)) {
             throw new NoAuthorityException("숙소 삭제 권한이 없습니다.");
         }

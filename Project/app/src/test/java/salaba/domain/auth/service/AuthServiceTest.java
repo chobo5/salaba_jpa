@@ -19,9 +19,9 @@ import salaba.domain.member.repository.MemberRoleRepository;
 import salaba.domain.member.repository.RoleRepository;
 import salaba.domain.member.exception.AlreadyExistsException;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -220,7 +220,7 @@ class AuthServiceTest {
 
 
         //then
-        assertThrows(NoSuchElementException.class, () -> authService.login(reqDto));
+        assertThrows(EntityNotFoundException.class, () -> authService.login(reqDto));
         verify(memberRepository, times(1)).findByEmail(reqDto.getEmail());
         verify(passwordEncoder, times(0)).matches(reqDto.getPassword(), "encodedPassword");
         verify(tokenService, times(0)).createTokens(member);
@@ -241,7 +241,7 @@ class AuthServiceTest {
         when(passwordEncoder.matches(reqDto.getPassword(), "encodedPassword")).thenReturn(false);
 
         //then
-        assertThrows(NoSuchElementException.class, () -> authService.login(reqDto));
+        assertThrows(EntityNotFoundException.class, () -> authService.login(reqDto));
         verify(memberRepository, times(1)).findByEmail(reqDto.getEmail());
         verify(passwordEncoder, times(1)).matches(reqDto.getPassword(), "encodedPassword");
         verify(tokenService, times(0)).createTokens(member);

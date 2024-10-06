@@ -5,7 +5,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import salaba.domain.global.exception.EntityNotFound;
 import salaba.domain.global.exception.ErrorMessage;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.repository.MemberRepository;
@@ -54,6 +53,7 @@ public class ReviewService {
     public void deleteReview(Long reviewId, Long memberId) {
         Review findReview = reviewRepository.findByIdWithReservationAndMemberAndRentalHome(reviewId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Review.class, reviewId)));
+
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
 
@@ -71,6 +71,7 @@ public class ReviewService {
 
         Member findMember = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
+
         if (!findReview.getReservation().getMember().equals(findMember)) {
             throw new NoAuthorityException("리뷰 수정 권한이 없습니다.");
         }
@@ -90,6 +91,7 @@ public class ReviewService {
     public Double getRentalHomeReviewAvg(Long rentalHomeId) {
         RentalHome rentalHome = rentalHomeRepository.findById(rentalHomeId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(RentalHome.class, rentalHomeId)));
+
         return reviewRepository.getReviewAvg(rentalHome);
     }
 }

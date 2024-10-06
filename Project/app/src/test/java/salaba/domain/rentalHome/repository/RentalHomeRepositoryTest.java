@@ -24,10 +24,10 @@ import salaba.domain.reservation.entity.Reservation;
 import salaba.domain.reservation.entity.Review;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -256,9 +256,9 @@ class RentalHomeRepositoryTest {
         //given
         List<RentalHome> rentalHomes = rentalHomeRepository.findAll();
         //when
-        RentalHome rentalHome1 = rentalHomeRepository.findWithReservations(rentalHomes.get(0).getId()).orElseThrow(NoSuchElementException::new);
-        RentalHome rentalHome2 = rentalHomeRepository.findWithReservations(rentalHomes.get(1).getId()).orElseThrow(NoSuchElementException::new);
-        RentalHome rentalHome3 = rentalHomeRepository.findWithReservations(rentalHomes.get(2).getId()).orElseThrow(NoSuchElementException::new);
+        RentalHome rentalHome1 = rentalHomeRepository.findWithReservations(rentalHomes.get(0).getId()).orElseThrow(EntityNotFoundException::new);
+        RentalHome rentalHome2 = rentalHomeRepository.findWithReservations(rentalHomes.get(1).getId()).orElseThrow(EntityNotFoundException::new);
+        RentalHome rentalHome3 = rentalHomeRepository.findWithReservations(rentalHomes.get(2).getId()).orElseThrow(EntityNotFoundException::new);
 
 
         //then

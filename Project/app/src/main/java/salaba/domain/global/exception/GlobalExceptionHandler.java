@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 import salaba.util.RestResult;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.NoSuchElementException;
 
 @RestControllerAdvice
 @Slf4j

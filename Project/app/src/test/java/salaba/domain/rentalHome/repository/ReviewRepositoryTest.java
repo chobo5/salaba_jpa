@@ -20,10 +20,10 @@ import salaba.domain.reservation.entity.Review;
 import salaba.domain.reservation.repository.ReviewRepository;
 
 import javax.persistence.EntityManager;
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.NoSuchElementException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -194,7 +194,7 @@ class ReviewRepositoryTest {
         RentalHome rentalHome = rentalHomes.get(0);
         Reservation reservation = reservations.get(0);
         //when
-        Review review = reviewRepository.findByIdWithReservationAndMemberAndRentalHome(1L).orElseThrow(NoSuchElementException::new);
+        Review review = reviewRepository.findByIdWithReservationAndMemberAndRentalHome(1L).orElseThrow(EntityNotFoundException::new);
 
         //then
         assertThat(review.getReservation()).isEqualTo(reservation);

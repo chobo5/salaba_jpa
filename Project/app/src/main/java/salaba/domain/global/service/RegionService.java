@@ -12,8 +12,8 @@ import salaba.domain.global.repository.NationRepository;
 import salaba.domain.global.repository.RegionRepository;
 import salaba.domain.member.exception.AlreadyExistsException;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
-import java.util.NoSuchElementException;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -25,7 +25,7 @@ public class RegionService {
     private final NationRepository nationRepository;
 
     public List<RegionDto> list(Integer nationId) {
-        Nation nation = nationRepository.findById(nationId).orElseThrow(NoSuchElementException::new);
+        Nation nation = nationRepository.findById(nationId).orElseThrow(EntityNotFoundException::new);
         List<Region> regions = regionRepository.findByNation(nation);
         return  regions.stream()
                 .map(RegionDto::new)
@@ -33,7 +33,7 @@ public class RegionService {
     }
 
     public RegionDto add(RegionCreateDto reqDto) {
-        Nation nation = nationRepository.findById(reqDto.getNationId()).orElseThrow(NoSuchElementException::new);
+        Nation nation = nationRepository.findById(reqDto.getNationId()).orElseThrow(EntityNotFoundException::new);
 
         Optional<Nation> existingNationByName = nationRepository.findByNameContaining(reqDto.getName());
         if (existingNationByName.isPresent()) {
