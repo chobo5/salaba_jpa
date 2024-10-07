@@ -104,23 +104,23 @@ class RentalHomeRepositoryImplTest {
 //        assertThat(totalCount).isEqualTo(1734);
 //    }
 //
-//    private BooleanExpression regionNameContains(String regionName) {
-//        return regionName != null ? region.name.contains(regionName) : null;
-//    }
-//
-//    private BooleanExpression themeNameContains(String themeName) {
-//        return themeName != null ? theme.name.contains(themeName) : null;
-//    }
-//
-//    private BooleanExpression setMinPrice(Long minPrice) {
-//        return minPrice != null ? rentalHome.price.goe(minPrice) : null;
-//    }
-//
-//    private BooleanExpression setMaxPrice(Long maxPrice) {
-//        return maxPrice != null ? rentalHome.price.loe(maxPrice) : null;
-//    }
-//
-//
+    private BooleanExpression regionNameContains(String regionName) {
+        return regionName != null ? region.name.contains(regionName) : null;
+    }
+
+    private BooleanExpression themeNameContains(String themeName) {
+        return themeName != null ? theme.name.contains(themeName) : null;
+    }
+
+    private BooleanExpression setMinPrice(Long minPrice) {
+        return minPrice != null ? rentalHome.price.goe(minPrice) : null;
+    }
+
+    private BooleanExpression setMaxPrice(Long maxPrice) {
+        return maxPrice != null ? rentalHome.price.loe(maxPrice) : null;
+    }
+
+
 //    @Test
 //    public void 숙소_예약_조인_querydsl() {
 //        RentalHome rh = queryFactory.selectFrom(rentalHome)
@@ -135,19 +135,19 @@ class RentalHomeRepositoryImplTest {
 //        assertThat(reservationsLoaded2).isFalse();
 //    }
 //
-//    @Test
-//    public void 숙소_예약_패치조인_querydsl() {
-//        RentalHome rh = queryFactory.selectFrom(rentalHome)
-//                .join(rentalHome.reservations).fetchJoin()
-//                .where(rentalHome.id.eq(6486L))
-//                .fetchOne();
-//
-//        boolean rentalHomeLoaded = emf.getPersistenceUnitUtil().isLoaded(rh);
-//        assertThat(rentalHomeLoaded).isTrue();
-//
-//        boolean reservationsLoaded2 = emf.getPersistenceUnitUtil().isLoaded(rh.getReservations());
-//        assertThat(reservationsLoaded2).isTrue();
-//    }
+    @Test
+    public void 숙소_예약_패치조인_querydsl() {
+        RentalHome rh = queryFactory.selectFrom(rentalHome)
+                .join(rentalHome.reservations).fetchJoin()
+                .where(rentalHome.id.eq(6486L))
+                .fetchOne();
+
+        boolean rentalHomeLoaded = emf.getPersistenceUnitUtil().isLoaded(rh);
+        assertThat(rentalHomeLoaded).isTrue();
+
+        boolean reservationsLoaded2 = emf.getPersistenceUnitUtil().isLoaded(rh.getReservations());
+        assertThat(reservationsLoaded2).isTrue();
+    }
 //
 //    @Test
 //    public void 숙소_예약_조인_jpql() {

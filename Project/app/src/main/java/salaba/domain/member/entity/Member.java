@@ -141,5 +141,9 @@ public class Member extends BaseEntity {
         lastLoginDate = LocalDateTime.now();
     }
 
+    public void awake() {
+        status = MemberStatus.NORMAL;
+    }
+
 
 }

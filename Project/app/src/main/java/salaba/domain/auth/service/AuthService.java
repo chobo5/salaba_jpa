@@ -4,10 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import salaba.domain.auth.constant.MemberStatus;
 import salaba.domain.auth.constant.RoleName;
 import salaba.domain.auth.dto.request.MemberJoinReqDto;
 import salaba.domain.auth.dto.request.MemberLoginReqDto;
 import salaba.domain.auth.dto.response.TokenResDto;
+import salaba.domain.auth.exception.BlockedAccountException;
+import salaba.domain.auth.exception.ResignedAccountException;
+import salaba.domain.auth.exception.SleepingAccountException;
 import salaba.domain.global.exception.ErrorMessage;
 import salaba.domain.member.entity.Member;
 import salaba.domain.auth.entity.MemberRole;
@@ -74,15 +78,30 @@ public class AuthService {
         if (findMember.isEmpty() || !passwordEncoder.matches(reqDto.getPassword(), findMember.get().getPassword())) {
             throw new ValidationException("아이디 또는 비밀번호가 잘못 되었습니다");
         }
-        Member verifiedMember = findMember.get();
-        verifiedMember.login();
-        TokenResDto tokens = tokenService.createTokens(verifiedMember);
+        Member existingMember = findMember.get();
+
+        if (existingMember.getStatus() != MemberStatus.NORMAL) {
+            throwAccountErrorByStatus(existingMember.getStatus());
+        }
+
+        existingMember.login();
+        TokenResDto tokens = tokenService.createTokens(existingMember);
 
         return new MemberLoginResDto(tokens.getAccessToken(), tokens.getRefreshToken());
     }
 
     public void logout(Long memberId, RefreshTokenDto refreshTokenDto) {
         tokenService.deleteRefreshToken(memberId, refreshTokenDto.getRefreshToken());
+    }
+
+    private void throwAccountErrorByStatus(MemberStatus status) {
+        switch (status) {
+            case SLEEP -> throw new SleepingAccountException("계정이 휴면 상태입니다.");
+
+            case BLOCKED -> throw new BlockedAccountException("차단된 계정입니다.");
+
+            case RESIGN -> throw new ResignedAccountException("탈퇴한 계정입니다.");
+        }
     }
 
 

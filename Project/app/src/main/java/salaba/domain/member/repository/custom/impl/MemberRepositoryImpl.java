@@ -3,9 +3,12 @@ package salaba.domain.member.repository.custom.impl;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import salaba.domain.auth.constant.MemberStatus;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.repository.custom.MemberRepositoryCustom;
 
+import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Optional;
 
 import static salaba.domain.auth.entity.QMemberRole.memberRole;
@@ -27,5 +30,12 @@ public class MemberRepositoryImpl implements MemberRepositoryCustom {
                 .where(member.email.eq(email))
                 .fetchFirst();
         return Optional.ofNullable(findMembers);
+    }
+
+    @Override
+    public List<Member> updateMemberWhereLastLoginDateIsBeforeAYear() {
+        queryFactory.update(member)
+                .set(member.status, MemberStatus.SLEEP)
+                .where(member.lastLoginDate.before(LocalDateTime.now().minusYears(1)));
     }
 }
