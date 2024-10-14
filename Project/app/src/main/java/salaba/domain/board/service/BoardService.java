@@ -14,6 +14,7 @@ import salaba.domain.board.dto.response.BoardDetailResDto;
 import salaba.domain.board.dto.response.BoardResDto;
 import salaba.domain.board.entity.Board;
 import salaba.domain.board.entity.BoardLike;
+import salaba.domain.board.repository.query.BoardQueryRepository;
 import salaba.domain.global.constants.WritingStatus;
 import salaba.domain.global.exception.ErrorMessage;
 import salaba.domain.member.entity.Member;
@@ -37,6 +38,7 @@ public class BoardService {
     private final BoardLikeRepository boardLikeRepository;
     private final PointService pointService;
     private final EntityManager em;
+    private final BoardQueryRepository boardQueryRepository;
 
     public Long create(Long memberId, BoardCreateReqDto boardDto) {
         Member writer = memberRepository.findById(memberId)
@@ -51,16 +53,16 @@ public class BoardService {
     }
 
     public Page<BoardResDto> getPage(Pageable pageable) {
-        return boardRepository.getList(pageable);
+        return boardQueryRepository.getList(pageable);
     }
 
     public BoardDetailResDto view(Long boardId) {
-        return boardRepository.get(boardId)
+        return boardQueryRepository.get(boardId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Board.class, boardId)));
     }
 
     public BoardModiResDto modify(Long memberId, BoardModifyReqDto boardDto) {
-        Board board = boardRepository.findByIdWithWriter(boardDto.getBoardId())
+        Board board = boardQueryRepository.findByIdWithWriter(boardDto.getBoardId())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Board.class, boardDto.getBoardId())));
 
         Member member = memberRepository.findById(memberId)
@@ -85,7 +87,7 @@ public class BoardService {
     }
 
     public Page<BoardResDto> search(BoardSearchReqDto boardSearchReqDto, Pageable pageable) {
-        return boardRepository.search(boardSearchReqDto, pageable);
+        return boardQueryRepository.search(boardSearchReqDto, pageable);
     }
 
     public Long likeBoard(Long memberId, BoardLikeReqDto reqDto) {

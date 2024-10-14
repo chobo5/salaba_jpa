@@ -1,4 +1,4 @@
-package salaba.domain.reservation.repository.custom.impl;
+package salaba.domain.reservation.repository.query;
 
 import com.querydsl.core.types.dsl.Expressions;
 import com.querydsl.core.types.dsl.SimpleTemplate;
@@ -12,7 +12,6 @@ import org.springframework.stereotype.Repository;
 import salaba.domain.member.entity.Member;
 import salaba.domain.rentalHome.entity.RentalHome;
 import salaba.domain.reservation.entity.Review;
-import salaba.domain.reservation.repository.custom.ReviewRepositoryCustom;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,11 +24,10 @@ import static salaba.domain.reservation.entity.QReview.review;
 
 @RequiredArgsConstructor
 @Repository
-public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
+public class ReviewQueryRepository {
     private final JPAQueryFactory queryFactory;
 
-
-    @Override
+    
     public Page<Review> findByMember(Member member, Pageable pageable) {
         List<Review> reviews = queryFactory.select(review)
                 .from(review)
@@ -47,7 +45,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         return PageableExecutionUtils.getPage(reviews, pageable, reviewCount::fetchOne);
     }
 
-    @Override
+    
     public Page<Review> findByRentalHome(RentalHome targetRentalHome, Pageable pageable) {
         List<Review> reviews = queryFactory.select(review)
                 .from(review)
@@ -67,7 +65,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         return PageableExecutionUtils.getPage(reviews, pageable, reviewCount::fetchOne);
     }
 
-    @Override
+    
     public Optional<Review> findByIdWithReservationAndMemberAndRentalHome(Long reviewId) {
         Review findReview = queryFactory.select(review)
                 .from(review)
@@ -80,7 +78,7 @@ public class ReviewRepositoryImpl implements ReviewRepositoryCustom {
         return Optional.of(findReview);
     }
 
-    @Override
+    
     public Double getReviewAvg(RentalHome rentalHome) {
         SimpleTemplate<Double> avg = Expressions.template(Double.class, "ROUND({0}, 2)", review.score.avg().coalesce(0.0));
         return queryFactory.select(avg)

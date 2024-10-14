@@ -1,4 +1,4 @@
-package salaba.domain.rentalHome.repository.custom.impl;
+package salaba.domain.rentalHome.repository.query;
 
 import com.querydsl.core.Tuple;
 import com.querydsl.core.types.Projections;
@@ -16,7 +16,6 @@ import salaba.domain.rentalHome.entity.Facility;
 import salaba.domain.rentalHome.entity.RentalHome;
 import salaba.domain.rentalHome.entity.Theme;
 import salaba.domain.rentalHome.dto.response.RentalHomeDetailResDto;
-import salaba.domain.rentalHome.repository.custom.RentalHomeRepositoryCustom;
 
 import java.util.List;
 import java.util.Optional;
@@ -36,11 +35,10 @@ import static salaba.domain.reservation.entity.QReservation.reservation;
 
 @RequiredArgsConstructor
 @Repository
-public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
+public class RentalHomeQueryRepository {
 
     private final JPAQueryFactory queryFactory;
-
-    @Override
+    
     public RentalHomeDetailResDto findDetailById(Long rentalHomeId) {
         RentalHome findRentalHome = queryFactory.select(rentalHome)
                 .from(rentalHome)
@@ -65,8 +63,7 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
 
         return new RentalHomeDetailResDto(findRentalHome, findThemes, findFacilities);
     }
-
-    @Override
+    
     public RentalHomeDetailResDto findDetailByIdAndHost(Long rentalHomeId, Long hostId) {
         RentalHome findRentalHome = queryFactory.select(rentalHome)
                 .from(rentalHome)
@@ -94,7 +91,7 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
     }
 
 
-    @Override
+    
     public Page<RentalHome> findByHost(Long hostId, Pageable pageable) {
         List<RentalHome> rentalHomes = queryFactory.selectFrom(rentalHome)
                 .join(rentalHome.host, member).fetchJoin()
@@ -111,7 +108,6 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
         return PageableExecutionUtils.getPage(rentalHomes, pageable, totalCount::fetchOne);
     }
 
-    @Override
     public Optional<RentalHome> findWithReservations(Long rentalHomeId) {
         RentalHome findRentalHome = queryFactory.selectFrom(rentalHome)
                 .join(rentalHome.host, member).fetchJoin()
@@ -121,7 +117,6 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
         return Optional.ofNullable(findRentalHome);
     }
 
-    @Override
     public Page<RentalHome> findRentalHomesOrderByReview(String regionName, String themeName, Long minPrice, Long maxPrice, Pageable pageable) {
         List<RentalHome> result = queryFactory.select(rentalHome)
                 .from(rentalHome)
@@ -152,7 +147,6 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
         return PageableExecutionUtils.getPage(result, pageable, totalCount::fetchOne);
     }
 
-    @Override
     public Page<RentalHomeResDto> findRentalHomeDtosOrderByReview(String regionName, String themeName, Long minPrice, Long maxPrice, Pageable pageable) {
 
         List<RentalHomeResDto> rentalHomes = queryFactory.select(Projections.constructor(RentalHomeResDto.class,
@@ -192,7 +186,7 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
         return PageableExecutionUtils.getPage(rentalHomes, pageable, totalCount::fetchOne);
     }
 
-    @Override
+    
     public Page<RentalHome> findRentalHomesOrderBySalesCount(String regionName, String themeName, Long minPrice, Long maxPrice, Pageable pageable) {
         List<Tuple> result = queryFactory.select(rentalHome, reservation.count())
                 .from(rentalHome)
@@ -232,7 +226,7 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
         return PageableExecutionUtils.getPage(rentalHomes, pageable, totalCount::fetchOne);
     }
 
-    @Override
+    
     public void updateReviewStatistics() {
         JPAQuery<Double> avg = queryFactory.select(review.score.avg().coalesce(0.0))
                 .from(review)
@@ -257,7 +251,7 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
                 .execute();
     }
 
-    @Override
+    
     public void updateAReviewStatistics(RentalHome targetRentalHome) {
         JPAQuery<Double> avg = queryFactory.select(review.score.avg().coalesce(0.0))
                 .from(review)
@@ -283,7 +277,7 @@ public class RentalHomeRepositoryImpl implements RentalHomeRepositoryCustom {
                 .execute();
     }
 
-    @Override
+    
     public void updateAReviewAvgAndSum(RentalHome targetRentalHome) {
         JPAQuery<Double> avg = queryFactory.select(review.score.avg().coalesce(0.0))
                 .from(review)

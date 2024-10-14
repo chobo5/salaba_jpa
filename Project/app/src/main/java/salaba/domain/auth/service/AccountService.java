@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import salaba.domain.global.exception.ErrorMessage;
 import salaba.domain.member.entity.Member;
 import salaba.domain.member.repository.MemberRepository;
+import salaba.domain.member.repository.query.MemberQueryRepository;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -15,11 +16,11 @@ import javax.persistence.EntityNotFoundException;
 @RequiredArgsConstructor
 public class AccountService {
     private final MemberRepository memberRepository;
-
+    private final MemberQueryRepository memberQueryRepository;
 
     @Scheduled(cron = "0 0 4 * * ?")
     public void updateSleeperAccounts() {
-        memberRepository.updateMemberWhereLastLoginDateIsBeforeAYear();
+        memberQueryRepository.updateMemberWhereLastLoginDateIsBeforeAYear();
     }
 
     public void awakeSleeperAccount(Long memberId) {

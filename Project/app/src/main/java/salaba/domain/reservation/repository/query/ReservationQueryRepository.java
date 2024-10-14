@@ -1,4 +1,4 @@
-package salaba.domain.reservation.repository.custom.impl;
+package salaba.domain.reservation.repository.query;
 
 import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
@@ -9,7 +9,6 @@ import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 import salaba.domain.member.entity.QMember;
 import salaba.domain.reservation.entity.Reservation;
-import salaba.domain.reservation.repository.custom.ReservationRepositoryCustom;
 
 import java.util.List;
 import java.util.Optional;
@@ -21,10 +20,9 @@ import static salaba.domain.reservation.entity.QReservation.reservation;
 
 @RequiredArgsConstructor
 @Repository
-public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
+public class ReservationQueryRepository {
     private final JPAQueryFactory queryFactory;
 
-    @Override
     public Page<Reservation> findWithGuest(Long hostId, Pageable pageable) {
         QMember host = new QMember("host");
         List<Reservation> reservations = queryFactory.selectFrom(reservation)
@@ -45,7 +43,7 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
         return PageableExecutionUtils.getPage(reservations, pageable, totalCount::fetchOne);
     }
 
-    @Override
+    
     public Page<Reservation> findWithRentalHomeAndHost(Long memberId, Pageable pageable) {
         List<Reservation> reservations = queryFactory.selectFrom(reservation)
                 .join(reservation.rentalHome, rentalHome).fetchJoin()
@@ -63,7 +61,7 @@ public class ReservationRepositoryImpl implements ReservationRepositoryCustom {
         return PageableExecutionUtils.getPage(reservations, pageable, totalCount::fetchOne);
     }
 
-    @Override
+    
     public Optional<Reservation> findByIdWithMemberAndRentalHome(Long reservationId) {
         Reservation findReservation = queryFactory.selectFrom(reservation)
                 .join(reservation.member, member).fetchJoin()

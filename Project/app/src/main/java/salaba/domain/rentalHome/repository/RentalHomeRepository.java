@@ -4,11 +4,10 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 import salaba.domain.member.entity.Member;
 import salaba.domain.rentalHome.entity.RentalHome;
-import salaba.domain.rentalHome.repository.custom.RentalHomeRepositoryCustom;
 
 import java.util.Optional;
 
 @Repository
-public interface RentalHomeRepository extends JpaRepository<RentalHome, Long>, RentalHomeRepositoryCustom {
+public interface RentalHomeRepository extends JpaRepository<RentalHome, Long> {
     Optional<RentalHome> findByIdAndHost(Long rentalHomeId, Member host);
 }

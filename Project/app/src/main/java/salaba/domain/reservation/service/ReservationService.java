@@ -22,6 +22,8 @@ import salaba.domain.reservation.repository.DiscountRepository;
 import salaba.domain.reservation.repository.ReservationRepository;
 import salaba.domain.rentalHome.repository.RentalHomeRepository;
 import salaba.domain.auth.exception.NoAuthorityException;
+import salaba.domain.reservation.repository.query.ReservationQueryRepository;
+import salaba.domain.reservation.repository.query.ReviewQueryRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class ReservationService {
     private final RentalHomeRepository rentalHomeRepository;
     private final DiscountRepository discountRepository;
     private final PointService pointService;
+    private final ReservationQueryRepository reservationQueryRepository;
 
     public Long makeReservation(Long memberId, ReservationReqDto reqDto) {
         Member member = memberRepository.findById(memberId)
@@ -66,13 +69,13 @@ public class ReservationService {
     }
 
     public Page<ReservationResForHostDto> getWithRentalHomeForHost(Long rentalHomeId, Pageable pageable) {
-        Page<Reservation> reservations = reservationRepository.findWithGuest(rentalHomeId, pageable);
+        Page<Reservation> reservations = reservationQueryRepository.findWithGuest(rentalHomeId, pageable);
 
         return reservations.map(ReservationResForHostDto::new);
     }
 
     public Page<ReservationResForGuestDto> getWithRentalHomeForGuest(Long memberId, Pageable pageable) {
-        Page<Reservation> reservations = reservationRepository.findWithRentalHomeAndHost(memberId, pageable);
+        Page<Reservation> reservations = reservationQueryRepository.findWithRentalHomeAndHost(memberId, pageable);
 
         return reservations.map(ReservationResForGuestDto::new);
     }
@@ -81,7 +84,7 @@ public class ReservationService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
 
-        Reservation reservation = reservationRepository.findByIdWithMemberAndRentalHome(reqDto.getReservationId())
+        Reservation reservation = reservationQueryRepository.findByIdWithMemberAndRentalHome(reqDto.getReservationId())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Reservation.class, reqDto.getReservationId())));
 
         if (!reservation.getMember().equals(member)) {
@@ -115,7 +118,7 @@ public class ReservationService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
 
-        Reservation reservation = reservationRepository.findByIdWithMemberAndRentalHome(reservationId)
+        Reservation reservation = reservationQueryRepository.findByIdWithMemberAndRentalHome(reservationId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Reservation.class, reservationId)));
 
         if (!reservation.getMember().equals(member)) {

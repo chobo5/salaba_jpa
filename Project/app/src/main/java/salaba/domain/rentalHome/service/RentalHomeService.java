@@ -18,6 +18,7 @@ import salaba.domain.rentalHome.dto.response.RentalHomeResDto;
 import salaba.domain.rentalHome.entity.*;
 import salaba.domain.rentalHome.repository.*;
 import salaba.domain.auth.exception.NoAuthorityException;
+import salaba.domain.rentalHome.repository.query.RentalHomeQueryRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
@@ -28,12 +29,13 @@ import java.util.List;
 public class RentalHomeService {
     private final MemberRepository memberRepository;
     private final RentalHomeRepository rentalHomeRepository;
+    private final RentalHomeQueryRepository rentalHomeQueryRepository;
     private final RegionRepository regionRepository;
     private final RentalHomeThemeService rentalHomeThemeService;
     private final RentalHomeFacilityService rentalHomeFacilityService;
 
     public RentalHomeDetailResDto view(Long rentalHomeId) {
-        return rentalHomeRepository.findDetailById(rentalHomeId);
+        return rentalHomeQueryRepository.findDetailById(rentalHomeId);
     }
 
     public Long create(Long memberId, RentalHomeCreateReqDto reqDto) {
@@ -100,7 +102,7 @@ public class RentalHomeService {
     public Long delete(Long memberId, Long rentalHomeId) {
         Member host = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
-        RentalHome rentalHome = rentalHomeRepository.findWithReservations(rentalHomeId)
+        RentalHome rentalHome = rentalHomeQueryRepository.findWithReservations(rentalHomeId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(RentalHome.class, rentalHomeId)));
 
         if (!rentalHome.getHost().equals(host)) {
@@ -111,23 +113,23 @@ public class RentalHomeService {
     }
 
     public Page<RentalHomeResDto> getRentalHomesOwnedByHost(Long hostId, Pageable pageable) {
-        Page<RentalHome> rentalHomes = rentalHomeRepository.findByHost(hostId, pageable);
+        Page<RentalHome> rentalHomes = rentalHomeQueryRepository.findByHost(hostId, pageable);
 
         return rentalHomes.map(RentalHomeResDto::new);
     }
 
     public RentalHomeDetailResDto getRentalHomeOwnedByHost(Long memberId, Long rentalHomeId) {
-        return rentalHomeRepository.findDetailByIdAndHost(rentalHomeId, memberId);
+        return rentalHomeQueryRepository.findDetailByIdAndHost(rentalHomeId, memberId);
     }
 
     public Page<RentalHomeResDto> searchRentalHomesOrderByReview(String regionName, String themeName, Long minPrice,
                                                                  Long maxPrice, Pageable pageable) {
-        return rentalHomeRepository.findRentalHomeDtosOrderByReview(regionName, themeName, minPrice, maxPrice, pageable);
+        return rentalHomeQueryRepository.findRentalHomeDtosOrderByReview(regionName, themeName, minPrice, maxPrice, pageable);
     }
 
     public Page<RentalHomeResDto> searchRentalHomesOrderBySalesCount(String regionName, String themeName, Long minPrice,
                                                                      Long maxPrice, Pageable pageable) {
-        Page<RentalHome> rentalHomes = rentalHomeRepository
+        Page<RentalHome> rentalHomes = rentalHomeQueryRepository
                 .findRentalHomesOrderBySalesCount(regionName, themeName, minPrice, maxPrice, pageable);
 
         return rentalHomes.map(RentalHomeResDto::new);

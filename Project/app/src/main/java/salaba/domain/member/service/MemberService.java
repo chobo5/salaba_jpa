@@ -38,6 +38,7 @@ public class MemberService {
     private final TokenService tokenService;
 
 
+
     public Long modifyProfile(Long memberId, MemberModiReqDto reqDto) {
         //회원이 없으면 예외 발생
         Member member = memberRepository.findById(memberId)

@@ -1,4 +1,4 @@
-package salaba.domain.board.repository.custom.impl;
+package salaba.domain.board.repository.query;
 
 import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.ExpressionUtils;
@@ -20,7 +20,6 @@ import salaba.domain.board.dto.response.BoardResDto;
 import salaba.domain.board.dto.response.QBoardResDto;
 import salaba.domain.board.entity.Board;
 import salaba.domain.board.entity.QReply;
-import salaba.domain.board.repository.custom.BoardRepositoryCustom;
 import salaba.domain.global.constants.WritingStatus;
 import salaba.domain.board.dto.response.ReplyResDto;
 import salaba.domain.board.dto.response.ReplyToReplyResDto;
@@ -41,10 +40,9 @@ import static salaba.domain.member.entity.QMember.member;
 @RequiredArgsConstructor
 @Slf4j
 @Repository
-public class BoardRepositoryImpl implements BoardRepositoryCustom {
+public class BoardQueryRepository{
     private final JPAQueryFactory queryFactory;
 
-    @Override
     public Page<BoardResDto> getList(Pageable pageable) {
         List<BoardResDto> listResult = queryFactory.select(new QBoardResDto(
                         board.id,
@@ -75,7 +73,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
 
     }
 
-    @Override
+    
     public Optional<BoardDetailResDto> get(Long boardId) {
         // 조회수 증가
         queryFactory.update(board)
@@ -191,7 +189,7 @@ public class BoardRepositoryImpl implements BoardRepositoryCustom {
         return writer != null ? board.writer.nickname.contains(writer) : null;
     }
 
-    @Override
+    
     public Optional<Board> findByIdWithWriter(Long boardId) {
         Board findBoard = queryFactory.select(board)
                 .from(board)

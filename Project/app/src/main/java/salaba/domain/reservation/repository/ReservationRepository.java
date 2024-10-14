@@ -5,11 +5,10 @@ import org.springframework.stereotype.Repository;
 import salaba.domain.global.constants.ProcessStatus;
 import salaba.domain.rentalHome.entity.RentalHome;
 import salaba.domain.reservation.entity.Reservation;
-import salaba.domain.reservation.repository.custom.ReservationRepositoryCustom;
 
 import java.util.List;
 
 @Repository
-public interface ReservationRepository extends JpaRepository<Reservation, Long>, ReservationRepositoryCustom {
+public interface ReservationRepository extends JpaRepository<Reservation, Long> {
     List<Reservation> findByRentalHomeAndStatus(RentalHome rentalHome, ProcessStatus status);
 }

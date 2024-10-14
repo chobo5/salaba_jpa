@@ -5,6 +5,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import salaba.domain.board.repository.query.BoardQueryRepository;
 import salaba.domain.global.exception.ErrorMessage;
 import salaba.domain.member.service.AlarmService;
 import salaba.domain.member.service.PointService;
@@ -15,7 +16,6 @@ import salaba.domain.board.dto.request.ReplyToReplyCreateReqDto;
 import salaba.domain.board.entity.Board;
 import salaba.domain.board.entity.Reply;
 import salaba.domain.member.entity.Member;
-import salaba.domain.board.repository.BoardRepository;
 import salaba.domain.board.repository.ReplyRepository;
 import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.board.dto.response.ReplyModiResDto;
@@ -28,7 +28,7 @@ import javax.persistence.EntityNotFoundException;
 @Transactional
 @RequiredArgsConstructor
 public class ReplyService {
-    private final BoardRepository boardRepository;
+    private final BoardQueryRepository boardQueryRepository;
     private final MemberRepository memberRepository;
     private final ReplyRepository replyRepository;
     private final PointService pointService;
@@ -36,7 +36,7 @@ public class ReplyService {
     private final AlarmService alarmService;
 
     public Long create(Long memberId, ReplyCreateReqDto reqDto) {
-        Board board = boardRepository.findByIdWithWriter(reqDto.getBoardId())
+        Board board = boardQueryRepository.findByIdWithWriter(reqDto.getBoardId())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Board.class, reqDto.getBoardId())));
 
         Member member = memberRepository.findById(memberId)

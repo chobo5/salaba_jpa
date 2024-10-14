@@ -22,6 +22,7 @@ import salaba.domain.member.repository.MemberRepository;
 import salaba.domain.member.repository.MemberRoleRepository;
 import salaba.domain.member.repository.RoleRepository;
 import salaba.domain.auth.dto.RefreshTokenDto;
+import salaba.domain.member.repository.query.MemberQueryRepository;
 
 import javax.persistence.EntityNotFoundException;
 import javax.validation.ValidationException;
@@ -33,6 +34,7 @@ import java.util.Optional;
 public class AuthService {
 
     private final MemberRepository memberRepository;
+    private final MemberQueryRepository memberQueryRepository;
     private final RoleRepository roleRepository;
     private final MemberRoleRepository memberRoleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -47,7 +49,7 @@ public class AuthService {
 
 
     public void isExistingEmail(String email) {
-        if (memberRepository.findByEmail(email).isEmpty()) {
+        if (memberQueryRepository.findByEmail(email).isEmpty()) {
             return;
         }
         throw new AlreadyExistsException("이미 사용중인 이메일 입니다.");
@@ -73,7 +75,7 @@ public class AuthService {
     }
 
     public MemberLoginResDto login(MemberLoginReqDto reqDto) {
-        Optional<Member> findMember = memberRepository.findByEmail(reqDto.getEmail());
+        Optional<Member> findMember = memberQueryRepository.findByEmail(reqDto.getEmail());
 
         if (findMember.isEmpty() || !passwordEncoder.matches(reqDto.getPassword(), findMember.get().getPassword())) {
             throw new ValidationException("아이디 또는 비밀번호가 잘못 되었습니다");
