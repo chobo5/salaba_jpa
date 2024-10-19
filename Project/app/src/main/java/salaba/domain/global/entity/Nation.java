@@ -18,9 +18,6 @@ public class Nation extends BaseEntity {
     @Column(name = "nation_name", unique = true, nullable = false)
     private String name;
 
-    @OneToMany(mappedBy = "nation")
-    private Set<Region> regions = new HashSet<>();
-
     public Nation(Integer id, String name) {
         this.id = id;
         this.name = name;

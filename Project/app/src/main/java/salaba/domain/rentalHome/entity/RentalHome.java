@@ -65,12 +65,6 @@ public class RentalHome extends BaseEntity {
     @Column(nullable = false)
     private int cleanFee;
 
-    @OneToMany(mappedBy = "rentalHome", cascade = CascadeType.ALL)
-    private Set<RentalHomeTheme> rentalHomeThemes = new HashSet<>();
-
-    @OneToMany(mappedBy = "rentalHome", cascade = CascadeType.ALL)
-    private Set<RentalHomeFacility> rentalHomeFacilities = new HashSet<>();
-
     @OneToMany(mappedBy = "rentalHome")
     private List<Reservation> reservations = new ArrayList<>();
 
@@ -120,16 +114,6 @@ public class RentalHome extends BaseEntity {
 
     }
 
-    public void setFacilities(List<RentalHomeFacility> facilities) {
-        rentalHomeFacilities.clear();
-        rentalHomeFacilities.addAll(facilities);
-    }
-
-
-    public void setThemes(List<RentalHomeTheme> themes) {
-        rentalHomeThemes.clear();
-        rentalHomeThemes.addAll(themes);
-    }
 
     public void closeRentalHome() {
         reservations.forEach(reservation -> {

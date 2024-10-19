@@ -43,8 +43,6 @@ public class Reply extends BaseEntity {
         reply.content = content;
         reply.writingStatus = WritingStatus.NORMAL;
         reply.writer = writer;
-        board.getReplies().add(reply);
-        writer.getReplies().add(reply);
         return reply;
     }
 
@@ -55,7 +53,6 @@ public class Reply extends BaseEntity {
         reply.writingStatus = WritingStatus.NORMAL;
         reply.writer = writer;
         parent.getRepliesToReply().add(reply);
-        writer.getReplies().add(reply);
         return reply;
     }
 

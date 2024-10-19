@@ -71,26 +71,14 @@ public class Member extends BaseEntity {
     @JoinColumn(name = "nation_id")
     private Nation nation;
 
-    @OneToMany(mappedBy = "writer")
-    private List<Board> boards = new ArrayList<>();
-
-    @OneToMany(mappedBy = "writer")
-    private List<Reply> replies = new ArrayList<>();
-
     @OneToMany(mappedBy = "host")
     private List<RentalHome> rentalHomes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<Reservation> reservations = new ArrayList<>();
 
     @OneToMany(mappedBy = "targetMember")
     private List<Alarm> alarms = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private List<Point> pointHistories = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<BookMark> bookMarks = new ArrayList<>();
 
     @OneToMany(mappedBy = "member")
     private Set<MemberRole> roles = new HashSet<>();

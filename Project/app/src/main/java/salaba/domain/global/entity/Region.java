@@ -25,6 +25,5 @@ public class Region {
     public Region(String name, Nation nation) {
         this.name = name;
         this.nation = nation;
-        nation.getRegions().add(this);
     }
 }
