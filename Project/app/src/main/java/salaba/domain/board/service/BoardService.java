@@ -57,7 +57,9 @@ public class BoardService {
     }
 
     public BoardDetailResDto view(Long boardId) {
-        return boardQueryRepository.get(boardId)
+        boardQueryRepository.increaseViewCount(boardId);
+
+        return boardQueryRepository.findWithRepliesAndLikeCountById(boardId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Board.class, boardId)));
     }
 
@@ -104,11 +106,16 @@ public class BoardService {
     }
 
     public Long cancelLikeBoard(Long memberId, BoardLikeReqDto reqDto) {
-        BoardLike boardLike = boardLikeRepository.findByBoardIdAndMemberId(reqDto.getBoardId(), memberId)
+        Member member = memberRepository.findById(memberId)
+                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
+
+        Board board = boardRepository.findById(reqDto.getBoardId())
+                .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Board.class, reqDto.getBoardId())));
+
+        BoardLike boardLike = boardLikeRepository.findByBoardAndMember(board, member)
                 .orElseThrow(() -> new EntityNotFoundException(
                         ErrorMessage.entityNotFound(BoardLike.class, "boardId: " + reqDto.getBoardId() + " memberId: " + memberId)));
 
-        boardLike.cancel();
         boardLikeRepository.delete(boardLike);
         return boardLike.getId();
     }

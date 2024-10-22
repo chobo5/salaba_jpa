@@ -54,7 +54,7 @@ public class ReplyService {
     public ReplyModiResDto modify(ReplyModifyReqDto reqDto, Long memberId) {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
-        Reply reply = replyRepository.findByIdWithWriter(reqDto.getReplyId())
+        Reply reply = replyRepository.findWithWriterById(reqDto.getReplyId())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Reply.class, reqDto.getReplyId())));
 
         if(!reply.getWriter().equals(member)) {
@@ -70,7 +70,7 @@ public class ReplyService {
         Member member = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
 
-        Reply reply = replyRepository.findByIdWithWriter(replyId)
+        Reply reply = replyRepository.findWithWriterById(replyId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Reply.class, replyId)));
 
         if(!reply.getWriter().equals(member)) {
@@ -82,7 +82,7 @@ public class ReplyService {
     }
 
     public Long createToReply(Long memberId, ReplyToReplyCreateReqDto reqDto) {
-        Reply parent = replyRepository.findByIdWithWriter(reqDto.getReplyId())
+        Reply parent = replyRepository.findWithWriterById(reqDto.getReplyId())
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Reply.class, reqDto.getReplyId())));
         Member writer = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));

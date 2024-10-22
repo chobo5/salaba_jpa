@@ -16,5 +16,5 @@ public interface ReplyRepository extends JpaRepository<Reply, Long> {
     Page<Reply> findByWriter(Member member, Pageable pageable);
 
     @Query("select r from Reply r join fetch r.writer w where r.id = :replyId")
-    Optional<Reply> findByIdWithWriter(@Param("replyId") Long replyId);
+    Optional<Reply> findWithWriterById(@Param("replyId") Long replyId);
 }

@@ -73,13 +73,15 @@ public class BoardQueryRepository{
 
     }
 
-    
-    public Optional<BoardDetailResDto> get(Long boardId) {
-        // 조회수 증가
+    public void increaseViewCount(Long boardId) {
         queryFactory.update(board)
                 .set(board.viewCount, board.viewCount.add(1))
                 .where(board.id.eq(boardId))
                 .execute();
+    }
+
+    
+    public Optional<BoardDetailResDto> findWithRepliesAndLikeCountById(Long boardId) {
 
         // likeCount 서브쿼리
         Expression<Long> likeCount = ExpressionUtils.as(JPAExpressions.select(boardLike.countDistinct())
@@ -146,7 +148,7 @@ public class BoardQueryRepository{
         replyResDtoList.forEach(replyResDto -> replyResDto.setReplyToReplyList(groupedReReplyMap.get(replyResDto.getId())));
 
         boardResult.setReplyList(replyResDtoList);
-        return Optional.ofNullable(boardResult);
+        return Optional.of(boardResult);
     }
 
     public Page<BoardResDto> search(BoardSearchReqDto boardSearchReqDto, Pageable pageable) {
