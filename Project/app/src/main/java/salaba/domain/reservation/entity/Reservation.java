@@ -37,9 +37,6 @@ public class Reservation extends BaseEntity {
     @Column(nullable = false)
     private int originalPrice;
 
-    @OneToMany(mappedBy = "reservation")
-    private List<Discount> discounts = new ArrayList<>();
-
     @Column(nullable = false)
     private int finalPrice;
 
@@ -66,7 +63,6 @@ public class Reservation extends BaseEntity {
         int daysBetween = Period.between(endDate.toLocalDate(), startDate.toLocalDate()).getDays();
         //이용 가격 계산
         reservation.originalPrice = rentalHome.getPrice() * Math.abs(daysBetween) + rentalHome.getCleanFee();
-        rentalHome.getReservations().add(reservation);
         return reservation;
     }
 
@@ -80,7 +76,6 @@ public class Reservation extends BaseEntity {
 
     public void complete(String paymentCode, PayMethod method) {
         finalPrice = originalPrice;
-        discounts.forEach(discount -> finalPrice -= discount.getAmount());
         status = ProcessStatus.COMPLETE;
         this.paymentCode = paymentCode;
         this.method = method;

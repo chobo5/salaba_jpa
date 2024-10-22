@@ -25,7 +25,6 @@ public class MemberRole {
         MemberRole memberRole = new MemberRole();
         memberRole.member = member;
         memberRole.role = role;
-        member.getRoles().add(memberRole);
         return memberRole;
     }
 }

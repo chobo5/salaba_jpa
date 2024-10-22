@@ -29,7 +29,6 @@ public class Point extends BaseEntity {
         point.content = "게시글 작성";
         point.amount = 10;
         point.member = member;
-        member.getPointHistories().add(point);
         return point;
     }
 
@@ -38,7 +37,6 @@ public class Point extends BaseEntity {
         point.content = "댓글 작성";
         point.amount = 5;
         point.member = member;
-        member.getPointHistories().add(point);
         return point;
     }
 
@@ -47,7 +45,6 @@ public class Point extends BaseEntity {
         point.content = "숙소 이용";
         point.amount = (int) Math.ceil(price * 0.01);
         point.member = member;
-        member.getPointHistories().add(point);
         return point;
     }
 
@@ -56,7 +53,6 @@ public class Point extends BaseEntity {
         point.content = "숙소 리뷰 작성";
         point.amount = 100;
         point.member = member;
-        member.getPointHistories().add(point);
         return point;
     }
 
@@ -70,13 +66,7 @@ public class Point extends BaseEntity {
         point.content = content;
         point.amount = negativePoint;
         point.member = member;
-        member.getPointHistories().add(point);
         return point;
-    }
-
-
-    public void deletePointHistory() {
-        member.getPointHistories().remove(this);
     }
 
 

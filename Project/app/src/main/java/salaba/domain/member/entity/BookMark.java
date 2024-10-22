@@ -25,11 +25,6 @@ public class BookMark {
         BookMark bookMark = new BookMark();
         bookMark.member = member;
         bookMark.rentalHome = rentalHome;
-        member.getBookMarks().add(bookMark);
         return bookMark;
-    }
-
-    public void cancel(Member member) {
-        member.getBookMarks().remove(this);
     }
 }

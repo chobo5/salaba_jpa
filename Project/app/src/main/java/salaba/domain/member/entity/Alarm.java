@@ -28,7 +28,6 @@ public class Alarm extends BaseEntity{
         alarm.targetMember = targetMember;
         alarm.content = writer + "님이 댓글을 작성하였습니다. " + content;
         alarm.isRead = false;
-        targetMember.getAlarms().add(alarm);
         return alarm;
     }
 

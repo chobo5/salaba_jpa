@@ -34,9 +34,6 @@ public class Reply extends BaseEntity {
     @JoinColumn(name = "parent_id")
     private Reply parent;
 
-    @OneToMany(mappedBy = "parent")
-    private List<Reply> repliesToReply = new ArrayList<>();
-
     public static Reply createReply(Board board, String content, Member writer) {
         Reply reply = new Reply();
         reply.board = board;
@@ -52,14 +49,10 @@ public class Reply extends BaseEntity {
         reply.content = content;
         reply.writingStatus = WritingStatus.NORMAL;
         reply.writer = writer;
-        parent.getRepliesToReply().add(reply);
         return reply;
     }
 
     public void delete() {
-        if (parent != null) {
-            parent.getRepliesToReply().remove(this);
-        }
         writingStatus = WritingStatus.DELETED;
     }
 

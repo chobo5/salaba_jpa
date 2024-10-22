@@ -27,7 +27,6 @@ public class Discount {
         discount.reservation = reservation;
         discount.amount = amount;
         discount.content = content;
-        reservation.getDiscounts().add(discount);
         return discount;
     }
 }

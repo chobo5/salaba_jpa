@@ -71,18 +71,6 @@ public class Member extends BaseEntity {
     @JoinColumn(name = "nation_id")
     private Nation nation;
 
-    @OneToMany(mappedBy = "host")
-    private List<RentalHome> rentalHomes = new ArrayList<>();
-
-    @OneToMany(mappedBy = "targetMember")
-    private List<Alarm> alarms = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private List<Point> pointHistories = new ArrayList<>();
-
-    @OneToMany(mappedBy = "member")
-    private Set<MemberRole> roles = new HashSet<>();
-
     public void changePassword(String password) {
         this.password = password;
     }

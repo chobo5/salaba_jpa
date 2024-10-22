@@ -65,9 +65,6 @@ public class RentalHome extends BaseEntity {
     @Column(nullable = false)
     private int cleanFee;
 
-    @OneToMany(mappedBy = "rentalHome")
-    private List<Reservation> reservations = new ArrayList<>();
-
     @Column(nullable = false)
     private Double reviewAvg = 0.0;
 
@@ -95,7 +92,6 @@ public class RentalHome extends BaseEntity {
         rentalHome.status = RentalHomeStatus.RUN;
         rentalHome.rule = rule;
         rentalHome.cleanFee = cleanFee;
-        host.getRentalHomes().add(rentalHome);
         return rentalHome;
     }
 
@@ -115,7 +111,7 @@ public class RentalHome extends BaseEntity {
     }
 
 
-    public void closeRentalHome() {
+    public void closeRentalHome(List<Reservation> reservations) {
         reservations.forEach(reservation -> {
             if (reservation.getEndDate().isAfter(LocalDateTime.now())) {
                 throw new CannotChangeStatusException("이용중이거나 예약된 게스트가 있어 삭제가 불가능합니다.");
