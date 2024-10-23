@@ -1,10 +1,12 @@
 package salaba.domain.rentalHome.service;
 
+import java.time.LocalDateTime;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import salaba.domain.global.constants.ProcessStatus;
 import salaba.domain.global.entity.Address;
 import salaba.domain.global.entity.Region;
 import salaba.domain.global.exception.ErrorMessage;
@@ -16,12 +18,15 @@ import salaba.domain.rentalHome.dto.request.RentalHomeModiReqDto;
 import salaba.domain.rentalHome.dto.response.RentalHomeDetailResDto;
 import salaba.domain.rentalHome.dto.response.RentalHomeResDto;
 import salaba.domain.rentalHome.entity.*;
+import salaba.domain.rentalHome.exception.CannotChangeStatusException;
 import salaba.domain.rentalHome.repository.*;
 import salaba.domain.auth.exception.NoAuthorityException;
 import salaba.domain.rentalHome.repository.query.RentalHomeQueryRepository;
 
 import javax.persistence.EntityNotFoundException;
 import java.util.List;
+import salaba.domain.reservation.entity.Reservation;
+import salaba.domain.reservation.repository.ReservationRepository;
 
 @Service
 @RequiredArgsConstructor
@@ -33,6 +38,7 @@ public class RentalHomeService {
     private final RegionRepository regionRepository;
     private final RentalHomeThemeService rentalHomeThemeService;
     private final RentalHomeFacilityService rentalHomeFacilityService;
+    private final ReservationRepository reservationRepository;
 
     public RentalHomeDetailResDto view(Long rentalHomeId) {
         return rentalHomeQueryRepository.findDetailById(rentalHomeId);
@@ -53,12 +59,10 @@ public class RentalHomeService {
         rentalHomeRepository.save(rentalHome);
 
         // 숙소_테마 저장
-        List<RentalHomeTheme> rentalHomeThemes = rentalHomeThemeService.saveAll(rentalHome, reqDto.getThemes());
-        rentalHome.setThemes(rentalHomeThemes);
+        rentalHomeThemeService.saveAll(rentalHome, reqDto.getThemes());
 
         // 숙소_시설 저장
-        List<RentalHomeFacility> rentalHomeFacilities = rentalHomeFacilityService.saveAll(rentalHome, reqDto.getFacilities());
-        rentalHome.setFacilities(rentalHomeFacilities);
+        rentalHomeFacilityService.saveAll(rentalHome, reqDto.getFacilities());
 
         return rentalHome.getId();
     }
@@ -86,14 +90,12 @@ public class RentalHomeService {
         if (reqDto.getThemes() != null && !reqDto.getThemes().isEmpty()) {
             rentalHomeThemeService.deleteAll(rentalHome);
             List<RentalHomeTheme> rentalHomeThemes = rentalHomeThemeService.saveAll(rentalHome, reqDto.getThemes());
-            rentalHome.setThemes(rentalHomeThemes);
         }
 
         // 숙소_시설 저장
         if (reqDto.getFacilities() != null && !reqDto.getFacilities().isEmpty()) {
             rentalHomeFacilityService.deleteAll(rentalHome);
             List<RentalHomeFacility> rentalHomeFacilities = rentalHomeFacilityService.saveAll(rentalHome, reqDto.getFacilities());
-            rentalHome.setFacilities(rentalHomeFacilities);
         }
 
         return new RentalHomeDetailResDto(rentalHome);
@@ -102,12 +104,21 @@ public class RentalHomeService {
     public Long delete(Long memberId, Long rentalHomeId) {
         Member host = memberRepository.findById(memberId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(Member.class, memberId)));
-        RentalHome rentalHome = rentalHomeQueryRepository.findWithReservations(rentalHomeId)
+        RentalHome rentalHome = rentalHomeRepository.findById(rentalHomeId)
                 .orElseThrow(() -> new EntityNotFoundException(ErrorMessage.entityNotFound(RentalHome.class, rentalHomeId)));
+        List<Reservation> reservations = reservationRepository.findByRentalHomeAndStatus(rentalHome,
+                ProcessStatus.COMPLETE);
 
         if (!rentalHome.getHost().equals(host)) {
             throw new NoAuthorityException("숙소 삭제 권한이 없습니다.");
         }
+
+        reservations.forEach(reservation -> {
+            if (reservation.getEndDate().isAfter(LocalDateTime.now())) {
+                throw new CannotChangeStatusException("이용중이거나 예약된 게스트가 있어 삭제가 불가능합니다.");
+            }
+        });
+
         rentalHome.closeRentalHome();
         return rentalHome.getId();
     }

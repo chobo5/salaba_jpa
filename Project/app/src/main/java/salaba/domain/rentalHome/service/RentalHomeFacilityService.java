@@ -6,12 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import salaba.domain.rentalHome.entity.Facility;
 import salaba.domain.rentalHome.entity.RentalHome;
 import salaba.domain.rentalHome.entity.RentalHomeFacility;
-import salaba.domain.rentalHome.entity.RentalHomeTheme;
 import salaba.domain.rentalHome.repository.FacilityRepository;
 import salaba.domain.rentalHome.repository.RentalHomeFacilityRepository;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 

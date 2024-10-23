@@ -108,14 +108,6 @@ public class RentalHomeQueryRepository {
         return PageableExecutionUtils.getPage(rentalHomes, pageable, totalCount::fetchOne);
     }
 
-    public Optional<RentalHome> findWithReservations(Long rentalHomeId) {
-        RentalHome findRentalHome = queryFactory.selectFrom(rentalHome)
-                .join(rentalHome.host, member).fetchJoin()
-                .leftJoin(rentalHome.reservations, reservation).fetchJoin()
-                .where(rentalHome.id.eq(rentalHomeId))
-                .fetchOne();
-        return Optional.ofNullable(findRentalHome);
-    }
 
     public Page<RentalHome> findRentalHomesOrderByReview(String regionName, String themeName, Long minPrice, Long maxPrice, Pageable pageable) {
         List<RentalHome> result = queryFactory.select(rentalHome)
@@ -191,7 +183,7 @@ public class RentalHomeQueryRepository {
         List<Tuple> result = queryFactory.select(rentalHome, reservation.count())
                 .from(rentalHome)
                 .leftJoin(rentalHome.region, region).fetchJoin()
-                .leftJoin(rentalHome.reservations, reservation)
+                .leftJoin(reservation.rentalHome, rentalHome)
                 .leftJoin(rentalHome.rentalHomeThemes, rentalHomeTheme)
                 .leftJoin(rentalHomeTheme.theme, theme)
                 .where(regionNameContains(regionName),
@@ -209,7 +201,7 @@ public class RentalHomeQueryRepository {
                 .from(rentalHome)
                 .join(rentalHome.region, region)
                 .leftJoin(rentalHome.rentalHomeThemes, rentalHomeTheme)
-                .leftJoin(rentalHome.reservations, reservation)
+                .leftJoin(reservation.rentalHome, rentalHome)
                 .leftJoin(rentalHomeTheme.theme, theme)
                 .where(regionNameContains(regionName),
                         themeNameContains(themeName),

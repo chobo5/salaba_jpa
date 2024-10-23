@@ -4,17 +4,12 @@ import lombok.Getter;
 import salaba.domain.global.entity.Address;
 import salaba.domain.global.entity.BaseEntity;
 import salaba.domain.global.entity.Region;
-import salaba.domain.reservation.entity.Reservation;
 import salaba.domain.member.entity.Member;
-import salaba.domain.rentalHome.exception.CannotChangeStatusException;
 import salaba.domain.rentalHome.constants.RentalHomeStatus;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Table(name = "rental_home")
@@ -65,6 +60,12 @@ public class RentalHome extends BaseEntity {
     @Column(nullable = false)
     private int cleanFee;
 
+    @OneToMany(mappedBy = "rentalHome", cascade = CascadeType.ALL)
+    private List<RentalHomeTheme> rentalHomeThemes = new ArrayList<>();
+
+    @OneToMany(mappedBy = "rentalHome", cascade = CascadeType.ALL)
+    private List<RentalHomeFacility> rentalHomeFacilities = new ArrayList<>();
+
     @Column(nullable = false)
     private Double reviewAvg = 0.0;
 
@@ -110,13 +111,18 @@ public class RentalHome extends BaseEntity {
 
     }
 
+    public void setFacilities(List<RentalHomeFacility> facilities) {
+        rentalHomeFacilities.clear();
+        rentalHomeFacilities.addAll(facilities);
+    }
 
-    public void closeRentalHome(List<Reservation> reservations) {
-        reservations.forEach(reservation -> {
-            if (reservation.getEndDate().isAfter(LocalDateTime.now())) {
-                throw new CannotChangeStatusException("이용중이거나 예약된 게스트가 있어 삭제가 불가능합니다.");
-            }
-        });
+
+    public void setThemes(List<RentalHomeTheme> themes) {
+        rentalHomeThemes.clear();
+        rentalHomeThemes.addAll(themes);
+    }
+
+    public void closeRentalHome() {
         this.status = RentalHomeStatus.DELETED;
     }
 
