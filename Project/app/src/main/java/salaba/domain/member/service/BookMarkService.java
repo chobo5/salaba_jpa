@@ -49,7 +49,6 @@ public class BookMarkService {
                 .orElseThrow(() -> new EntityNotFoundException(
                         ErrorMessage.entityNotFound(BookMark.class, "rentalHomeId: " + rentalHomeId + " memberId: " + memberId)));
 
-        bookMark.cancel(member);
         bookMarkRepository.delete(bookMark);
     }
 }

@@ -71,6 +71,9 @@ public class Member extends BaseEntity {
     @JoinColumn(name = "nation_id")
     private Nation nation;
 
+    @OneToMany(mappedBy = "member")
+    private Set<MemberRole> roles = new HashSet<>();
+
     public void changePassword(String password) {
         this.password = password;
     }
